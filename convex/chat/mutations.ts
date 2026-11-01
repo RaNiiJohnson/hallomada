@@ -1,6 +1,12 @@
 import { v } from "convex/values";
 import { authMutation } from "../functions";
-import { throwForbidden, throwNotFound } from "../utils/errors";
+import { limiter } from "../rateLimits";
+import {
+  throwForbidden,
+  throwLimitReached,
+  throwNotFound,
+} from "../utils/errors";
+import { assertMessageContent, MAX_LENGTH } from "../utils/limits";
 
 export const sendMessage = authMutation({
   args: {
@@ -18,6 +24,16 @@ export const sendMessage = authMutation({
       .unique();
 
     if (!member) throw new Error("Not a member");
+
+    assertMessageContent("Message", args.content, MAX_LENGTH.chatMessage);
+    const rate = await limiter.limit(ctx, "chatMessagePerUser", {
+      key: user._id,
+    });
+    if (!rate.ok) {
+      throwLimitReached("Chat message rate limit reached", {
+        retryAfter: rate.retryAfter ?? 0,
+      });
+    }
 
     await ctx.db.insert("communityMessages", {
       communityId: args.communityId,
@@ -64,6 +80,7 @@ export const editMessage = authMutation({
 
     if (message.authorId !== user._id) throw new Error("Not authorized");
 
+    assertMessageContent("Message", args.content, MAX_LENGTH.chatMessage);
     await ctx.db.patch(args.id, {
       content: args.content,
       editedAt: Date.now(),

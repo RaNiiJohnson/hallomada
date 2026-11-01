@@ -31,5 +31,11 @@
   "showOriginal": "Voir l'original",
   "showTranslated": "Voir la traduction",
   "translateError": "Traduction impossible pour le moment",
-  "optional": "Facultatif"
+  "optional": "Facultatif",
+  "errorTitle": "Une erreur est survenue",
+  "errorDescription": "Nous n'avons pas pu charger cette page. Veuillez réessayer.",
+  "errorRetry": "Réessayer",
+  "errorHome": "Retour à l'accueil",
+  "limitReached": "Limite de publication atteinte. Réessayez plus tard.",
+  "rateLimited": "Trop de requêtes, réessayez dans un instant."
 }

@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
+import { getConvexErrorCode } from "@/lib/convex-error";
 import { api } from "@convex/_generated/api";
 import { useMutation } from "convex/react";
 import { JobFormFields } from "./job-form/job-form-fields";
@@ -26,6 +27,7 @@ export { salaryPeriodValues } from "./job-form/job-form-schema";
 
 export function JobOfferForm({ onSuccess }: { onSuccess?: () => void }) {
   const t = useTranslations("jobs");
+  const tCommon = useTranslations("common");
   const createJob = useMutation(api.jobs.mutations.createJob);
   const schema = useMemo(
     () => createJobFormSchema((key) => t(key as Parameters<typeof t>[0])),
@@ -42,8 +44,12 @@ export function JobOfferForm({ onSuccess }: { onSuccess?: () => void }) {
       toast.success(t("form.messages.success"));
       form.reset();
       onSuccess?.();
-    } catch {
-      toast.error(t("form.messages.error"));
+    } catch (error) {
+      toast.error(
+        getConvexErrorCode(error) === "LIMIT_REACHED"
+          ? tCommon("limitReached")
+          : t("form.messages.error"),
+      );
     }
   };
 

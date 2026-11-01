@@ -14,6 +14,11 @@ import {
   throwNotFound,
   throwValidationError,
 } from "../utils/errors";
+import {
+  assertStringList,
+  assertTextLimits,
+  MAX_LENGTH,
+} from "../utils/limits";
 import { containsSensitivePublicListingText } from "./privacy";
 
 const imageValidator = v.object({
@@ -74,6 +79,9 @@ function normalizeContact(contact: ListingContactInput | undefined) {
   const phone = contact?.phone?.trim() || undefined;
   const email = contact?.email?.trim().toLowerCase() || undefined;
 
+  if ((email?.length ?? 0) > MAX_LENGTH.email || (phone?.length ?? 0) > 30) {
+    throwValidationError("Invalid contact details");
+  }
   if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     throwValidationError("Invalid contact email");
   }
@@ -101,6 +109,22 @@ function assertPublicTextIsSafe(values: {
       "Public listing text must not include contact details, GPS coordinates, or an exact address",
     );
   }
+}
+
+function assertListingTextLimits(values: {
+  title: string;
+  city: string;
+  neighborhood?: string;
+  description: string;
+  extras?: string[];
+}) {
+  assertTextLimits(values, {
+    title: MAX_LENGTH.title,
+    city: MAX_LENGTH.name,
+    neighborhood: MAX_LENGTH.name,
+    description: MAX_LENGTH.description,
+  });
+  assertStringList("extras", values.extras);
 }
 
 function assertListingCity(city: string) {
@@ -162,6 +186,7 @@ export const createListing = authMutation({
       throwValidationError("An email address or WhatsApp phone number is required");
     }
     assertListingCity(args.city);
+    assertListingTextLimits(listingArgs);
     assertPublicTextIsSafe(listingArgs);
     await consumePublicationQuota(ctx, "listing", user._id);
 
@@ -364,6 +389,7 @@ export const updateListing = authMutation({
 
     const updatedListing = { ...listing, ...normalizedPatch };
     assertListingCity(updatedListing.city);
+    assertListingTextLimits(updatedListing);
     assertPublicTextIsSafe(updatedListing);
     const searchAllContent = `${updatedListing.title} ${updatedListing.propertyType} ${updatedListing.city} ${updatedListing.listingMode} ${updatedListing.description}`;
 

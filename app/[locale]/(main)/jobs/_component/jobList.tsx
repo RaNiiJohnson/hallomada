@@ -7,7 +7,7 @@ import { Link } from "@/i18n/navigation";
 import { getRelativeTime } from "@/lib/date";
 import { api } from "@convex/_generated/api";
 import clsx from "clsx";
-import { usePaginatedQuery } from "convex-helpers/react/cache";
+import { usePaginatedQuery } from "convex/react";
 import { Briefcase, Clock, MapPin } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { parseAsString, useQueryStates } from "nuqs";

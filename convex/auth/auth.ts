@@ -1,3 +1,4 @@
+import { R2 } from "@convex-dev/r2";
 import { createClient, type GenericCtx } from "@convex-dev/better-auth";
 import { convex } from "@convex-dev/better-auth/plugins";
 import { requireActionCtx } from "@convex-dev/better-auth/utils";
@@ -250,6 +251,10 @@ export const createAuth = (ctx: GenericCtx<DataModel>) => {
 
 type AuthCtx = QueryCtx | MutationCtx | ActionCtx;
 
+// Same client as integrations/r2.ts, which cannot be imported here (it imports
+// this module). Only used to turn stored R2 keys into signed URLs.
+const r2Urls = new R2(components.r2);
+
 export const getCurrentUser = query({
   args: {},
   handler: async (ctx) => {
@@ -257,6 +262,10 @@ export const getCurrentUser = query({
 
     if (!user) return null;
 
+    // Uploaded avatars are stored as R2 keys, which are not loadable URLs.
+    if (user.image?.startsWith("profile/")) {
+      return { ...user, image: await r2Urls.getUrl(user.image) };
+    }
     return user;
   },
 });

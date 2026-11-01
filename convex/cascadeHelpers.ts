@@ -16,6 +16,9 @@ import {
   postSortedByLikes,
 } from "./aggregates";
 
+/** Upper bound of children resolved per relationship in one cascade pass. */
+const MAX_CHILDREN = 1000;
+
 const triggers = new Triggers<DataModel>();
 triggers.register("postLikes", postLikesCount.trigger());
 triggers.register("postComments", postCommentsCount.trigger());
@@ -48,7 +51,7 @@ export const resolveChildren = internalQuery({
       .withIndex(args.indexName as never, (q) =>
         q.eq(args.fieldName as never, args.parentId as never),
       )
-      .collect();
+      .take(MAX_CHILDREN);
     return docs.map((d) => d._id);
   },
 });

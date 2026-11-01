@@ -25,8 +25,10 @@ export const checkSync = internalQuery({
     inSync: v.boolean(),
   }),
   handler: async (ctx) => {
-    const allPosts = await ctx.db.query("posts").collect();
-    const realCount = allPosts.length;
+    let realCount = 0;
+    for await (const post of ctx.db.query("posts")) {
+      if (post) realCount++;
+    }
 
     const shuffleCount = await postShuffle.count(ctx);
     const dateCount = await postSortedByDate.count(ctx);
@@ -53,47 +55,52 @@ export const rebuildAllAggregates = internalMutation({
     await postSortedByDate.clear(ctx);
     await postSortedByLikes.clear(ctx);
 
-    const posts = await ctx.db.query("posts").collect();
-    for (const post of posts) {
+    let posts = 0;
+    for await (const post of ctx.db.query("posts")) {
       await postLikesCount.clear(ctx, { namespace: post._id });
       await postCommentsCount.clear(ctx, { namespace: post._id });
+      posts++;
     }
 
-    const communities = await ctx.db.query("communities").collect();
-    for (const community of communities) {
+    let communities = 0;
+    for await (const community of ctx.db.query("communities")) {
       await communityPostsCount.clear(ctx, { namespace: community._id });
       await communityMembersCount.clear(ctx, { namespace: community._id });
+      communities++;
     }
 
-    for (const post of posts) {
+    for await (const post of ctx.db.query("posts")) {
       await postShuffle.insert(ctx, post);
       await postSortedByDate.insert(ctx, post);
       await postSortedByLikes.insert(ctx, post);
       await communityPostsCount.insert(ctx, post);
     }
 
-    const postLikes = await ctx.db.query("postLikes").collect();
-    for (const like of postLikes) {
+    let postLikes = 0;
+    for await (const like of ctx.db.query("postLikes")) {
       await postLikesCount.insert(ctx, like);
+      postLikes++;
     }
 
-    const postComments = await ctx.db.query("postComments").collect();
-    for (const comment of postComments) {
+    let postComments = 0;
+    for await (const comment of ctx.db.query("postComments")) {
       await postCommentsCount.insert(ctx, comment);
+      postComments++;
     }
 
-    const communityMembers = await ctx.db.query("communityMembers").collect();
-    for (const member of communityMembers) {
+    let communityMembers = 0;
+    for await (const member of ctx.db.query("communityMembers")) {
       await communityMembersCount.insert(ctx, member);
+      communityMembers++;
     }
 
     return {
       rebuilt: {
-        posts: posts.length,
-        postLikes: postLikes.length,
-        postComments: postComments.length,
-        communities: communities.length,
-        communityMembers: communityMembers.length,
+        posts,
+        postLikes,
+        postComments,
+        communities,
+        communityMembers,
       },
     };
   },

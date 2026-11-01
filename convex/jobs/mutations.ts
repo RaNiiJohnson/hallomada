@@ -16,11 +16,18 @@ import { authMutation, internalMutation } from "../functions";
 import { assertVerifiedUpload, consumeUploadGrant } from "../integrations/r2";
 import { notifyAdministratorsOfPendingPublication } from "../notifications/admin";
 import { consumePublicationQuota } from "../publicationQuotas";
+import { limiter } from "../rateLimits";
 import {
   throwForbidden,
+  throwLimitReached,
   throwNotFound,
   throwValidationError,
 } from "../utils/errors";
+import {
+  assertStringList,
+  assertTextLimits,
+  MAX_LENGTH,
+} from "../utils/limits";
 
 const jobStatusValidator = v.union(
   v.literal("pending"),
@@ -82,6 +89,40 @@ function assertValidJobInput(args: {
   }
 }
 
+function assertJobTextLimits(args: {
+  title: string;
+  company: string;
+  description: string;
+  city: string;
+  remoteLocation?: string;
+  duration?: string;
+  startDate?: string;
+  applicationDeadline?: string;
+  sector?: string;
+  benefits?: string;
+  externalApplicationUrl?: string;
+  trainingRequirements?: string;
+  contactEmail?: string;
+  certificates?: string[];
+}) {
+  assertTextLimits(args, {
+    title: MAX_LENGTH.title,
+    company: MAX_LENGTH.name,
+    city: MAX_LENGTH.name,
+    remoteLocation: MAX_LENGTH.shortText,
+    duration: MAX_LENGTH.name,
+    startDate: MAX_LENGTH.name,
+    applicationDeadline: MAX_LENGTH.name,
+    sector: MAX_LENGTH.name,
+    description: MAX_LENGTH.description,
+    benefits: MAX_LENGTH.description,
+    trainingRequirements: MAX_LENGTH.description,
+    externalApplicationUrl: MAX_LENGTH.url,
+    contactEmail: MAX_LENGTH.email,
+  });
+  assertStringList("certificates", args.certificates);
+}
+
 function locationForWorkMode(
   workMode: "onSite" | "hybrid" | "remote",
   location: { lat: number; lng: number } | null | undefined,
@@ -131,6 +172,7 @@ export const createJob = authMutation({
   handler: async (ctx, args) => {
     const user = ctx.user;
 
+    assertJobTextLimits(args);
     assertValidJobInput(args, { requireContactEmail: true });
     await consumePublicationQuota(ctx, "job", user._id);
     const { contactEmail, location, ...jobArgs } = args;
@@ -224,6 +266,7 @@ export const updateJob = authMutation({
 
     // Remove id from args before updating because it's not a field of the document
     const { id, contactEmail, location, ...updateData } = args;
+    assertJobTextLimits(args);
     assertValidJobInput(args, { requireContactEmail: false });
 
     const searchAllContent = `${args.title} ${args.type} ${args.city} ${args.contractType} ${args.description}`;
@@ -310,6 +353,16 @@ export const submitApplication = internalMutation({
     const candidate = await authComponent.safeGetAuthUser(ctx);
     if (!candidate) throwForbidden("Authentication required");
     const candidateId = candidate._id;
+
+    assertTextLimits({ coverLetter }, { coverLetter: MAX_LENGTH.description });
+    const rate = await limiter.limit(ctx, "applicationPerUser", {
+      key: candidateId,
+    });
+    if (!rate.ok) {
+      throwLimitReached("Daily application limit reached", {
+        retryAfter: rate.retryAfter ?? 0,
+      });
+    }
 
     const job = await ctx.db.get(jobId);
     if (!job) throwNotFound("Job not found");
