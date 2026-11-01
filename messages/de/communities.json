@@ -39,7 +39,20 @@
       "privacyPlaceholder": "Sichtbarkeit wählen",
       "submiting": "Wird erstellt...",
       "submit": "Community erstellen",
-      "characters": "Zeichen"
+      "characters": "Zeichen",
+      "errorFocusMin": "Mindestens 2 Zeichen eingeben",
+      "errorFocusMax": "Maximal 60 Zeichen",
+      "errorRulesMax": "Die Regeln dürfen 1000 Zeichen nicht überschreiten",
+      "errorQuota": "Limit für neue Communities erreicht. Versuche es später erneut.",
+      "kindLabel": "Typ *",
+      "kindTheme": "Thema",
+      "kindCity": "Stadt",
+      "cityLabel": "Stadt *",
+      "cityPlaceholder": "z. B. Berlin",
+      "themeLabel": "Thema *",
+      "themePlaceholder": "z. B. Kochen",
+      "rulesLabel": "Regeln (optional)",
+      "rulesPlaceholder": "z. B. Respektvoll bleiben, keine Werbung..."
     },
     "createPost": {
       "errorTitleMin": "Der Titel muss mindestens 3 Zeichen lang sein",
@@ -85,7 +98,10 @@
     "deleting": "Wird gelöscht...",
     "deletedCommunity": "{name} gelöscht!",
     "loadMore": "Mehr laden",
-    "loading": "Wird geladen..."
+    "loading": "Wird geladen...",
+    "cityTag": "Stadt",
+    "themeTag": "Thema",
+    "rulesTitle": "Community-Regeln"
   },
   "post": {
     "notFound": "Post nicht gefunden.",

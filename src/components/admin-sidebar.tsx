@@ -39,6 +39,7 @@ import {
   LayoutDashboard,
   LogOut,
   Flag,
+  Gauge,
   ShieldCheck,
   Users,
 } from "lucide-react";
@@ -51,6 +52,7 @@ const navigationIcons = {
   users: Users,
   moderation: Flag,
   audit: ShieldCheck,
+  quotas: Gauge,
   analytics: ChartNoAxesCombined,
 } as const;
 

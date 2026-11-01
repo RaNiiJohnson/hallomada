@@ -11,6 +11,10 @@ vi.mock("../notifications/admin", () => ({
   notifyAdministratorsOfPendingPublication: vi.fn(),
 }));
 
+vi.mock("../posts/publicAuthorSlug", () => ({
+  getPublicAuthorSlug: vi.fn(async () => "author-slug"),
+}));
+
 const authState = vi.hoisted(() => ({
   user: {
     _id: "testUserId",
@@ -93,6 +97,7 @@ describe("Jobs", () => {
       slug: jobSlug,
     });
     expect(result?.title).toBe("Job Title");
+    expect(result?.authorSlug).toBe("author-slug");
     expect(result).not.toHaveProperty("contact");
     expect(result?.location).toEqual({ lat: 52.53, lng: 13.41 });
     await expect(

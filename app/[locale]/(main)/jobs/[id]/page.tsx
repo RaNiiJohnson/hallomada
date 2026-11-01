@@ -356,9 +356,18 @@ export default function JobDetailsPage() {
                 </>
               ) : (
                 <>
-                  <span className="font-semibold text-foreground">
-                    {jobOffer.authorName || t("details.anonymous")}
-                  </span>{" "}
+                  {jobOffer.authorSlug ? (
+                    <Link
+                      href={`/hl/${jobOffer.authorSlug}`}
+                      className="font-semibold text-foreground hover:underline"
+                    >
+                      {jobOffer.authorName || t("details.anonymous")}
+                    </Link>
+                  ) : (
+                    <span className="font-semibold text-foreground">
+                      {jobOffer.authorName || t("details.anonymous")}
+                    </span>
+                  )}{" "}
                 </>
               )}{" "}
               {!isLoading && (

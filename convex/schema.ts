@@ -237,6 +237,12 @@ export default defineSchema({
       v.literal("private"),
       v.literal("secret"),
     ),
+    // A community is anchored to a city or a theme; `rules` holds a short,
+    // plain-text list of house rules shown on the community page.
+    kind: v.optional(v.union(v.literal("city"), v.literal("theme"))),
+    city: v.optional(v.string()),
+    theme: v.optional(v.string()),
+    rules: v.optional(v.string()),
     searchAll: v.optional(v.string()),
     membersCount: v.optional(v.number()),
     postsCount: v.optional(v.number()),
@@ -455,6 +461,15 @@ export default defineSchema({
     ])
     .index("by_status_and_reportedAt", ["status", "reportedAt"])
     .index("by_reportedAt", ["reportedAt"]),
+
+  // Singleton row edited from the admin dashboard; absent means defaults.
+  publicationQuotas: defineTable({
+    communityPer30Days: v.number(),
+    jobsPerWeek: v.number(),
+    listingsPerWeek: v.number(),
+    updatedAt: v.number(),
+    updatedBy: v.string(),
+  }),
 
   adminAuditEvents: defineTable({
     administratorId: v.string(),

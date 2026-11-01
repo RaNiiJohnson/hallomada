@@ -22,7 +22,7 @@ export default function ComList() {
   const [seed] = useState(() => crypto.randomUUID());
 
   const [filters, setFilters] = useQueryStates({
-    mode: parseAsString.withDefault("shuffle"),
+    mode: parseAsString.withDefault("recent"),
     page: parseAsInteger.withDefault(1),
   });
 

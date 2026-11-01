@@ -8,6 +8,10 @@ import { authComponent, requireAuth } from "../auth/auth";
 import schema from "../schema";
 import { modules } from "../test.setup";
 
+vi.mock("../posts/publicAuthorSlug", () => ({
+  getPublicAuthorSlug: vi.fn(async () => "author-slug"),
+}));
+
 vi.mock("../notifications/admin", () => ({
   notifyAdministratorsOfPendingPublication: vi.fn(),
 }));
@@ -89,6 +93,7 @@ describe("Listings", () => {
     });
     expect(result?.title).toBe("Listing Title");
     expect(result?.contact).toBeNull();
+    expect(result?.authorSlug).toBe("author-slug");
   });
 
   it("keeps contact details and precise coordinates out of public responses", async () => {

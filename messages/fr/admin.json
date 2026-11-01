@@ -9,7 +9,8 @@
     "analytics": "Analytics PostHog",
     "returnSite": "Retour au site",
     "logout": "Déconnexion",
-    "loadingUser": "Chargement de l'administrateur"
+    "loadingUser": "Chargement de l'administrateur",
+    "quotas": "Quotas de publication"
   },
   "dashboard": {
     "title": "Dashboard",
@@ -198,5 +199,18 @@
       "description": "La requête administrative a échoué. Aucun résultat incomplet n'est affiché.",
       "retry": "Réessayer"
     }
+  },
+  "quotas": {
+    "title": "Quotas de publication",
+    "description": "Limites appliquées côté serveur à chaque membre vérifié.",
+    "community": "Communautés par 30 jours",
+    "jobs": "Offres par semaine",
+    "listings": "Annonces par semaine",
+    "hint": "Nombre entier entre 1 et {max}.",
+    "save": "Enregistrer",
+    "saving": "Enregistrement...",
+    "saved": "Quotas mis à jour",
+    "error": "Impossible d'enregistrer les quotas",
+    "loading": "Chargement des quotas"
   }
 }

@@ -40,6 +40,7 @@ describe("Likes", () => {
       api.communities.mutations.createCommunity,
       {
         name: "Like Community",
+        theme: "Testing",
         description: "Description",
         privacy: "public",
       },

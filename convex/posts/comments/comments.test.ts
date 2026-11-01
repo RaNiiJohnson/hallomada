@@ -40,6 +40,7 @@ describe("Comments", () => {
       api.communities.mutations.createCommunity,
       {
         name: "Comment Community",
+        theme: "Testing",
         description: "Description",
         privacy: "public",
       },

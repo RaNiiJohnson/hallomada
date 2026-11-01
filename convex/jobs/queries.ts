@@ -8,6 +8,7 @@ import {
 } from "../../src/lib/publication-lifecycle";
 import { authComponent } from "../auth/auth";
 import { query } from "../functions";
+import { getPublicAuthorSlug } from "../posts/publicAuthorSlug";
 
 function isVisibleJob(
   job: { status?: PublicationStatus; authorId: string },
@@ -103,6 +104,7 @@ export const getJobWithContact = query({
         ? { location: approximateLocation(job.location) }
         : {}),
       isBookmarked,
+      authorSlug: await getPublicAuthorSlug(ctx, job.authorId),
     };
   },
 });

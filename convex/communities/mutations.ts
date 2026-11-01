@@ -1,11 +1,57 @@
 import { v } from "convex/values";
 import { generatedSlug } from "../../src/lib/utils";
 import { authMutation } from "../functions";
+import { consumePublicationQuota } from "../publicationQuotas";
+import { throwForbidden, throwValidationError } from "../utils/errors";
+
+const MAX_LABEL_LENGTH = 60;
+const MAX_RULES_LENGTH = 1000;
+
+const communityFocusArgs = {
+  city: v.optional(v.string()),
+  theme: v.optional(v.string()),
+  rules: v.optional(v.string()),
+};
+
+/** A community is anchored to exactly one of a city or a theme. */
+function normalizeFocus(args: {
+  city?: string;
+  theme?: string;
+  rules?: string;
+}): {
+  kind: "city" | "theme";
+  city?: string;
+  theme?: string;
+  rules?: string;
+} {
+  const city = args.city?.trim() || undefined;
+  const theme = args.theme?.trim() || undefined;
+  const rules = args.rules?.trim() || undefined;
+  if (!city === !theme) {
+    throwValidationError("A community needs exactly one of a city or a theme");
+  }
+  if ((city ?? theme!).length > MAX_LABEL_LENGTH) {
+    throwValidationError(
+      `City or theme cannot exceed ${MAX_LABEL_LENGTH} characters`,
+    );
+  }
+  if (rules && rules.length > MAX_RULES_LENGTH) {
+    throwValidationError(
+      `Rules cannot exceed ${MAX_RULES_LENGTH} characters`,
+    );
+  }
+  return {
+    kind: city ? "city" : "theme",
+    ...(city ? { city } : { theme }),
+    ...(rules ? { rules } : {}),
+  };
+}
 
 export const createCommunity = authMutation({
   args: {
     name: v.string(),
     description: v.string(),
+    ...communityFocusArgs,
     // Kept temporarily for backward-compatible callers. All new communities
     // are public until privacy settings are reintroduced.
     privacy: v.optional(
@@ -19,6 +65,9 @@ export const createCommunity = authMutation({
   handler: async (ctx, args) => {
     const { user } = ctx;
 
+    const focus = normalizeFocus(args);
+    await consumePublicationQuota(ctx, "community", user._id);
+
     const slug = generatedSlug(args.name);
 
     const comId = await ctx.db.insert("communities", {
@@ -28,7 +77,8 @@ export const createCommunity = authMutation({
       authorId: user._id,
       authorName: user.name,
       privacy: "public",
-      searchAll: `${args.name} ${args.description} ${user.name}`,
+      ...focus,
+      searchAll: `${args.name} ${args.description} ${focus.city ?? focus.theme} ${user.name}`,
     });
 
     // Ajouter le créateur comme admin
@@ -65,6 +115,7 @@ export const updateCommunity = authMutation({
     id: v.id("communities"),
     name: v.string(),
     description: v.string(),
+    ...communityFocusArgs,
     privacy: v.union(
       v.literal("public"),
       v.literal("private"),
@@ -76,13 +127,18 @@ export const updateCommunity = authMutation({
 
     const community = await ctx.db.get(args.id);
     if (!community) throw new Error("Community not found");
-    if (community.authorId !== user._id) throw new Error("Not authorized");
+    if (community.authorId !== user._id) throwForbidden("Not authorized");
 
+    const focus = normalizeFocus(args);
     await ctx.db.patch(args.id, {
       name: args.name,
       description: args.description,
       privacy: "public",
-      searchAll: `${args.name} ${args.description} ${user.name}`,
+      kind: focus.kind,
+      city: focus.city,
+      theme: focus.theme,
+      rules: focus.rules,
+      searchAll: `${args.name} ${args.description} ${focus.city ?? focus.theme} ${user.name}`,
     });
   },
 });
