@@ -63,6 +63,7 @@ import type * as sendEmails from "../sendEmails.js";
 import type * as translations_security from "../translations/security.js";
 import type * as translations_shared from "../translations/shared.js";
 import type * as utils_errors from "../utils/errors.js";
+import type * as utils_limits from "../utils/limits.js";
 
 import type {
   ApiFromModules,
@@ -126,6 +127,7 @@ declare const fullApi: ApiFromModules<{
   "translations/security": typeof translations_security;
   "translations/shared": typeof translations_shared;
   "utils/errors": typeof utils_errors;
+  "utils/limits": typeof utils_limits;
 }>;
 
 /**
