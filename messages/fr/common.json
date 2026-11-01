@@ -30,5 +30,6 @@
   "translating": "Traduction…",
   "showOriginal": "Voir l'original",
   "showTranslated": "Voir la traduction",
-  "translateError": "Traduction impossible pour le moment"
+  "translateError": "Traduction impossible pour le moment",
+  "optional": "Facultatif"
 }

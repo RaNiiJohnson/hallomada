@@ -202,6 +202,10 @@
     "labels_extra": {
       "extras": "Extras / Amenities (optional)",
       "extrasDesc": "Add property amenities and perks (e.g. Parking, Balcony, Cellar, Elevator...)"
+    },
+    "sections": {
+      "moreDetails": "More details",
+      "moreDetailsDesc": "Neighborhood, charges, deposit, pets, extras, map… Add them if you wish."
     }
   },
   "labels": {

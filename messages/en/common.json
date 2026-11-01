@@ -30,5 +30,6 @@
   "translating": "Translating…",
   "showOriginal": "View original",
   "showTranslated": "View translation",
-  "translateError": "Translation is unavailable right now"
+  "translateError": "Translation is unavailable right now",
+  "optional": "Optional"
 }
