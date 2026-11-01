@@ -5,28 +5,36 @@
   "descriptionEnd": "",
   "items": [
     {
-      "question": "Wie trete ich der Malagasy-Gemeinschaft in Deutschland bei?",
-      "answer": "Erstellen Sie einfach ein kostenloses Konto auf unserer Plattform. Nach der Registrierung haben Sie Zugang zu allen unseren Diensten: Gemeinschaft, Stellenangebote und Immobilienanzeigen. Sie können auch an Diskussionen und Veranstaltungen der Gemeinschaft teilnehmen."
+      "question": "Wie trete ich der madagassischen Community in Deutschland bei?",
+      "answer": "Erstelle ein kostenloses Konto mit deiner E-Mail-Adresse oder deinem Google-Konto. Danach kannst du Communities (nach Stadt oder Thema) beitreten, Beiträge schreiben, kommentieren, private Nachrichten senden sowie Stellenangebote und Immobilienanzeigen ansehen."
     },
     {
       "question": "Wie veröffentliche ich ein Stellenangebot oder bewerbe mich?",
-      "answer": "Arbeitgeber können ihre Stellenangebote kostenlos im Bereich 'Jobs' veröffentlichen. Bewerber können alle verfügbaren Angebote einsehen und sich direkt über die Plattform bewerben. Wir erleichtern auch Empfehlungen zwischen Gemeinschaftsmitgliedern."
+      "answer": "Veröffentliche dein Angebot im Bereich „Jobs“. Ein Administrator prüft es, bevor es öffentlich sichtbar wird; solange es aussteht, sehen es nur du und die Administratoren. Du wirst über die Entscheidung benachrichtigt. Bewerber bewerben sich direkt über das Angebot oder über den externen Link des Arbeitgebers."
     },
     {
-      "question": "Kann ich eine Unterkunft anbieten oder eine WG suchen?",
-      "answer": "Absolut! Unser Bereich 'Immobilien' ermöglicht die Veröffentlichung von Miet-, WG- oder vorübergehenden Unterkunftsanzeigen. Dies ist eine hervorragende Möglichkeit, Neuankömmlingen bei der Wohnungssuche zu helfen oder Kosten mit anderen Gemeinschaftsmitgliedern zu teilen."
+      "question": "Kann ich eine Wohnung anbieten oder eine WG suchen?",
+      "answer": "Ja. Der Bereich „Immobilien“ nimmt Anzeigen für Miete, WG und vorübergehende Unterkunft an, mit Fotos und Standort. Wie bei Jobs wird jede Anzeige vor der Veröffentlichung von einem Administrator freigegeben."
     },
     {
-      "question": "Welche Arten von Hilfe kann ich von der Gemeinschaft erhalten?",
-      "answer": "Unsere Gemeinschaft bietet Unterstützung in vielen Bereichen: Ratschläge zu Verwaltungsverfahren, Integrationshilfe, Austausch beruflicher Erfahrungen, Dienstleistungsempfehlungen und vieles mehr. Gegenseitige Hilfe steht im Mittelpunkt unserer Mission."
+      "question": "Gibt es Veröffentlichungslimits?",
+      "answer": "Um die Qualität zu sichern und Missbrauch zu verhindern, kann jedes Mitglied pro 30 Tage 1 Community sowie pro Woche 3 Stellenangebote und 3 Immobilienanzeigen erstellen. Diese Kontingente können sich ändern. Für Texte gelten Größenbeschränkungen, und Nachrichten und Kommentare sind in ihrer Häufigkeit begrenzt."
     },
     {
-      "question": "Ist die Plattform auch für Malagasy zugänglich, die in Madagaskar geblieben sind?",
-      "answer": "Ja! Unsere Mission ist es, eine Brücke zwischen den in Deutschland lebenden Malagasy und denen zu schaffen, die in Madagaskar geblieben sind. Mitglieder in der Heimat können sich ebenfalls registrieren, um Informationen und Angebote zu teilen, kulturelle Bindungen aufrechtzuerhalten und den Austausch zwischen der Diaspora und dem Heimatland zu erleichtern."
+      "question": "Wie melde ich unangemessene Inhalte?",
+      "answer": "Nutze die Meldefunktion bei Beiträgen, Kommentaren, Stellenangeboten und Anzeigen. Administratoren prüfen jede Meldung und können den betroffenen Inhalt entfernen."
+    },
+    {
+      "question": "Ist die Plattform auch für Madagassen in der Heimat zugänglich?",
+      "answer": "Ja. Unsere Mission ist es, eine Brücke zwischen Madagassen in Deutschland und denen in Madagaskar zu bauen. Jeder kann sich registrieren, und die Seite ist auf Französisch, Deutsch und Englisch verfügbar."
     },
     {
       "question": "Sind meine persönlichen Daten sicher?",
-      "answer": "Der Schutz Ihrer Daten hat für uns oberste Priorität. Wir halten die europäische DSGVO ein und geben Ihre persönlichen Informationen niemals ohne Ihre Zustimmung an Dritte weiter. Sie behalten die vollständige Kontrolle über die Sichtbarkeit Ihres Profils und Ihrer Informationen."
+      "answer": "Wir halten die DSGVO ein. Die Reichweitenmessung (PostHog, Vercel Analytics) läuft nur mit deiner Einwilligung, die du jederzeit über „Cookies verwalten“ ändern kannst. Die Daten sind durch Sicherheits-Header und serverseitige Limits geschützt. Details findest du in der Datenschutzerklärung."
+    },
+    {
+      "question": "Wie erreiche ich das Team?",
+      "answer": "Schreibe uns über die Kontaktseite oder stelle deine Frage in der Community. Impressum und Nutzungsbedingungen findest du im Footer."
     }
   ]
 }

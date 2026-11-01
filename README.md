@@ -21,13 +21,21 @@ immobilières.
 
 ## Fonctionnalités
 
-- création de communautés et partage de publications ;
+- communautés par ville ou par thème, avec règles, publications, commentaires
+  et fil « Récent » ;
+- messagerie privée entre membres ;
 - profils publics et activité des membres ;
-- publication et consultation d'offres d'emploi ;
-- publication et consultation d'annonces immobilières ;
+- offres d'emploi avec candidatures ;
+- annonces immobilières avec photos et localisation sur carte ;
+- favoris et espace personnel ;
+- signalement de contenus ;
 - modération administrative des offres et annonces avant leur publication ;
+- quotas de publication par membre, modifiables par les administrateurs ;
 - notifications pour les membres et les administrateurs ;
-- tableau de bord d'administration ;
+- tableau de bord d'administration (modération, signalements, utilisateurs,
+  quotas, journal d'audit) ;
+- mesure d'audience (PostHog, Vercel Analytics) activée uniquement après
+  consentement, et pages légales ;
 - interface disponible en français, allemand et anglais.
 
 ## Modération des annonces
@@ -58,7 +66,19 @@ auteur et les administrateurs.
 - Better Auth pour l'authentification ;
 - next-intl pour l'internationalisation ;
 - Tailwind CSS et Radix UI pour l'interface ;
+- MapLibre GL pour les cartes ;
+- Cloudflare R2 pour le stockage des images, Resend pour les e-mails ;
 - Vitest et convex-test pour les tests.
+
+## Sécurité et limites
+
+- En-têtes de sécurité (CSP, HSTS, X-Frame-Options, etc.) définis dans
+  `next.config.ts` ;
+- limites de longueur des textes appliquées côté serveur
+  (`convex/utils/limits.ts`) ;
+- limitation de fréquence (`convex/rateLimits.ts`) pour les messages,
+  commentaires, candidatures, envois de fichiers et publications ;
+- suppressions en cascade par lots pour rester dans les limites de Convex.
 
 ## Installation locale
 
@@ -104,6 +124,7 @@ pnpm dev
 | `pnpm start`             | Lance le build de production                    |
 | `pnpm lint`              | Vérifie le code avec ESLint                     |
 | `pnpm exec tsc --noEmit` | Vérifie les types TypeScript                    |
+| `pnpm exec tsc --noEmit -p convex` | Vérifie les types du backend Convex   |
 | `pnpm test`              | Lance les tests en mode interactif              |
 | `pnpm test:once`         | Exécute toute la suite de tests une fois        |
 | `pnpm test:coverage`     | Exécute les tests avec le rapport de couverture |
@@ -127,9 +148,15 @@ Chaque changement doit au minimum passer les contrôles suivants :
 ```bash
 pnpm lint
 pnpm exec tsc --noEmit
+pnpm exec tsc --noEmit -p convex
 pnpm test:once
 pnpm build
 ```
+
+La CI (`.github/workflows/ci-cd.yml`) rejoue ces contrôles, vérifie que
+`convex/_generated` est à jour (tout nouveau fichier sous `convex/` doit
+apparaître dans `api.d.ts`, généré par `pnpm exec convex dev`), puis déploie
+Convex et Vercel : en préproduction pour les PR, en production sur `main`.
 
 ## Statut du projet
 
