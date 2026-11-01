@@ -6,7 +6,7 @@
     "description": "Find jobs, housing and support within the Malagasy community in Germany.",
     "authenticatedCta": "Discover the community",
     "loginCta": "Join Hallomada",
-    "categories": "Jobs · Housing · Support"
+    "categories": "Jobs · Housing · Providers · Support"
   },
   "title": "Our Services",
   "community": "Community",
@@ -47,5 +47,8 @@
       "titleAccordion": "Our Identity",
       "description": "Preserving and celebrating Malagasy culture while embracing German diversity, to proudly represent our country."
     }
-  }
+  },
+  "providers": "Providers",
+  "providersDescription": "Caterers, photographers, hairdressers… Find Malagasy providers in Germany and contact them directly on WhatsApp.",
+  "seeProviders": "See providers"
 }
