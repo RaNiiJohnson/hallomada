@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { useAuthRequiredAction } from "@/hooks/use-auth-required-action";
 import { useConvexAuth } from "convex/react";
 import { useTranslations } from "next-intl";
-import { PublishListingDialog } from "./dialogs/publishListingDialog";
+import { Link } from "@/i18n/navigation";
 
 export function CTAButton() {
   const { isAuthenticated, isLoading } = useConvexAuth();
@@ -17,9 +17,9 @@ export function CTAButton() {
 
   if (isAuthenticated) {
     return (
-      <PublishListingDialog
-        trigger={<Button size="lg">{t("cta.publish")}</Button>}
-      />
+      <Button size="lg" asChild>
+        <Link href="/listing/new">{t("cta.publish")}</Link>
+      </Button>
     );
   }
 

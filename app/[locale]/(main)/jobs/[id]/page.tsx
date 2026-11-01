@@ -33,6 +33,7 @@ import {
   FileText,
   Mail,
   MapPin,
+  Pencil,
 } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { notFound, useParams } from "next/navigation";
@@ -45,7 +46,6 @@ import { JobLifecycleActions } from "../_component/jobLifecycleActions";
 import { SalaryDisplay } from "../_component/salary";
 import { JobBookmarkButton } from "../_component/JobBookmarkButton";
 import { JobDetailsSkeleton } from "../_component/skeleton";
-import { EditJobDialog } from "./_component/editJobDialog";
 
 export default function JobDetailsPage() {
   const { id } = useParams();
@@ -160,7 +160,12 @@ export default function JobDetailsPage() {
     <>
       <JobLifecycleActions jobId={jobOffer._id} status={jobOffer.status} />
       <ShareButton text={jobOffer.title} showLabel />
-      <EditJobDialog jobOffer={jobOffer} />
+      <Button size="sm" className="gap-2" asChild>
+        <Link href={`/jobs/${id}/edit`}>
+          <Pencil className="h-4 w-4" />
+          <span>{t("dialogs.edit.trigger")}</span>
+        </Link>
+      </Button>
     </>
   );
 

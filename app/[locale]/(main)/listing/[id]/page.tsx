@@ -11,13 +11,12 @@ import { api } from "@convex/_generated/api";
 import { Id } from "@convex/_generated/dataModel";
 import { useQuery } from "convex-helpers/react/cache";
 import { useConvexAuth, useMutation } from "convex/react";
-import { ArrowLeft, Heart } from "lucide-react";
+import { ArrowLeft, Heart, Pencil } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { notFound, useParams } from "next/navigation";
 import { toast } from "sonner";
 import { ListingLifecycleActions } from "../_component/listingLifecycleActions";
 import { PropertyPageSkeleton } from "../_component/skeleton";
-import { EditListingDialog } from "./components/EditListingDialog";
 import { PropertyDetails } from "./components/PropertyDetails";
 import { SimilarListings } from "./components/SimilarListings";
 
@@ -63,7 +62,12 @@ export default function PropertyPage() {
         />
       ) : null}
       {canManage ? (
-        <EditListingDialog listing={property} />
+        <Button size="sm" className="gap-2" asChild>
+          <Link href={`/listing/${params.id}/edit`}>
+            <Pencil className="size-4" />
+            <span>{t("dialogs.edit.trigger")}</span>
+          </Link>
+        </Button>
       ) : (
         <Button
           variant="secondary"
