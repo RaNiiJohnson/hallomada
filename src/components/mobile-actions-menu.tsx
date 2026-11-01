@@ -29,7 +29,7 @@ export function MobileActionsMenu({ children }: { children: ReactNode }) {
       <PopoverContent
         align="end"
         aria-label={t("moreActions")}
-        className="w-48 space-y-0.5 rounded-lg p-1.5 shadow-lg [&>button]:h-9 [&>button]:w-full [&>button]:justify-start [&>button]:rounded-md [&>button]:border-0 [&>button]:bg-transparent! [&>button]:px-2.5 [&>button]:font-normal [&>button]:text-foreground! [&>button]:shadow-none [&>button]:hover:bg-accent! [&>button[data-variant=destructive]]:text-destructive!"
+        className="w-48 space-y-1 rounded-lg p-1.5 shadow-lg [&>[data-variant]]:h-9! [&>[data-variant]]:w-full! [&>[data-variant]]:justify-start! [&>[data-variant]]:rounded-md! [&>[data-variant]]:px-2.5 [&>[data-variant]:not([data-variant=default])]:border-0! [&>[data-variant]:not([data-variant=default])]:bg-transparent! dark:[&>[data-variant]:not([data-variant=default])]:bg-transparent! [&>[data-variant]:not([data-variant=default])]:font-normal [&>[data-variant]:not([data-variant=default])]:text-foreground! [&>[data-variant]:not([data-variant=default])]:shadow-none! [&>[data-variant]:not([data-variant=default])]:hover:bg-accent! dark:[&>[data-variant]:not([data-variant=default])]:hover:bg-accent! [&>[data-variant][data-variant=destructive]]:text-destructive! [&>[data-variant]][data-variant=default]:font-medium"
       >
         {children}
       </PopoverContent>

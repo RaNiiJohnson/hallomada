@@ -113,6 +113,11 @@
       "certMax": "Sie können bis zu 5 Zertifikate hinzufügen.",
       "salaryReq": "Das Gehalt ist erforderlich",
       "contactEmailReq": "Eine gültige E-Mail für Bewerbungen ist erforderlich"
+    },
+    "sections": {
+      "essential": "Wesentliche Angaben",
+      "moreDetails": "Weitere Details",
+      "moreDetailsDesc": "Gehalt, Stunden, Vorteile, Zertifikate … Fügen Sie sie nach Wunsch hinzu."
     }
   },
   "details": {

@@ -202,6 +202,10 @@
     "labels_extra": {
       "extras": "Extras / Équipements (optionnel)",
       "extrasDesc": "Ajoutez les équipements et atouts du bien (ex: Parking, Balcon, Cave, Ascenseur...)"
+    },
+    "sections": {
+      "moreDetails": "Plus de détails",
+      "moreDetailsDesc": "Quartier, charges, caution, animaux, équipements, carte… Ajoutez-les si vous le souhaitez."
     }
   },
   "labels": {

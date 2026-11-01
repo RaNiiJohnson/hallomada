@@ -113,6 +113,11 @@
       "certMax": "You can add up to 5 certificates.",
       "salaryReq": "The salary is required",
       "contactEmailReq": "A valid application contact email is required"
+    },
+    "sections": {
+      "essential": "Essential information",
+      "moreDetails": "More details",
+      "moreDetailsDesc": "Salary, hours, benefits, certificates… Add them if you wish."
     }
   },
   "details": {

@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { useAuthRequiredAction } from "@/hooks/use-auth-required-action";
 import { useConvexAuth } from "convex/react";
 import { useTranslations } from "next-intl";
-import { PublishJobDialog } from "./dialogs/publishJobDialog";
+import { Link } from "@/i18n/navigation";
 
 export function JobCTAButton() {
   const { isAuthenticated, isLoading } = useConvexAuth();
@@ -17,7 +17,9 @@ export function JobCTAButton() {
 
   if (isAuthenticated) {
     return (
-      <PublishJobDialog trigger={<Button size="lg">{t("publish")}</Button>} />
+      <Button size="lg" asChild>
+        <Link href="/jobs/new">{t("publish")}</Link>
+      </Button>
     );
   }
 

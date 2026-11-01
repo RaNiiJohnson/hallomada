@@ -113,6 +113,11 @@
       "certMax": "Vous pouvez ajouter jusqu'à 5 certificats.",
       "salaryReq": "Le salaire est requis",
       "contactEmailReq": "Un e-mail de réception valide est requis"
+    },
+    "sections": {
+      "essential": "Informations essentielles",
+      "moreDetails": "Plus de détails",
+      "moreDetailsDesc": "Salaire, durée, avantages, certificats… Ajoutez-les si vous le souhaitez."
     }
   },
   "details": {
