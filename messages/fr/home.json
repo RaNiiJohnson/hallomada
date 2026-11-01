@@ -6,7 +6,7 @@
     "description": "Trouvez des opportunités, un logement et de l'entraide auprès de la communauté malgache en Allemagne.",
     "authenticatedCta": "Découvrir la communauté",
     "loginCta": "Rejoindre Hallomada",
-    "categories": "Emploi · Logement · Entraide"
+    "categories": "Emploi · Logement · Prestataires · Entraide"
   },
   "title": "Nos Services",
   "community": "Communauté",
@@ -47,5 +47,8 @@
       "titleAccordion": "Notre Identité",
       "description": "Préserver et célébrer la culture Malagasy tout en embrassant la diversité allemande, pour représenter fièrement notre pays."
     }
-  }
+  },
+  "providers": "Prestataires",
+  "providersDescription": "Traiteurs, photographes, coiffeurs… Trouvez des prestataires malagasy en Allemagne et contactez-les directement sur WhatsApp.",
+  "seeProviders": "Voir les prestataires"
 }

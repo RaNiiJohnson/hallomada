@@ -6,7 +6,7 @@
     "description": "Finde Jobs, eine Wohnung und Unterstützung in der madagassischen Community in Deutschland.",
     "authenticatedCta": "Community entdecken",
     "loginCta": "Hallomada beitreten",
-    "categories": "Jobs · Wohnen · Unterstützung"
+    "categories": "Jobs · Wohnen · Dienstleister · Unterstützung"
   },
   "title": "Unsere Dienstleistungen",
   "community": "Gemeinschaft",
@@ -47,5 +47,8 @@
       "titleAccordion": "Unsere Identität",
       "description": "Die Malagasy-Kultur zu bewahren und zu feiern, während wir die deutsche Vielfalt annehmen, um unser Land stolz zu vertreten."
     }
-  }
+  },
+  "providers": "Dienstleister",
+  "providersDescription": "Catering, Fotografie, Friseur… Finde madagassische Dienstleister in Deutschland und kontaktiere sie direkt über WhatsApp.",
+  "seeProviders": "Dienstleister ansehen"
 }

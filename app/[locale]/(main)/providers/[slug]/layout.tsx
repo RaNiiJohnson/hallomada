@@ -9,13 +9,14 @@ interface Props {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug, locale } = await params;
-  const notFound = await getTranslations({ locale, namespace: "notFound" });
+  const t = await getTranslations({ locale, namespace: "providers" });
   const provider = await fetchQuery(api.providers.queries.getProviderMetadata, {
     slug,
   });
 
+  // Pending or hidden pages are only visible to their owner, client-side.
   if (!provider) {
-    return { title: notFound("title") };
+    return { title: t("metaTitle"), robots: { index: false } };
   }
 
   const title = provider.tagline

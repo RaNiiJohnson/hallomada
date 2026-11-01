@@ -117,7 +117,7 @@ export function HomePageContent() {
               <span className="relative z-10">{t("title")}</span>
             </span>
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6">
             {/* Communauté */}
             <Link href="/communities" className={serviceCardLinkClasses}>
               <Card className="flex h-full flex-col transition-colors group-active:border-primary dark:bg-card/35">
@@ -197,6 +197,32 @@ export function HomePageContent() {
                 </CardFooter>
               </Card>
             </Link>
+
+            {/* Prestataires */}
+            <Link href="/providers" className={serviceCardLinkClasses}>
+              <Card className="flex h-full flex-col transition-colors group-active:border-primary dark:bg-card/35">
+                <CardHeader>
+                  <CardTitle className="text-xl">{t("providers")}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-muted-foreground">
+                    {t("providersDescription")}
+                  </p>
+                </CardContent>
+                <CardFooter className="mt-auto pt-4 w-full">
+                  <Button
+                    asChild
+                    variant="ghost"
+                    className="w-full justify-start pl-0 hover:bg-transparent group-hover:text-primary"
+                  >
+                    <div className="inline-flex items-center gap-2">
+                      {t("seeProviders")}
+                      <ArrowRightIcon className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                    </div>
+                  </Button>
+                </CardFooter>
+              </Card>
+            </Link>
           </div>
         </div>
       </section>
@@ -260,8 +286,8 @@ export function HomePageSkeleton() {
       <section className="py-16 px-4">
         <div className="max-w-6xl mx-auto">
           <div className="h-12 bg-muted rounded-lg mb-12 w-64 mx-auto"></div>
-          <div className="grid md:grid-cols-3 gap-8">
-            {[1, 2, 3].map((i) => (
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {[1, 2, 3, 4].map((i) => (
               <Card key={i} className="flex flex-col">
                 <CardHeader>
                   <div className="h-12 w-12 bg-muted rounded mb-4"></div>
