@@ -64,16 +64,25 @@ export const markOneRead = authMutation({
   },
 });
 
+const DELETE_BATCH = 100;
+
 export const deleteByCommunity = internalMutation({
   args: { slug: v.string() },
   handler: async (ctx, args) => {
     const notifications = await ctx.db
       .query("notifications")
       .withIndex("by_communitySlug", (q) => q.eq("communitySlug", args.slug))
-      .collect();
+      .take(DELETE_BATCH);
 
     for (const notif of notifications) {
       await ctx.db.delete(notif._id);
+    }
+    if (notifications.length === DELETE_BATCH) {
+      await ctx.scheduler.runAfter(
+        0,
+        internal.notifications.mutations.deleteByCommunity,
+        args,
+      );
     }
   },
 });
@@ -84,10 +93,17 @@ export const deleteByPost = internalMutation({
     const notifications = await ctx.db
       .query("notifications")
       .withIndex("by_postSlug", (q) => q.eq("postSlug", args.slug))
-      .collect();
+      .take(DELETE_BATCH);
 
     for (const notif of notifications) {
       await ctx.db.delete(notif._id);
+    }
+    if (notifications.length === DELETE_BATCH) {
+      await ctx.scheduler.runAfter(
+        0,
+        internal.notifications.mutations.deleteByPost,
+        args,
+      );
     }
   },
 });

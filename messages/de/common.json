@@ -31,5 +31,11 @@
   "showOriginal": "Original anzeigen",
   "showTranslated": "Übersetzung anzeigen",
   "translateError": "Übersetzung derzeit nicht möglich",
-  "optional": "Optional"
+  "optional": "Optional",
+  "errorTitle": "Etwas ist schiefgelaufen",
+  "errorDescription": "Diese Seite konnte nicht geladen werden. Bitte versuche es erneut.",
+  "errorRetry": "Erneut versuchen",
+  "errorHome": "Zur Startseite",
+  "limitReached": "Veröffentlichungslimit erreicht. Bitte versuche es später erneut.",
+  "rateLimited": "Zu viele Anfragen, bitte versuche es gleich erneut."
 }

@@ -9,6 +9,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
+import { getConvexErrorCode } from "@/lib/convex-error";
 import { useFileUpload } from "@/hooks/use-file-upload";
 import { useTypedR2Upload } from "@/hooks/use-r2-typed-upload";
 import type { ListingListDetails } from "@/lib/convexTypes";
@@ -41,6 +42,7 @@ interface ListingFormProps {
 
 export function ListingForm({ listing, onSuccess }: ListingFormProps) {
   const t = useTranslations("listing");
+  const tCommon = useTranslations("common");
   const isEditing = listing !== undefined;
 
   const { upload: uploadListingImages } = useTypedR2Upload(
@@ -194,9 +196,11 @@ export function ListingForm({ listing, onSuccess }: ListingFormProps) {
       form.reset();
       uploadActions.clearFiles();
       onSuccess?.();
-    } catch {
+    } catch (error) {
       toast.error(
-        t(isEditing ? "form.messages.updateError" : "form.messages.error"),
+        getConvexErrorCode(error) === "LIMIT_REACHED"
+          ? tCommon("limitReached")
+          : t(isEditing ? "form.messages.updateError" : "form.messages.error"),
       );
     }
   }

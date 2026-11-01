@@ -26,6 +26,24 @@ export const limiter = new RateLimiter(components.rateLimiter, {
     period: MINUTE,
     capacity: 6,
   },
+  chatMessagePerUser: {
+    kind: "token bucket",
+    rate: 30,
+    period: MINUTE,
+    capacity: 10,
+  },
+  commentPerUser: {
+    kind: "token bucket",
+    rate: 10,
+    period: MINUTE,
+    capacity: 5,
+  },
+  applicationPerUser: {
+    kind: "token bucket",
+    rate: 20,
+    period: DAY,
+    capacity: 10,
+  },
   reportPerUser: {
     kind: "token bucket",
     rate: 10,

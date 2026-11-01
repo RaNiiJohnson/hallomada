@@ -135,14 +135,12 @@ export const runAggregateBackfill = migrations.runner([
 // ---- clear aggregates ----
 
 const _clearAggregates = async (ctx: MutationCtx) => {
-  const posts = await ctx.db.query("posts").collect();
-  for (const post of posts) {
+  for await (const post of ctx.db.query("posts")) {
     await postLikesCount.clear(ctx, { namespace: post._id });
     await postCommentsCount.clear(ctx, { namespace: post._id });
   }
 
-  const communities = await ctx.db.query("communities").collect();
-  for (const community of communities) {
+  for await (const community of ctx.db.query("communities")) {
     await communityPostsCount.clear(ctx, { namespace: community._id });
     await communityMembersCount.clear(ctx, { namespace: community._id });
   }
