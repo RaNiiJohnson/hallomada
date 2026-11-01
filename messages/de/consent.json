@@ -1,6 +1,6 @@
 {
   "title": "Reichweitenmessung",
-  "description": "Mit Ihrer Einwilligung nutzen wir PostHog und Vercel Analytics, um zu verstehen, wie die Seite genutzt wird, und um Fehler zu beheben. Bis zu Ihrer Entscheidung wird nichts gesendet. Sie können Ihre Wahl jederzeit ändern.",
+  "description": "Mit Ihrer Einwilligung messen wir anonym, wie die Seite genutzt wird, um sie zu verbessern und Probleme zu beheben. Bis zu Ihrer Entscheidung wird nichts erfasst. Sie können Ihre Wahl jederzeit ändern.",
   "learnMore": "Mehr erfahren",
   "accept": "Akzeptieren",
   "refuse": "Ablehnen",

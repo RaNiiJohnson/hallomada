@@ -6,27 +6,35 @@
   "items": [
     {
       "question": "How do I join the Malagasy community in Germany?",
-      "answer": "Simply create a free account on our platform. Once registered, you will have access to all our services: community, job offers and real estate listings. You can also participate in discussions and events organized by the community."
+      "answer": "Create a free account with your email or your Google account. You can then join communities (by city or theme), post, comment, send private messages, and browse job offers and property listings."
     },
     {
       "question": "How do I post a job offer or apply?",
-      "answer": "Employers can post their job offers for free in the 'Jobs' section. Candidates can browse all available offers and apply directly through the platform. We also facilitate recommendations between community members."
+      "answer": "Post your offer from the \"Jobs\" section. An administrator reviews it before it becomes public; while it is pending, only you and the administrators can see it. You are notified of the decision. Candidates apply directly from the offer or through the external link provided by the employer."
     },
     {
       "question": "Can I offer housing or look for a flatshare?",
-      "answer": "Absolutely! Our 'Housing' section allows you to post rental, flatshare or temporary accommodation listings. It's a great way to help newcomers find housing or share costs with other community members."
+      "answer": "Yes. The \"Real estate\" section accepts rental, flatshare and temporary housing listings, with photos and location. As with jobs, each listing is approved by an administrator before publication."
     },
     {
-      "question": "What types of help can I receive from the community?",
-      "answer": "Our community offers support in many areas: advice on administrative procedures, help with integration, sharing professional experiences, service recommendations, and much more. Mutual aid is at the heart of our mission."
+      "question": "Are there posting limits?",
+      "answer": "To keep the community high-quality and prevent abuse, the number of posts each member can publish over time is limited (communities, job offers, property listings). These limits may change, and you will see a message when you reach them."
     },
     {
-      "question": "Is the platform accessible to Malagasy who stayed in Madagascar?",
-      "answer": "Yes! Our mission is to create a bridge between Malagasy living in Germany and those who stayed in Madagascar. Members back home can also register to share opportunities, maintain cultural ties and facilitate exchanges between the diaspora and the home country."
+      "question": "How do I report inappropriate content?",
+      "answer": "Use the report option available on posts, comments, job offers and listings. Administrators review every report and can remove the content concerned."
+    },
+    {
+      "question": "Is the platform open to Malagasy people back home?",
+      "answer": "Yes. Our mission is to build a bridge between Malagasy people in Germany and those who stayed in Madagascar. Anyone can sign up, and the site is available in French, German and English."
     },
     {
       "question": "Is my personal data secure?",
-      "answer": "Protecting your data is our priority. We comply with European GDPR and never share your personal information with third parties without your consent. You retain full control over the visibility of your profile and your information."
+      "answer": "We comply with the GDPR. Visit statistics are only enabled with your consent, which you can change at any time via \"Manage cookies\". See our privacy policy for details."
+    },
+    {
+      "question": "How can I contact the team?",
+      "answer": "Write to us from the Contact page, or ask your question in the community. The legal notice and terms of use are available from the footer."
     }
   ]
 }
