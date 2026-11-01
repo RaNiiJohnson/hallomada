@@ -2,7 +2,6 @@ import { StripeSubscriptions } from "@convex-dev/stripe";
 import { v } from "convex/values";
 import { components } from "../_generated/api";
 import { action } from "../_generated/server";
-import { posthog, posthogDistinctId } from "./posthog";
 
 const stripeClient = new StripeSubscriptions(components.stripe, {});
 
@@ -34,11 +33,6 @@ export const createSubscriptionCheckout = action({
       subscriptionMetadata: { userId: identity.subject },
     });
 
-    await posthog.capture(ctx, {
-      distinctId: posthogDistinctId(identity.subject),
-      event: "checkout_started",
-      properties: { price_id: args.priceId, mode: "subscription" },
-    });
 
     return session;
   },
@@ -70,11 +64,6 @@ export const createPaymentCheckout = action({
       paymentIntentMetadata: { userId: identity.subject },
     });
 
-    await posthog.capture(ctx, {
-      distinctId: posthogDistinctId(identity.subject),
-      event: "checkout_started",
-      properties: { price_id: args.priceId, mode: "payment" },
-    });
 
     return session;
   },

@@ -13,8 +13,12 @@
     "title": "Kontakt",
     "location": "Deutschland"
   },
-  "social": {
-    "title": "Folgen Sie uns"
-  },
-  "copyright": "Alle Rechte vorbehalten."
+  "copyright": "Alle Rechte vorbehalten.",
+  "legal": {
+    "privacy": "Datenschutz",
+    "terms": "Nutzungsbedingungen",
+    "notice": "Impressum",
+    "contact": "Kontakt",
+    "legalTitle": "Rechtliches"
+  }
 }

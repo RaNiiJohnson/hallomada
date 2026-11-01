@@ -7,4 +7,13 @@ export function getAccountNavigation(slug: string | null | undefined) {
     : [{ key: "account" as const, href: "/me" }];
 }
 
-export const sitemapRoutes = ["", "/jobs", "/listing", "/communities"] as const;
+export const sitemapRoutes = [
+  "",
+  "/jobs",
+  "/listing",
+  "/communities",
+  "/privacy",
+  "/terms",
+  "/legal-notice",
+  "/contact",
+] as const;

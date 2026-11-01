@@ -1,0 +1,70 @@
+{
+  "provisional": "Vorläufiger Inhalt: Dieser Text ist ein Informationsentwurf und keine Rechtsberatung. Er wird vor dem öffentlichen Start durch die geprüfte Fassung ersetzt.",
+  "placeholder": "[Noch zu ergänzen]",
+  "updated": "Letzte Aktualisierung: vorläufige Fassung",
+  "privacy": {
+    "title": "Datenschutzerklärung",
+    "sections": [
+      {
+        "h": "Erhobene Daten",
+        "p": "Kontodaten (Name, E-Mail-Adresse), von Ihnen veröffentlichte Inhalte (Anzeigen, Stellenangebote, Nachrichten, Meldungen) sowie technische Daten, die für den Betrieb der Seite nötig sind."
+      },
+      {
+        "h": "Reichweitenmessung",
+        "p": "Messwerkzeuge (PostHog, Vercel Analytics) werden erst nach Ihrer Zustimmung aktiviert. Sie können jederzeit über „Cookies verwalten“ im Footer ablehnen oder Ihre Wahl ändern. Bei Ablehnung wird kein optionales Ereignis gesendet."
+      },
+      {
+        "h": "Ihre Rechte",
+        "p": "Sie können Auskunft, Berichtigung oder Löschung Ihrer Daten über die Kontaktseite verlangen."
+      },
+      {
+        "h": "Verantwortlicher",
+        "p": "Siehe Impressum."
+      }
+    ]
+  },
+  "terms": {
+    "title": "Nutzungsbedingungen",
+    "sections": [
+      {
+        "h": "Zweck",
+        "p": "Hallomada ist eine Plattform für Austausch und gegenseitige Hilfe der madagassischen Community in Deutschland."
+      },
+      {
+        "h": "Veröffentlichte Inhalte",
+        "p": "Sie sind für Ihre Inhalte verantwortlich. Rechtswidrige, irreführende oder missbräuchliche Inhalte können gemeldet und entfernt werden."
+      },
+      {
+        "h": "Jobs und Wohnungen",
+        "p": "Hallomada prüft nicht jede Anzeige und ist nicht Partei des Austauschs zwischen Nutzern. Seien Sie wachsam und überweisen Sie nie Geld, bevor Sie ein Angebot geprüft haben."
+      },
+      {
+        "h": "Sperrung",
+        "p": "Konten, die diese Regeln nicht einhalten, können eingeschränkt oder gesperrt werden."
+      }
+    ]
+  },
+  "notice": {
+    "title": "Impressum",
+    "sections": [
+      {
+        "h": "Anbieter der Seite",
+        "p": "Name: [Noch zu ergänzen]. Anschrift: [Noch zu ergänzen]. Land: [Noch zu ergänzen]."
+      },
+      {
+        "h": "Kontakt",
+        "p": "Siehe Kontaktseite."
+      },
+      {
+        "h": "Hosting",
+        "p": "[Noch zu ergänzen]"
+      }
+    ]
+  },
+  "contact": {
+    "title": "Kontakt und Support",
+    "intro": "Eine Frage, ein Problem oder eine Meldung? Schreiben Sie uns. Zum Melden von Inhalten nutzen Sie bitte bevorzugt den Melden-Button bei jeder Veröffentlichung.",
+    "emailLabel": "Support-E-Mail",
+    "responseTime": "Wir antworten so schnell wie möglich, ohne garantierte Frist während der Beta."
+  }
+}

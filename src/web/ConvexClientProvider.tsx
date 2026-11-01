@@ -6,7 +6,11 @@ import { authClient } from "@/lib/auth-client";
 import { ConvexBetterAuthProvider } from "@convex-dev/better-auth/react";
 import { api } from "@convex/_generated/api";
 import { useQuery } from "convex-helpers/react/cache";
-import posthog from "posthog-js";
+import { identifyUser, resetIdentity } from "@/lib/analytics";
+import {
+  AnalyticsConsentManager,
+  useAnalyticsConsent,
+} from "@/components/analytics-consent";
 
 import { ConvexQueryCacheProvider } from "convex-helpers/react/cache";
 
@@ -14,14 +18,19 @@ const convex = new ConvexReactClient(process.env.NEXT_PUBLIC_CONVEX_URL!);
 
 function PostHogIdentity() {
   const user = useQuery(api.auth.auth.getCurrentUser);
+  const consent = useAnalyticsConsent();
   const identifiedUserId = useRef<string | null>(null);
 
   useEffect(() => {
     if (user === undefined) return;
+    if (consent !== "granted") {
+      identifiedUserId.current = null;
+      return;
+    }
 
     if (user === null) {
       if (identifiedUserId.current) {
-        posthog.reset();
+        resetIdentity();
         identifiedUserId.current = null;
       }
       return;
@@ -32,16 +41,12 @@ function PostHogIdentity() {
     if (identifiedUserId.current === userId) return;
 
     if (identifiedUserId.current) {
-      posthog.reset();
+      resetIdentity();
     }
 
-    posthog.identify(userId, {
-      email: user.email,
-      name: user.name,
-      role: user.userType,
-    });
+    identifyUser(userId, { role: `${user.userType ?? ""}` });
     identifiedUserId.current = userId;
-  }, [user]);
+  }, [user, consent]);
 
   return null;
 }
@@ -62,6 +67,7 @@ export function ConvexClientProvider({
     >
       <ConvexQueryCacheProvider>
         <PostHogIdentity />
+        <AnalyticsConsentManager />
         {children}
       </ConvexQueryCacheProvider>
     </ConvexBetterAuthProvider>

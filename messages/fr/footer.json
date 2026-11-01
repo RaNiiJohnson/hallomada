@@ -13,8 +13,12 @@
     "title": "Contact",
     "location": "Allemagne"
   },
-  "social": {
-    "title": "Suivez-nous"
-  },
-  "copyright": "Tous droits réservés."
+  "copyright": "Tous droits réservés.",
+  "legal": {
+    "privacy": "Confidentialité",
+    "terms": "CGU",
+    "notice": "Mentions légales",
+    "contact": "Contact",
+    "legalTitle": "Informations légales"
+  }
 }
