@@ -69,7 +69,8 @@
       "descHint": "Describe the position, missions, and required skills",
       "markdownHint": "Markdown formatting is supported",
       "certificates": "Required certificates",
-      "certDesc": "Add up to 5 required certificates for this role (optional)."
+      "certDesc": "Add up to 5 required certificates for this role (optional).",
+      "workTime": "Working time *"
     },
     "placeholders": {
       "title": "Ex: React Frontend Developer",
@@ -84,7 +85,8 @@
       "cert": "Ex: Driving license B, German B2...",
       "period": "Period",
       "remoteLocation": "E.g. Germany, EU, or time zone",
-      "contactEmail": "hiring@organisation.de"
+      "contactEmail": "hiring@organisation.de",
+      "selectWorkTime": "Select working time"
     },
     "actions": {
       "addCert": "Add certificate",
@@ -112,7 +114,12 @@
       "certMin": "Add at least one certificate.",
       "certMax": "You can add up to 5 certificates.",
       "salaryReq": "The salary is required",
-      "contactEmailReq": "A valid application contact email is required"
+      "contactEmailReq": "A valid application contact email is required",
+      "contractReq": "Choose a permanent or fixed-term contract",
+      "workTimeReq": "Choose full-time or part-time",
+      "salaryInvalid": "Enter a valid amount",
+      "weeklyHoursInvalid": "Enter a number of hours between 1 and 80",
+      "deadlineAfterStart": "The deadline must be before the start date"
     },
     "sections": {
       "essential": "Essential information",
@@ -251,6 +258,10 @@
       "hour": "hour",
       "month": "month",
       "year": "year"
+    },
+    "workTimes": {
+      "fullTime": "Full-time",
+      "partTime": "Part-time"
     }
   }
 }

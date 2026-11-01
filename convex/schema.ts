@@ -43,15 +43,20 @@ export default defineSchema({
         lng: v.number(),
       }),
     ),
-    contractType: v.union(
-      v.literal("CDI"),
-      v.literal("CDD"),
-      v.literal("FSJ/FOJ/BFD"),
-      v.literal("fullTime"),
-      v.literal("partTime"),
-      v.literal("freelance"),
-      v.literal("apprenticeship"),
+    // Only "job" offers have a contract (CDI/CDD). The other legacy values stay
+    // valid so older documents keep loading.
+    contractType: v.optional(
+      v.union(
+        v.literal("CDI"),
+        v.literal("CDD"),
+        v.literal("FSJ/FOJ/BFD"),
+        v.literal("fullTime"),
+        v.literal("partTime"),
+        v.literal("freelance"),
+        v.literal("apprenticeship"),
+      ),
     ),
+    workTime: v.optional(v.union(v.literal("fullTime"), v.literal("partTime"))),
     city: v.string(),
     workMode: v.optional(
       v.union(v.literal("onSite"), v.literal("hybrid"), v.literal("remote")),
@@ -423,6 +428,13 @@ export default defineSchema({
     jobId: v.id("JobOffer"),
     candidateId: v.string(),
     cvKey: v.string(),
+    // Unguessable token embedded in the recruiter's e-mail. The /application-cv
+    // route trades it for a short-lived signed R2 URL, so the link keeps working
+    // until `cvExpiresAt` instead of dying with the signed URL after 15 minutes.
+    cvToken: v.optional(v.string()),
+    cvExpiresAt: v.optional(v.number()),
+    // Set once the retention window has passed and the CV is no longer reachable.
+    cvPurgedAt: v.optional(v.number()),
     coverLetter: v.optional(v.string()),
     appliedAt: v.number(),
     // Optional during the safe rollout: legacy applications predate email
@@ -437,7 +449,9 @@ export default defineSchema({
   })
     .index("by_jobId_and_candidateId", ["jobId", "candidateId"])
     .index("by_candidateId", ["candidateId"])
-    .index("by_cvKey", ["cvKey"]),
+    .index("by_cvKey", ["cvKey"])
+    .index("by_cvToken", ["cvToken"])
+    .index("by_cvExpiresAt", ["cvExpiresAt"]),
 
   reports: defineTable({
     reporterId: v.string(),

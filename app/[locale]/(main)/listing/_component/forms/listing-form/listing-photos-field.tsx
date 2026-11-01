@@ -5,13 +5,14 @@ import { useTranslations } from "next-intl";
 import Image from "next/image";
 
 import { Button } from "@/components/ui/button";
+import { MAX_LISTING_PHOTOS } from "@/lib/listing-limits";
 import { Field, FieldDescription, FieldLabel } from "@/components/ui/field";
 import type {
   FileUploadActions,
   FileUploadState,
 } from "@/hooks/use-file-upload";
 
-export const MAX_LISTING_PHOTOS = 10;
+export { MAX_LISTING_PHOTOS };
 export const MAX_LISTING_PHOTO_MB = 20;
 
 type Props = {

@@ -37,12 +37,13 @@ import {
 } from "@/components/ui/input-group";
 import { Switch } from "@/components/ui/switch";
 import {
-  contractTypesForJobType,
+  jobTypeHasContract,
   jobTypeValues,
   requiresDurationOrStartDate,
-  requiresWeeklyHours,
+  selectableContractTypes,
+  showsWeeklyHours,
   workModeValues,
-  type JobType,
+  workTimeValues,
 } from "@/lib/job-offer-options";
 import { LocationPicker } from "@/lib/LocationPicker";
 import {
@@ -64,9 +65,9 @@ export function JobFormFields({ form }: { form: UseFormReturn<JobFormValues> }) 
   const showMap = useWatch({ control, name: "showMap" });
   const description = useWatch({ control, name: "description" });
 
-  const contractTypes = contractTypesForJobType(type);
+  const hasContract = jobTypeHasContract(type);
   const showDurationAndStart = requiresDurationOrStartDate(type, contractType);
-  const showWeeklyHours = requiresWeeklyHours(type, contractType);
+  const showWeeklyHours = showsWeeklyHours(type);
   const isRemote = workMode === "remote";
 
   useEffect(() => {
@@ -109,31 +110,37 @@ export function JobFormFields({ form }: { form: UseFormReturn<JobFormValues> }) 
             label: label(`labels.jobTypes.${value}`),
           }))}
           onValueChange={(value) => {
-            const allowed = contractTypesForJobType(value as JobType);
-            if (!allowed.includes(form.getValues("contractType"))) {
-              form.setValue("contractType", allowed[0], { shouldValidate: true });
+            // Only regular jobs carry a contract; clear it for every other type.
+            if (!jobTypeHasContract(value as typeof type)) {
+              form.setValue("contractType", undefined, { shouldValidate: true });
+              form.setValue("workTime", undefined, { shouldValidate: true });
             }
           }}
         />
-        {contractTypes.length === 1 ? (
-          <Field>
-            <FieldLabel>{t("form.labels.contractType")}</FieldLabel>
-            <div className="rounded-md border bg-muted px-3 py-2 text-sm">
-              {label(`labels.contracts.${contractType}`)}
-            </div>
-          </Field>
-        ) : (
-          <SelectFormField
-            control={control}
-            name="contractType"
-            label={t("form.labels.contractType")}
-            placeholder={t("form.placeholders.selectContract")}
-            options={contractTypes.map((value) => ({
-              value,
-              label: label(`labels.contracts.${value}`),
-            }))}
-          />
-        )}
+        {hasContract ? (
+          <div className="grid gap-4 sm:grid-cols-2">
+            <SelectFormField
+              control={control}
+              name="contractType"
+              label={t("form.labels.contractType")}
+              placeholder={t("form.placeholders.selectContract")}
+              options={selectableContractTypes.map((value) => ({
+                value,
+                label: label(`labels.contracts.${value}`),
+              }))}
+            />
+            <SelectFormField
+              control={control}
+              name="workTime"
+              label={t("form.labels.workTime")}
+              placeholder={t("form.placeholders.selectWorkTime")}
+              options={workTimeValues.map((value) => ({
+                value,
+                label: label(`labels.workTimes.${value}`),
+              }))}
+            />
+          </div>
+        ) : null}
         <SelectFormField
           control={control}
           name="workMode"

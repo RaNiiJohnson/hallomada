@@ -1,10 +1,14 @@
 import * as z from "zod";
 
 import {
-  contractTypeValues,
+  MAX_SALARY,
+  MAX_WEEKLY_HOURS,
+  jobTypeHasContract,
   jobTypeValues,
   requiresDurationOrStartDate,
+  selectableContractTypes,
   workModeValues,
+  workTimeValues,
 } from "@/lib/job-offer-options";
 
 export const salaryPeriodValues = ["hour", "month", "year"] as const;
@@ -18,7 +22,8 @@ export function createJobFormSchema(t: Translate) {
       type: z.enum(jobTypeValues),
       location: z.object({ lat: z.number(), lng: z.number() }).optional(),
       showMap: z.boolean(),
-      contractType: z.enum(contractTypeValues),
+      contractType: z.enum(selectableContractTypes).optional(),
+      workTime: z.enum(workTimeValues).optional(),
       city: z.string(),
       workMode: z.enum(workModeValues),
       remoteLocation: z.string().optional(),
@@ -45,6 +50,53 @@ export function createJobFormSchema(t: Translate) {
           code: "custom",
           path: ["city"],
           message: t("form.validation.cityReq"),
+        });
+      }
+      if (jobTypeHasContract(data.type)) {
+        if (!data.contractType) {
+          ctx.addIssue({
+            code: "custom",
+            path: ["contractType"],
+            message: t("form.validation.contractReq"),
+          });
+        }
+        if (!data.workTime) {
+          ctx.addIssue({
+            code: "custom",
+            path: ["workTime"],
+            message: t("form.validation.workTimeReq"),
+          });
+        }
+      }
+      if (data.salary?.trim()) {
+        const salary = Number(data.salary);
+        if (!Number.isFinite(salary) || salary < 0 || salary > MAX_SALARY) {
+          ctx.addIssue({
+            code: "custom",
+            path: ["salary"],
+            message: t("form.validation.salaryInvalid"),
+          });
+        }
+      }
+      if (data.weeklyHours?.trim()) {
+        const hours = Number(data.weeklyHours);
+        if (!Number.isFinite(hours) || hours <= 0 || hours > MAX_WEEKLY_HOURS) {
+          ctx.addIssue({
+            code: "custom",
+            path: ["weeklyHours"],
+            message: t("form.validation.weeklyHoursInvalid"),
+          });
+        }
+      }
+      if (
+        data.startDate &&
+        data.applicationDeadline &&
+        data.applicationDeadline > data.startDate
+      ) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["applicationDeadline"],
+          message: t("form.validation.deadlineAfterStart"),
         });
       }
       if (requiresDurationOrStartDate(data.type, data.contractType)) {
@@ -86,7 +138,8 @@ export const emptyJobFormValues: JobFormValues = {
   type: "auPair",
   location: undefined,
   showMap: false,
-  contractType: "CDD",
+  contractType: undefined,
+  workTime: undefined,
   city: "",
   workMode: "onSite",
   remoteLocation: "",
@@ -112,7 +165,8 @@ export function toJobMutationInput(data: JobFormValues) {
   return {
     title: data.title,
     type: data.type,
-    contractType: data.contractType,
+    contractType: jobTypeHasContract(data.type) ? data.contractType : undefined,
+    workTime: jobTypeHasContract(data.type) ? data.workTime : undefined,
     city: data.city,
     workMode: data.workMode,
     remoteLocation: data.remoteLocation || undefined,

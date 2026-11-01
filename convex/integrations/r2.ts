@@ -252,6 +252,15 @@ export const deleteR2Object = internalMutation({
   },
 });
 
+/** True while a not-yet-purged application still points at this stored CV. */
+async function isCvUsedByApplication(ctx: MutationCtx, cvKey: string) {
+  const applications = await ctx.db
+    .query("jobApplications")
+    .withIndex("by_cvKey", (q) => q.eq("cvKey", cvKey))
+    .take(50);
+  return applications.some((application) => application.cvPurgedAt === undefined);
+}
+
 export const uploadCvAndDeleteOld = authMutation({
   args: { newCvKey: v.string() },
   returns: v.null(),
@@ -272,11 +281,7 @@ export const uploadCvAndDeleteOld = authMutation({
     await consumeUploadGrant(ctx, newCvKey);
 
     if (previousCv && previousCv !== newCvKey) {
-      const applicationsUsingPreviousCv = await ctx.db
-        .query("jobApplications")
-        .withIndex("by_cvKey", (q) => q.eq("cvKey", previousCv))
-        .first();
-      if (!applicationsUsingPreviousCv) {
+      if (!(await isCvUsedByApplication(ctx, previousCv))) {
         await r2.deleteObject(ctx, previousCv);
       }
     }
@@ -330,11 +335,7 @@ export const deleteCv = authMutation({
     const user = ctx.user;
     if (!user.cv) throwNotFound("No CV to delete");
 
-    const applicationsUsingCv = await ctx.db
-      .query("jobApplications")
-      .withIndex("by_cvKey", (q) => q.eq("cvKey", user.cv!))
-      .first();
-    if (!applicationsUsingCv) {
+    if (!(await isCvUsedByApplication(ctx, user.cv))) {
       await r2.deleteObject(ctx, user.cv);
     }
     await ctx.runMutation(components.betterAuth.users.updateUser, {

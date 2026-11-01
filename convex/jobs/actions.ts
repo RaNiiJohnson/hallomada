@@ -4,7 +4,7 @@ import { internal } from "../_generated/api";
 import type { ActionCtx } from "../_generated/server";
 import type { Id } from "../_generated/dataModel";
 import { authAction } from "../functions";
-import { r2 } from "../integrations/r2";
+import { env } from "../_generated/server";
 import { resend } from "../sendEmails";
 import { throwNotFound } from "../utils/errors";
 import NewApplicationEmail from "./CvTemplate";
@@ -14,7 +14,7 @@ type ApplicationEmailPayload = {
   jobTitle: string;
   authorId: string;
   contactEmail?: string;
-  cvKey: string;
+  cvToken: string;
   coverLetter?: string;
 };
 
@@ -35,8 +35,9 @@ async function deliverApplicationEmail(
       throwNotFound("No contact email found for this job.");
     }
 
-    const cvUrl = await r2.getUrl(application.cvKey);
-    if (!cvUrl) throwNotFound("CV not found");
+    // Stable link: it redirects to a freshly signed URL on every click, so it
+    // keeps working long after the 15-minute signed URL would have expired.
+    const cvUrl = `${env.CONVEX_SITE_URL}/application-cv?t=${application.cvToken}`;
 
     const html = await render(
       NewApplicationEmail({

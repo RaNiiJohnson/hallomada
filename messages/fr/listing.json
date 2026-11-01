@@ -164,7 +164,8 @@
       "contactReq": "Indiquez un e-mail ou un numéro WhatsApp",
       "descMin": "La description doit contenir au moins 10 caractères",
       "emailInvalid": "Saisissez une adresse email valide",
-      "phoneInvalid": "Saisissez un numéro de téléphone valide"
+      "phoneInvalid": "Saisissez un numéro de téléphone valide",
+      "numberInvalid": "Indiquez une valeur valide"
     },
     "messages": {
       "success": "Annonce envoyée à l’administration pour validation !",

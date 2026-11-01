@@ -44,7 +44,17 @@ export function EditJobOfferForm({ jobOffer, onSuccess }: EditJobOfferFormProps)
       type: jobOffer.type as JobFormValues["type"],
       location: undefined,
       showMap: false,
-      contractType: jobOffer.contractType as JobFormValues["contractType"],
+      // Legacy offers may hold other values; the poster re-picks CDI or CDD.
+      contractType:
+        jobOffer.contractType === "CDI" || jobOffer.contractType === "CDD"
+          ? jobOffer.contractType
+          : undefined,
+      workTime:
+        jobOffer.workTime ??
+        (jobOffer.contractType === "fullTime" ||
+        jobOffer.contractType === "partTime"
+          ? jobOffer.contractType
+          : undefined),
       city: jobOffer.city,
       workMode: jobOffer.workMode ?? "onSite",
       remoteLocation: jobOffer.remoteLocation ?? "",

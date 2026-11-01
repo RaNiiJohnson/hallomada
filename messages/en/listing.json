@@ -164,7 +164,8 @@
       "contactReq": "Provide an email address or WhatsApp number",
       "descMin": "Description must be at least 10 characters long",
       "emailInvalid": "Enter a valid email address",
-      "phoneInvalid": "Enter a valid phone number"
+      "phoneInvalid": "Enter a valid phone number",
+      "numberInvalid": "Enter a valid value"
     },
     "messages": {
       "success": "Listing sent to the admin team for review!",

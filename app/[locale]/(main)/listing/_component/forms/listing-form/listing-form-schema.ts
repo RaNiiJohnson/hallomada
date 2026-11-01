@@ -1,6 +1,13 @@
 import * as z from "zod";
 
 import type { ListingListDetails } from "@/lib/convexTypes";
+import {
+  MAX_LISTING_AMOUNT,
+  MAX_LISTING_AREA,
+  MAX_LISTING_FLOOR,
+  MAX_LISTING_ROOMS,
+  MIN_LISTING_FLOOR,
+} from "@/lib/listing-limits";
 
 export const listingTypeValues = [
   "room",
@@ -34,7 +41,7 @@ export function createListingFormSchema(t: Translate) {
       pets: z.boolean(),
       description: z.string().min(10, t("form.validation.descMin")),
       extras: z.array(z.string()).optional(),
-      availableFrom: z.string().min(1, t("form.validation.availableFromReq")),
+      availableFrom: z.string(),
       contactEmail: z
         .string()
         .trim()
@@ -47,6 +54,38 @@ export function createListingFormSchema(t: Translate) {
         .or(z.literal("")),
     })
     .superRefine((values, ctx) => {
+      if (values.listingMode === "rent" && !values.availableFrom) {
+        ctx.addIssue({
+          code: "custom",
+          message: t("form.validation.availableFromReq"),
+          path: ["availableFrom"],
+        });
+      }
+      const checks: Array<[string, string | undefined, number, number, boolean]> = [
+        ["price", values.price, 0, MAX_LISTING_AMOUNT, false],
+        ["charges", values.charges, 0, MAX_LISTING_AMOUNT, false],
+        ["deposit", values.deposit, 0, MAX_LISTING_AMOUNT, false],
+        ["area", values.area, 0.1, MAX_LISTING_AREA, false],
+        ["bedrooms", values.bedrooms, 0, MAX_LISTING_ROOMS, true],
+        ["bathrooms", values.bathrooms, 0, MAX_LISTING_ROOMS, true],
+        ["floor", values.floor, MIN_LISTING_FLOOR, MAX_LISTING_FLOOR, true],
+      ];
+      for (const [path, raw, min, max, integer] of checks) {
+        if (!raw?.trim()) continue;
+        const value = Number(raw);
+        if (
+          !Number.isFinite(value) ||
+          value < min ||
+          value > max ||
+          (integer && !Number.isInteger(value))
+        ) {
+          ctx.addIssue({
+            code: "custom",
+            message: t("form.validation.numberInvalid"),
+            path: [path],
+          });
+        }
+      }
       if (!values.contactEmail && !values.contactPhone) {
         for (const path of ["contactEmail", "contactPhone"]) {
           ctx.addIssue({

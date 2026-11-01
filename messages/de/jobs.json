@@ -69,7 +69,8 @@
       "descHint": "Beschreiben Sie die Position, die Aufgaben und die erforderlichen Fähigkeiten",
       "markdownHint": "Markdown-Formatierung wird unterstützt",
       "certificates": "Erforderliche Zertifikate",
-      "certDesc": "Fügen Sie bis zu 5 erforderliche Zertifikate für diese Stelle hinzu (optional)."
+      "certDesc": "Fügen Sie bis zu 5 erforderliche Zertifikate für diese Stelle hinzu (optional).",
+      "workTime": "Arbeitszeit *"
     },
     "placeholders": {
       "title": "Z.B.: Frontend-Entwickler React",
@@ -84,7 +85,8 @@
       "cert": "Z.B.: Führerschein B, Deutsch B2...",
       "period": "Zeitraum",
       "remoteLocation": "Z. B. Deutschland, EU oder Zeitzone",
-      "contactEmail": "bewerbung@organisation.de"
+      "contactEmail": "bewerbung@organisation.de",
+      "selectWorkTime": "Arbeitszeit auswählen"
     },
     "actions": {
       "addCert": "Zertifikat hinzufügen",
@@ -112,7 +114,12 @@
       "certMin": "Fügen Sie mindestens ein Zertifikat hinzu.",
       "certMax": "Sie können bis zu 5 Zertifikate hinzufügen.",
       "salaryReq": "Das Gehalt ist erforderlich",
-      "contactEmailReq": "Eine gültige E-Mail für Bewerbungen ist erforderlich"
+      "contactEmailReq": "Eine gültige E-Mail für Bewerbungen ist erforderlich",
+      "contractReq": "Bitte unbefristet oder befristet wählen",
+      "workTimeReq": "Bitte Voll- oder Teilzeit wählen",
+      "salaryInvalid": "Bitte einen gültigen Betrag eingeben",
+      "weeklyHoursInvalid": "Bitte eine Stundenzahl zwischen 1 und 80 eingeben",
+      "deadlineAfterStart": "Die Bewerbungsfrist muss vor dem Startdatum liegen"
     },
     "sections": {
       "essential": "Wesentliche Angaben",
@@ -251,6 +258,10 @@
       "hour": "Stunde",
       "month": "Monat",
       "year": "Jahr"
+    },
+    "workTimes": {
+      "fullTime": "Vollzeit",
+      "partTime": "Teilzeit"
     }
   }
 }

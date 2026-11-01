@@ -1,5 +1,13 @@
 import { v } from "convex/values";
 import { generatedSlug } from "../../src/lib/utils";
+import {
+  MAX_LISTING_AMOUNT,
+  MAX_LISTING_AREA,
+  MAX_LISTING_FLOOR,
+  MAX_LISTING_PHOTOS,
+  MAX_LISTING_ROOMS,
+  MIN_LISTING_FLOOR,
+} from "../../src/lib/listing-limits";
 import { isAllowedPublicationTransition } from "../../src/lib/publication-lifecycle";
 import { authMutation } from "../functions";
 import {
@@ -127,6 +135,52 @@ function assertListingTextLimits(values: {
   assertStringList("extras", values.extras);
 }
 
+function assertListingNumbers(values: {
+  price?: number;
+  charges?: number | null;
+  deposit?: number | null;
+  area?: number;
+  bedrooms?: number;
+  bathrooms?: number;
+  floor?: number;
+  images?: unknown[];
+}) {
+  const amount = (value: number | null | undefined) =>
+    value === undefined ||
+    value === null ||
+    (Number.isFinite(value) && value >= 0 && value <= MAX_LISTING_AMOUNT);
+  if (!amount(values.price) || !amount(values.charges) || !amount(values.deposit)) {
+    throwValidationError("Amounts must be positive and within a realistic range");
+  }
+  if (
+    values.area !== undefined &&
+    !(Number.isFinite(values.area) && values.area > 0 && values.area <= MAX_LISTING_AREA)
+  ) {
+    throwValidationError("Area must be a positive number within a realistic range");
+  }
+  for (const rooms of [values.bedrooms, values.bathrooms]) {
+    if (
+      rooms !== undefined &&
+      !(Number.isInteger(rooms) && rooms >= 0 && rooms <= MAX_LISTING_ROOMS)
+    ) {
+      throwValidationError("Bedrooms and bathrooms must be whole numbers");
+    }
+  }
+  if (
+    values.floor !== undefined &&
+    !(
+      Number.isInteger(values.floor) &&
+      values.floor >= MIN_LISTING_FLOOR &&
+      values.floor <= MAX_LISTING_FLOOR
+    )
+  ) {
+    throwValidationError("Floor must be a whole number within a realistic range");
+  }
+  if (values.images && values.images.length > MAX_LISTING_PHOTOS) {
+    throwValidationError(`A listing cannot have more than ${MAX_LISTING_PHOTOS} photos`);
+  }
+}
+
 function assertListingCity(city: string) {
   if (!city.trim()) {
     throwValidationError("City is required");
@@ -179,9 +233,10 @@ export const createListing = authMutation({
     const user = ctx.user;
     const { contact, charges, deposit, availableFrom, ...listingArgs } = args;
     const normalizedContact = normalizeContact(contact);
-    if (availableFrom === undefined) {
+    if (args.listingMode === "rent" && availableFrom === undefined) {
       throwValidationError("Availability date is required");
     }
+    assertListingNumbers({ ...args, charges, deposit });
     if (!normalizedContact.email && !normalizedContact.phone) {
       throwValidationError("An email address or WhatsApp phone number is required");
     }
@@ -336,6 +391,8 @@ export const updateListing = authMutation({
     if (!isOwner && !isAdmin) {
       throwForbidden("Not allowed to update this listing");
     }
+
+    assertListingNumbers(patch);
 
     const { location, charges, deposit, availableFrom, ...otherFields } = patch;
     const nextListingMode = otherFields.listingMode ?? listing.listingMode;

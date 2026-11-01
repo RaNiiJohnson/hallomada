@@ -568,4 +568,98 @@ describe("Listings", () => {
       }),
     ).rejects.toThrow("Not allowed to change this listing status");
   });
+
+  describe("input validation", () => {
+    const base = {
+      title: "Validated listing",
+      propertyType: "apartment" as const,
+      listingMode: "rent" as const,
+      city: "Berlin",
+      price: 900,
+      area: 40,
+      bedrooms: 1,
+      bathrooms: 1,
+      floor: 2,
+      pets: false,
+      images: [],
+      description: "A listing used to check validation.",
+      extras: [],
+      availableFrom: 1_800_000_000_000,
+      contact: { email: "provider@example.com" },
+    };
+
+    it("rejects negative, infinite and absurd amounts", async () => {
+      for (const override of [
+        { price: -1 },
+        { price: Infinity },
+        { price: 1e12 },
+        { charges: -5 },
+        { deposit: 1e12 },
+      ]) {
+        await expect(
+          t.mutation(api.listings.mutations.createListing, {
+            ...base,
+            ...override,
+          }),
+        ).rejects.toThrow("Amounts must be positive");
+      }
+    });
+
+    it("rejects impossible areas, room counts and floors", async () => {
+      await expect(
+        t.mutation(api.listings.mutations.createListing, { ...base, area: 0 }),
+      ).rejects.toThrow("Area must be");
+      await expect(
+        t.mutation(api.listings.mutations.createListing, {
+          ...base,
+          bedrooms: 1.5,
+        }),
+      ).rejects.toThrow("whole numbers");
+      await expect(
+        t.mutation(api.listings.mutations.createListing, {
+          ...base,
+          bathrooms: -1,
+        }),
+      ).rejects.toThrow("whole numbers");
+      await expect(
+        t.mutation(api.listings.mutations.createListing, {
+          ...base,
+          floor: 5000,
+        }),
+      ).rejects.toThrow("Floor must be");
+    });
+
+    it("caps the number of photos", async () => {
+      const images = Array.from({ length: 11 }, (_, index) => ({
+        url: `https://example.test/${index}.jpg`,
+      }));
+      await expect(
+        t.mutation(api.listings.mutations.createListing, { ...base, images }),
+      ).rejects.toThrow("more than 10 photos");
+    });
+
+    it("only requires an availability date for rentals", async () => {
+      const withoutDate: Omit<typeof base, "availableFrom"> & {
+        availableFrom?: number;
+      } = { ...base, availableFrom: undefined };
+      await expect(
+        t.mutation(api.listings.mutations.createListing, withoutDate),
+      ).rejects.toThrow("Availability date is required");
+      await expect(
+        t.mutation(api.listings.mutations.createListing, {
+          ...withoutDate,
+          listingMode: "sale",
+        }),
+      ).resolves.toBeDefined();
+    });
+
+    it("applies the same bounds when updating", async () => {
+      await expect(
+        t.mutation(api.listings.mutations.updateListing, {
+          listingId,
+          patch: { price: -10 },
+        }),
+      ).rejects.toThrow("Amounts must be positive");
+    });
+  });
 });
