@@ -59,7 +59,8 @@
       "pending": "Ausstehend",
       "types": {
         "job": "Stellenangebot",
-        "listing": "Wohnungsanzeige"
+        "listing": "Wohnungsanzeige",
+        "provider": "Dienstleister"
       },
       "submittedBy": "Eingereicht von {name} am {date}",
       "approve": "Freigeben",

@@ -46,6 +46,7 @@ import {
   Menu,
   PanelsTopLeft,
   Shield,
+  Store,
   User,
   Users,
 } from "lucide-react";
@@ -58,6 +59,7 @@ const navItems = [
   { key: "communities" as const, url: "/communities", icon: Users },
   { key: "opportunities" as const, url: "/jobs", icon: Briefcase },
   { key: "housing" as const, url: "/listing", icon: Building },
+  { key: "providers" as const, url: "/providers", icon: Store },
 ];
 
 function isActivePath(pathname: string, url: string) {

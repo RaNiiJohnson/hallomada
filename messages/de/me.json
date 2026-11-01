@@ -26,6 +26,7 @@
   "publications": {
     "jobs": "Stellenangebote",
     "listings": "Wohnungsanzeigen",
+    "providers": "Dienstleister",
     "posts": "Beiträge",
     "statuses": {
       "pending": "Ausstehend",

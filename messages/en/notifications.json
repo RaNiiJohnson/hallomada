@@ -22,6 +22,9 @@
     "listing_approved": "Your listing “{title}” was approved and published",
     "listing_rejected": "Your listing “{title}” was rejected",
     "job_pending_review": "New job offer “{title}” submitted by {name}",
-    "listing_pending_review": "New housing listing “{title}” submitted by {name}"
+    "listing_pending_review": "New housing listing “{title}” submitted by {name}",
+    "provider_approved": "Your provider page “{title}” was approved and published",
+    "provider_rejected": "Your provider page “{title}” was rejected",
+    "provider_pending_review": "New provider page “{title}” submitted by {name}"
   }
 }

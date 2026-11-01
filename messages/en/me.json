@@ -26,6 +26,7 @@
   "publications": {
     "jobs": "Job offers",
     "listings": "Housing listings",
+    "providers": "Providers",
     "posts": "Posts",
     "statuses": {
       "pending": "Pending",

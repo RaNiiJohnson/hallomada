@@ -59,7 +59,8 @@
       "pending": "Pending",
       "types": {
         "job": "Job offer",
-        "listing": "Housing listing"
+        "listing": "Housing listing",
+        "provider": "Provider"
       },
       "submittedBy": "Submitted by {name} on {date}",
       "approve": "Approve",

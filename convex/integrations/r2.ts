@@ -29,9 +29,16 @@ const uploadKindValidator = v.union(
   v.literal("profile"),
   v.literal("cover"),
   v.literal("applicationCv"),
+  v.literal("provider"),
 );
 
-type UploadKind = "cv" | "listing" | "profile" | "cover" | "applicationCv";
+type UploadKind =
+  | "cv"
+  | "listing"
+  | "profile"
+  | "cover"
+  | "applicationCv"
+  | "provider";
 
 const PDF_CONTENT_TYPE = "application/pdf" as const;
 const imageContentTypeValidator = v.union(
@@ -128,6 +135,19 @@ export const generateListingUploadUrl = authMutation({
     return await issueUploadUrl(ctx, {
       userId: ctx.user._id,
       kind: "listing",
+      contentType,
+      maxSize: MAX_IMAGE_SIZE,
+    });
+  },
+});
+
+export const generateProviderUploadUrl = authMutation({
+  args: { contentType: imageContentTypeValidator },
+  returns: uploadUrlResultValidator,
+  handler: async (ctx, { contentType }) => {
+    return await issueUploadUrl(ctx, {
+      userId: ctx.user._id,
+      kind: "provider",
       contentType,
       maxSize: MAX_IMAGE_SIZE,
     });

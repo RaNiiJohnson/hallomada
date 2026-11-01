@@ -68,6 +68,16 @@ async function resolveTarget(ctx: MutationCtx, target: ReportTarget) {
           }
         : null;
     }
+    case "provider": {
+      const provider = await ctx.db.get(target.id);
+      return provider
+        ? {
+            authorId: provider.authorId,
+            label: provider.name,
+            href: `/providers/${provider.slug}`,
+          }
+        : null;
+    }
   }
 }
 
@@ -151,6 +161,19 @@ export const list = adminQuery({
       .withIndex("by_reportedAt")
       .order("desc")
       .paginate(args.paginationOpts);
+  },
+});
+
+/** Open reports, for the admin sidebar badge (capped like the queues). */
+export const countOpen = adminQuery({
+  args: {},
+  returns: v.number(),
+  handler: async (ctx) => {
+    const open = await ctx.db
+      .query("reports")
+      .withIndex("by_status_and_reportedAt", (q) => q.eq("status", "new"))
+      .take(100);
+    return open.length;
   },
 });
 

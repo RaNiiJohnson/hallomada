@@ -2,7 +2,7 @@ import { components } from "../_generated/api";
 import type { MutationCtx } from "../_generated/server";
 
 type PendingPublicationNotification = {
-  resourceType: "job" | "listing";
+  resourceType: "job" | "listing" | "provider";
   title: string;
   authorName?: string;
 };
@@ -20,10 +20,7 @@ export async function notifyAdministratorsOfPendingPublication(
     administratorIds.map((administratorId) =>
       ctx.db.insert("notifications", {
         userId: administratorId,
-        type:
-          publication.resourceType === "job"
-            ? "job_pending_review"
-            : "listing_pending_review",
+        type: `${publication.resourceType}_pending_review` as const,
         read: false,
         ...(publication.authorName
           ? { fromUserName: publication.authorName }

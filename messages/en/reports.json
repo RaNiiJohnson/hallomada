@@ -42,7 +42,8 @@
       "post": "Post",
       "job": "Job",
       "listing": "Housing listing",
-      "community": "Community"
+      "community": "Community",
+      "provider": "Provider"
     },
     "reasons": {
       "spam": "Spam",

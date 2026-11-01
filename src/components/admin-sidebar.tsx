@@ -66,6 +66,12 @@ export function AdminSidebar({ ...props }: React.ComponentProps<typeof Sidebar>)
     api.publicationModeration.getPendingCount,
     {},
   );
+  const openReportCount = useQuery(api.reports.countOpen, {});
+  // The moderation page holds both queues: publications and member reports.
+  const moderationCount =
+    pendingPublicationCount === undefined || openReportCount === undefined
+      ? undefined
+      : pendingPublicationCount + openReportCount;
   const identity = getAdminIdentity(user, t("sidebar.loadingUser"));
   const navigation = getAdminNavigation(
     process.env.NEXT_PUBLIC_POSTHOG_DASHBOARD_URL,
@@ -136,12 +142,10 @@ export function AdminSidebar({ ...props }: React.ComponentProps<typeof Sidebar>)
                     {item.external ? (
                       <ExternalLink className="ml-auto size-3.5" />
                     ) : item.key === "moderation" &&
-                      pendingPublicationCount !== undefined &&
-                      pendingPublicationCount > 0 ? (
+                      moderationCount !== undefined &&
+                      moderationCount > 0 ? (
                       <span className="ml-auto flex min-w-5 items-center justify-center rounded-full bg-primary px-1.5 text-[10px] font-semibold text-primary-foreground">
-                        {pendingPublicationCount > 99
-                          ? "99+"
-                          : pendingPublicationCount}
+                        {moderationCount > 99 ? "99+" : moderationCount}
                       </span>
                     ) : null}
                   </>

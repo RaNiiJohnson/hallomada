@@ -1,0 +1,142 @@
+{
+  "metaTitle": "Dienstleister",
+  "metaDescription": "Catering, Fotografie, Friseur… Finde madagassische Dienstleister in Deutschland und kontaktiere sie direkt über WhatsApp.",
+  "hero": {
+    "title": "Madagassische Dienstleister in Deutschland",
+    "subtitle": "Catering, Fotografie, Friseur, DJ… Finde Dienstleister aus der Community und kontaktiere sie direkt über WhatsApp."
+  },
+  "categories": {
+    "food": "Catering & Gastronomie",
+    "photo": "Foto & Video",
+    "beauty": "Friseur & Beauty",
+    "events": "Events & DJ",
+    "fashion": "Schneiderei & Mode",
+    "transport": "Transport & Pakete",
+    "lessons": "Unterricht & Übersetzung",
+    "digital": "Web & Grafik",
+    "other": "Sonstiges"
+  },
+  "serviceModes": {
+    "atProvider": "Beim Dienstleister",
+    "atClient": "Kommt zu dir",
+    "online": "Online"
+  },
+  "list": {
+    "searchPlaceholder": "Dienstleister, Leistung oder Stadt suchen…",
+    "allCategories": "Alle",
+    "emptyTitle": "Noch keine Dienstleister",
+    "emptyDesc": "Du bietest eine Leistung an? Erstelle kostenlos deine Seite.",
+    "loadMore": "Mehr anzeigen",
+    "loading": "Wird geladen…",
+    "create": "Meine Dienstleisterseite erstellen"
+  },
+  "status": {
+    "active": "Veröffentlicht",
+    "pending": "Wartet auf Freigabe",
+    "rejected": "Abgelehnt",
+    "closed": "Ausgeblendet",
+    "archived": "Archiviert",
+    "pendingHint": "Deine Seite wird öffentlich sichtbar, sobald ein Administrator sie freigegeben hat.",
+    "rejectedHint": "Deine Seite wurde abgelehnt. Bearbeite sie, um sie erneut einzureichen.",
+    "closedHint": "Deine Seite ist ausgeblendet und erscheint nicht mehr im Verzeichnis.",
+    "hide": "Meine Seite ausblenden",
+    "show": "Meine Seite wieder veröffentlichen",
+    "updated": "Status aktualisiert",
+    "error": "Status konnte nicht geändert werden"
+  },
+  "details": {
+    "back": "Alle Dienstleister",
+    "about": "Über uns",
+    "services": "Leistungen & Preise",
+    "gallery": "Arbeiten",
+    "contactTitle": "Kontakt",
+    "whatsapp": "Auf WhatsApp schreiben",
+    "whatsappMessage": "Hallo {name}, ich habe dich auf HalloMada gefunden 👋",
+    "call": "Anrufen",
+    "email": "E-Mail",
+    "website": "Website",
+    "edit": "Bearbeiten",
+    "contactHint": "Erwähne HalloMada, wenn du diesen Dienstleister kontaktierst.",
+    "galleryOpen": "Foto {index} vergrößern",
+    "createdBy": "Erstellt von",
+    "you": "dir",
+    "anonymous": "Mitglied"
+  },
+  "form": {
+    "createTitle": "Meine Dienstleisterseite erstellen",
+    "createDesc": "Stelle dein Angebot der Community vor. Deine Seite wird nach der Prüfung veröffentlicht.",
+    "editTitle": "Meine Dienstleisterseite bearbeiten",
+    "editDesc": "Nach der Bearbeitung wird deine Seite erneut geprüft.",
+    "sections": {
+      "about": "Dein Angebot",
+      "services": "Leistungen & Preise",
+      "images": "Logo & Fotos",
+      "contact": "Kontakt & soziale Netzwerke"
+    },
+    "labels": {
+      "name": "Name des Angebots",
+      "category": "Kategorie",
+      "tagline": "Slogan",
+      "city": "Stadt",
+      "serviceModes": "Wo arbeitest du?",
+      "description": "Beschreibung",
+      "serviceName": "Leistung",
+      "servicePrice": "Richtpreis",
+      "logo": "Logo oder Profilbild",
+      "photos": "Fotos deiner Arbeiten",
+      "photosHint": "Bis zu {max} Fotos, jeweils max. {size} MB.",
+      "whatsapp": "WhatsApp-Nummer",
+      "phone": "Telefon (falls abweichend)",
+      "email": "E-Mail",
+      "website": "Website",
+      "facebook": "Facebook",
+      "instagram": "Instagram",
+      "tiktok": "TikTok",
+      "markdownHint": "Markdown-Formatierung wird unterstützt"
+    },
+    "placeholders": {
+      "name": "z. B. Rakoto Catering",
+      "tagline": "z. B. Madagassische Küche für Feiern und Hochzeiten",
+      "city": "z. B. Berlin",
+      "description": "Stelle dein Angebot vor, deine Erfahrung, was dich besonders macht…",
+      "serviceName": "z. B. Hochzeitsbuffet",
+      "servicePrice": "z. B. ab 15 € / Person",
+      "whatsapp": "0151 23456789",
+      "phone": "030 1234567",
+      "email": "kontakt@beispiel.de",
+      "website": "www.beispiel.de",
+      "social": "Profil-Link oder @name"
+    },
+    "hints": {
+      "whatsapp": "Kunden schreiben dir direkt an diese WhatsApp-Nummer.",
+      "social": "Füge den Link zu deinem Profil oder einfach deinen @namen ein."
+    },
+    "actions": {
+      "addService": "Leistung hinzufügen",
+      "removeService": "Leistung entfernen",
+      "addPhoto": "Fotos hinzufügen",
+      "chooseLogo": "Logo auswählen",
+      "removeImage": "Bild entfernen",
+      "publish": "Seite veröffentlichen",
+      "publishing": "Wird veröffentlicht…",
+      "save": "Speichern",
+      "saving": "Wird gespeichert…"
+    },
+    "validation": {
+      "nameReq": "Name ist erforderlich",
+      "cityReq": "Stadt ist erforderlich",
+      "descMin": "Die Beschreibung muss mindestens 20 Zeichen lang sein",
+      "whatsappInvalid": "Ungültige Nummer",
+      "phoneInvalid": "Ungültige Nummer",
+      "emailInvalid": "Ungültige E-Mail",
+      "urlInvalid": "Ungültiger Link",
+      "serviceModesReq": "Wähle mindestens eine Option",
+      "tooLong": "Text ist zu lang"
+    },
+    "messages": {
+      "created": "Seite eingereicht! Sie ist nach der Prüfung sichtbar.",
+      "updated": "Änderungen zur Prüfung eingereicht",
+      "error": "Etwas ist schiefgelaufen, bitte versuche es erneut."
+    }
+  }
+}

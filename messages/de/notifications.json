@@ -22,6 +22,9 @@
     "listing_approved": "Ihre Anzeige „{title}“ wurde freigegeben und veröffentlicht",
     "listing_rejected": "Ihre Anzeige „{title}“ wurde abgelehnt",
     "job_pending_review": "Neues Stellenangebot „{title}“ von {name} eingereicht",
-    "listing_pending_review": "Neue Wohnungsanzeige „{title}“ von {name} eingereicht"
+    "listing_pending_review": "Neue Wohnungsanzeige „{title}“ von {name} eingereicht",
+    "provider_approved": "Ihre Dienstleisterseite „{title}“ wurde freigegeben und veröffentlicht",
+    "provider_rejected": "Ihre Dienstleisterseite „{title}“ wurde abgelehnt",
+    "provider_pending_review": "Neue Dienstleisterseite „{title}“ von {name} eingereicht"
   }
 }

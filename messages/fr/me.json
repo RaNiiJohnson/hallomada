@@ -26,6 +26,7 @@
   "publications": {
     "jobs": "Offres d’emploi",
     "listings": "Annonces logement",
+    "providers": "Prestataires",
     "posts": "Publications",
     "statuses": {
       "pending": "En attente",

@@ -18,6 +18,7 @@ import {
   Building2,
   FileText,
   Heart,
+  Store,
   UserRound,
   UsersRound,
 } from "lucide-react";
@@ -201,6 +202,11 @@ function PublicationsPanel() {
     {},
     { initialNumItems: 6 },
   );
+  const providers = usePaginatedQuery(
+    api.me.queries.getMyProviders,
+    {},
+    { initialNumItems: 6 },
+  );
   const posts = usePaginatedQuery(
     api.me.queries.getMyPosts,
     {},
@@ -232,6 +238,18 @@ function PublicationsPanel() {
       loadMore: listings.loadMore,
     },
     {
+      title: t("providers"),
+      icon: Store,
+      items: providers.results.map((item) => ({
+        _id: item._id,
+        title: item.name,
+        href: `/providers/${item.slug}`,
+        status: item.status,
+      })),
+      status: providers.status,
+      loadMore: providers.loadMore,
+    },
+    {
       title: t("posts"),
       icon: FileText,
       items: posts.results.map((item) => ({
@@ -248,7 +266,7 @@ function PublicationsPanel() {
   ];
 
   return (
-    <div className="grid grid-cols-1 gap-5 xl:grid-cols-3">
+    <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
       {groups.map((group) => {
         const Icon = group.icon;
         return (

@@ -47,6 +47,7 @@ type ReportTarget =
   | { type: "post"; id: Id<"posts"> }
   | { type: "job"; id: Id<"JobOffer"> }
   | { type: "listing"; id: Id<"RealestateListing"> }
+  | { type: "provider"; id: Id<"providers"> }
   | { type: "community"; id: Id<"communities"> };
 
 type ReportDialogProps = {

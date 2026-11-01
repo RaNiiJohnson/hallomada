@@ -23,6 +23,7 @@ export const reportTargetValidator = v.union(
     id: v.id("RealestateListing"),
   }),
   v.object({ type: v.literal("community"), id: v.id("communities") }),
+  v.object({ type: v.literal("provider"), id: v.id("providers") }),
 );
 
 export const reportTargetTypeValidator = v.union(
@@ -30,6 +31,7 @@ export const reportTargetTypeValidator = v.union(
   v.literal("job"),
   v.literal("listing"),
   v.literal("community"),
+  v.literal("provider"),
 );
 
 export const reportTargetIdValidator = v.union(
@@ -37,4 +39,5 @@ export const reportTargetIdValidator = v.union(
   v.id("JobOffer"),
   v.id("RealestateListing"),
   v.id("communities"),
+  v.id("providers"),
 );

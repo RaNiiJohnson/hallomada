@@ -22,6 +22,9 @@
     "listing_approved": "Votre annonce « {title} » a été validée et publiée",
     "listing_rejected": "Votre annonce « {title} » a été refusée",
     "job_pending_review": "Nouvelle offre « {title} » soumise par {name}",
-    "listing_pending_review": "Nouvelle annonce logement « {title} » soumise par {name}"
+    "listing_pending_review": "Nouvelle annonce logement « {title} » soumise par {name}",
+    "provider_approved": "Votre page prestataire « {title} » a été validée et publiée",
+    "provider_rejected": "Votre page prestataire « {title} » a été refusée",
+    "provider_pending_review": "Nouvelle page prestataire « {title} » soumise par {name}"
   }
 }
