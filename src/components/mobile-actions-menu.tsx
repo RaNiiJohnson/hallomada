@@ -29,7 +29,7 @@ export function MobileActionsMenu({ children }: { children: ReactNode }) {
       <PopoverContent
         align="end"
         aria-label={t("moreActions")}
-        className="w-48 space-y-0.5 rounded-lg p-1.5 shadow-lg [&>[data-slot=button]]:h-9 [&>[data-slot=button]]:w-full [&>[data-slot=button]]:justify-start [&>[data-slot=button]]:rounded-md [&>[data-slot=button]]:border-0 [&>[data-slot=button]]:bg-transparent! [&>[data-slot=button]]:px-2.5 [&>[data-slot=button]]:font-normal [&>[data-slot=button]]:text-foreground! [&>[data-slot=button]]:shadow-none [&>[data-slot=button]]:hover:bg-accent! [&>[data-slot=button][data-variant=destructive]]:text-destructive!"
+        className="w-48 space-y-0.5 rounded-lg p-1.5 shadow-lg [&>[data-slot=button]]:h-9 [&>[data-slot=button]]:w-full [&>[data-slot=button]]:justify-start [&>[data-slot=button]]:rounded-md! [&>[data-slot=button]]:border-0! [&>[data-slot=button]]:bg-transparent! dark:[&>[data-slot=button]]:bg-transparent! dark:[&>[data-slot=button]]:hover:bg-accent! [&>[data-slot=button]]:px-2.5 [&>[data-slot=button]]:font-normal [&>[data-slot=button]]:text-foreground! [&>[data-slot=button]]:shadow-none! [&>[data-slot=button]]:hover:bg-accent! [&>[data-slot=button][data-variant=destructive]]:text-destructive!"
       >
         {children}
       </PopoverContent>
