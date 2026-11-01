@@ -38,38 +38,6 @@ immobilières.
   consentement, et pages légales ;
 - interface disponible en français, allemand et anglais.
 
-## Modération des annonces
-
-Les offres d'emploi et les annonces immobilières suivent le même processus de
-validation :
-
-```text
-Soumission par un membre
-          ↓
-     En attente
-          ↓
-Validation par un administrateur
-          ↓
- Publication ou refus
-          ↓
-Notification envoyée au membre
-```
-
-Tant qu'une annonce est en attente, elle reste visible uniquement par son
-auteur et les administrateurs.
-
-## Stack technique
-
-- [Next.js](https://nextjs.org/) 16 et React 19 ;
-- TypeScript ;
-- [Convex](https://www.convex.dev/) pour le backend réactif et les données ;
-- Better Auth pour l'authentification ;
-- next-intl pour l'internationalisation ;
-- Tailwind CSS et Radix UI pour l'interface ;
-- MapLibre GL pour les cartes ;
-- Cloudflare R2 pour le stockage des images, Resend pour les e-mails ;
-- Vitest et convex-test pour les tests.
-
 ## Sécurité et limites
 
 - En-têtes de sécurité (CSP, HSTS, X-Frame-Options, etc.) définis dans
