@@ -11,6 +11,16 @@ vi.mock("../notifications/admin", () => ({
   notifyAdministratorsOfPendingPublication: vi.fn(),
 }));
 
+const r2Mock = vi.hoisted(() => ({
+  deleteObject: vi.fn(),
+  getUrl: vi.fn(),
+}));
+
+vi.mock("../integrations/r2", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("../integrations/r2")>();
+  return { ...actual, r2: r2Mock };
+});
+
 vi.mock("../posts/publicAuthorSlug", () => ({
   getPublicAuthorSlug: vi.fn(async () => "author-slug"),
 }));
@@ -66,7 +76,8 @@ describe("Jobs", () => {
       salary: 0,
       salaryPeriod: "hour",
       type: "job",
-      contractType: "fullTime",
+      contractType: "CDI",
+      workTime: "fullTime",
       workMode: "onSite",
       city: "City",
       contactEmail: "employer@example.com",
@@ -130,19 +141,89 @@ describe("Jobs", () => {
     ).resolves.toBeNull();
   });
 
-  it("rejects a contract that is incompatible with the job type", async () => {
+  it("requires a CDI or CDD contract and a working time for a job", async () => {
+    const base = {
+      title: "Contractless job",
+      description: "A job without any contract information.",
+      company: "Job Company",
+      type: "job" as const,
+      workMode: "remote" as const,
+      city: "",
+      contactEmail: "employer@example.com",
+    };
+    await expect(
+      t.mutation(api.jobs.mutations.createJob, base),
+    ).rejects.toThrow("A CDI or CDD contract is required");
     await expect(
       t.mutation(api.jobs.mutations.createJob, {
-        title: "Invalid freelance job",
-        description: "A job with an invalid contract combination.",
-        company: "Job Company",
-        type: "freelance",
-        contractType: "CDI",
-        workMode: "remote",
-        city: "",
-        contactEmail: "employer@example.com",
+        ...base,
+        contractType: "fullTime",
+        workTime: "fullTime",
       }),
-    ).rejects.toThrow("not available for the selected job type");
+    ).rejects.toThrow("A CDI or CDD contract is required");
+    await expect(
+      t.mutation(api.jobs.mutations.createJob, {
+        ...base,
+        contractType: "CDI",
+      }),
+    ).rejects.toThrow("Full-time or part-time is required");
+  });
+
+  it("stores no contract for offers that are not regular jobs", async () => {
+    const auPairId = await t.mutation(api.jobs.mutations.createJob, {
+      title: "Au pair family",
+      description: "Looking after two children.",
+      company: "Family",
+      type: "auPair",
+      contractType: "CDD",
+      workTime: "partTime",
+      workMode: "onSite",
+      city: "Berlin",
+      duration: "12 months",
+      startDate: "2030-09-01",
+      contactEmail: "family@example.com",
+    });
+    await t.run(async (ctx) => {
+      const auPair = await ctx.db.get(auPairId);
+      expect(auPair?.contractType).toBeUndefined();
+      expect(auPair?.workTime).toBeUndefined();
+    });
+  });
+
+  it("rejects unrealistic salaries, hours and dates", async () => {
+    const base = {
+      title: "Numbers job",
+      description: "A job to check numeric limits.",
+      company: "Job Company",
+      type: "job" as const,
+      contractType: "CDI" as const,
+      workTime: "fullTime" as const,
+      workMode: "remote" as const,
+      city: "",
+      contactEmail: "employer@example.com",
+    };
+    await expect(
+      t.mutation(api.jobs.mutations.createJob, { ...base, salary: -1 }),
+    ).rejects.toThrow("Salary must be");
+    await expect(
+      t.mutation(api.jobs.mutations.createJob, { ...base, salary: Infinity }),
+    ).rejects.toThrow("Salary must be");
+    await expect(
+      t.mutation(api.jobs.mutations.createJob, { ...base, weeklyHours: 500 }),
+    ).rejects.toThrow("Weekly hours must be");
+    await expect(
+      t.mutation(api.jobs.mutations.createJob, {
+        ...base,
+        startDate: "2030-01-01",
+        applicationDeadline: "2030-02-01",
+      }),
+    ).rejects.toThrow("deadline must be before the start date");
+    await expect(
+      t.mutation(api.jobs.mutations.createJob, {
+        ...base,
+        applicationDeadline: "tomorrow",
+      }),
+    ).rejects.toThrow("valid date");
   });
 
   it("allows a remote job without a city", async () => {
@@ -153,6 +234,7 @@ describe("Jobs", () => {
         location: { lat: 48.8566, lng: 2.3522 },
         type: "job",
         contractType: "CDI",
+        workTime: "fullTime",
         workMode: "remote",
         city: "",
         contactEmail: "employer@example.com",
@@ -171,6 +253,7 @@ describe("Jobs", () => {
         company: "Job Company",
         type: "job",
         contractType: "CDI",
+        workTime: "fullTime",
         workMode: "remote",
         city: "",
         contactEmail: "employer@example.com",
@@ -184,6 +267,7 @@ describe("Jobs", () => {
         company: "Job Company",
         type: "job",
         contractType: "CDD",
+        workTime: "fullTime",
         workMode: "remote",
         city: "",
         contactEmail: "employer@example.com",
@@ -198,12 +282,11 @@ describe("Jobs", () => {
         title: "Invalid update",
         description: "Job Description",
         company: "Job Company",
-        type: "freelance",
-        contractType: "CDI",
+        type: "job",
         workMode: "remote",
         city: "",
       }),
-    ).rejects.toThrow("not available for the selected job type");
+    ).rejects.toThrow("A CDI or CDD contract is required");
 
     await expect(
       t.mutation(api.jobs.mutations.updateJob, {
@@ -212,7 +295,8 @@ describe("Jobs", () => {
         description: "Job Description",
         company: "Job Company",
         type: "job",
-        contractType: "fullTime",
+        contractType: "CDI",
+        workTime: "fullTime",
         workMode: "onSite",
         city: "",
       }),
@@ -229,7 +313,8 @@ describe("Jobs", () => {
       salary: 0,
       salaryPeriod: "hour",
       type: "job",
-      contractType: "fullTime",
+      contractType: "CDI",
+      workTime: "fullTime",
       workMode: "onSite",
       city: "City",
       duration: "Duration",
@@ -254,7 +339,8 @@ describe("Jobs", () => {
       salary: 0,
       salaryPeriod: "hour",
       type: "job",
-      contractType: "fullTime",
+      contractType: "CDI",
+      workTime: "fullTime",
       workMode: "remote",
       city: "",
       duration: "Duration",
@@ -282,7 +368,8 @@ describe("Jobs", () => {
       salary: 0,
       salaryPeriod: "hour",
       type: "job",
-      contractType: "fullTime",
+      contractType: "CDI",
+      workTime: "fullTime",
       workMode: "onSite",
       city: "City",
       duration: "Duration",
@@ -484,7 +571,7 @@ describe("Jobs", () => {
       }),
     ).resolves.toMatchObject({
       applicationId: application.applicationId,
-      cvKey: "cv/owned.pdf",
+      cvToken: application.cvToken,
       coverLetter: "Original cover letter",
     });
 
@@ -586,7 +673,8 @@ describe("Jobs", () => {
       salary: 0,
       salaryPeriod: "hour",
       type: "job",
-      contractType: "fullTime",
+      contractType: "CDI",
+      workTime: "fullTime",
       workMode: "onSite",
       city: "City",
       contactEmail: "employer@example.com",
@@ -603,6 +691,181 @@ describe("Jobs", () => {
     });
 
     expect(result.page.map((job) => job._id)).toContain(activeJobId);
+  });
+
+  describe("application CV link", () => {
+    beforeEach(() => {
+      r2Mock.deleteObject.mockReset();
+      r2Mock.getUrl.mockReset();
+    });
+
+    async function applyAs(candidateId: string, applicationCvKey?: string) {
+      authState.user._id = candidateId;
+      authState.user.id = candidateId;
+      return await submitApplication({ jobId, applicationCvKey });
+    }
+
+    it("gives every application its own long-lived, unguessable token", async () => {
+      const first = await applyAs("candidateOne");
+      const second = await applyAs("candidateTwo");
+
+      expect(first.cvToken).toMatch(/^[0-9a-f]{64}$/);
+      expect(second.cvToken).not.toBe(first.cvToken);
+      await expect(
+        t.query(internal.jobs.applicationCv.resolveCvToken, {
+          token: first.cvToken,
+        }),
+      ).resolves.toEqual({ status: "ok", cvKey: "cv/owned.pdf" });
+      await t.run(async (ctx) => {
+        const row = await ctx.db.get(first.applicationId);
+        expect(row?.cvExpiresAt).toBeGreaterThan(
+          Date.now() + 80 * 24 * 60 * 60 * 1000,
+        );
+      });
+    });
+
+    it("answers unknown and expired tokens differently", async () => {
+      const application = await applyAs("candidateOne");
+      await expect(
+        t.query(internal.jobs.applicationCv.resolveCvToken, {
+          token: "0".repeat(64),
+        }),
+      ).resolves.toEqual({ status: "notFound" });
+
+      await t.run(async (ctx) => {
+        await ctx.db.patch(application.applicationId, {
+          cvExpiresAt: Date.now() - 1000,
+        });
+      });
+      await expect(
+        t.query(internal.jobs.applicationCv.resolveCvToken, {
+          token: application.cvToken,
+        }),
+      ).resolves.toEqual({ status: "expired" });
+    });
+
+    it("redirects the link to a short-lived signed URL", async () => {
+      r2Mock.getUrl.mockResolvedValue("https://r2.example.test/signed.pdf");
+      const application = await applyAs("candidateOne");
+
+      const response = await t.fetch(
+        `/application-cv?t=${application.cvToken}`,
+        { redirect: "manual" },
+      );
+      expect(response.status).toBe(302);
+      expect(response.headers.get("Location")).toBe(
+        "https://r2.example.test/signed.pdf",
+      );
+      expect(response.headers.get("Cache-Control")).toBe("no-store");
+      expect(r2Mock.getUrl).toHaveBeenCalledWith("cv/owned.pdf", {
+        expiresIn: 300,
+      });
+
+      const unknown = await t.fetch(`/application-cv?t=${"0".repeat(64)}`);
+      expect(unknown.status).toBe(404);
+      const malformed = await t.fetch("/application-cv?t=short");
+      expect(malformed.status).toBe(404);
+    });
+
+    it("keeps the CV reachable after the candidate deletes their profile CV", async () => {
+      const application = await applyAs("candidateOne");
+      // A profile CV removal must not end access: the link is independent of it.
+      authState.user.cv = null;
+      await expect(
+        t.query(internal.jobs.applicationCv.resolveCvToken, {
+          token: application.cvToken,
+        }),
+      ).resolves.toEqual({ status: "ok", cvKey: "cv/owned.pdf" });
+    });
+
+    it("purges expired CVs, deleting the one-off file but never a shared one", async () => {
+      const own = await applyAs("candidateOne");
+      await t.run(async (ctx) => {
+        await ctx.db.patch(own.applicationId, {
+          cvKey: "applicationCv/one-off.pdf",
+          cvExpiresAt: Date.now() - 1000,
+        });
+      });
+      const sharedA = await applyAs("candidateTwo", undefined);
+      await t.run(async (ctx) => {
+        await ctx.db.patch(sharedA.applicationId, {
+          cvKey: "applicationCv/shared.pdf",
+          cvExpiresAt: Date.now() - 1000,
+        });
+      });
+      const sharedB = await applyAs("candidateThree", undefined);
+      await t.run(async (ctx) => {
+        await ctx.db.patch(sharedB.applicationId, {
+          cvKey: "applicationCv/shared.pdf",
+        });
+      });
+
+      await t.mutation(internal.jobs.applicationCv.purgeExpiredApplicationCvs, {});
+
+      expect(r2Mock.deleteObject).toHaveBeenCalledTimes(1);
+      expect(r2Mock.deleteObject).toHaveBeenCalledWith(
+        expect.anything(),
+        "applicationCv/one-off.pdf",
+      );
+      await t.run(async (ctx) => {
+        const purged = await ctx.db.get(own.applicationId);
+        expect(purged?.cvPurgedAt).toBeDefined();
+        expect(purged?.cvExpiresAt).toBeUndefined();
+        const sharedRow = await ctx.db.get(sharedA.applicationId);
+        expect(sharedRow?.cvPurgedAt).toBeDefined();
+        const stillLive = await ctx.db.get(sharedB.applicationId);
+        expect(stillLive?.cvPurgedAt).toBeUndefined();
+      });
+      await expect(
+        t.query(internal.jobs.applicationCv.resolveCvToken, {
+          token: own.cvToken,
+        }),
+      ).resolves.toEqual({ status: "expired" });
+
+      // A second run finds nothing left to purge.
+      await t.mutation(internal.jobs.applicationCv.purgeExpiredApplicationCvs, {});
+      expect(r2Mock.deleteObject).toHaveBeenCalledTimes(1);
+    });
+
+    it("does not rebuild a link for a purged application", async () => {
+      const application = await applyAs("candidateOne");
+      await t.run(async (ctx) => {
+        await ctx.db.patch(application.applicationId, {
+          cvPurgedAt: Date.now(),
+          cvExpiresAt: undefined,
+        });
+      });
+      await t.mutation(internal.jobs.mutations.updateApplicationEmailStatus, {
+        id: application.applicationId,
+        emailStatus: "failed",
+      });
+      await expect(
+        t.mutation(internal.jobs.mutations.prepareApplicationEmailRetry, {
+          jobId,
+        }),
+      ).rejects.toThrow("no longer available");
+    });
+  });
+
+  it("refuses applications once the deadline has passed", async () => {
+    await t.run(async (ctx) => {
+      await ctx.db.patch(jobId, { applicationDeadline: "2000-01-01" });
+    });
+    authState.user._id = "lateCandidate";
+    authState.user.id = "lateCandidate";
+    await expect(submitApplication({ jobId })).rejects.toThrow(
+      "application deadline for this job has passed",
+    );
+
+    const tomorrow = new Date(Date.now() + 86_400_000)
+      .toISOString()
+      .slice(0, 10);
+    await t.run(async (ctx) => {
+      await ctx.db.patch(jobId, { applicationDeadline: tomorrow });
+    });
+    await expect(submitApplication({ jobId })).resolves.toMatchObject({
+      applicationId: expect.anything(),
+    });
   });
 
   it("does not allow the generic profile mutation to replace the CV key", async () => {

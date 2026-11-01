@@ -27,7 +27,7 @@ import { parseAsString, useQueryStates } from "nuqs";
 import { useEffect, useState, useTransition } from "react";
 import { useDebounce } from "use-debounce";
 
-import { contractTypeValues, jobTypeValues } from "./forms/jobOfferForm";
+import { jobTypeValues, selectableContractTypes } from "./forms/jobOfferForm";
 
 export function JobFilters() {
   const { isAuthenticated } = useConvexAuth();
@@ -128,7 +128,7 @@ export function JobFilters() {
                             <SelectItem value="all">
                               {t("filters.allContracts")}
                             </SelectItem>
-                            {contractTypeValues.map((type) => (
+                            {selectableContractTypes.map((type) => (
                               <SelectItem key={type} value={type}>
                                 {t(
                                   `labels.contracts.${type}` as Parameters<

@@ -69,7 +69,8 @@
       "descHint": "Décrivez le poste, les missions et les compétences requises",
       "markdownHint": "Mise en forme Markdown prise en charge",
       "certificates": "Certificats requis",
-      "certDesc": "Ajoutez jusqu'à 5 certificats requis pour ce poste (optionnel)."
+      "certDesc": "Ajoutez jusqu'à 5 certificats requis pour ce poste (optionnel).",
+      "workTime": "Temps de travail *"
     },
     "placeholders": {
       "title": "Ex: Développeur Frontend React",
@@ -84,7 +85,8 @@
       "cert": "Ex: Permis B, Allemand B2...",
       "period": "Période",
       "remoteLocation": "Ex. Allemagne, UE ou fuseau horaire",
-      "contactEmail": "recrutement@organisation.de"
+      "contactEmail": "recrutement@organisation.de",
+      "selectWorkTime": "Sélectionnez le temps de travail"
     },
     "actions": {
       "addCert": "Ajouter un certificat",
@@ -112,7 +114,12 @@
       "certMin": "Ajoutez au moins un certificat.",
       "certMax": "Vous pouvez ajouter jusqu'à 5 certificats.",
       "salaryReq": "Le salaire est requis",
-      "contactEmailReq": "Un e-mail de réception valide est requis"
+      "contactEmailReq": "Un e-mail de réception valide est requis",
+      "contractReq": "Choisissez CDI ou CDD",
+      "workTimeReq": "Indiquez temps plein ou temps partiel",
+      "salaryInvalid": "Indiquez un montant valide",
+      "weeklyHoursInvalid": "Indiquez un nombre d’heures entre 1 et 80",
+      "deadlineAfterStart": "La date limite doit précéder la date de début"
     },
     "sections": {
       "essential": "Informations essentielles",
@@ -251,6 +258,10 @@
       "hour": "heure",
       "month": "mois",
       "year": "année"
+    },
+    "workTimes": {
+      "fullTime": "Temps plein",
+      "partTime": "Temps partiel"
     }
   }
 }

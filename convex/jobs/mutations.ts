@@ -1,10 +1,15 @@
 import { v } from "convex/values";
 import { generatedSlug } from "../../src/lib/utils";
 import {
-  isContractTypeAllowedForJobType,
+  MAX_SALARY,
+  MAX_WEEKLY_HOURS,
+  isDateOnly,
+  jobTypeHasContract,
   requiresDurationOrStartDate,
+  selectableContractTypes,
   type ContractType,
   type JobType,
+  type WorkTime,
 } from "../../src/lib/job-offer-options";
 import {
   isAllowedPublicationTransition,
@@ -12,6 +17,11 @@ import {
   type PublicationStatus,
 } from "../../src/lib/publication-lifecycle";
 import { authComponent } from "../auth/auth";
+import {
+  APPLICATION_CV_RETENTION_MS,
+  ensureCvToken,
+  generateCvToken,
+} from "./applicationCv";
 import { authMutation, internalMutation } from "../functions";
 import { assertVerifiedUpload, consumeUploadGrant } from "../integrations/r2";
 import { notifyAdministratorsOfPendingPublication } from "../notifications/admin";
@@ -46,13 +56,14 @@ const contractTypeValidator = v.union(
   v.literal("fullTime"), v.literal("partTime"), v.literal("freelance"),
   v.literal("apprenticeship"),
 );
+const workTimeValidator = v.union(v.literal("fullTime"), v.literal("partTime"));
 const jobContactEmailValidator = v.string();
 const applicationEmailPayloadValidator = v.object({
   applicationId: v.id("jobApplications"),
   jobTitle: v.string(),
   authorId: v.string(),
   contactEmail: v.optional(v.string()),
-  cvKey: v.string(),
+  cvToken: v.string(),
   coverLetter: v.optional(v.string()),
 });
 
@@ -61,18 +72,29 @@ function assertValidJobInput(args: {
   company: string;
   description: string;
   type: JobType;
-  contractType: ContractType;
+  contractType?: ContractType;
+  workTime?: WorkTime;
   workMode: "onSite" | "hybrid" | "remote";
   city: string;
   duration?: string;
   startDate?: string;
+  applicationDeadline?: string;
+  salary?: number;
+  weeklyHours?: number;
   contactEmail?: string;
 }, options: { requireContactEmail: boolean }) {
   if (!args.title.trim()) throwValidationError("Job title is required");
   if (!args.company.trim()) throwValidationError("Company is required");
   if (!args.description.trim()) throwValidationError("Job description is required");
-  if (!isContractTypeAllowedForJobType(args.type, args.contractType)) {
-    throwValidationError("This contract type is not available for the selected job type");
+  if (jobTypeHasContract(args.type)) {
+    const contractType = args.contractType;
+    if (
+      !contractType ||
+      !(selectableContractTypes as readonly string[]).includes(contractType)
+    ) {
+      throwValidationError("A CDI or CDD contract is required for a job");
+    }
+    if (!args.workTime) throwValidationError("Full-time or part-time is required for a job");
   }
   if (args.workMode !== "remote" && !args.city.trim()) {
     throwValidationError("City is required for on-site and hybrid jobs");
@@ -81,12 +103,54 @@ function assertValidJobInput(args: {
     if (!args.duration?.trim()) throwValidationError("Duration is required for this job type");
     if (!args.startDate?.trim()) throwValidationError("Start date is required for this job type");
   }
+  if (
+    args.salary !== undefined &&
+    !(Number.isFinite(args.salary) && args.salary >= 0 && args.salary <= MAX_SALARY)
+  ) {
+    throwValidationError("Salary must be a positive amount within a realistic range");
+  }
+  if (
+    args.weeklyHours !== undefined &&
+    !(
+      Number.isFinite(args.weeklyHours) &&
+      args.weeklyHours > 0 &&
+      args.weeklyHours <= MAX_WEEKLY_HOURS
+    )
+  ) {
+    throwValidationError(`Weekly hours must be between 1 and ${MAX_WEEKLY_HOURS}`);
+  }
+  for (const [field, value] of [
+    ["Start date", args.startDate],
+    ["Application deadline", args.applicationDeadline],
+  ] as const) {
+    if (value && !isDateOnly(value)) {
+      throwValidationError(`${field} must be a valid date (YYYY-MM-DD)`);
+    }
+  }
+  if (
+    args.startDate &&
+    args.applicationDeadline &&
+    args.applicationDeadline > args.startDate
+  ) {
+    throwValidationError("The application deadline must be before the start date");
+  }
   if (options.requireContactEmail && !args.contactEmail?.trim()) {
     throwValidationError("Application contact email is required");
   }
   if (args.contactEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(args.contactEmail.trim())) {
     throwValidationError("Invalid application contact email");
   }
+}
+
+/** Only regular jobs keep a contract; everything else is cleared server-side. */
+function normalizeContract(args: {
+  type: JobType;
+  contractType?: ContractType;
+  workTime?: WorkTime;
+}) {
+  return jobTypeHasContract(args.type)
+    ? { contractType: args.contractType, workTime: args.workTime }
+    : { contractType: undefined, workTime: undefined };
 }
 
 function assertJobTextLimits(args: {
@@ -146,7 +210,8 @@ export const createJob = authMutation({
         lng: v.number(),
       }),
     ),
-    contractType: contractTypeValidator,
+    contractType: v.optional(contractTypeValidator),
+    workTime: v.optional(workTimeValidator),
     city: v.string(),
     workMode: v.union(v.literal("onSite"), v.literal("hybrid"), v.literal("remote")),
     remoteLocation: v.optional(v.string()),
@@ -177,10 +242,11 @@ export const createJob = authMutation({
     await consumePublicationQuota(ctx, "job", user._id);
     const { contactEmail, location, ...jobArgs } = args;
 
-    const searchAllContent = `${args.title} ${args.type} ${args.city} ${args.contractType} ${args.description}`;
+    const searchAllContent = `${args.title} ${args.type} ${args.city} ${args.contractType ?? ""} ${args.description}`;
 
     const job = await ctx.db.insert("JobOffer", {
       ...jobArgs,
+      ...normalizeContract(args),
       ...(locationForWorkMode(args.workMode, location)
         ? { location: locationForWorkMode(args.workMode, location) }
         : {}),
@@ -231,7 +297,8 @@ export const updateJob = authMutation({
         v.null(),
       ),
     ),
-    contractType: contractTypeValidator,
+    contractType: v.optional(contractTypeValidator),
+    workTime: v.optional(workTimeValidator),
     city: v.string(),
     workMode: v.union(v.literal("onSite"), v.literal("hybrid"), v.literal("remote")),
     remoteLocation: v.optional(v.string()),
@@ -269,11 +336,12 @@ export const updateJob = authMutation({
     assertJobTextLimits(args);
     assertValidJobInput(args, { requireContactEmail: false });
 
-    const searchAllContent = `${args.title} ${args.type} ${args.city} ${args.contractType} ${args.description}`;
+    const searchAllContent = `${args.title} ${args.type} ${args.city} ${args.contractType ?? ""} ${args.description}`;
 
     const nextLocation = locationForWorkMode(args.workMode, location);
     await ctx.db.patch(id, {
       ...updateData,
+      ...normalizeContract(args),
       // Omitted locations preserve a previously selected map. `null` (the
       // off switch) and `remote` both remove it explicitly.
       ...(args.workMode === "remote" || location !== undefined
@@ -372,6 +440,13 @@ export const submitApplication = internalMutation({
     if (job.authorId === candidateId) {
       throwForbidden("You cannot apply to your own job");
     }
+    // Deadlines are plain dates (YYYY-MM-DD) and inclusive of the whole day.
+    if (
+      job.applicationDeadline &&
+      job.applicationDeadline < new Date().toISOString().slice(0, 10)
+    ) {
+      throwValidationError("The application deadline for this job has passed");
+    }
 
     const existing = await ctx.db
       .query("jobApplications")
@@ -393,12 +468,16 @@ export const submitApplication = internalMutation({
       });
     }
 
+    const now = Date.now();
+    const cvToken = generateCvToken();
     const applicationId = await ctx.db.insert("jobApplications", {
       jobId,
       candidateId,
       cvKey,
+      cvToken,
+      cvExpiresAt: now + APPLICATION_CV_RETENTION_MS,
       coverLetter,
-      appliedAt: Date.now(),
+      appliedAt: now,
       emailStatus: "pending",
     });
     if (applicationCvKey) await consumeUploadGrant(ctx, applicationCvKey);
@@ -413,7 +492,7 @@ export const submitApplication = internalMutation({
       jobTitle: job.title,
       authorId: job.authorId,
       contactEmail: contact?.email,
-      cvKey,
+      cvToken,
       coverLetter,
     };
   },
@@ -444,6 +523,8 @@ export const prepareApplicationEmailRetry = internalMutation({
       .withIndex("by_jobId", (q) => q.eq("jobId", jobId))
       .unique();
 
+    const cvToken = await ensureCvToken(ctx, application);
+    if (!cvToken) throwValidationError("This application's CV is no longer available");
     await ctx.db.patch(application._id, { emailStatus: "pending" });
 
     return {
@@ -451,7 +532,7 @@ export const prepareApplicationEmailRetry = internalMutation({
       jobTitle: job.title,
       authorId: job.authorId,
       contactEmail: contact?.email,
-      cvKey: application.cvKey,
+      cvToken,
       coverLetter: application.coverLetter,
     };
   },

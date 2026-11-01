@@ -164,7 +164,8 @@
       "contactReq": "Gib eine E-Mail-Adresse oder WhatsApp-Nummer an",
       "descMin": "Die Beschreibung muss mindestens 10 Zeichen lang sein",
       "emailInvalid": "Gib eine gültige E-Mail-Adresse ein",
-      "phoneInvalid": "Gib eine gültige Telefonnummer ein"
+      "phoneInvalid": "Gib eine gültige Telefonnummer ein",
+      "numberInvalid": "Bitte einen gültigen Wert eingeben"
     },
     "messages": {
       "success": "Anzeige zur Prüfung an die Administration gesendet!",

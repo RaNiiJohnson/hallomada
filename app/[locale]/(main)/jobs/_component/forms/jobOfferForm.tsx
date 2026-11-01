@@ -19,9 +19,8 @@ import {
 } from "./job-form/job-form-schema";
 
 export {
-  contractTypesForJobType,
-  contractTypeValues,
   jobTypeValues,
+  selectableContractTypes,
 } from "@/lib/job-offer-options";
 export { salaryPeriodValues } from "./job-form/job-form-schema";
 

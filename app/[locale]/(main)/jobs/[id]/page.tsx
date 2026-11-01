@@ -42,6 +42,7 @@ import ReactMarkdown from "react-markdown";
 import remarkBreaks from "remark-breaks";
 import { toast } from "sonner";
 import { ApplyJobDialog } from "../_component/dialogs/applyJobDialog";
+import { contractLabelKeys } from "@/lib/job-offer-options";
 import { JobLifecycleActions } from "../_component/jobLifecycleActions";
 import { SalaryDisplay } from "../_component/salary";
 import { JobBookmarkButton } from "../_component/JobBookmarkButton";
@@ -409,11 +410,9 @@ export default function JobDetailsPage() {
                 <div className="flex items-center gap-2">
                   <Briefcase className="w-4 h-4 sm:w-5 sm:h-5 text-muted-foreground/60" />
                   <span className="font-medium">
-                    {t(
-                      `labels.contracts.${jobOffer.contractType}` as Parameters<
-                        typeof t
-                      >[0],
-                    ) ?? jobOffer.contractType}
+                    {contractLabelKeys(jobOffer)
+                      .map((key) => t(key as Parameters<typeof t>[0]))
+                      .join(" · ")}
                   </span>
                 </div>
 
@@ -528,11 +527,9 @@ export default function JobDetailsPage() {
                       {t("details.contract")}
                     </p>
                     <Badge variant="outline" className="font-semibold">
-                      {t(
-                        `labels.contracts.${jobOffer.contractType}` as Parameters<
-                          typeof t
-                        >[0],
-                      ) ?? jobOffer.contractType}
+                      {contractLabelKeys(jobOffer)
+                      .map((key) => t(key as Parameters<typeof t>[0]))
+                      .join(" · ")}
                     </Badge>
                   </div>
 
@@ -717,11 +714,9 @@ export default function JobDetailsPage() {
                   <div className="flex items-center text-muted-foreground bg-muted px-2.5 py-0.5 rounded-md">
                     <Briefcase className="w-4 h-4 mr-1.5" />
                     <span className="font-semibold text-sm">
-                      {t(
-                        `labels.contracts.${jobOffer.contractType}` as Parameters<
-                          typeof t
-                        >[0],
-                      ) ?? jobOffer.contractType}
+                      {contractLabelKeys(jobOffer)
+                      .map((key) => t(key as Parameters<typeof t>[0]))
+                      .join(" · ")}
                     </span>
                   </div>
                   <div className="flex items-center text-muted-foreground bg-muted px-2.5 py-0.5 rounded-md">

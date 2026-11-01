@@ -13,6 +13,7 @@ import { useTranslations } from "next-intl";
 import { parseAsString, useQueryStates } from "nuqs";
 import { toast } from "sonner";
 import { JobBookmarkButton } from "./JobBookmarkButton";
+import { contractLabelKeys } from "@/lib/job-offer-options";
 import { SalaryDisplay } from "./salary";
 import { JobPageSkeleton } from "./skeleton";
 
@@ -33,16 +34,10 @@ export function JobList() {
     api.jobs.queries.getJobs,
     {
       searchTerm: filters.search,
-      contractType: filters.contract
-        ? (filters.contract as
-            | "CDI"
-            | "CDD"
-            | "FSJ/FOJ/BFD"
-            | "fullTime"
-            | "partTime"
-            | "freelance"
-            | "apprenticeship")
-        : undefined,
+      contractType:
+        filters.contract === "CDI" || filters.contract === "CDD"
+          ? filters.contract
+          : undefined,
       type: filters.type
         ? (filters.type as
             | "auPair"
@@ -161,11 +156,9 @@ export function JobList() {
                     variant="secondary"
                     className="bg-secondary/50 hover:bg-secondary/70 text-xs font-normal"
                   >
-                    {t(
-                      `labels.contracts.${job.contractType}` as Parameters<
-                        typeof t
-                      >[0],
-                    ) ?? job.contractType}
+                    {contractLabelKeys(job)
+                      .map((key) => t(key as Parameters<typeof t>[0]))
+                      .join(" · ")}
                   </Badge>
                   {job.duration && (
                     <Badge variant="outline" className="text-xs font-normal">
