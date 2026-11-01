@@ -1,0 +1,70 @@
+{
+  "provisional": "Contenu provisoire : ce texte est un brouillon informatif et ne constitue pas un conseil juridique. Il sera remplacé par la version validée avant l'ouverture publique.",
+  "placeholder": "[À compléter]",
+  "updated": "Dernière mise à jour : version provisoire",
+  "privacy": {
+    "title": "Politique de confidentialité",
+    "sections": [
+      {
+        "h": "Données collectées",
+        "p": "Compte (nom, adresse e-mail), contenus que vous publiez (annonces, offres, messages, signalements) et données techniques nécessaires au fonctionnement du site."
+      },
+      {
+        "h": "Mesure d'audience",
+        "p": "Les outils de mesure (PostHog, Vercel Analytics) ne sont activés qu'après votre accord. Vous pouvez refuser ou modifier votre choix à tout moment via « Gérer les cookies » en bas de page. Si vous refusez, aucun événement optionnel n'est envoyé."
+      },
+      {
+        "h": "Vos droits",
+        "p": "Vous pouvez demander l'accès, la rectification ou la suppression de vos données en nous écrivant via la page Contact."
+      },
+      {
+        "h": "Responsable du traitement",
+        "p": "Voir les mentions légales."
+      }
+    ]
+  },
+  "terms": {
+    "title": "Conditions générales d'utilisation",
+    "sections": [
+      {
+        "h": "Objet",
+        "p": "Hallomada est une plateforme d'échange et d'entraide pour la communauté malgache en Allemagne."
+      },
+      {
+        "h": "Contenus publiés",
+        "p": "Vous êtes responsable de ce que vous publiez. Les contenus illicites, trompeurs ou abusifs peuvent être signalés et retirés."
+      },
+      {
+        "h": "Offres et logements",
+        "p": "Hallomada ne vérifie pas chaque annonce et n'est pas partie aux échanges entre utilisateurs. Soyez vigilant et ne versez jamais d'argent avant d'avoir vérifié une offre."
+      },
+      {
+        "h": "Suspension",
+        "p": "Les comptes qui ne respectent pas ces règles peuvent être limités ou suspendus."
+      }
+    ]
+  },
+  "notice": {
+    "title": "Mentions légales",
+    "sections": [
+      {
+        "h": "Éditeur du site",
+        "p": "Nom : [À compléter]. Adresse : [À compléter]. Pays : [À compléter]."
+      },
+      {
+        "h": "Contact",
+        "p": "Voir la page Contact."
+      },
+      {
+        "h": "Hébergement",
+        "p": "[À compléter]"
+      }
+    ]
+  },
+  "contact": {
+    "title": "Contact et support",
+    "intro": "Une question, un problème ou un signalement ? Écrivez-nous. Pour signaler un contenu, utilisez de préférence le bouton de signalement présent sur chaque publication.",
+    "emailLabel": "E-mail de support",
+    "responseTime": "Nous répondons dès que possible, sans délai garanti pendant la phase bêta."
+  }
+}

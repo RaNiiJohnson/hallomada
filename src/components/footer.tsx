@@ -1,4 +1,6 @@
+import { CookieSettingsButton } from "@/components/analytics-consent";
 import { Link } from "@/i18n/navigation";
+import { SUPPORT_EMAIL } from "@/lib/site-config";
 import { Mail, MapPin } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 
@@ -83,10 +85,10 @@ export default async function Footer() {
               <li className="flex items-center gap-2 text-muted-foreground">
                 <Mail className="h-4 w-4" />
                 <a
-                  href="mailto:contact@hallomada.de"
+                  href={`mailto:${SUPPORT_EMAIL}`}
                   className="hover:text-primary transition-colors"
                 >
-                  contact@hallomada.de
+                  {SUPPORT_EMAIL}
                 </a>
               </li>
               <li className="flex items-center gap-2 text-muted-foreground">
@@ -97,7 +99,26 @@ export default async function Footer() {
           </div>
         </div>
 
-        <div className="border-t mt-8 pt-8 text-center text-sm text-muted-foreground">
+        <nav
+          aria-label={t("legal.legalTitle")}
+          className="border-t mt-8 pt-8 flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-muted-foreground"
+        >
+            <Link href="/privacy" className="hover:text-primary transition-colors">
+              {t("legal.privacy")}
+            </Link>
+            <Link href="/terms" className="hover:text-primary transition-colors">
+              {t("legal.terms")}
+            </Link>
+            <Link href="/legal-notice" className="hover:text-primary transition-colors">
+              {t("legal.notice")}
+            </Link>
+            <Link href="/contact" className="hover:text-primary transition-colors">
+              {t("legal.contact")}
+            </Link>
+          <CookieSettingsButton className="hover:text-primary transition-colors" />
+        </nav>
+
+        <div className="pt-6 text-center text-sm text-muted-foreground">
           <p>
             © {currentYear} Hallomada. {t("copyright")}
           </p>

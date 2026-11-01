@@ -3,7 +3,6 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Locale, routing } from "@/i18n/routing";
 import { getToken } from "@/lib/auth-server";
 import { ConvexClientProvider } from "@/web/ConvexClientProvider";
-import { Analytics } from "@vercel/analytics/next";
 import "flag-icons/css/flag-icons.min.css";
 import type { Metadata } from "next";
 import { NextIntlClientProvider } from "next-intl";
@@ -74,7 +73,6 @@ export default async function RootLayout({
             <ConvexClientProvider initialToken={token}>
               <OfflineIndicator />
               <NuqsAdapter>{children}</NuqsAdapter>
-              <Analytics />
             </ConvexClientProvider>
             <Toaster closeButton richColors />
           </ThemeProvider>

@@ -1,0 +1,70 @@
+{
+  "provisional": "Provisional content: this text is an informational draft and is not legal advice. It will be replaced by the validated version before the public launch.",
+  "placeholder": "[To be completed]",
+  "updated": "Last update: provisional version",
+  "privacy": {
+    "title": "Privacy policy",
+    "sections": [
+      {
+        "h": "Data we collect",
+        "p": "Account data (name, email address), content you publish (listings, job offers, messages, reports) and technical data required to run the site."
+      },
+      {
+        "h": "Audience measurement",
+        "p": "Measurement tools (PostHog, Vercel Analytics) are only enabled after you agree. You can refuse or change your choice at any time with “Manage cookies” in the footer. If you refuse, no optional event is sent."
+      },
+      {
+        "h": "Your rights",
+        "p": "You can request access to, correction of or deletion of your data by writing to us through the Contact page."
+      },
+      {
+        "h": "Data controller",
+        "p": "See the legal notice."
+      }
+    ]
+  },
+  "terms": {
+    "title": "Terms of use",
+    "sections": [
+      {
+        "h": "Purpose",
+        "p": "Hallomada is an exchange and mutual-support platform for the Malagasy community in Germany."
+      },
+      {
+        "h": "Published content",
+        "p": "You are responsible for what you publish. Unlawful, misleading or abusive content can be reported and removed."
+      },
+      {
+        "h": "Jobs and housing",
+        "p": "Hallomada does not verify every listing and is not a party to exchanges between users. Stay vigilant and never send money before verifying an offer."
+      },
+      {
+        "h": "Suspension",
+        "p": "Accounts that do not follow these rules may be restricted or suspended."
+      }
+    ]
+  },
+  "notice": {
+    "title": "Legal notice",
+    "sections": [
+      {
+        "h": "Site publisher",
+        "p": "Name: [To be completed]. Address: [To be completed]. Country: [To be completed]."
+      },
+      {
+        "h": "Contact",
+        "p": "See the Contact page."
+      },
+      {
+        "h": "Hosting",
+        "p": "[To be completed]"
+      }
+    ]
+  },
+  "contact": {
+    "title": "Contact and support",
+    "intro": "A question, a problem or a report? Write to us. To report content, prefer the report button available on each publication.",
+    "emailLabel": "Support email",
+    "responseTime": "We reply as soon as possible, with no guaranteed delay during the beta."
+  }
+}
