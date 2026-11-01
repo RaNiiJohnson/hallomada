@@ -207,7 +207,7 @@ describe("admin user management", () => {
 
     expect(result).toMatchObject({ total: 3, limit: 50, offset: 1 });
     expect(result.users.map((entry) => entry.id)).toEqual(["user-2", "admin-1"]);
-    expect(authState.listQueries.at(-1)).toMatchObject({ limit: 50, offset: 1 });
+    expect(authState.listQueries[authState.listQueries.length - 1]).toMatchObject({ limit: 50, offset: 1 });
   });
 
   it("sends search and filters to Better Auth before pagination", async () => {
@@ -221,7 +221,7 @@ describe("admin user management", () => {
 
     expect(searched.total).toBe(1);
     expect(searched.users[0]?.id).toBe("user-2");
-    expect(authState.listQueries.at(-1)).toMatchObject({
+    expect(authState.listQueries[authState.listQueries.length - 1]).toMatchObject({
       searchValue: "bob@",
       searchField: "email",
       searchOperator: "contains",

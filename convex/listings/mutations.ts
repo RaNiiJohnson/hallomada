@@ -8,6 +8,7 @@ import {
   r2,
 } from "../integrations/r2";
 import { notifyAdministratorsOfPendingPublication } from "../notifications/admin";
+import { consumePublicationQuota } from "../publicationQuotas";
 import {
   throwForbidden,
   throwNotFound,
@@ -162,6 +163,7 @@ export const createListing = authMutation({
     }
     assertListingCity(args.city);
     assertPublicTextIsSafe(listingArgs);
+    await consumePublicationQuota(ctx, "listing", user._id);
 
     const uploadedKeys = args.images.flatMap((image) =>
       image.storageId ? [image.storageId] : [],

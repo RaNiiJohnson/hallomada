@@ -18,7 +18,7 @@ import {
   getSupportedTranslationLanguage,
   useManualTranslate,
 } from "@/hooks/use-manual-translate";
-import { useRouter } from "@/i18n/navigation";
+import { Link, useRouter } from "@/i18n/navigation";
 import { getAuthHref, getCurrentReturnTo } from "@/lib/auth-return-to";
 import { ListingListDetails } from "@/lib/convexTypes";
 import { formatDateWithFallback } from "@/lib/date";
@@ -520,7 +520,16 @@ export function PropertyDetails({
                 </div>
                 <div>
                   <div className="font-medium">
-                    {property.authorName || tListing("details.anonymous")}
+                    {property.authorSlug ? (
+                      <Link
+                        href={`/hl/${property.authorSlug}`}
+                        className="hover:underline"
+                      >
+                        {property.authorName || tListing("details.anonymous")}
+                      </Link>
+                    ) : (
+                      (property.authorName || tListing("details.anonymous"))
+                    )}
                   </div>
                   <div className="text-sm text-muted-foreground">
                     {tListing(
@@ -599,7 +608,16 @@ export function PropertyDetails({
                 </div>
                 <div className="min-w-0">
                   <div className="truncate font-medium">
-                    {property.authorName || tListing("details.anonymous")}
+                    {property.authorSlug ? (
+                      <Link
+                        href={`/hl/${property.authorSlug}`}
+                        className="hover:underline"
+                      >
+                        {property.authorName || tListing("details.anonymous")}
+                      </Link>
+                    ) : (
+                      (property.authorName || tListing("details.anonymous"))
+                    )}
                   </div>
                   <div className="text-sm text-muted-foreground">
                     {tListing(

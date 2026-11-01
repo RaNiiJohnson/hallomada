@@ -40,6 +40,7 @@ describe("Chat", () => {
       api.communities.mutations.createCommunity,
       {
         name: "Chat Community",
+        theme: "Testing",
         description: "Description",
         privacy: "public",
       },

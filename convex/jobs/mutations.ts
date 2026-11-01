@@ -15,6 +15,7 @@ import { authComponent } from "../auth/auth";
 import { authMutation, internalMutation } from "../functions";
 import { assertVerifiedUpload, consumeUploadGrant } from "../integrations/r2";
 import { notifyAdministratorsOfPendingPublication } from "../notifications/admin";
+import { consumePublicationQuota } from "../publicationQuotas";
 import {
   throwForbidden,
   throwNotFound,
@@ -131,6 +132,7 @@ export const createJob = authMutation({
     const user = ctx.user;
 
     assertValidJobInput(args, { requireContactEmail: true });
+    await consumePublicationQuota(ctx, "job", user._id);
     const { contactEmail, location, ...jobArgs } = args;
 
     const searchAllContent = `${args.title} ${args.type} ${args.city} ${args.contractType} ${args.description}`;

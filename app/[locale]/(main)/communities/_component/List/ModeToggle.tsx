@@ -17,9 +17,9 @@ import { useTranslations } from "next-intl";
 import { SortMode } from "./types";
 
 const FILTERS: { mode: SortMode; icon: React.ElementType }[] = [
+  { mode: "recent", icon: ArrowDownNarrowWide },
   { mode: "shuffle", icon: Shuffle },
   { mode: "oldest", icon: ArrowUpNarrowWide },
-  { mode: "recent", icon: ArrowDownNarrowWide },
   { mode: "top", icon: Flame },
   { mode: "bookmarked", icon: Bookmark },
 ];

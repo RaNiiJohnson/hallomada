@@ -14,6 +14,7 @@ import {
 } from "../../src/lib/publication-lifecycle";
 import { authComponent } from "../auth/auth";
 import { query } from "../functions";
+import { getPublicAuthorSlug } from "../posts/publicAuthorSlug";
 import { r2 } from "../integrations/r2";
 import { resolveListingImages } from "./imageUrls";
 import { redactSensitivePublicListingText } from "./privacy";
@@ -162,6 +163,7 @@ export const getListingWithContact = query({
       ...withoutSensitivePublicFields(listing),
       images,
       isBookmarked,
+      authorSlug: await getPublicAuthorSlug(ctx, listing.authorId),
       // The detail page can show an optional map for everyone, but only with a
       // deliberately rounded position. Contact information remains verified-only.
       ...(listing.location

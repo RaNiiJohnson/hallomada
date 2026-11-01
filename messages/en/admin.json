@@ -9,7 +9,8 @@
     "analytics": "PostHog analytics",
     "returnSite": "Back to site",
     "logout": "Sign out",
-    "loadingUser": "Loading administrator"
+    "loadingUser": "Loading administrator",
+    "quotas": "Publication quotas"
   },
   "dashboard": {
     "title": "Dashboard",
@@ -198,5 +199,18 @@
       "description": "The admin request failed. No incomplete results are displayed.",
       "retry": "Try again"
     }
+  },
+  "quotas": {
+    "title": "Publication quotas",
+    "description": "Limits enforced on the server for every verified member.",
+    "community": "Communities per 30 days",
+    "jobs": "Job offers per week",
+    "listings": "Listings per week",
+    "hint": "Whole number between 1 and {max}.",
+    "save": "Save",
+    "saving": "Saving...",
+    "saved": "Quotas updated",
+    "error": "Could not save the quotas",
+    "loading": "Loading quotas"
   }
 }

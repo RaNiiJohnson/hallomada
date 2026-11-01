@@ -9,7 +9,8 @@
     "analytics": "PostHog-Analytics",
     "returnSite": "Zurück zur Website",
     "logout": "Abmelden",
-    "loadingUser": "Administrator wird geladen"
+    "loadingUser": "Administrator wird geladen",
+    "quotas": "Veröffentlichungslimits"
   },
   "dashboard": {
     "title": "Dashboard",
@@ -198,5 +199,18 @@
       "description": "Die Admin-Anfrage ist fehlgeschlagen. Unvollständige Ergebnisse werden nicht angezeigt.",
       "retry": "Erneut versuchen"
     }
+  },
+  "quotas": {
+    "title": "Veröffentlichungslimits",
+    "description": "Serverseitig durchgesetzte Limits für jedes verifizierte Mitglied.",
+    "community": "Communities pro 30 Tage",
+    "jobs": "Stellenangebote pro Woche",
+    "listings": "Anzeigen pro Woche",
+    "hint": "Ganze Zahl zwischen 1 und {max}.",
+    "save": "Speichern",
+    "saving": "Wird gespeichert...",
+    "saved": "Limits aktualisiert",
+    "error": "Limits konnten nicht gespeichert werden",
+    "loading": "Limits werden geladen"
   }
 }

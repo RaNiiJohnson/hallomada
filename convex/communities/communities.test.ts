@@ -41,6 +41,7 @@ describe("Communities", () => {
       api.communities.mutations.createCommunity,
       {
         name: "Community Name",
+        theme: "Testing",
         description: "Community Description",
         privacy: "public",
       },
@@ -62,6 +63,7 @@ describe("Communities", () => {
       id: communityId,
       name: "Updated Community Name",
       description: "Updated Description",
+      theme: "Testing",
       privacy: "public",
     });
 

@@ -232,6 +232,20 @@ export default function CommunityClient() {
               <p className="text-sm text-muted-foreground mt-2 leading-relaxed">
                 {community.description}
               </p>
+              {community.city || community.theme ? (
+                <p className="mt-2 text-xs font-medium text-foreground/80">
+                  {community.city ? t("cityTag") : t("themeTag")}:{" "}
+                  {community.city ?? community.theme}
+                </p>
+              ) : null}
+              {community.rules ? (
+                <div className="mt-3 rounded-lg border bg-muted/40 p-3">
+                  <h3 className="text-xs font-semibold">{t("rulesTitle")}</h3>
+                  <p className="mt-1 whitespace-pre-line text-xs text-muted-foreground">
+                    {community.rules}
+                  </p>
+                </div>
+              ) : null}
 
               {currentUser !== undefined &&
               currentUser?._id !== community.authorId ? (

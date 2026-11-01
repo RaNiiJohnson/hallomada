@@ -39,7 +39,20 @@
       "privacyPlaceholder": "Choisir la visibilité",
       "submiting": "Création en cours...",
       "submit": "Créer la communauté",
-      "characters": "caractères"
+      "characters": "caractères",
+      "errorFocusMin": "Indiquez au moins 2 caractères",
+      "errorFocusMax": "Maximum 60 caractères",
+      "errorRulesMax": "Les règles ne peuvent pas dépasser 1000 caractères",
+      "errorQuota": "Quota de création de communautés atteint. Réessayez plus tard.",
+      "kindLabel": "Type *",
+      "kindTheme": "Thème",
+      "kindCity": "Ville",
+      "cityLabel": "Ville *",
+      "cityPlaceholder": "Ex: Berlin",
+      "themeLabel": "Thème *",
+      "themePlaceholder": "Ex: Cuisine",
+      "rulesLabel": "Règles (optionnel)",
+      "rulesPlaceholder": "Ex: Restez courtois, pas de publicité..."
     },
     "createPost": {
       "errorTitleMin": "Le titre doit contenir au moins 3 caractères",
@@ -85,7 +98,10 @@
     "deleting": "Suppression...",
     "deletedCommunity": "{name} supprimée !",
     "loadMore": "Charger plus",
-    "loading": "Chargement..."
+    "loading": "Chargement...",
+    "cityTag": "Ville",
+    "themeTag": "Thème",
+    "rulesTitle": "Règles de la communauté"
   },
   "post": {
     "notFound": "Post introuvable.",
