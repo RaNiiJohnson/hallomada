@@ -18,7 +18,7 @@
     },
     {
       "question": "Gibt es Veröffentlichungslimits?",
-      "answer": "Um die Qualität zu sichern und Missbrauch zu verhindern, kann jedes Mitglied pro 30 Tage 1 Community sowie pro Woche 3 Stellenangebote und 3 Immobilienanzeigen erstellen. Diese Kontingente können sich ändern. Für Texte gelten Größenbeschränkungen, und Nachrichten und Kommentare sind in ihrer Häufigkeit begrenzt."
+      "answer": "Um die Community-Qualität zu sichern und Missbrauch zu verhindern, ist die Anzahl der Veröffentlichungen pro Mitglied zeitlich begrenzt (Communities, Stellenangebote, Immobilienanzeigen). Diese Grenzen können sich ändern; beim Erreichen erscheint ein Hinweis."
     },
     {
       "question": "Wie melde ich unangemessene Inhalte?",
@@ -30,7 +30,7 @@
     },
     {
       "question": "Sind meine persönlichen Daten sicher?",
-      "answer": "Wir halten die DSGVO ein. Die Reichweitenmessung (PostHog, Vercel Analytics) läuft nur mit deiner Einwilligung, die du jederzeit über „Cookies verwalten“ ändern kannst. Die Daten sind durch Sicherheits-Header und serverseitige Limits geschützt. Details findest du in der Datenschutzerklärung."
+      "answer": "Wir halten die DSGVO ein. Besucherstatistiken werden nur mit Ihrer Einwilligung aktiviert, die Sie jederzeit über „Cookies verwalten“ ändern können. Details finden Sie in der Datenschutzerklärung."
     },
     {
       "question": "Wie erreiche ich das Team?",

@@ -34,7 +34,7 @@ immobilières.
 - notifications pour les membres et les administrateurs ;
 - tableau de bord d'administration (modération, signalements, utilisateurs,
   quotas, journal d'audit) ;
-- mesure d'audience (PostHog, Vercel Analytics) activée uniquement après
+- mesure d'audience activée uniquement après
   consentement, et pages légales ;
 - interface disponible en français, allemand et anglais.
 

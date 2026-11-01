@@ -1,6 +1,6 @@
 {
   "title": "Mesure d'audience",
-  "description": "Avec votre accord, nous utilisons PostHog et Vercel Analytics pour comprendre comment le site est utilisé et corriger les erreurs. Rien n'est envoyé tant que vous n'avez pas choisi. Vous pouvez changer d'avis à tout moment.",
+  "description": "Avec votre accord, nous mesurons de façon anonyme comment le site est utilisé afin de l'améliorer et de corriger les problèmes. Rien n'est collecté tant que vous n'avez pas choisi. Vous pouvez changer d'avis à tout moment.",
   "learnMore": "En savoir plus",
   "accept": "Accepter",
   "refuse": "Refuser",

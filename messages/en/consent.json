@@ -1,6 +1,6 @@
 {
   "title": "Audience measurement",
-  "description": "With your consent, we use PostHog and Vercel Analytics to understand how the site is used and to fix errors. Nothing is sent until you choose. You can change your mind at any time.",
+  "description": "With your consent, we anonymously measure how the site is used so we can improve it and fix problems. Nothing is collected until you choose. You can change your mind at any time.",
   "learnMore": "Learn more",
   "accept": "Accept",
   "refuse": "Refuse",

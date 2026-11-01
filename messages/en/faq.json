@@ -18,7 +18,7 @@
     },
     {
       "question": "Are there posting limits?",
-      "answer": "To keep content quality high and prevent abuse, each member can create 1 community per 30 days, plus 3 job offers and 3 property listings per week. These quotas may change. Text size limits also apply, and messages and comments are rate-limited."
+      "answer": "To keep the community high-quality and prevent abuse, the number of posts each member can publish over time is limited (communities, job offers, property listings). These limits may change, and you will see a message when you reach them."
     },
     {
       "question": "How do I report inappropriate content?",
@@ -30,7 +30,7 @@
     },
     {
       "question": "Is my personal data secure?",
-      "answer": "We comply with the GDPR. Analytics (PostHog, Vercel Analytics) only run with your consent, which you can change at any time via \"Manage cookies\". Data is protected by security headers and server-side limits. See our privacy policy for details."
+      "answer": "We comply with the GDPR. Visit statistics are only enabled with your consent, which you can change at any time via \"Manage cookies\". See our privacy policy for details."
     },
     {
       "question": "How can I contact the team?",

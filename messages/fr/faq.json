@@ -18,7 +18,7 @@
     },
     {
       "question": "Y a-t-il des limites de publication ?",
-      "answer": "Pour garder un contenu de qualité et éviter les abus, chaque membre peut créer 1 communauté par période de 30 jours, ainsi que 3 offres d'emploi et 3 annonces immobilières par semaine. Ces quotas peuvent évoluer. Des limites de taille s'appliquent aussi aux textes, et les messages et commentaires sont limités en fréquence."
+      "answer": "Pour garder une communauté de qualité et éviter les abus, le nombre de publications est limité dans le temps pour chaque membre (communautés, offres d'emploi, annonces immobilières). Ces limites peuvent évoluer, et un message vous l'indique lorsque vous les atteignez."
     },
     {
       "question": "Comment signaler un contenu inapproprié ?",
@@ -30,7 +30,7 @@
     },
     {
       "question": "Mes données personnelles sont-elles sécurisées ?",
-      "answer": "Nous respectons le RGPD. La mesure d'audience (PostHog, Vercel Analytics) n'est activée qu'avec votre accord, que vous pouvez modifier à tout moment via « Gérer les cookies ». Les données sont protégées par des en-têtes de sécurité et des limites côté serveur. Voir notre politique de confidentialité pour le détail."
+      "answer": "Nous respectons le RGPD. Les statistiques de fréquentation ne sont activées qu'avec votre accord, que vous pouvez modifier à tout moment via « Gérer les cookies ». Voir notre politique de confidentialité pour le détail."
     },
     {
       "question": "Comment contacter l'équipe ?",
