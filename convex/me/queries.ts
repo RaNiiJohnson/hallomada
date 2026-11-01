@@ -46,6 +46,19 @@ export const getMyListings = query({
   },
 });
 
+export const getMyProviders = query({
+  args: { paginationOpts: paginationOptsValidator },
+  handler: async (ctx, args) => {
+    const user = await authComponent.safeGetAuthUser(ctx);
+    if (!user) return emptyPage();
+    return await ctx.db
+      .query("providers")
+      .withIndex("by_authorId_and_status", (q) => q.eq("authorId", user._id))
+      .order("desc")
+      .paginate(args.paginationOpts);
+  },
+});
+
 export const getMyPosts = query({
   args: { paginationOpts: paginationOptsValidator },
   handler: async (ctx, args) => {

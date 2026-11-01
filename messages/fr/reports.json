@@ -42,7 +42,8 @@
       "post": "Publication",
       "job": "Offre d'emploi",
       "listing": "Logement",
-      "community": "Communauté"
+      "community": "Communauté",
+      "provider": "Prestataire"
     },
     "reasons": {
       "spam": "Spam",

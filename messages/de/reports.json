@@ -42,7 +42,8 @@
       "post": "Beitrag",
       "job": "Stellenangebot",
       "listing": "Wohnungsanzeige",
-      "community": "Community"
+      "community": "Community",
+      "provider": "Dienstleister"
     },
     "reasons": {
       "spam": "Spam",

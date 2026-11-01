@@ -59,7 +59,8 @@
       "pending": "En attente",
       "types": {
         "job": "Offre d’emploi",
-        "listing": "Annonce logement"
+        "listing": "Annonce logement",
+        "provider": "Prestataire"
       },
       "submittedBy": "Soumise par {name}, le {date}",
       "approve": "Valider",

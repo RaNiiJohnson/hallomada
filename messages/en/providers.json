@@ -1,0 +1,142 @@
+{
+  "metaTitle": "Providers",
+  "metaDescription": "Caterers, photographers, hairdressers… Find Malagasy service providers in Germany and contact them directly on WhatsApp.",
+  "hero": {
+    "title": "Malagasy service providers in Germany",
+    "subtitle": "Caterers, photographers, hairdressers, DJs… Find a provider from the community and contact them directly on WhatsApp."
+  },
+  "categories": {
+    "food": "Catering & food",
+    "photo": "Photo & video",
+    "beauty": "Hair & beauty",
+    "events": "Events & DJ",
+    "fashion": "Sewing & fashion",
+    "transport": "Transport & parcels",
+    "lessons": "Lessons & translation",
+    "digital": "Web & design",
+    "other": "Other"
+  },
+  "serviceModes": {
+    "atProvider": "At the provider's place",
+    "atClient": "Comes to you",
+    "online": "Online"
+  },
+  "list": {
+    "searchPlaceholder": "Search a provider, a service, a city…",
+    "allCategories": "All",
+    "emptyTitle": "No providers yet",
+    "emptyDesc": "Do you offer a service? Create your page, it's free.",
+    "loadMore": "Show more",
+    "loading": "Loading…",
+    "create": "Create my provider page"
+  },
+  "status": {
+    "active": "Published",
+    "pending": "Awaiting review",
+    "rejected": "Rejected",
+    "closed": "Hidden",
+    "archived": "Archived",
+    "pendingHint": "Your page will be public as soon as an administrator approves it.",
+    "rejectedHint": "Your page was rejected. Edit it to submit it again.",
+    "closedHint": "Your page is hidden: it no longer appears in the directory.",
+    "hide": "Hide my page",
+    "show": "Publish my page again",
+    "updated": "Status updated",
+    "error": "Could not change the status"
+  },
+  "details": {
+    "back": "All providers",
+    "about": "About",
+    "services": "Services & prices",
+    "gallery": "Work",
+    "contactTitle": "Contact",
+    "whatsapp": "Message on WhatsApp",
+    "whatsappMessage": "Hello {name}, I found you on HalloMada 👋",
+    "call": "Call",
+    "email": "Email",
+    "website": "Website",
+    "edit": "Edit",
+    "contactHint": "Mention HalloMada when you contact this provider.",
+    "galleryOpen": "Enlarge photo {index}",
+    "createdBy": "Created by",
+    "you": "you",
+    "anonymous": "Member"
+  },
+  "form": {
+    "createTitle": "Create my provider page",
+    "createDesc": "Present your business to the community. Your page is published after review.",
+    "editTitle": "Edit my provider page",
+    "editDesc": "After editing, your page goes back to review.",
+    "sections": {
+      "about": "Your business",
+      "services": "Services & prices",
+      "images": "Logo & photos",
+      "contact": "Contact & social media"
+    },
+    "labels": {
+      "name": "Business name",
+      "category": "Category",
+      "tagline": "Tagline",
+      "city": "City",
+      "serviceModes": "Where do you work?",
+      "description": "Description",
+      "serviceName": "Service",
+      "servicePrice": "Indicative price",
+      "logo": "Logo or profile picture",
+      "photos": "Photos of your work",
+      "photosHint": "Up to {max} photos, {size} MB max each.",
+      "whatsapp": "WhatsApp number",
+      "phone": "Phone (if different)",
+      "email": "Email",
+      "website": "Website",
+      "facebook": "Facebook",
+      "instagram": "Instagram",
+      "tiktok": "TikTok",
+      "markdownHint": "Markdown formatting is supported"
+    },
+    "placeholders": {
+      "name": "e.g. Rakoto Catering",
+      "tagline": "e.g. Malagasy food for your parties and weddings",
+      "city": "e.g. Berlin",
+      "description": "Present your business, your experience, what makes you unique…",
+      "serviceName": "e.g. Wedding buffet",
+      "servicePrice": "e.g. from €15 / person",
+      "whatsapp": "0151 23456789",
+      "phone": "030 1234567",
+      "email": "contact@example.de",
+      "website": "www.example.de",
+      "social": "Profile link or @name"
+    },
+    "hints": {
+      "whatsapp": "Customers will message you directly on this WhatsApp number.",
+      "social": "Paste your profile link or just your @name."
+    },
+    "actions": {
+      "addService": "Add a service",
+      "removeService": "Remove this service",
+      "addPhoto": "Add photos",
+      "chooseLogo": "Choose a logo",
+      "removeImage": "Remove image",
+      "publish": "Publish my page",
+      "publishing": "Publishing…",
+      "save": "Save",
+      "saving": "Saving…"
+    },
+    "validation": {
+      "nameReq": "Name is required",
+      "cityReq": "City is required",
+      "descMin": "The description must be at least 20 characters",
+      "whatsappInvalid": "Invalid number",
+      "phoneInvalid": "Invalid number",
+      "emailInvalid": "Invalid email",
+      "urlInvalid": "Invalid link",
+      "serviceModesReq": "Choose at least one option",
+      "tooLong": "Text is too long"
+    },
+    "messages": {
+      "created": "Page submitted! It will be visible after review.",
+      "updated": "Changes submitted for review",
+      "error": "Something went wrong, please try again."
+    }
+  }
+}

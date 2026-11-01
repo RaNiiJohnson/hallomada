@@ -5,6 +5,7 @@ import { throwNotFound, throwValidationError } from "./utils/errors";
 const moderationResourceValidator = v.union(
   v.object({ type: v.literal("job"), id: v.id("JobOffer") }),
   v.object({ type: v.literal("listing"), id: v.id("RealestateListing") }),
+  v.object({ type: v.literal("provider"), id: v.id("providers") }),
 );
 
 const pendingPublicationValidator = v.union(
@@ -25,13 +26,20 @@ const pendingPublicationValidator = v.union(
     submittedAt: v.number(),
     href: v.string(),
   }),
+  v.object({
+    resource: v.object({ type: v.literal("provider"), id: v.id("providers") }),
+    title: v.string(),
+    authorName: v.optional(v.string()),
+    submittedAt: v.number(),
+    href: v.string(),
+  }),
 );
 
 export const listPending = adminQuery({
   args: {},
   returns: v.array(pendingPublicationValidator),
   handler: async (ctx) => {
-    const [jobs, listings] = await Promise.all([
+    const [jobs, listings, providers] = await Promise.all([
       ctx.db
         .query("JobOffer")
         .withIndex("by_status", (q) => q.eq("status", "pending"))
@@ -39,6 +47,11 @@ export const listPending = adminQuery({
         .take(100),
       ctx.db
         .query("RealestateListing")
+        .withIndex("by_status", (q) => q.eq("status", "pending"))
+        .order("desc")
+        .take(100),
+      ctx.db
+        .query("providers")
         .withIndex("by_status", (q) => q.eq("status", "pending"))
         .order("desc")
         .take(100),
@@ -59,6 +72,13 @@ export const listPending = adminQuery({
         submittedAt: listing.updatedAt,
         href: `/listing/${listing.slug}`,
       })),
+      ...providers.map((provider) => ({
+        resource: { type: "provider" as const, id: provider._id },
+        title: provider.name,
+        authorName: provider.authorName,
+        submittedAt: provider.updatedAt,
+        href: `/providers/${provider.slug}`,
+      })),
     ]
       .sort((a, b) => b.submittedAt - a.submittedAt)
       .slice(0, 100);
@@ -69,7 +89,7 @@ export const getPendingCount = adminQuery({
   args: {},
   returns: v.number(),
   handler: async (ctx) => {
-    const [jobs, listings] = await Promise.all([
+    const [jobs, listings, providers] = await Promise.all([
       ctx.db
         .query("JobOffer")
         .withIndex("by_status", (q) => q.eq("status", "pending"))
@@ -78,9 +98,13 @@ export const getPendingCount = adminQuery({
         .query("RealestateListing")
         .withIndex("by_status", (q) => q.eq("status", "pending"))
         .take(100),
+      ctx.db
+        .query("providers")
+        .withIndex("by_status", (q) => q.eq("status", "pending"))
+        .take(100),
     ]);
 
-    return jobs.length + listings.length;
+    return jobs.length + listings.length + providers.length;
   },
 });
 
@@ -106,6 +130,27 @@ export const decide = adminMutation({
         read: false,
         message: job.title,
         targetHref: `/jobs/${job.slug}`,
+      });
+      return null;
+    }
+
+    if (resource.type === "provider") {
+      const provider = await ctx.db.get(resource.id);
+      if (!provider) throwNotFound("Provider not found");
+      if (provider.status !== "pending") {
+        throwValidationError("This provider page is no longer pending moderation");
+      }
+      await ctx.db.patch(provider._id, {
+        status: nextStatus,
+        updatedAt: Date.now(),
+      });
+      await ctx.db.insert("notifications", {
+        userId: provider.authorId,
+        type:
+          decision === "approved" ? "provider_approved" : "provider_rejected",
+        read: false,
+        message: provider.name,
+        targetHref: `/providers/${provider.slug}`,
       });
       return null;
     }

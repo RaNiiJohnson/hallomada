@@ -1,0 +1,142 @@
+{
+  "metaTitle": "Prestataires",
+  "metaDescription": "Traiteurs, photographes, coiffeuses… Trouvez des prestataires malagasy en Allemagne et contactez-les directement sur WhatsApp.",
+  "hero": {
+    "title": "Prestataires malagasy en Allemagne",
+    "subtitle": "Traiteurs, photographes, coiffeuses, DJ… Trouvez un prestataire de la communauté et contactez-le directement sur WhatsApp."
+  },
+  "categories": {
+    "food": "Traiteur & gastronomie",
+    "photo": "Photo & vidéo",
+    "beauty": "Coiffure & beauté",
+    "events": "Événementiel & DJ",
+    "fashion": "Couture & mode",
+    "transport": "Transport & colis",
+    "lessons": "Cours & traduction",
+    "digital": "Web & graphisme",
+    "other": "Autre"
+  },
+  "serviceModes": {
+    "atProvider": "Chez le prestataire",
+    "atClient": "Se déplace chez vous",
+    "online": "En ligne"
+  },
+  "list": {
+    "searchPlaceholder": "Rechercher un prestataire, un service, une ville…",
+    "allCategories": "Toutes",
+    "emptyTitle": "Aucun prestataire pour l'instant",
+    "emptyDesc": "Vous proposez un service ? Créez votre page, c'est gratuit.",
+    "loadMore": "Voir plus",
+    "loading": "Chargement…",
+    "create": "Créer ma page prestataire"
+  },
+  "status": {
+    "active": "Publiée",
+    "pending": "En attente de validation",
+    "rejected": "Refusée",
+    "closed": "Masquée",
+    "archived": "Archivée",
+    "pendingHint": "Votre page sera visible publiquement dès qu'un administrateur l'aura validée.",
+    "rejectedHint": "Votre page a été refusée. Modifiez-la pour la soumettre à nouveau.",
+    "closedHint": "Votre page est masquée : elle n'apparaît plus dans l'annuaire.",
+    "hide": "Masquer ma page",
+    "show": "Republier ma page",
+    "updated": "Statut mis à jour",
+    "error": "Impossible de changer le statut"
+  },
+  "details": {
+    "back": "Tous les prestataires",
+    "about": "À propos",
+    "services": "Services & tarifs",
+    "gallery": "Réalisations",
+    "contactTitle": "Contacter",
+    "whatsapp": "Écrire sur WhatsApp",
+    "whatsappMessage": "Bonjour {name}, je vous ai trouvé sur HalloMada 👋",
+    "call": "Appeler",
+    "email": "E-mail",
+    "website": "Site web",
+    "edit": "Modifier",
+    "contactHint": "Mentionnez HalloMada quand vous contactez ce prestataire.",
+    "galleryOpen": "Agrandir la photo {index}",
+    "createdBy": "Créée par",
+    "you": "vous",
+    "anonymous": "Membre"
+  },
+  "form": {
+    "createTitle": "Créer ma page prestataire",
+    "createDesc": "Présentez votre activité à la communauté. Votre page sera publiée après validation.",
+    "editTitle": "Modifier ma page prestataire",
+    "editDesc": "Après modification, votre page repasse en validation.",
+    "sections": {
+      "about": "Votre activité",
+      "services": "Services & tarifs",
+      "images": "Logo & photos",
+      "contact": "Contact & réseaux sociaux"
+    },
+    "labels": {
+      "name": "Nom de l'activité",
+      "category": "Catégorie",
+      "tagline": "Accroche",
+      "city": "Ville",
+      "serviceModes": "Où intervenez-vous ?",
+      "description": "Description",
+      "serviceName": "Service",
+      "servicePrice": "Prix indicatif",
+      "logo": "Logo ou photo de profil",
+      "photos": "Photos de vos réalisations",
+      "photosHint": "Jusqu'à {max} photos, {size} Mo max chacune.",
+      "whatsapp": "Numéro WhatsApp",
+      "phone": "Téléphone (si différent)",
+      "email": "E-mail",
+      "website": "Site web",
+      "facebook": "Facebook",
+      "instagram": "Instagram",
+      "tiktok": "TikTok",
+      "markdownHint": "Mise en forme Markdown prise en charge"
+    },
+    "placeholders": {
+      "name": "Ex. Chez Rakoto Traiteur",
+      "tagline": "Ex. Cuisine malagasy pour vos fêtes et mariages",
+      "city": "Ex. Berlin",
+      "description": "Présentez votre activité, votre expérience, ce qui vous rend unique…",
+      "serviceName": "Ex. Buffet mariage",
+      "servicePrice": "Ex. dès 15 € / pers.",
+      "whatsapp": "0151 23456789",
+      "phone": "030 1234567",
+      "email": "contact@exemple.de",
+      "website": "www.exemple.de",
+      "social": "Lien du profil ou @nom"
+    },
+    "hints": {
+      "whatsapp": "Vos clients vous écriront directement sur ce numéro WhatsApp.",
+      "social": "Collez le lien de votre profil ou simplement votre @nom."
+    },
+    "actions": {
+      "addService": "Ajouter un service",
+      "removeService": "Retirer ce service",
+      "addPhoto": "Ajouter des photos",
+      "chooseLogo": "Choisir un logo",
+      "removeImage": "Retirer l'image",
+      "publish": "Publier ma page",
+      "publishing": "Publication…",
+      "save": "Enregistrer",
+      "saving": "Enregistrement…"
+    },
+    "validation": {
+      "nameReq": "Le nom est requis",
+      "cityReq": "La ville est requise",
+      "descMin": "La description doit contenir au moins 20 caractères",
+      "whatsappInvalid": "Numéro invalide",
+      "phoneInvalid": "Numéro invalide",
+      "emailInvalid": "E-mail invalide",
+      "urlInvalid": "Lien invalide",
+      "serviceModesReq": "Choisissez au moins une option",
+      "tooLong": "Texte trop long"
+    },
+    "messages": {
+      "created": "Page envoyée ! Elle sera visible après validation.",
+      "updated": "Modifications envoyées pour validation",
+      "error": "Une erreur est survenue, réessayez."
+    }
+  }
+}

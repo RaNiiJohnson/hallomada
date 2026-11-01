@@ -5,6 +5,11 @@ import {
   adminAuditMetadataValidator,
 } from "./adminAuditValues";
 import {
+  providerCategoryValidator,
+  providerServiceModeValidator,
+  providerServiceValidator,
+} from "./providers/values";
+import {
   reportReasonValidator,
   reportStatusValidator,
   reportTargetIdValidator,
@@ -23,6 +28,48 @@ export default defineSchema({
   })
     .index("by_userId", ["userId"])
     .index("by_availability", ["available"]),
+
+  // Public showcase pages for Malagasy service providers based in Germany.
+  // Contact details are deliberately public: reaching the provider is the
+  // purpose of the page.
+  providers: defineTable({
+    slug: v.string(),
+    name: v.string(),
+    category: providerCategoryValidator,
+    tagline: v.optional(v.string()),
+    description: v.string(),
+    city: v.string(),
+    serviceModes: v.array(providerServiceModeValidator),
+    services: v.array(providerServiceValidator),
+    logo: v.optional(v.object({ storageId: v.string() })),
+    images: v.array(v.object({ storageId: v.string() })),
+    whatsapp: v.string(),
+    phone: v.optional(v.string()),
+    email: v.optional(v.string()),
+    website: v.optional(v.string()),
+    facebook: v.optional(v.string()),
+    instagram: v.optional(v.string()),
+    tiktok: v.optional(v.string()),
+    status: v.union(
+      v.literal("pending"),
+      v.literal("active"),
+      v.literal("rejected"),
+      v.literal("closed"),
+      v.literal("archived"),
+    ),
+    authorId: v.string(),
+    authorName: v.optional(v.string()),
+    updatedAt: v.number(),
+    searchAll: v.string(),
+  })
+    .index("by_authorId_and_status", ["authorId", "status"])
+    .index("by_slug", ["slug"])
+    .index("by_status", ["status"])
+    .index("by_status_and_category", ["status", "category"])
+    .searchIndex("search_all_fields", {
+      searchField: "searchAll",
+      filterFields: ["status", "category"],
+    }),
 
   JobOffer: defineTable({
     title: v.string(),
@@ -394,6 +441,9 @@ export default defineSchema({
       v.literal("listing_rejected"),
       v.literal("job_pending_review"),
       v.literal("listing_pending_review"),
+      v.literal("provider_approved"),
+      v.literal("provider_rejected"),
+      v.literal("provider_pending_review"),
     ),
     read: v.boolean(),
     postSlug: v.optional(v.string()),
@@ -416,6 +466,7 @@ export default defineSchema({
       v.literal("profile"),
       v.literal("cover"),
       v.literal("applicationCv"),
+      v.literal("provider"),
     ),
     expectedContentType: v.string(),
     maxSize: v.number(),
