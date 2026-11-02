@@ -25,6 +25,7 @@
     "listing_pending_review": "Nouvelle annonce logement « {title} » soumise par {name}",
     "provider_approved": "Votre page prestataire « {title} » a été validée et publiée",
     "provider_rejected": "Votre page prestataire « {title} » a été refusée",
-    "provider_pending_review": "Nouvelle page prestataire « {title} » soumise par {name}"
+    "provider_pending_review": "Nouvelle page prestataire « {title} » soumise par {name}",
+    "job_contact_bounced": "L’e-mail de contact de votre offre « {title} » ne fonctionne pas : les candidatures ne vous parviennent pas. Modifiez-le."
   }
 }

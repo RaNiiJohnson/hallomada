@@ -25,6 +25,7 @@
     "listing_pending_review": "New housing listing “{title}” submitted by {name}",
     "provider_approved": "Your provider page “{title}” was approved and published",
     "provider_rejected": "Your provider page “{title}” was rejected",
-    "provider_pending_review": "New provider page “{title}” submitted by {name}"
+    "provider_pending_review": "New provider page “{title}” submitted by {name}",
+    "job_contact_bounced": "The contact email of your job “{title}” doesn’t work, so applications aren’t reaching you. Please update it."
   }
 }

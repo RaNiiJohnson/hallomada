@@ -3,7 +3,7 @@ import { internal } from "../_generated/api";
 import type { ActionCtx } from "../_generated/server";
 import type { Id } from "../_generated/dataModel";
 import { authAction } from "../functions";
-import { env } from "../_generated/server";
+import { env, internalAction } from "../_generated/server";
 import { sendTemplateEmail } from "../email";
 import { SITE_URL } from "../emails/layout";
 import {
@@ -40,6 +40,7 @@ async function deliverApplicationEmail(
   ctx: ActionCtx,
   user: Candidate,
   application: ApplicationEmailPayload,
+  locale: EmailLocale,
 ) {
   try {
     let contactEmail = application.contactEmail;
@@ -57,7 +58,7 @@ async function deliverApplicationEmail(
     // keeps working long after the 15-minute signed URL would have expired.
     const cvUrl = `${env.CONVEX_SITE_URL}/application-cv?t=${application.cvToken}`;
 
-    await sendTemplateEmail(ctx, {
+    const recruiterEmailId = await sendTemplateEmail(ctx, {
       to: contactEmail,
       subject: `Neue Bewerbung: ${application.jobTitle}`,
       // Lets the recruiter answer the candidate by simply hitting "reply".
@@ -75,6 +76,8 @@ async function deliverApplicationEmail(
     await ctx.runMutation(internal.jobs.mutations.updateApplicationEmailStatus, {
       id: application.applicationId,
       emailStatus: "sent",
+      recruiterEmailId,
+      candidateLocale: locale,
     });
   } catch (error) {
     await ctx.runMutation(internal.jobs.mutations.updateApplicationEmailStatus, {
@@ -119,7 +122,7 @@ async function notifyCandidate(
             subject: applicationFailedStrings[locale].subject(
               application.jobTitle,
             ),
-            email: <ApplicationFailedEmail {...props} />,
+            email: <ApplicationFailedEmail {...props} reason="technical" />,
           },
     );
   } catch (error) {
@@ -146,7 +149,7 @@ export const applyToJob = authAction({
     );
 
     try {
-      await deliverApplicationEmail(ctx, user, application);
+      await deliverApplicationEmail(ctx, user, application, emailLocale);
     } catch (error) {
       await notifyCandidate(ctx, user, application, emailLocale, "failed");
       throw error;
@@ -166,8 +169,40 @@ export const retryApplicationEmail = authAction({
     );
     // The candidate is on the page and sees a failed retry right away, so
     // only the success is confirmed by email.
-    await deliverApplicationEmail(ctx, ctx.user, application);
-    await notifyCandidate(ctx, ctx.user, application, toEmailLocale(locale), "sent");
+    const emailLocale = toEmailLocale(locale);
+    await deliverApplicationEmail(ctx, ctx.user, application, emailLocale);
+    await notifyCandidate(ctx, ctx.user, application, emailLocale, "sent");
+    return null;
+  },
+});
+
+/**
+ * Scheduled by the Resend webhook when the recruiter email bounced: tells the
+ * candidate their application never arrived.
+ */
+export const sendApplicationBouncedEmail = internalAction({
+  args: { applicationId: v.id("jobApplications") },
+  returns: v.null(),
+  handler: async (ctx, { applicationId }) => {
+    const data = await ctx.runQuery(
+      internal.jobs.emailEvents.getBouncedApplicationEmailData,
+      { applicationId },
+    );
+    if (!data) return null;
+    const locale = toEmailLocale(data.candidateLocale);
+    await sendTemplateEmail(ctx, {
+      to: data.candidateEmail,
+      subject: applicationFailedStrings[locale].subject(data.jobTitle),
+      email: (
+        <ApplicationFailedEmail
+          locale={locale}
+          name={data.candidateName}
+          jobTitle={data.jobTitle}
+          jobUrl={`${SITE_URL}/${locale}/jobs/${data.jobSlug}`}
+          reason="bounced"
+        />
+      ),
+    });
     return null;
   },
 });

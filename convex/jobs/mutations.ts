@@ -548,10 +548,14 @@ export const updateApplicationEmailStatus = internalMutation({
   args: {
     id: v.id("jobApplications"),
     emailStatus: v.union(v.literal("sent"), v.literal("failed")),
+    recruiterEmailId: v.optional(v.string()),
+    candidateLocale: v.optional(
+      v.union(v.literal("fr"), v.literal("en"), v.literal("de")),
+    ),
   },
   returns: v.null(),
-  handler: async (ctx, { id, emailStatus }) => {
-    await ctx.db.patch(id, { emailStatus });
+  handler: async (ctx, { id, ...patch }) => {
+    await ctx.db.patch(id, patch);
     return null;
   },
 });

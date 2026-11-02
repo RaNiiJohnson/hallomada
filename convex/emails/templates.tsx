@@ -135,16 +135,21 @@ export function ApplicationSentEmail({
   );
 }
 
-/** Sent to the candidate when the recruiter email could not be sent. */
+/**
+ * Sent to the candidate when the recruiter email could not be sent
+ * (`technical`) or was rejected by the recruiter's address (`bounced`).
+ */
 export function ApplicationFailedEmail({
   locale,
   name,
   jobTitle,
   jobUrl,
-}: CandidateEmailProps) {
+  reason,
+}: CandidateEmailProps & { reason: "technical" | "bounced" }) {
   const t = applicationFailedStrings[locale];
   const s = shared[locale];
-  const [before, job, after] = t.body(jobTitle);
+  const bounced = reason === "bounced";
+  const [before, job, after] = (bounced ? t.bouncedBody : t.body)(jobTitle);
   return (
     <EmailLayout lang={locale} preview={t.preview} footer={s.footer}>
       <Title>{t.title}</Title>
@@ -155,7 +160,7 @@ export function ApplicationFailedEmail({
         <Strong>{job}</Strong>
         {after}
       </Paragraph>
-      <Paragraph>{t.retry}</Paragraph>
+      <Paragraph>{bounced ? t.bouncedRetry : t.retry}</Paragraph>
       <CtaButton href={jobUrl}>{t.button}</CtaButton>
     </EmailLayout>
   );

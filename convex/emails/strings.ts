@@ -149,6 +149,9 @@ type ApplicationFailedStrings = {
   title: string;
   body: (job: string) => [string, string, string];
   retry: string;
+  /** The recruiter's contact address rejected the email. */
+  bouncedBody: (job: string) => [string, string, string];
+  bouncedRetry: string;
   button: string;
 };
 
@@ -163,6 +166,12 @@ export const applicationFailedStrings: Record<EmailLocale, ApplicationFailedStri
       ". Le recruteur ne l'a pas reçue.",
     ],
     retry: "Vous pouvez la renvoyer depuis la page de l'offre, sans tout remplir à nouveau.",
+    bouncedBody: (job) => [
+      "L'adresse e-mail de contact de l'offre ",
+      job,
+      " a refusé votre candidature. Le recruteur ne l'a pas reçue.",
+    ],
+    bouncedRetry: "Nous avons prévenu l'auteur de l'offre. Réessayez dans quelques jours depuis la page de l'offre, sans tout remplir à nouveau.",
     button: "Renvoyer ma candidature",
   },
   en: {
@@ -175,6 +184,12 @@ export const applicationFailedStrings: Record<EmailLocale, ApplicationFailedStri
       " from being sent. The recruiter hasn't received it.",
     ],
     retry: "You can resend it from the job page without filling everything in again.",
+    bouncedBody: (job) => [
+      "The contact email address for ",
+      job,
+      " rejected your application. The recruiter hasn't received it.",
+    ],
+    bouncedRetry: "We've let the person who posted the job know. Try again in a few days from the job page, without filling everything in again.",
     button: "Resend my application",
   },
   de: {
@@ -187,6 +202,12 @@ export const applicationFailedStrings: Record<EmailLocale, ApplicationFailedStri
       " nicht gesendet werden. Der Arbeitgeber hat sie nicht erhalten.",
     ],
     retry: "Sie können sie auf der Stellenseite erneut senden, ohne alles neu auszufüllen.",
+    bouncedBody: (job) => [
+      "Die Kontaktadresse der Stelle ",
+      job,
+      " hat Ihre Bewerbung abgelehnt. Der Arbeitgeber hat sie nicht erhalten.",
+    ],
+    bouncedRetry: "Wir haben den Arbeitgeber informiert. Versuchen Sie es in ein paar Tagen erneut auf der Stellenseite, ohne alles neu auszufüllen.",
     button: "Bewerbung erneut senden",
   },
 };

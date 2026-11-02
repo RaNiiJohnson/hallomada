@@ -103,9 +103,24 @@ describe("job application emails", () => {
         name="Ada"
         jobTitle="Developer"
         jobUrl="https://hallomada.de/en/jobs/developer"
+        reason="technical"
       />,
     );
     expect(html).toContain("Resend my application");
     expect(html).toContain("https://hallomada.de/en/jobs/developer");
+  });
+
+  it("explains a bounced recruiter address to the candidate", async () => {
+    const html = await render(
+      <ApplicationFailedEmail
+        locale="de"
+        name="Ada"
+        jobTitle="Entwicklerin"
+        jobUrl="https://hallomada.de/de/jobs/entwicklerin"
+        reason="bounced"
+      />,
+    );
+    expect(html).toContain("Kontaktadresse");
+    expect(html).toContain("Arbeitgeber informiert");
   });
 });

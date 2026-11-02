@@ -542,6 +542,99 @@ describe("Jobs", () => {
     ).rejects.toThrow("You have already applied to this job");
   });
 
+  describe("Resend webhook", () => {
+    function resendEvent(type: "email.bounced" | "email.delivered") {
+      const data = {
+        created_at: "2026-11-02T10:00:00.000Z",
+        email_id: "resend-email-1",
+        from: "Hallomada <noreply@hallomada.de>",
+        to: ["employer@example.com"],
+        subject: "Neue Bewerbung: Job Title",
+      };
+      return type === "email.bounced"
+        ? {
+            type,
+            created_at: data.created_at,
+            data: {
+              ...data,
+              bounce: {
+                type: "Permanent",
+                subType: "General",
+                message: "Mailbox does not exist",
+              },
+            },
+          }
+        : { type, created_at: data.created_at, data };
+    }
+
+    async function sentApplication() {
+      authState.user._id = "candidateId";
+      authState.user.id = "candidateId";
+      const application = await submitApplication({ jobId });
+      await t.mutation(internal.jobs.mutations.updateApplicationEmailStatus, {
+        id: application.applicationId,
+        emailStatus: "sent",
+        recruiterEmailId: "resend-email-1",
+        candidateLocale: "fr",
+      });
+      return application.applicationId;
+    }
+
+    async function authorBounceNotifications() {
+      return await t.run(async (ctx) =>
+        (
+          await ctx.db
+            .query("notifications")
+            .withIndex("by_userId", (q) => q.eq("userId", "testUserId"))
+            .collect()
+        ).filter((n) => n.type === "job_contact_bounced"),
+      );
+    }
+
+    it("marks the application failed and warns the job author on bounce", async () => {
+      const applicationId = await sentApplication();
+
+      await t.mutation(internal.jobs.emailEvents.handleEmailEvent, {
+        id: "resend-email-1" as never,
+        event: resendEvent("email.bounced"),
+      });
+
+      const application = await t.run((ctx) => ctx.db.get(applicationId));
+      expect(application?.emailStatus).toBe("failed");
+      const notifications = await authorBounceNotifications();
+      expect(notifications).toHaveLength(1);
+      expect(notifications[0]).toMatchObject({
+        message: "Job Title",
+        targetHref: `/jobs/${jobSlug}/edit`,
+        read: false,
+      });
+
+      // The webhook can be delivered twice: nothing happens the second time.
+      await t.mutation(internal.jobs.emailEvents.handleEmailEvent, {
+        id: "resend-email-1" as never,
+        event: resendEvent("email.bounced"),
+      });
+      expect(await authorBounceNotifications()).toHaveLength(1);
+    });
+
+    it("ignores delivered emails and unknown email ids", async () => {
+      const applicationId = await sentApplication();
+
+      await t.mutation(internal.jobs.emailEvents.handleEmailEvent, {
+        id: "resend-email-1" as never,
+        event: resendEvent("email.delivered"),
+      });
+      await t.mutation(internal.jobs.emailEvents.handleEmailEvent, {
+        id: "some-other-email" as never,
+        event: resendEvent("email.bounced"),
+      });
+
+      const application = await t.run((ctx) => ctx.db.get(applicationId));
+      expect(application?.emailStatus).toBe("sent");
+      expect(await authorBounceNotifications()).toHaveLength(0);
+    });
+  });
+
   it("retries only the failed email for the original candidate", async () => {
     authState.user._id = "candidateId";
     authState.user.id = "candidateId";
