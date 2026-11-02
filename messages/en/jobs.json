@@ -172,7 +172,8 @@
     "applicationDeliveryRetry": "Resend application",
     "applicationDeliveryRetrying": "Resending...",
     "applicationDeliveryRetried": "The application was resent successfully.",
-    "applicationDeliveryRetryFailed": "The application could not be resent. Please try again later."
+    "applicationDeliveryRetryFailed": "The application could not be resent. Please try again later.",
+    "applicationDeliveryRetryLimit": "You've already resent this application several times today. Please try again tomorrow."
   },
   "dialogs": {
     "publish": {

@@ -61,6 +61,8 @@ const jobContactEmailValidator = v.string();
 const applicationEmailPayloadValidator = v.object({
   applicationId: v.id("jobApplications"),
   jobTitle: v.string(),
+  jobSlug: v.string(),
+  company: v.string(),
   authorId: v.string(),
   contactEmail: v.optional(v.string()),
   cvToken: v.string(),
@@ -490,6 +492,8 @@ export const submitApplication = internalMutation({
     return {
       applicationId,
       jobTitle: job.title,
+      jobSlug: job.slug,
+      company: job.company,
       authorId: job.authorId,
       contactEmail: contact?.email,
       cvToken,
@@ -514,6 +518,14 @@ export const prepareApplicationEmailRetry = internalMutation({
     if (!application || application.emailStatus !== "failed") {
       throwValidationError("This application is not awaiting an email retry");
     }
+    const rate = await limiter.limit(ctx, "applicationRetryPerApplication", {
+      key: application._id,
+    });
+    if (!rate.ok) {
+      throwLimitReached("Daily application resend limit reached", {
+        retryAfter: rate.retryAfter ?? 0,
+      });
+    }
 
     const job = await ctx.db.get(jobId);
     if (!job) throwNotFound("Job not found");
@@ -530,6 +542,8 @@ export const prepareApplicationEmailRetry = internalMutation({
     return {
       applicationId: application._id,
       jobTitle: job.title,
+      jobSlug: job.slug,
+      company: job.company,
       authorId: job.authorId,
       contactEmail: contact?.email,
       cvToken,
@@ -542,10 +556,14 @@ export const updateApplicationEmailStatus = internalMutation({
   args: {
     id: v.id("jobApplications"),
     emailStatus: v.union(v.literal("sent"), v.literal("failed")),
+    recruiterEmailId: v.optional(v.string()),
+    candidateLocale: v.optional(
+      v.union(v.literal("fr"), v.literal("en"), v.literal("de")),
+    ),
   },
   returns: v.null(),
-  handler: async (ctx, { id, emailStatus }) => {
-    await ctx.db.patch(id, { emailStatus });
+  handler: async (ctx, { id, ...patch }) => {
+    await ctx.db.patch(id, patch);
     return null;
   },
 });

@@ -172,7 +172,8 @@
     "applicationDeliveryRetry": "Renvoyer la candidature",
     "applicationDeliveryRetrying": "Nouvel envoi...",
     "applicationDeliveryRetried": "La candidature a bien été renvoyée.",
-    "applicationDeliveryRetryFailed": "Le nouvel envoi a échoué. Réessayez plus tard."
+    "applicationDeliveryRetryFailed": "Le nouvel envoi a échoué. Réessayez plus tard.",
+    "applicationDeliveryRetryLimit": "Vous avez déjà renvoyé cette candidature plusieurs fois aujourd’hui. Réessayez demain."
   },
   "dialogs": {
     "publish": {

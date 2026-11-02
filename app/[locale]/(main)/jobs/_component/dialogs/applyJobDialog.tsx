@@ -26,7 +26,8 @@ import {
   UploadIcon,
   XIcon,
 } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
+import type { Locale } from "@/i18n/routing";
 import { useState, useTransition } from "react";
 import { toast } from "sonner";
 
@@ -47,6 +48,7 @@ export function ApplyJobDialog({
   );
   const cvUrl = useQuery(api.integrations.r2.getCvUrl);
   const t = useTranslations("jobs.dialogs.apply");
+  const locale = useLocale();
 
   const [isOpen, setIsOpen] = useState(false);
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
@@ -102,6 +104,7 @@ export function ApplyJobDialog({
           jobId: jobOffer._id,
           applicationCvKey,
           coverLetter: coverLetter.trim() || undefined,
+          locale: locale as Locale,
         });
 
         toast.success(t("success.applied"));

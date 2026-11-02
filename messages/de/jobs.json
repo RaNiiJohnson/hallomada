@@ -172,7 +172,8 @@
     "applicationDeliveryRetry": "Bewerbung erneut senden",
     "applicationDeliveryRetrying": "Wird erneut gesendet...",
     "applicationDeliveryRetried": "Die Bewerbung wurde erneut gesendet.",
-    "applicationDeliveryRetryFailed": "Die Bewerbung konnte nicht erneut gesendet werden. Bitte versuchen Sie es später noch einmal."
+    "applicationDeliveryRetryFailed": "Die Bewerbung konnte nicht erneut gesendet werden. Bitte versuchen Sie es später noch einmal.",
+    "applicationDeliveryRetryLimit": "Sie haben diese Bewerbung heute bereits mehrmals erneut gesendet. Bitte versuchen Sie es morgen noch einmal."
   },
   "dialogs": {
     "publish": {

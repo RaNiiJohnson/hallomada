@@ -444,6 +444,7 @@ export default defineSchema({
       v.literal("provider_approved"),
       v.literal("provider_rejected"),
       v.literal("provider_pending_review"),
+      v.literal("job_contact_bounced"),
     ),
     read: v.boolean(),
     postSlug: v.optional(v.string()),
@@ -497,8 +498,16 @@ export default defineSchema({
         v.literal("failed"),
       ),
     ),
+    // Resend id of the email sent to the recruiter. The Resend webhook uses it
+    // to find the application when that email bounces.
+    recruiterEmailId: v.optional(v.string()),
+    // Language of the page the candidate applied from, for follow-up emails.
+    candidateLocale: v.optional(
+      v.union(v.literal("fr"), v.literal("en"), v.literal("de")),
+    ),
   })
     .index("by_jobId_and_candidateId", ["jobId", "candidateId"])
+    .index("by_recruiterEmailId", ["recruiterEmailId"])
     .index("by_candidateId", ["candidateId"])
     .index("by_cvKey", ["cvKey"])
     .index("by_cvToken", ["cvToken"])

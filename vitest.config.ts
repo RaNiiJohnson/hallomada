@@ -8,7 +8,7 @@ export default defineConfig({
         extends: true,
         test: {
           name: "convex",
-          include: ["convex/**/*.test.{ts,js}"],
+          include: ["convex/**/*.test.{ts,tsx,js}"],
           environment: "edge-runtime",
           setupFiles: [
             "./convex/test.aggregates.mock.ts",
