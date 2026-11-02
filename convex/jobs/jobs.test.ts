@@ -6,6 +6,7 @@ import { api, internal } from "../_generated/api";
 import { Id } from "../_generated/dataModel";
 import schema from "../schema";
 import { modules } from "../test.setup";
+import { limiter } from "../rateLimits";
 
 vi.mock("../notifications/admin", () => ({
   notifyAdministratorsOfPendingPublication: vi.fn(),
@@ -582,12 +583,10 @@ describe("Jobs", () => {
 
     async function authorBounceNotifications() {
       return await t.run(async (ctx) =>
-        (
-          await ctx.db
-            .query("notifications")
-            .withIndex("by_userId", (q) => q.eq("userId", "testUserId"))
-            .collect()
-        ).filter((n) => n.type === "job_contact_bounced"),
+        (await ctx.db.query("notifications").collect()).filter(
+          (n) =>
+            n.userId === "testUserId" && n.type === "job_contact_bounced",
+        ),
       );
     }
 
@@ -633,6 +632,35 @@ describe("Jobs", () => {
       expect(application?.emailStatus).toBe("sent");
       expect(await authorBounceNotifications()).toHaveLength(0);
     });
+  });
+
+  it("limits how often a failed application can be resent", async () => {
+    authState.user._id = "candidateId";
+    authState.user.id = "candidateId";
+    const application = await submitApplication({ jobId });
+    await t.mutation(internal.jobs.mutations.updateApplicationEmailStatus, {
+      id: application.applicationId,
+      emailStatus: "failed",
+    });
+
+    vi.mocked(limiter.limit).mockResolvedValueOnce({
+      ok: false,
+      retryAfter: 60_000,
+    });
+    await expect(
+      t.mutation(internal.jobs.mutations.prepareApplicationEmailRetry, {
+        jobId,
+      }),
+    ).rejects.toThrow("Daily application resend limit reached");
+    expect(limiter.limit).toHaveBeenLastCalledWith(
+      expect.anything(),
+      "applicationRetryPerApplication",
+      { key: application.applicationId },
+    );
+
+    // Still failed, so the candidate can resend once the limit resets.
+    const stored = await t.run((ctx) => ctx.db.get(application.applicationId));
+    expect(stored?.emailStatus).toBe("failed");
   });
 
   it("retries only the failed email for the original candidate", async () => {

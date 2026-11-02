@@ -518,6 +518,14 @@ export const prepareApplicationEmailRetry = internalMutation({
     if (!application || application.emailStatus !== "failed") {
       throwValidationError("This application is not awaiting an email retry");
     }
+    const rate = await limiter.limit(ctx, "applicationRetryPerApplication", {
+      key: application._id,
+    });
+    if (!rate.ok) {
+      throwLimitReached("Daily application resend limit reached", {
+        retryAfter: rate.retryAfter ?? 0,
+      });
+    }
 
     const job = await ctx.db.get(jobId);
     if (!job) throwNotFound("Job not found");

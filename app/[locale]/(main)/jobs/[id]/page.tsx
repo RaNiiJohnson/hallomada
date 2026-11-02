@@ -18,6 +18,7 @@ import { useTimeTranslations } from "@/hooks/use-time-translations";
 import { Link } from "@/i18n/navigation";
 import { useAuthRequiredAction } from "@/hooks/use-auth-required-action";
 import { formatDateLong, getRelativeTime } from "@/lib/date";
+import { getConvexErrorCode } from "@/lib/convex-error";
 import { getSafeExternalUrl } from "@/lib/external-url";
 import { LocationMap } from "@/lib/LocationMap";
 import { api } from "@convex/_generated/api";
@@ -148,8 +149,12 @@ export default function JobDetailsPage() {
         locale: locale as Locale,
       });
       toast.success(t("details.applicationDeliveryRetried"));
-    } catch {
-      toast.error(t("details.applicationDeliveryRetryFailed"));
+    } catch (error) {
+      toast.error(
+        getConvexErrorCode(error) === "LIMIT_REACHED"
+          ? t("details.applicationDeliveryRetryLimit")
+          : t("details.applicationDeliveryRetryFailed"),
+      );
     } finally {
       setIsRetryingApplicationEmail(false);
     }

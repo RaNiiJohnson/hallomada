@@ -44,6 +44,14 @@ export const limiter = new RateLimiter(components.rateLimiter, {
     period: DAY,
     capacity: 10,
   },
+  // Resending an application whose email failed: 3 per application per day.
+  // A broken recruiter address would otherwise bounce on every click.
+  applicationRetryPerApplication: {
+    kind: "token bucket",
+    rate: 3,
+    period: DAY,
+    capacity: 3,
+  },
   reportPerUser: {
     kind: "token bucket",
     rate: 10,
