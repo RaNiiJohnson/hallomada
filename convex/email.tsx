@@ -1,65 +1,66 @@
-import { Resend } from "@convex-dev/resend";
-import { components } from "./_generated/api";
+import type { ReactElement } from "react";
+import { render } from "react-email";
 import { type ActionCtx } from "./_generated/server";
+import { EMAIL_FROM } from "./emails/layout";
 import {
-  buildResetPasswordEmailHtml,
-  buildVerificationEmailHtml,
-  emailVerificationTranslations,
-  resetPasswordTranslations,
-} from "./utils/auth.utils";
+  localeFromAuthUrl,
+  resetPasswordStrings,
+  verifyEmailStrings,
+} from "./emails/strings";
+import { ResetPasswordEmail, VerifyEmail } from "./emails/templates";
+import { resend } from "./sendEmails";
 
-export const resend = new Resend(components.resend, {
-  testMode: false,
-});
-
-export const sendEmailVerification = async (
+/** Renders a React Email template (HTML + plain text) and queues it. */
+export async function sendTemplateEmail(
   ctx: ActionCtx,
   {
     to,
-    url,
-    name,
+    subject,
+    email,
+    replyTo,
   }: {
     to: string;
-    url: string;
-    name?: string | null;
+    subject: string;
+    email: ReactElement;
+    replyTo?: string[];
   },
-) => {
-  const callbackURL = new URL(url).searchParams.get("callbackURL") ?? "/";
-  const localeMatch = callbackURL.match(/^\/(fr|en|de)/);
-  const locale = (localeMatch?.[1] as "fr" | "en" | "de") ?? "en";
-
-  const t = emailVerificationTranslations[locale];
-  const displayName = name ?? to;
-  await resend.sendEmail(ctx, {
-    from: "Hallomada <noreply@hallomada.de>",
+) {
+  const [html, text] = await Promise.all([
+    render(email),
+    render(email, { plainText: true }),
+  ]);
+  return await resend.sendEmail(ctx, {
+    from: EMAIL_FROM,
     to,
-    subject: t.subject,
-    html: buildVerificationEmailHtml({ displayName, locale, url, t }),
+    subject,
+    html,
+    text,
+    replyTo,
+  });
+}
+
+type AuthEmailArgs = { to: string; url: string; name?: string | null };
+
+export const sendEmailVerification = async (
+  ctx: ActionCtx,
+  { to, url, name }: AuthEmailArgs,
+) => {
+  const locale = localeFromAuthUrl(url);
+  await sendTemplateEmail(ctx, {
+    to,
+    subject: verifyEmailStrings[locale].subject,
+    email: <VerifyEmail locale={locale} name={name || to} url={url} />,
   });
 };
 
 export const sendResetPasswordEmail = async (
   ctx: ActionCtx,
-  {
-    to,
-    url,
-    name,
-  }: {
-    to: string;
-    url: string;
-    name?: string | null;
-  },
+  { to, url, name }: AuthEmailArgs,
 ) => {
-  const callbackURL = new URL(url).searchParams.get("callbackURL") ?? "/";
-  const localeMatch = callbackURL.match(/^\/(fr|en|de)/);
-  const locale = (localeMatch?.[1] as "fr" | "en" | "de") ?? "en";
-
-  const t = resetPasswordTranslations[locale];
-  const displayName = name ?? to;
-  await resend.sendEmail(ctx, {
-    from: "Hallomada <noreply@hallomada.de>",
+  const locale = localeFromAuthUrl(url);
+  await sendTemplateEmail(ctx, {
     to,
-    subject: t.subject,
-    html: buildResetPasswordEmailHtml({ displayName, locale, url, t }),
+    subject: resetPasswordStrings[locale].subject,
+    email: <ResetPasswordEmail locale={locale} name={name || to} url={url} />,
   });
 };

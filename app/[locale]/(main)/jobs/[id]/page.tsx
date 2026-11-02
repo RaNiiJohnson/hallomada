@@ -36,6 +36,7 @@ import {
   Pencil,
 } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
+import type { Locale } from "@/i18n/routing";
 import { notFound, useParams } from "next/navigation";
 import { useState } from "react";
 import ReactMarkdown from "react-markdown";
@@ -142,7 +143,10 @@ export default function JobDetailsPage() {
   const handleApplicationEmailRetry = async () => {
     setIsRetryingApplicationEmail(true);
     try {
-      await retryApplicationEmail({ jobId: jobOffer._id });
+      await retryApplicationEmail({
+        jobId: jobOffer._id,
+        locale: locale as Locale,
+      });
       toast.success(t("details.applicationDeliveryRetried"));
     } catch {
       toast.error(t("details.applicationDeliveryRetryFailed"));

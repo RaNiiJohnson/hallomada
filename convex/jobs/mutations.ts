@@ -61,6 +61,8 @@ const jobContactEmailValidator = v.string();
 const applicationEmailPayloadValidator = v.object({
   applicationId: v.id("jobApplications"),
   jobTitle: v.string(),
+  jobSlug: v.string(),
+  company: v.string(),
   authorId: v.string(),
   contactEmail: v.optional(v.string()),
   cvToken: v.string(),
@@ -490,6 +492,8 @@ export const submitApplication = internalMutation({
     return {
       applicationId,
       jobTitle: job.title,
+      jobSlug: job.slug,
+      company: job.company,
       authorId: job.authorId,
       contactEmail: contact?.email,
       cvToken,
@@ -530,6 +534,8 @@ export const prepareApplicationEmailRetry = internalMutation({
     return {
       applicationId: application._id,
       jobTitle: job.title,
+      jobSlug: job.slug,
+      company: job.company,
       authorId: job.authorId,
       contactEmail: contact?.email,
       cvToken,
