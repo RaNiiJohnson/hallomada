@@ -12,22 +12,16 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { MobileActionsMenu } from "@/components/mobile-actions-menu";
 import { Link } from "@/i18n/navigation";
 import { api } from "@convex/_generated/api";
 import { useQuery } from "convex-helpers/react/cache";
 import { useAction, useConvexAuth, useMutation } from "convex/react";
 import {
-  ChevronDown,
   ChevronRight,
-  Settings2,
+  Hash,
+  LogOut,
+  MapPin,
   Trash,
   Users,
 } from "lucide-react";
@@ -106,10 +100,31 @@ export default function CommunityClient() {
     }
   };
 
+  const isAdmin = isMember?.role === "admin";
+  const canLeave = !!isMember && !isAdmin;
+  const canReport =
+    currentUser !== undefined && currentUser?._id !== community.authorId;
+  const hasMenuActions = canLeave || canReport || isAdmin;
+
+  // Join for visitors and non-members, write a post for members.
+  const primaryAction = !isAuthenticated ? (
+    <Button size="sm" onClick={requireAuthentication}>
+      {t("join")}
+    </Button>
+  ) : isMember === undefined ? null : isMember ? (
+    <CreatePostDialog
+      communityId={community._id}
+      communityName={community.name}
+    />
+  ) : (
+    <Button size="sm" onClick={handleJoin}>
+      {t("join")}
+    </Button>
+  );
+
   return (
     <div className="min-h-screen bg-background pb-12">
-      {" "}
-      <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2 sm:mb-4  px-4 pt-2 sm:pt-8">
+      <div className="max-w-4xl mx-auto px-4 sm:px-5 flex items-center gap-2 text-sm text-muted-foreground mb-2 sm:mb-4 pt-2 sm:pt-8">
         <Link
           href="/communities"
           className="hover:text-foreground transition-colors"
@@ -140,7 +155,7 @@ export default function CommunityClient() {
                     <h1 className="text-lg sm:text-xl font-bold text-foreground leading-tight">
                       {community.name}
                     </h1>
-                    {isMember?.role === "admin" && (
+                    {isAdmin && (
                       <Badge
                         variant="secondary"
                         className="text-[10px] h-5 px-2 font-semibold tracking-wide shrink-0"
@@ -149,95 +164,83 @@ export default function CommunityClient() {
                       </Badge>
                     )}
                   </div>
-                  <div className="flex items-center gap-2 mt-1 text-xs text-muted-foreground">
+                  <div className="flex flex-wrap items-center gap-x-2 gap-y-1 mt-1 text-xs text-muted-foreground">
                     <span className="flex items-center gap-1">
                       <Users size={11} className="shrink-0" />
                       <span className="font-medium text-foreground">
                         {community.membersCount ?? 0}
                       </span>
-                      {t("members")}
+                      {t("members", { count: community.membersCount ?? 0 })}
                     </span>
                     <span>·</span>
                     <span>
                       <span className="font-medium text-foreground">
                         {community.postsCount ?? 0}
                       </span>{" "}
-                      {t("posts")}
+                      {t("posts", { count: community.postsCount ?? 0 })}
                     </span>
+                    {community.city || community.theme ? (
+                      <>
+                        <span>·</span>
+                        <span
+                          className="flex items-center gap-1"
+                          title={community.city ? t("cityTag") : t("themeTag")}
+                        >
+                          {community.city ? (
+                            <MapPin size={11} className="shrink-0" />
+                          ) : (
+                            <Hash size={11} className="shrink-0" />
+                          )}
+                          {community.city ?? community.theme}
+                        </span>
+                      </>
+                    ) : null}
                   </div>
                 </div>
 
-                {/* Actions — desktop only */}
-                {!isAuthenticated ? (
-                  <div className="hidden sm:flex items-center gap-2 shrink-0">
-                    <Button size="sm" onClick={requireAuthentication}>
-                      {t("join")}
-                    </Button>
-                  </div>
-                ) : isMember !== undefined ? (
-                  <div className="hidden sm:flex items-center gap-2 shrink-0">
-                    {isMember ? (
-                      <>
-                        <CreatePostDialog
-                          communityId={community._id}
-                          communityName={community.name}
+                <div className="flex items-center gap-1 shrink-0">
+                  {primaryAction ? (
+                    <div className="hidden sm:flex items-center gap-2">
+                      {primaryAction}
+                    </div>
+                  ) : null}
+                  {hasMenuActions ? (
+                    <MobileActionsMenu mobileOnly={false}>
+                      {canLeave ? (
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={handleLeave}
+                        >
+                          <LogOut />
+                          {t("leave")}
+                        </Button>
+                      ) : null}
+                      {canReport ? (
+                        <ReportDialog
+                          target={{ type: "community", id: community._id }}
+                          variant="outline"
                         />
-                        {isMember.role !== "admin" && (
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={handleLeave}
-                          >
-                            {t("leave")}
-                          </Button>
-                        )}
-                        {isMember.role === "admin" && (
-                          <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                              <Button
-                                variant="outline"
-                                size="sm"
-                                className="gap-1.5 text-muted-foreground hover:text-foreground"
-                              >
-                                <Settings2 size={13} />
-                                <ChevronDown size={11} className="opacity-60" />
-                              </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                              <DropdownMenuLabel className="text-xs text-muted-foreground">
-                                Administration
-                              </DropdownMenuLabel>
-                              <DropdownMenuSeparator />
-                              <DropdownMenuItem
-                                className="text-destructive focus:text-destructive focus:bg-destructive/10 gap-2 cursor-pointer whitespace-nowrap"
-                                onClick={() => setDeleteDialogOpen(true)}
-                              >
-                                <Trash size={13} />
-                                {t("deleteCommunity")}
-                              </DropdownMenuItem>
-                            </DropdownMenuContent>
-                          </DropdownMenu>
-                        )}
-                      </>
-                    ) : (
-                      <Button size="sm" onClick={handleJoin}>
-                        {t("join")}
-                      </Button>
-                    )}
-                  </div>
-                ) : null}
+                      ) : null}
+                      {isAdmin ? (
+                        <Button
+                          variant="destructive"
+                          size="sm"
+                          onClick={() => setDeleteDialogOpen(true)}
+                        >
+                          <Trash />
+                          {t("deleteCommunity")}
+                        </Button>
+                      ) : null}
+                    </MobileActionsMenu>
+                  ) : null}
+                </div>
               </div>
 
               {/* Description */}
               <p className="text-sm text-muted-foreground mt-2 leading-relaxed">
                 {community.description}
               </p>
-              {community.city || community.theme ? (
-                <p className="mt-2 text-xs font-medium text-foreground/80">
-                  {community.city ? t("cityTag") : t("themeTag")}:{" "}
-                  {community.city ?? community.theme}
-                </p>
-              ) : null}
               {community.rules ? (
                 <div className="mt-3 rounded-lg border bg-muted/40 p-3">
                   <h3 className="text-xs font-semibold">{t("rulesTitle")}</h3>
@@ -247,73 +250,10 @@ export default function CommunityClient() {
                 </div>
               ) : null}
 
-              {currentUser !== undefined &&
-              currentUser?._id !== community.authorId ? (
-                <div className="mt-3">
-                  <ReportDialog
-                    target={{ type: "community", id: community._id }}
-                    variant="outline"
-                  />
-                </div>
-              ) : null}
-
-              {/* Actions — mobile only (below description) */}
-              {!isAuthenticated ? (
-                <div className="flex sm:hidden items-center gap-2 mt-3 flex-wrap">
-                  <Button size="sm" onClick={requireAuthentication}>
-                    {t("join")}
-                  </Button>
-                </div>
-              ) : isMember !== undefined ? (
-                <div className="flex sm:hidden items-center gap-2 mt-3 flex-wrap">
-                  {isMember ? (
-                    <>
-                      <CreatePostDialog
-                        communityId={community._id}
-                        communityName={community.name}
-                      />
-                      {isMember.role !== "admin" && (
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={handleLeave}
-                        >
-                          {t("leave")}
-                        </Button>
-                      )}
-                      {isMember.role === "admin" && (
-                        <DropdownMenu>
-                          <DropdownMenuTrigger asChild>
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              className="gap-1.5 text-muted-foreground hover:text-foreground"
-                            >
-                              <Settings2 size={13} />
-                              <ChevronDown size={11} className="opacity-60" />
-                            </Button>
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent align="start">
-                            <DropdownMenuLabel className="text-xs text-muted-foreground">
-                              Administration
-                            </DropdownMenuLabel>
-                            <DropdownMenuSeparator />
-                            <DropdownMenuItem
-                              className="text-destructive focus:text-destructive focus:bg-destructive/10 gap-2 cursor-pointer whitespace-nowrap"
-                              onClick={() => setDeleteDialogOpen(true)}
-                            >
-                              <Trash size={13} />
-                              {t("deleteCommunity")}
-                            </DropdownMenuItem>
-                          </DropdownMenuContent>
-                        </DropdownMenu>
-                      )}
-                    </>
-                  ) : (
-                    <Button size="sm" onClick={handleJoin}>
-                      {t("join")}
-                    </Button>
-                  )}
+              {/* Primary action — mobile only (below description) */}
+              {primaryAction ? (
+                <div className="flex sm:hidden items-center gap-2 mt-3">
+                  {primaryAction}
                 </div>
               ) : null}
             </div>

@@ -1,5 +1,6 @@
 "use client";
 
+import { HeroSection } from "@/components/hero-section";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -14,6 +15,7 @@ import { useState } from "react";
 import { CreateCommunityDialog } from "./_component/dialogs/createComDialog";
 import { CreatePostDialog } from "./_component/dialogs/createPostDialog";
 import ComList from "./_component/List/comList";
+import { CommunityStrip } from "./_component/List/CommunityStrip";
 
 export default function Page() {
   const { isAuthenticated, isLoading } = useConvexAuth();
@@ -23,10 +25,14 @@ export default function Page() {
 
   return (
     <div className="min-h-screen bg-background pb-12">
-      {/* Header */}
-      <div className="max-w-4xl mx-auto px-4 pt-5">
+      <HeroSection title={t("hero.title")} subtitle={t("hero.description")} />
+
+      <CommunityStrip />
+
+      {/* Feed header */}
+      <div className="max-w-4xl mx-auto px-4 pt-8">
         <div className="flex items-center justify-between gap-3 mb-3">
-          <h1 className="text-xl font-bold">{t("title")}</h1>
+          <h2 className="text-xl font-bold">{t("feedTitle")}</h2>
           {isAuthenticated && !isLoading && (
             <>
               <DropdownMenu>

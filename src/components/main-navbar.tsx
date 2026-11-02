@@ -115,14 +115,16 @@ export function MainNavbar() {
           className="flex shrink-0 items-center gap-2 transition hover:opacity-80"
         >
           <Logo className="size-7" />
+          {/* Wordmark only from xl: between lg and xl the nav links and the
+              auth buttons need the room, or they overlap. */}
           <span
-            className={`${righteous.className} hidden lg:block text-lg leading-none text-primary`}
+            className={`${righteous.className} hidden xl:block text-lg leading-none text-primary`}
           >
             Hallomada
           </span>
         </Link>
 
-        <nav className="hidden min-w-0 items-center lg:ml-10 lg:flex">
+        <nav className="hidden min-w-0 items-center lg:ml-6 lg:flex xl:ml-10">
           <NavigationMenu viewport={false}>
             <NavigationMenuList className="gap-0.5">
               {navItems.map((item) => {
@@ -164,7 +166,7 @@ export function MainNavbar() {
         </nav>
 
         {/* Right side — one clear order: dashboard, language, theme, account */}
-        <div className="ml-auto flex items-center gap-3">
+        <div className="ml-auto flex shrink-0 items-center gap-3 pl-3">
           <Authenticated>
             {user?.role === "admin" && (
               <Link
@@ -173,7 +175,7 @@ export function MainNavbar() {
                 className="hidden items-center gap-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground lg:inline-flex"
               >
                 <Shield className="size-4" />
-                {t("admin.dashboard")}
+                <span className="hidden xl:inline">{t("admin.dashboard")}</span>
               </Link>
             )}
             <NotificationWidget placement="navbar" />

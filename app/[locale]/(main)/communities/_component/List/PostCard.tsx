@@ -90,11 +90,11 @@ export function PostCard({
           {post.author.slug ? (
             <Link
               href={`/hl/${post.author.slug}`}
-              className="flex items-center gap-1.5 group/author"
+              className="flex items-center gap-2 group/author"
             >
-              <Avatar className="size-5">
-                <AvatarImage src={post.author.image ?? "/random-user.png"} />
-                <AvatarFallback className="text-[10px]">
+              <Avatar className="size-7">
+                <AvatarImage src={post.author.image || "/random-user.png"} />
+                <AvatarFallback className="text-xs">
                   {post.authorName?.slice(0, 2)?.toUpperCase()}
                 </AvatarFallback>
               </Avatar>
@@ -103,10 +103,10 @@ export function PostCard({
               </span>
             </Link>
           ) : (
-            <span className="flex items-center gap-1.5 text-foreground/80">
-              <Avatar className="size-5">
-                <AvatarImage src={post.author.image ?? "/random-user.png"} />
-                <AvatarFallback className="text-[10px]">
+            <span className="flex items-center gap-2 text-foreground/80">
+              <Avatar className="size-7">
+                <AvatarImage src={post.author.image || "/random-user.png"} />
+                <AvatarFallback className="text-xs">
                   {post.authorName?.slice(0, 2)?.toUpperCase()}
                 </AvatarFallback>
               </Avatar>

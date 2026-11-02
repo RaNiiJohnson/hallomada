@@ -196,10 +196,13 @@ export default function PostClient() {
   };
 
   const validComments = post.comments?.filter(Boolean) ?? [];
+  const communityHref = post.communitySlug
+    ? `/communities/${post.communitySlug}`
+    : "/communities";
 
   return (
     <div className="min-h-screen bg-background pb-12">
-      <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2 sm:mb-4  px-4 pt-2 sm:pt-8">
+      <div className="max-w-3xl mx-auto px-4 flex items-center gap-2 text-sm text-muted-foreground mb-2 sm:mb-4 pt-2 sm:pt-8">
         <Link
           href="/communities"
           className="hover:text-foreground transition-colors"
@@ -209,7 +212,12 @@ export default function PostClient() {
         <span>
           <ChevronRight className="w-4 h-4" />
         </span>
-        <span className="text-foreground font-medium line-clamp-1">...</span>
+        <Link
+          href={communityHref}
+          className="hover:text-foreground transition-colors"
+        >
+          ...
+        </Link>
         <span>
           <ChevronRight className="w-4 h-4" />
         </span>

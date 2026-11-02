@@ -1,5 +1,6 @@
 "use client";
 
+import { AuthBrand } from "@/components/auth/auth-brand";
 import BackButton from "@/components/backButton";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Link } from "@/i18n/navigation";
@@ -20,6 +21,7 @@ function SignupPageContent() {
       <div className="min-h-screen flex items-center justify-center p-4">
         <Card className="w-full max-w-md shadow-xl border-0">
           <CardHeader className="space-y-4 pb-8 text-center">
+            <AuthBrand />
             <div className="space-y-2">
               <CardTitle className="text-2xl font-bold">{t("title")}</CardTitle>
               <p className="text-sm text-muted-foreground">{t("subtitle")}</p>

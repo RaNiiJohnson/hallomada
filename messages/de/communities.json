@@ -7,7 +7,11 @@
   "composerPlaceholder": "Teilen Sie etwas mit der Community…",
   "feedTitle": "Beiträge",
   "sortLabel": "Beiträge sortieren",
-  "exploreAction": "Durchstöberncourir",
+  "exploreAction": "Durchstöbern",
+  "hero": {
+    "title": "Gemeinsam, überall",
+    "description": "Malagasy-Communities in Ihrer Stadt oder rund um Ihre Interessen: Fragen stellen, Tipps teilen."
+  },
   "dialogs": {
     "createCommunity": {
       "trigger": "Community erstellen",
@@ -83,8 +87,8 @@
     "left": "Sie haben {name} verlassen",
     "error": "Fehler",
     "breadcrumbs": "Communities",
-    "members": "Mitglieder",
-    "posts": "Posts",
+    "members": "{count, plural, one {Mitglied} other {Mitglieder}}",
+    "posts": "{count, plural, one {Post} other {Posts}}",
     "leave": "Verlassen",
     "join": "Beitreten",
     "emptyPosts": "Noch keine Posts.",

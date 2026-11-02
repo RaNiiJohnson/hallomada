@@ -2,7 +2,7 @@ import { v } from "convex/values";
 import Rand from "rand-seed";
 import { components } from "../_generated/api";
 import { Id } from "../_generated/dataModel";
-import { DatabaseReader, query } from "../_generated/server";
+import { DatabaseReader, query, type QueryCtx } from "../_generated/server";
 import {
   postCommentsCount,
   postLikesCount,
@@ -11,11 +11,29 @@ import {
   postSortedByLikes,
 } from "../aggregates";
 import { authComponent } from "../auth/auth";
+import { r2 } from "../integrations/r2";
 import { publicAuthorOrFallback } from "./publicAuthor";
 
 type AuthUser = Awaited<ReturnType<typeof authComponent.safeGetAuthUser>>;
 
 // ─── Helpers réutilisables
+
+/** Public author card for a post. Uploaded avatars are stored as R2 keys
+ * ("profile/…"), so they are signed into a URL here like on the profile page. */
+async function getPostAuthor(
+  ctx: QueryCtx,
+  post: { authorId: string; authorName?: string },
+) {
+  const author = publicAuthorOrFallback(
+    await ctx.runQuery(components.betterAuth.users.getUserById, {
+      id: post.authorId,
+    }),
+    post,
+  );
+  return author.image?.startsWith("profile/")
+    ? { ...author, image: await r2.getUrl(author.image) }
+    : author;
+}
 
 async function getReplyWithLikes(
   db: DatabaseReader,
@@ -211,12 +229,7 @@ export const getShuffledPosts = query({
           if (existingBookmark) isBookmarked = true;
         }
 
-        const author = publicAuthorOrFallback(
-          await ctx.runQuery(components.betterAuth.users.getUserById, {
-            id: post.authorId,
-          }),
-          post,
-        );
+        const author = await getPostAuthor(ctx, post);
 
         return {
           ...post,
@@ -297,12 +310,7 @@ export const getSortedPosts = query({
           if (existingBookmark) isBookmarked = true;
         }
 
-        const author = publicAuthorOrFallback(
-          await ctx.runQuery(components.betterAuth.users.getUserById, {
-            id: post.authorId,
-          }),
-          post,
-        );
+        const author = await getPostAuthor(ctx, post);
 
         return {
           ...post,
@@ -383,12 +391,7 @@ export const getSortedByLikes = query({
           if (existingBookmark) isBookmarked = true;
         }
 
-        const author = publicAuthorOrFallback(
-          await ctx.runQuery(components.betterAuth.users.getUserById, {
-            id: post.authorId,
-          }),
-          post,
-        );
+        const author = await getPostAuthor(ctx, post);
 
         return {
           ...post,
@@ -462,12 +465,7 @@ export const getBookmarkedPosts = query({
           .unique();
         if (existingLike) userHasLiked = true;
 
-        const author = publicAuthorOrFallback(
-          await ctx.runQuery(components.betterAuth.users.getUserById, {
-            id: post.authorId,
-          }),
-          post,
-        );
+        const author = await getPostAuthor(ctx, post);
 
         return {
           ...post,

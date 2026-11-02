@@ -8,6 +8,10 @@
   "feedTitle": "Posts",
   "sortLabel": "Sort posts",
   "exploreAction": "Browse",
+  "hero": {
+    "title": "Together, anywhere",
+    "description": "Malagasy communities in your city or around your interests: ask your questions, share your tips."
+  },
   "dialogs": {
     "createCommunity": {
       "trigger": "Create a community",
@@ -83,8 +87,8 @@
     "left": "You have left {name}",
     "error": "Error",
     "breadcrumbs": "Communities",
-    "members": "members",
-    "posts": "posts",
+    "members": "{count, plural, one {member} other {members}}",
+    "posts": "{count, plural, one {post} other {posts}}",
     "leave": "Leave",
     "join": "Join",
     "emptyPosts": "No posts yet.",

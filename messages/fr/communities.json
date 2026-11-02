@@ -8,6 +8,10 @@
   "feedTitle": "Publications",
   "sortLabel": "Trier les publications",
   "exploreAction": "Parcourir",
+  "hero": {
+    "title": "Ensemble, partout",
+    "description": "Les communautés malagasy de votre ville ou de vos passions : posez vos questions, partagez vos bons plans."
+  },
   "dialogs": {
     "createCommunity": {
       "trigger": "Créer une communauté",
@@ -83,8 +87,8 @@
     "left": "Vous avez quitté {name}",
     "error": "Erreur",
     "breadcrumbs": "Communautés",
-    "members": "membres",
-    "posts": "posts",
+    "members": "{count, plural, one {membre} other {membres}}",
+    "posts": "{count, plural, one {post} other {posts}}",
     "leave": "Quitter",
     "join": "Rejoindre",
     "emptyPosts": "Aucun post pour le moment.",

@@ -6,11 +6,20 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
 import { MoreHorizontal } from "lucide-react";
 import { useTranslations } from "next-intl";
 import type { ReactNode } from "react";
 
-export function MobileActionsMenu({ children }: { children: ReactNode }) {
+/** A "⋯" button that opens a small menu of action buttons. Hidden from `sm`
+ * up unless `mobileOnly` is false. */
+export function MobileActionsMenu({
+  children,
+  mobileOnly = true,
+}: {
+  children: ReactNode;
+  mobileOnly?: boolean;
+}) {
   const t = useTranslations("common");
 
   return (
@@ -20,7 +29,10 @@ export function MobileActionsMenu({ children }: { children: ReactNode }) {
           type="button"
           size="icon-sm"
           variant="ghost"
-          className="rounded-full text-muted-foreground sm:hidden"
+          className={cn(
+            "rounded-full text-muted-foreground",
+            mobileOnly && "sm:hidden",
+          )}
           aria-label={t("moreActions")}
         >
           <MoreHorizontal className="size-4" />
