@@ -17,8 +17,8 @@ interface HeroSectionProps {
 
 export function HeroSection({ children, title, subtitle }: HeroSectionProps) {
   return (
-    <div className="relative -top-10 w-full bg-background text-foreground">
-      <div className="relative z-10 mx-auto flex max-w-6xl flex-col items-center px-4 pt-28 pb-14 text-center sm:pt-36 sm:pb-20">
+    <div className="relative w-full bg-background text-foreground">
+      <div className="relative z-10 mx-auto flex max-w-6xl flex-col items-center px-4 pt-16 pb-4 text-center sm:pt-24 sm:pb-6">
         {/* Narrow text column — Lumail's inner-page headline width, not the full 6xl container */}
         <div className="mx-auto max-w-2xl">
           {/*{eyebrow && (
@@ -28,7 +28,7 @@ export function HeroSection({ children, title, subtitle }: HeroSectionProps) {
             </span>
           )}*/}
 
-          <h1 className="mb-4 text-4xl font-semibold tracking-tight sm:text-5xl">
+          <h1 className="mb-4 font-(family-name:--font-bricolage) text-3xl font-bold tracking-tight text-balance sm:text-5xl">
             {title}
           </h1>
           <p className="text-base text-foreground/70 sm:text-lg">{subtitle}</p>
