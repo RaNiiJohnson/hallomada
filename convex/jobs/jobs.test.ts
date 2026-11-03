@@ -554,14 +554,19 @@ describe("Jobs", () => {
     authState.user._id = "candidate-b";
     authState.user.id = "candidate-b";
     authState.user.name = "Candidate B";
-    await submitApplication({ jobId });
+    const second = await submitApplication({ jobId });
+    // Make the order deterministic: B applied after A.
+    await t.run(async (ctx) => {
+      await ctx.db.patch(payload.applicationId, { appliedAt: 1_000 });
+      await ctx.db.patch(second.applicationId, { appliedAt: 2_000 });
+    });
     // An older application from before highlighting existed.
     await t.run(async (ctx) => {
       await ctx.db.insert("jobApplications", {
         jobId,
         candidateId: "legacy",
         cvKey: "cv/legacy.pdf",
-        appliedAt: Date.now() + 1000,
+        appliedAt: 3_000,
       });
     });
 

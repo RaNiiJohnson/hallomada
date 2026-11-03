@@ -6,20 +6,105 @@
     "title": "Privacy policy",
     "sections": [
       {
-        "h": "Data we collect",
-        "p": "Account data (name, email address), content you publish (listings, job offers, messages, reports) and technical data required to run the site."
+        "h": "1. Data controller",
+        "p": [
+          "The controller for your data on Hallomada is: [To be completed: name or company name, postal address, contact email].",
+          "For any question about your data, write to us via the Contact page."
+        ]
       },
       {
-        "h": "Audience measurement",
-        "p": "Measurement tools (PostHog, Vercel Analytics) are only enabled after you agree. You can refuse or change your choice at any time with “Manage cookies” in the footer. If you refuse, no optional event is sent."
+        "h": "2. Data we process",
+        "items": [
+          "Account: name, email address, password (stored encrypted) or Google sign-in, profile and cover photo.",
+          "Profile (optional): city, country, background, skills, introduction, CV, public or private profile visibility.",
+          "Published content: real estate listings (with photos and location), job offers, provider pages, communities, posts, comments, messages, reports.",
+          "Job applications: CV, cover letter, date sent.",
+          "Saved searches and alerts: your search criteria (city, property type, maximum price, keywords…) and notification preferences.",
+          "Rental dossier (optional): the details and documents you upload (see section 3).",
+          "Premium status and badges, such as the \"Founding member\" badge.",
+          "Technical data: connection logs, sessions, IP address and data needed for security and for the site to work.",
+          "Audience measurement, only with your consent (see section 9)."
+        ]
       },
       {
-        "h": "Your rights",
-        "p": "You can request access to, correction of or deletion of your data by writing to us through the Contact page."
+        "h": "3. Rental dossier",
+        "p": [
+          "The rental dossier lets you prepare your tenant details and documents once, then send them to a landlord from a listing.",
+          "It may contain sensitive data: occupation, employer, net monthly income, household size, desired move-in date, pets, smoking, a free introduction, and documents such as an ID, payslips, a SCHUFA credit report, a previous landlord certificate (Mietschuldenfreiheitsbescheinigung) or an employment contract. All of it is optional: only upload what is needed, and hide what isn't (for example your ID number)."
+        ],
+        "items": [
+          "Legal basis: your consent (Art. 6(1)(a) GDPR) and, when you send it, pre-contractual steps taken at your request (Art. 6(1)(b)).",
+          "Storage: your documents are kept in private storage. They are never public and do not appear on your profile.",
+          "Recipients: only the landlords you choose to send your dossier to. They receive a private link valid for 30 days, and each document opens through a link that expires after a few minutes.",
+          "Control: you can withdraw a landlord's access at any time from your personal space. Documents you delete also disappear for landlords.",
+          "Copies: a landlord can download documents while their access is open. Hallomada cannot erase those copies; the landlord becomes responsible for them.",
+          "Retention: until you delete the documents or your account."
+        ]
       },
       {
-        "h": "Data controller",
-        "p": "See the legal notice."
+        "h": "4. Job applications",
+        "p": "When you apply, your name, email address, cover letter and a link to your CV are emailed to the job's contact. The job's author also sees your application in Hallomada. The CV link stays valid for 90 days, after which access is removed. Legal basis: pre-contractual steps taken at your request (Art. 6(1)(b) GDPR)."
+      },
+      {
+        "h": "5. Saved searches, alerts and emails",
+        "p": "Your search criteria are stored so you can rerun your searches and, if you turn it on, be notified of new posts by notification and email. You can pause, mute emails or delete a search at any time. We also send emails related to your account and activity (address verification, password, applications, dossiers received)."
+      },
+      {
+        "h": "6. Purposes and legal bases",
+        "items": [
+          "Providing the service (account, posts, messaging, applications, searches, rental dossier): performance of a contract, Art. 6(1)(b) GDPR.",
+          "Security, moderation, abuse prevention and rate limiting: legitimate interest, Art. 6(1)(f).",
+          "Audience measurement and uploading documents to the rental dossier: consent, Art. 6(1)(a), which you can withdraw at any time.",
+          "Compliance with our legal obligations: Art. 6(1)(c)."
+        ]
+      },
+      {
+        "h": "7. Recipients and processors",
+        "p": [
+          "Your public content (listings, offers, posts, public profile) is visible to site visitors. Other data is shared only with the people you choose (recruiters, landlords) and with the following technical providers, who process it on our behalf:"
+        ],
+        "items": [
+          "Convex: database and running the service.",
+          "Cloudflare (R2): storage of private files (CVs, rental dossier documents).",
+          "Cloudinary: image storage and delivery.",
+          "Resend: sending emails.",
+          "OpenAI: automatic translation of a post when you request it; only the post's text is sent.",
+          "Google: sign-in with a Google account, if you choose it.",
+          "Vercel: website hosting [to be confirmed]; Vercel Analytics and PostHog: audience measurement, only with your consent.",
+          "Stripe: payment processing, once paid Premium launches. This policy will be updated then."
+        ]
+      },
+      {
+        "h": "8. Transfers outside the European Union",
+        "p": "Some of these providers are based in, or store data, outside the European Union, notably in the United States. These transfers rely on an adequacy decision (EU-U.S. Data Privacy Framework) or on the European Commission's standard contractual clauses. [To be checked: hosting region of each provider.]"
+      },
+      {
+        "h": "9. Cookies and audience measurement",
+        "p": "Measurement tools (PostHog, Vercel Analytics) are only enabled after you agree. You can refuse or change your choice at any time via \"Manage cookies\" at the bottom of the page. If you refuse, no optional event is sent. Strictly necessary cookies (sign-in, security) are still used."
+      },
+      {
+        "h": "10. Retention periods",
+        "items": [
+          "Account, profile, posts, saved searches and rental dossier documents: until you delete them or your account.",
+          "A recruiter's access to the CV in an application: 90 days.",
+          "A landlord's access to a rental dossier: 30 days at most, or less if you withdraw access.",
+          "Technical data and logs: a limited period, as needed for the security of the service."
+        ]
+      },
+      {
+        "h": "11. Security",
+        "p": "Traffic with the site is encrypted (HTTPS). Private files are only reachable through temporary links. Access to administration tools is restricted to administrators."
+      },
+      {
+        "h": "12. Your rights",
+        "p": [
+          "You have the right of access, rectification, erasure, restriction of processing, data portability and objection, and the right to withdraw your consent at any time. To exercise them, write to us via the Contact page.",
+          "You may also lodge a complaint with a data protection authority, for example the one of the German state where you live or the one responsible for Hallomada: [To be completed]."
+        ]
+      },
+      {
+        "h": "13. Changes",
+        "p": "We may change this policy, for example when paid Premium launches. If there is a significant change, we will let you know on the site or by email."
       }
     ]
   },
