@@ -43,7 +43,7 @@ const PREMIUM_GROUPS: {
     key: "visible",
     icon: Megaphone,
     features: [
-      { key: "featured", soon: true },
+      { key: "featured", soon: false },
       { key: "boost", soon: true },
       { key: "stats", soon: true },
       { key: "priority", soon: true },

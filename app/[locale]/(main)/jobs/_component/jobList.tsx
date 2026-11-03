@@ -1,5 +1,6 @@
 "use client";
 
+import { FeaturedBadge } from "@/components/featured/featured-badge";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useTimeTranslations } from "@/hooks/use-time-translations";
@@ -154,6 +155,7 @@ export function JobList() {
 
                 {/* Badges */}
                 <div className="flex flex-wrap items-center gap-2">
+                  <FeaturedBadge featuredUntil={job.featuredUntil} status={job.status} />
                   {job.status === "pending" ? (
                     <Badge className="bg-amber-500 text-amber-950 hover:bg-amber-500">
                       {t("list.pending")}

@@ -41,5 +41,19 @@
   "founderBadge": {
     "label": "Gründungsmitglied",
     "tooltip": "Gründungsmitglied: hat Hallomada von Anfang an mitgestaltet"
+  },
+  "featured": {
+    "badge": "Hervorgehoben",
+    "start": "Hervorheben",
+    "stop": "Hervorhebung beenden",
+    "until": "Hervorgehoben bis {date}",
+    "hint": {
+      "listing": "Badge „Hervorgehoben“ für 7 Tage. Jeweils ein Inserat.",
+      "job": "Badge „Hervorgehoben“ für 7 Tage. Jeweils ein Stellenangebot."
+    },
+    "added": "Hervorgehoben bis {date}.",
+    "movedFrom": "Hervorgehoben bis {date}. „{title}“ ist nicht mehr hervorgehoben.",
+    "removed": "Badge „Hervorgehoben“ entfernt.",
+    "error": "Hervorhebung konnte nicht geändert werden. Bitte erneut versuchen."
   }
 }

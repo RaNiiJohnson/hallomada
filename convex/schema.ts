@@ -136,6 +136,8 @@ export default defineSchema({
     authorName: v.optional(v.string()),
     // Set when search alerts were sent for this offer, so they go out once.
     alertsSentAt: v.optional(v.number()),
+    // "En vedette" badge until this time (Premium; one per member and kind).
+    featuredUntil: v.optional(v.number()),
     // Optional during the rollout so existing offers remain visible as active.
     status: v.optional(
       v.union(
@@ -221,6 +223,8 @@ export default defineSchema({
     authorName: v.optional(v.string()),
     // Set when search alerts were sent for this listing, so they go out once.
     alertsSentAt: v.optional(v.number()),
+    // "En vedette" badge until this time (Premium; one per member and kind).
+    featuredUntil: v.optional(v.number()),
     updatedAt: v.number(),
     searchAll: v.optional(v.string()),
   })

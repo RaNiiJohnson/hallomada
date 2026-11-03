@@ -35,6 +35,7 @@ import type * as email from "../email.js";
 import type * as emails_layout from "../emails/layout.js";
 import type * as emails_strings from "../emails/strings.js";
 import type * as emails_templates from "../emails/templates.js";
+import type * as featured from "../featured.js";
 import type * as founders from "../founders.js";
 import type * as functions from "../functions.js";
 import type * as http from "../http.js";
@@ -119,6 +120,7 @@ declare const fullApi: ApiFromModules<{
   "emails/layout": typeof emails_layout;
   "emails/strings": typeof emails_strings;
   "emails/templates": typeof emails_templates;
+  featured: typeof featured;
   founders: typeof founders;
   functions: typeof functions;
   http: typeof http;

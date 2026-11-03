@@ -1,5 +1,7 @@
 "use client";
 
+import { FeaturedBadge } from "@/components/featured/featured-badge";
+import { FeatureToggle } from "@/components/featured/feature-toggle";
 import { FounderBadge } from "@/components/founder-badge";
 import { ShareButton } from "@/components/ShareButton";
 import { MobileActionsMenu } from "@/components/mobile-actions-menu";
@@ -171,6 +173,11 @@ export default function JobDetailsPage() {
   const renderOwnerActions = () => (
     <>
       <JobLifecycleActions jobId={jobOffer._id} status={jobOffer.status} />
+      <FeatureToggle
+        resource={{ type: "job", id: jobOffer._id }}
+        featuredUntil={jobOffer.featuredUntil}
+        status={jobOffer.status}
+      />
       <ShareButton text={jobOffer.title} showLabel />
       <Button size="sm" className="gap-2" asChild>
         <Link href={`/jobs/${id}/edit`}>
@@ -716,6 +723,10 @@ export default function JobDetailsPage() {
               </div>
               <div className="p-4 space-y-3">
                 <div className="flex flex-wrap gap-2 mb-4">
+                  <FeaturedBadge
+                    featuredUntil={jobOffer.featuredUntil}
+                    status={jobOffer.status}
+                  />
                   <Badge variant="secondary" className="font-semibold">
                     {t(
                       `labels.jobTypes.${jobOffer.type}` as Parameters<

@@ -41,5 +41,19 @@
   "founderBadge": {
     "label": "Membre fondateur",
     "tooltip": "Membre fondateur : a contribué à Hallomada dès ses débuts"
+  },
+  "featured": {
+    "badge": "En vedette",
+    "start": "Mettre en vedette",
+    "stop": "Retirer la vedette",
+    "until": "En vedette jusqu'au {date}",
+    "hint": {
+      "listing": "Badge « En vedette » pendant 7 jours. Une seule annonce à la fois.",
+      "job": "Badge « En vedette » pendant 7 jours. Une seule offre à la fois."
+    },
+    "added": "En vedette jusqu'au {date}.",
+    "movedFrom": "En vedette jusqu'au {date}. « {title} » n'est plus en vedette.",
+    "removed": "Badge « En vedette » retiré.",
+    "error": "Impossible de modifier la mise en vedette. Réessayez."
   }
 }

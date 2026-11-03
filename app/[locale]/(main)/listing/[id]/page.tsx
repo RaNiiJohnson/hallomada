@@ -1,5 +1,6 @@
 "use client";
 
+import { FeatureToggle } from "@/components/featured/feature-toggle";
 import { ShareButton } from "@/components/ShareButton";
 import { MobileActionsMenu } from "@/components/mobile-actions-menu";
 import { ReportDialog } from "@/components/report-dialog";
@@ -50,6 +51,13 @@ export default function PropertyPage() {
       {canManage && (
         <ListingLifecycleActions
           listingId={property._id}
+          status={property.status}
+        />
+      )}
+      {canManage && (
+        <FeatureToggle
+          resource={{ type: "listing", id: property._id }}
+          featuredUntil={property.featuredUntil}
           status={property.status}
         />
       )}

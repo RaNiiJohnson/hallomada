@@ -1,5 +1,6 @@
 "use client";
 
+import { FeaturedBadge } from "@/components/featured/featured-badge";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -189,6 +190,11 @@ export function ListingList() {
                   >[0],
                 )}
               </Badge>
+              <FeaturedBadge
+                featuredUntil={list.featuredUntil}
+                status={list.status}
+                className="absolute top-9 left-2 z-10"
+              />
               {list.status === "pending" ? (
                 <Badge className="absolute right-2 top-12 z-10 bg-amber-500 text-amber-950 hover:bg-amber-500">
                   {t("list.pending")}
