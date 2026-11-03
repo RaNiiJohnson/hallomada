@@ -2,7 +2,8 @@
 
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
-import { Check, Gift, Sparkles, X } from "lucide-react";
+import { Link } from "@/i18n/navigation";
+import { Award, Check, Gift, Megaphone, Search, Sparkles, X } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 /**
@@ -17,15 +18,43 @@ const FREE_INCLUDED = [
   "bookmarks",
 ] as const;
 const FREE_LIMITS = ["listings", "jobs", "communities", "moderation"] as const;
-const FREE_EXCLUDED = ["featured", "boost", "stats", "alerts"] as const;
+const FREE_EXCLUDED = ["alerts", "highlight", "featured", "stats"] as const;
 
-const PREMIUM_FEATURES: { key: string; soon: boolean }[] = [
-  { key: "alerts", soon: true },
-  { key: "featured", soon: true },
-  { key: "boost", soon: true },
-  { key: "priority", soon: true },
-  { key: "stats", soon: true },
-  { key: "quotas", soon: false },
+type PremiumFeature = { key: string; soon: boolean };
+
+// One subscription covers both moments of a member's life on Hallomada:
+// looking for something, then publishing something.
+const PREMIUM_GROUPS: {
+  key: "find" | "visible" | "everyone";
+  icon: typeof Search;
+  features: PremiumFeature[];
+}[] = [
+  {
+    key: "find",
+    icon: Search,
+    features: [
+      { key: "alerts", soon: true },
+      { key: "savedSearches", soon: true },
+      { key: "highlight", soon: true },
+      { key: "rentalFile", soon: true },
+    ],
+  },
+  {
+    key: "visible",
+    icon: Megaphone,
+    features: [
+      { key: "featured", soon: true },
+      { key: "boost", soon: true },
+      { key: "stats", soon: true },
+      { key: "priority", soon: true },
+      { key: "quotas", soon: false },
+    ],
+  },
+  {
+    key: "everyone",
+    icon: Sparkles,
+    features: [{ key: "premiumBadge", soon: true }],
+  },
 ];
 
 export default function PricingPage() {
@@ -108,20 +137,45 @@ export default function PricingPage() {
               </div>
             </div>
 
-            <FeatureGroup title={t("premium.featuresTitle")}>
-              {PREMIUM_FEATURES.map(({ key, soon }) => (
-                <FeatureItem key={key} icon="check">
-                  <span>{t(`premium.features.${key}`)}</span>
-                  {soon && (
-                    <Badge variant="secondary" className="ml-2 align-middle">
-                      {t("soon")}
-                    </Badge>
-                  )}
-                </FeatureItem>
-              ))}
-            </FeatureGroup>
+            <p className="text-sm font-medium">{t("premium.oneSubscription")}</p>
+
+            {PREMIUM_GROUPS.map(({ key, icon: Icon, features }) => (
+              <FeatureGroup
+                key={key}
+                title={t(`premium.groups.${key}`)}
+                icon={<Icon className="h-3.5 w-3.5" />}
+              >
+                {features.map((feature) => (
+                  <FeatureItem key={feature.key} icon="check">
+                    <span>{t(`premium.features.${feature.key}`)}</span>
+                    {feature.soon && (
+                      <Badge variant="secondary" className="ml-2 align-middle">
+                        {t("soon")}
+                      </Badge>
+                    )}
+                  </FeatureItem>
+                ))}
+              </FeatureGroup>
+            ))}
           </div>
         </div>
+
+        <div className="mt-8 flex flex-col gap-4 rounded-xl border border-amber-500/30 bg-amber-500/5 p-6 sm:flex-row sm:items-start">
+          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-amber-500/15 text-amber-700 dark:text-amber-400">
+            <Award className="h-5 w-5" />
+          </span>
+          <div className="space-y-1">
+            <h2 className="font-semibold">{t("founder.title")}</h2>
+            <p className="text-sm text-muted-foreground">{t("founder.text")}</p>
+          </div>
+        </div>
+
+        <p className="mt-8 text-center text-sm text-muted-foreground">
+          {t("faq.question")}{" "}
+          <Link href="/faq" className="font-medium text-primary hover:underline">
+            {t("faq.link")}
+          </Link>
+        </p>
       </div>
     </section>
   );
@@ -129,14 +183,17 @@ export default function PricingPage() {
 
 function FeatureGroup({
   title,
+  icon,
   children,
 }: {
   title: string;
+  icon?: React.ReactNode;
   children: React.ReactNode;
 }) {
   return (
     <div className="space-y-3 border-t border-dashed pt-5">
-      <h3 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+      <h3 className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+        {icon}
         {title}
       </h3>
       <ul className="space-y-2.5 text-sm">{children}</ul>

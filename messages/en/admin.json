@@ -213,5 +213,16 @@
     "saved": "Quotas updated",
     "error": "Could not save the quotas",
     "loading": "Loading quotas"
+  },
+  "founders": {
+    "title": "Founding member program",
+    "description": "Members who publish before this date (a community post, or an approved listing or job offer) earn the badge for life. Set it to the day paid Premium launches.",
+    "statusOpen": "Status: open, no end date.",
+    "statusClosesAt": "Status: ends on {date, date, long}.",
+    "closesAt": "End date",
+    "save": "Save date",
+    "reopen": "Remove end date",
+    "saved": "Founder program updated",
+    "error": "Could not update the founder program"
   }
 }

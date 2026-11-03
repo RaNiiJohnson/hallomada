@@ -213,5 +213,16 @@
     "saved": "Limits aktualisiert",
     "error": "Limits konnten nicht gespeichert werden",
     "loading": "Limits werden geladen"
+  },
+  "founders": {
+    "title": "Gründungsmitglied-Programm",
+    "description": "Mitglieder, die vor diesem Datum veröffentlichen (Community-Beitrag oder freigegebenes Inserat bzw. Stellenangebot), erhalten das Badge dauerhaft. Setzen Sie das Datum auf den Start von Premium.",
+    "statusOpen": "Status: offen, ohne Enddatum.",
+    "statusClosesAt": "Status: endet am {date, date, long}.",
+    "closesAt": "Enddatum",
+    "save": "Datum speichern",
+    "reopen": "Enddatum entfernen",
+    "saved": "Gründungsprogramm aktualisiert",
+    "error": "Gründungsprogramm konnte nicht aktualisiert werden"
   }
 }

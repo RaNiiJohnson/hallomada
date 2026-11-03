@@ -37,5 +37,9 @@
   "errorRetry": "Réessayer",
   "errorHome": "Retour à l'accueil",
   "limitReached": "Limite de publication atteinte. Réessayez plus tard.",
-  "rateLimited": "Trop de requêtes, réessayez dans un instant."
+  "rateLimited": "Trop de requêtes, réessayez dans un instant.",
+  "founderBadge": {
+    "label": "Membre fondateur",
+    "tooltip": "Membre fondateur : a contribué à Hallomada dès ses débuts"
+  }
 }

@@ -25,10 +25,10 @@
     },
     "excludedTitle": "Not included",
     "excluded": {
-      "featured": "\"Featured\" badge",
-      "boost": "Bump listings to the top",
-      "stats": "View statistics",
-      "alerts": "Instant alerts"
+      "alerts": "Instant alerts and saved searches",
+      "highlight": "Highlighted applications",
+      "featured": "\"Featured\" badge and listing bumps",
+      "stats": "View statistics"
     }
   },
   "premium": {
@@ -37,14 +37,31 @@
     "current": "You are here",
     "offerTitle": "Free for now.",
     "offerText": "All members enjoy the Premium plan for free.",
-    "featuresTitle": "Everything in Free, plus",
     "features": {
       "alerts": "Instant alerts for new housing and job offers",
+      "savedSearches": "Saved searches, rerun in one click",
+      "highlight": "Your application and message highlighted to the advertiser",
+      "rentalFile": "Rental application file ready to send in one click",
       "featured": "\"Featured\" badge on your listings and job offers",
       "boost": "Bump your listings to the top of the list",
-      "priority": "Priority moderation of your posts",
       "stats": "View statistics on your listings and job offers",
-      "quotas": "Extended quotas: 10 listings and 10 job offers per week, 3 communities every 30 days"
+      "priority": "Priority moderation of your posts",
+      "quotas": "Extended quotas: 10 listings and 10 job offers per week, 3 communities every 30 days",
+      "premiumBadge": "Premium badge next to your name"
+    },
+    "oneSubscription": "One subscription, whether you are looking or publishing.",
+    "groups": {
+      "find": "To find faster",
+      "visible": "To be more visible",
+      "everyone": "For everyone"
     }
+  },
+  "founder": {
+    "title": "Become a Founding member",
+    "text": "Publish before Premium launches (a community post, or a listing or job offer approved by moderation) and keep the Founding member badge next to your name for life."
+  },
+  "faq": {
+    "question": "Questions about Premium?",
+    "link": "Read the FAQ"
   }
 }

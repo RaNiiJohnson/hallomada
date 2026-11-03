@@ -1,5 +1,6 @@
 "use client";
 
+import { FounderBadge } from "@/components/founder-badge";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useTimeTranslations } from "@/hooks/use-time-translations";
@@ -92,6 +93,7 @@ export function ReplyItem({
       <div className="flex-1 min-w-0">
         <p className="flex items-center gap-1.5 text-xs mb-1">
           <span className="text-primary font-medium">{reply.authorName}</span>
+          <FounderBadge userId={reply.authorId} compact />
           <span className="text-muted-foreground">•</span>
           <span className="text-muted-foreground">
             {getRelativeTime(reply._creationTime, timeT)}

@@ -1,5 +1,6 @@
 "use client";
 
+import { FounderBadge } from "@/components/founder-badge";
 import { ShareButton } from "@/components/ShareButton";
 import { ReportDialog } from "@/components/report-dialog";
 import { TranslateMenu } from "@/components/translate-menu";
@@ -232,6 +233,7 @@ export default function PostClient() {
             <span className="text-primary hover:underline cursor-pointer">
               {post.authorName}
             </span>
+            <FounderBadge userId={post.authorId} compact />
             • <span>{getRelativeTime(post._creationTime, timeT)}</span>
           </p>
 

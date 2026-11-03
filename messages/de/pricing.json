@@ -25,10 +25,10 @@
     },
     "excludedTitle": "Nicht enthalten",
     "excluded": {
-      "featured": "Badge „Hervorgehoben“",
-      "boost": "Inserate nach oben schieben",
-      "stats": "Aufrufstatistiken",
-      "alerts": "Sofort-Benachrichtigungen"
+      "alerts": "Sofort-Benachrichtigungen und gespeicherte Suchen",
+      "highlight": "Hervorgehobene Bewerbungen",
+      "featured": "Badge „Hervorgehoben“ und Inserate nach oben schieben",
+      "stats": "Aufrufstatistiken"
     }
   },
   "premium": {
@@ -37,14 +37,31 @@
     "current": "Hier sind Sie",
     "offerTitle": "Derzeit kostenlos.",
     "offerText": "Alle Mitglieder nutzen das Premium-Angebot kostenlos.",
-    "featuresTitle": "Alles aus Kostenlos, plus",
     "features": {
       "alerts": "Sofort-Benachrichtigungen für neue Wohnungen und Jobs",
+      "savedSearches": "Gespeicherte Suchen, mit einem Klick erneut starten",
+      "highlight": "Ihre Bewerbung und Nachricht werden beim Inserenten hervorgehoben",
+      "rentalFile": "Bewerbungsmappe für Wohnungen, mit einem Klick versendet",
       "featured": "Badge „Hervorgehoben“ auf Ihren Inseraten und Stellenangeboten",
       "boost": "Ihre Inserate an die Spitze der Liste schieben",
-      "priority": "Bevorzugte Moderation Ihrer Beiträge",
       "stats": "Aufrufstatistiken für Ihre Inserate und Stellenangebote",
-      "quotas": "Erweiterte Kontingente: 10 Inserate und 10 Stellenangebote pro Woche, 3 Communities alle 30 Tage"
+      "priority": "Bevorzugte Moderation Ihrer Beiträge",
+      "quotas": "Erweiterte Kontingente: 10 Inserate und 10 Stellenangebote pro Woche, 3 Communities alle 30 Tage",
+      "premiumBadge": "Premium-Badge neben Ihrem Namen"
+    },
+    "oneSubscription": "Ein einziges Abo – ob Sie suchen oder veröffentlichen.",
+    "groups": {
+      "find": "Schneller finden",
+      "visible": "Sichtbarer werden",
+      "everyone": "Für alle"
     }
+  },
+  "founder": {
+    "title": "Werden Sie Gründungsmitglied",
+    "text": "Veröffentlichen Sie vor dem Start von Premium (einen Community-Beitrag oder ein von der Moderation freigegebenes Inserat bzw. Stellenangebot) und behalten Sie das Badge „Gründungsmitglied“ neben Ihrem Namen für immer."
+  },
+  "faq": {
+    "question": "Fragen zu Premium?",
+    "link": "Zu den FAQ"
   }
 }

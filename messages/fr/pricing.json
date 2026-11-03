@@ -25,10 +25,10 @@
     },
     "excludedTitle": "Non inclus",
     "excluded": {
-      "featured": "Badge « En vedette »",
-      "boost": "Remontée des annonces en tête de liste",
-      "stats": "Statistiques de vues",
-      "alerts": "Alertes instantanées"
+      "alerts": "Alertes instantanées et recherches sauvegardées",
+      "highlight": "Candidature mise en avant",
+      "featured": "Badge « En vedette » et remontée des annonces",
+      "stats": "Statistiques de vues"
     }
   },
   "premium": {
@@ -37,14 +37,31 @@
     "current": "Vous êtes ici",
     "offerTitle": "Offert pour le moment.",
     "offerText": "Tous les membres profitent gratuitement de l'offre Premium.",
-    "featuresTitle": "Tout le plan Gratuit, plus",
     "features": {
       "alerts": "Alertes instantanées pour les nouveaux logements et emplois",
+      "savedSearches": "Recherches sauvegardées, relancées en un clic",
+      "highlight": "Candidature et message mis en avant auprès de l'annonceur",
+      "rentalFile": "Dossier de location prêt à envoyer en un clic",
       "featured": "Badge « En vedette » sur vos annonces et offres d'emploi",
       "boost": "Remontée de vos annonces en tête de liste",
-      "priority": "Modération prioritaire de vos publications",
       "stats": "Statistiques de vues sur vos annonces et offres d'emploi",
-      "quotas": "Quotas étendus : 10 annonces et 10 offres d'emploi par semaine, 3 communautés tous les 30 jours"
+      "priority": "Modération prioritaire de vos publications",
+      "quotas": "Quotas étendus : 10 annonces et 10 offres d'emploi par semaine, 3 communautés tous les 30 jours",
+      "premiumBadge": "Badge Premium à côté de votre nom"
+    },
+    "oneSubscription": "Un seul abonnement, que vous cherchiez ou que vous publiez.",
+    "groups": {
+      "find": "Pour trouver plus vite",
+      "visible": "Pour être plus visible",
+      "everyone": "Pour tous"
     }
+  },
+  "founder": {
+    "title": "Devenez Membre fondateur",
+    "text": "Publiez avant le lancement de Premium (un post dans une communauté, ou une annonce ou offre d'emploi validée par la modération) et gardez à vie le badge Membre fondateur à côté de votre nom."
+  },
+  "faq": {
+    "question": "Des questions sur Premium ?",
+    "link": "Consultez la FAQ"
   }
 }

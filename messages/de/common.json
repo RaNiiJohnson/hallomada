@@ -37,5 +37,9 @@
   "errorRetry": "Erneut versuchen",
   "errorHome": "Zur Startseite",
   "limitReached": "Veröffentlichungslimit erreicht. Bitte versuche es später erneut.",
-  "rateLimited": "Zu viele Anfragen, bitte versuche es gleich erneut."
+  "rateLimited": "Zu viele Anfragen, bitte versuche es gleich erneut.",
+  "founderBadge": {
+    "label": "Gründungsmitglied",
+    "tooltip": "Gründungsmitglied: hat Hallomada von Anfang an mitgestaltet"
+  }
 }

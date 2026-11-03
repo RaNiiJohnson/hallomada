@@ -37,5 +37,9 @@
   "errorRetry": "Try again",
   "errorHome": "Back to home",
   "limitReached": "Publication limit reached. Please try again later.",
-  "rateLimited": "Too many requests, please try again shortly."
+  "rateLimited": "Too many requests, please try again shortly.",
+  "founderBadge": {
+    "label": "Founding member",
+    "tooltip": "Founding member: contributed to Hallomada from the very beginning"
+  }
 }

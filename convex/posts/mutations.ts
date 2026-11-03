@@ -1,5 +1,6 @@
 import { v } from "convex/values";
 import { generatedSlug } from "../../src/lib/utils";
+import { grantFounderIfEligible } from "../founders";
 import { authMutation } from "../functions";
 import { limiter } from "../rateLimits";
 
@@ -49,6 +50,7 @@ export const createPost = authMutation({
       searchAll: `${args.title} ${args.content} ${user.name}${community ? ` ${community.name}` : ""}`,
       updatedAt: Date.now(),
     });
+    await grantFounderIfEligible(ctx, userId);
 
     // await posthog.capture(ctx, {
     //   distinctId: posthogDistinctId(userId),

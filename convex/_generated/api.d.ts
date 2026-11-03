@@ -30,6 +30,7 @@ import type * as email from "../email.js";
 import type * as emails_layout from "../emails/layout.js";
 import type * as emails_strings from "../emails/strings.js";
 import type * as emails_templates from "../emails/templates.js";
+import type * as founders from "../founders.js";
 import type * as functions from "../functions.js";
 import type * as http from "../http.js";
 import type * as integrations_cloudinary from "../integrations/cloudinary.js";
@@ -102,6 +103,7 @@ declare const fullApi: ApiFromModules<{
   "emails/layout": typeof emails_layout;
   "emails/strings": typeof emails_strings;
   "emails/templates": typeof emails_templates;
+  founders: typeof founders;
   functions: typeof functions;
   http: typeof http;
   "integrations/cloudinary": typeof integrations_cloudinary;

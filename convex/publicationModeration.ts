@@ -1,4 +1,5 @@
 import { v } from "convex/values";
+import { grantFounderIfEligible } from "./founders";
 import { adminMutation, adminQuery } from "./functions";
 import { throwNotFound, throwValidationError } from "./utils/errors";
 
@@ -124,6 +125,9 @@ export const decide = adminMutation({
         throwValidationError("This job is no longer pending moderation");
       }
       await ctx.db.patch(job._id, { status: nextStatus, updatedAt: Date.now() });
+      if (decision === "approved") {
+        await grantFounderIfEligible(ctx, job.authorId);
+      }
       await ctx.db.insert("notifications", {
         userId: job.authorId,
         type: decision === "approved" ? "job_approved" : "job_rejected",
@@ -164,6 +168,9 @@ export const decide = adminMutation({
       status: nextStatus,
       updatedAt: Date.now(),
     });
+    if (decision === "approved") {
+      await grantFounderIfEligible(ctx, listing.authorId);
+    }
     await ctx.db.insert("notifications", {
       userId: listing.authorId,
       type:

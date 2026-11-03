@@ -1,3 +1,4 @@
+import { FounderBadge } from "@/components/founder-badge";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -62,8 +63,9 @@ export function MessageBubble({
   return (
     <div className={`flex flex-col ${isMe ? "items-end" : "items-start"}`}>
       {!isMe && (
-        <span className="text-xs font-medium text-muted-foreground mb-0.5 ml-1 select-none md:select-text">
+        <span className="mb-0.5 ml-1 inline-flex items-center gap-1 text-xs font-medium text-muted-foreground select-none md:select-text">
           {msg.authorName ?? "Anonyme"}
+          <FounderBadge userId={msg.authorId} compact />
         </span>
       )}
 

@@ -92,9 +92,83 @@ function QuotaForm({ initial }: { initial: Record<QuotaField, number> }) {
   );
 }
 
+function toDateInput(timestamp: number | null) {
+  if (timestamp === null) return "";
+  return new Date(timestamp).toISOString().slice(0, 10);
+}
+
+function FounderProgramForm({ closesAt }: { closesAt: number | null }) {
+  const t = useTranslations("admin.founders");
+  const setClosesAt = useMutation(api.founders.setProgramClosesAt);
+  const [date, setDate] = useState(toDateInput(closesAt));
+  const [saving, setSaving] = useState(false);
+
+  const save = async (value: number | null) => {
+    setSaving(true);
+    try {
+      await setClosesAt({ closesAt: value });
+      toast.success(t("saved"));
+    } catch {
+      toast.error(t("error"));
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  return (
+    <form
+      className="max-w-md space-y-4 rounded-xl border bg-card p-5"
+      onSubmit={(event) => {
+        event.preventDefault();
+        // The program closes at midnight UTC at the start of the chosen day.
+        if (date) void save(Date.parse(`${date}T00:00:00Z`));
+      }}
+    >
+      <div className="space-y-1">
+        <h3 className="font-semibold">{t("title")}</h3>
+        <p className="text-sm text-muted-foreground">{t("description")}</p>
+      </div>
+      <p className="text-sm font-medium">
+        {closesAt === null
+          ? t("statusOpen")
+          : t("statusClosesAt", { date: new Date(closesAt) })}
+      </p>
+      <Field>
+        <FieldLabel htmlFor="founder-closes-at">{t("closesAt")}</FieldLabel>
+        <Input
+          id="founder-closes-at"
+          type="date"
+          value={date}
+          onChange={(event) => setDate(event.target.value)}
+        />
+      </Field>
+      <div className="flex flex-col gap-2 sm:flex-row">
+        <Button type="submit" disabled={!date || saving} className="flex-1">
+          {t("save")}
+        </Button>
+        {closesAt !== null && (
+          <Button
+            type="button"
+            variant="outline"
+            disabled={saving}
+            className="flex-1"
+            onClick={() => {
+              setDate("");
+              void save(null);
+            }}
+          >
+            {t("reopen")}
+          </Button>
+        )}
+      </div>
+    </form>
+  );
+}
+
 export default function QuotasPage() {
   const t = useTranslations("admin.quotas");
   const quotas = useQuery(api.publicationQuotas.get, {});
+  const founderProgram = useQuery(api.founders.getProgram, {});
 
   return (
     <div className="space-y-6">
@@ -108,6 +182,11 @@ export default function QuotasPage() {
         </div>
       ) : (
         <QuotaForm initial={quotas} />
+      )}
+      {founderProgram === undefined ? (
+        <Skeleton className="h-48 w-full max-w-md rounded-xl" />
+      ) : (
+        <FounderProgramForm closesAt={founderProgram.closesAt} />
       )}
     </div>
   );

@@ -1,5 +1,6 @@
 "use client";
 
+import { FounderBadge } from "@/components/founder-badge";
 import { TranslateMenu } from "@/components/translate-menu";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -529,7 +530,8 @@ export function PropertyDetails({
                       </Link>
                     ) : (
                       (property.authorName || tListing("details.anonymous"))
-                    )}
+                    )}{" "}
+                    <FounderBadge userId={property.authorId} compact />
                   </div>
                   <div className="text-sm text-muted-foreground">
                     {tListing(
@@ -617,7 +619,8 @@ export function PropertyDetails({
                       </Link>
                     ) : (
                       (property.authorName || tListing("details.anonymous"))
-                    )}
+                    )}{" "}
+                    <FounderBadge userId={property.authorId} compact />
                   </div>
                   <div className="text-sm text-muted-foreground">
                     {tListing(

@@ -536,6 +536,21 @@ export default defineSchema({
     .index("by_status_and_reportedAt", ["status", "reportedAt"])
     .index("by_reportedAt", ["reportedAt"]),
 
+  // "Founding member" badge holders. One row per user, never removed: the
+  // badge is permanent once earned (see convex/founders.ts for the rules).
+  founders: defineTable({
+    userId: v.string(),
+    since: v.number(),
+  }).index("by_userId", ["userId"]),
+
+  // Singleton row edited from the admin dashboard. Absent or `closesAt: null`
+  // means the founder program is still open.
+  founderProgram: defineTable({
+    closesAt: v.union(v.number(), v.null()),
+    updatedAt: v.number(),
+    updatedBy: v.string(),
+  }),
+
   // Singleton row edited from the admin dashboard; absent means defaults.
   publicationQuotas: defineTable({
     communityPer30Days: v.number(),

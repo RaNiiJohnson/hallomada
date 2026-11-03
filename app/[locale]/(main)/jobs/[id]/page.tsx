@@ -1,5 +1,6 @@
 "use client";
 
+import { FounderBadge } from "@/components/founder-badge";
 import { ShareButton } from "@/components/ShareButton";
 import { MobileActionsMenu } from "@/components/mobile-actions-menu";
 import { ReportDialog } from "@/components/report-dialog";
@@ -383,6 +384,7 @@ export default function JobDetailsPage() {
                       {jobOffer.authorName || t("details.anonymous")}
                     </span>
                   )}{" "}
+                  <FounderBadge userId={jobOffer.authorId} compact />{" "}
                 </>
               )}{" "}
               {!isLoading && (

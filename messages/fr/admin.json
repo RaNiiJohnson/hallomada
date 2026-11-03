@@ -213,5 +213,16 @@
     "saved": "Quotas mis à jour",
     "error": "Impossible d'enregistrer les quotas",
     "loading": "Chargement des quotas"
+  },
+  "founders": {
+    "title": "Programme Membre fondateur",
+    "description": "Les membres qui publient avant cette date (post de communauté, ou annonce et offre validées) gagnent le badge à vie. Fixez la date au lancement du Premium payant.",
+    "statusOpen": "Statut : ouvert, sans date de fin.",
+    "statusClosesAt": "Statut : se termine le {date, date, long}.",
+    "closesAt": "Date de fin",
+    "save": "Enregistrer la date",
+    "reopen": "Retirer la date de fin",
+    "saved": "Programme fondateur mis à jour",
+    "error": "Impossible de mettre à jour le programme fondateur"
   }
 }
