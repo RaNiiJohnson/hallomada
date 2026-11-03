@@ -13,6 +13,7 @@ import { usePaginatedQuery, useQuery } from "convex-helpers/react/cache";
 import { useConvexAuth, useMutation } from "convex/react";
 import {
   Bell,
+  BellRing,
   Bookmark,
   BriefcaseBusiness,
   Building2,
@@ -25,6 +26,7 @@ import {
 import { useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { AlertsPanel } from "./alerts-panel";
 
 const validTabs = [
   "favorites",
@@ -32,6 +34,7 @@ const validTabs = [
   "communities",
   "applications",
   "notifications",
+  "alerts",
   "profile",
 ] as const;
 
@@ -43,6 +46,7 @@ const tabs = [
   ["communities", UsersRound],
   ["applications", BriefcaseBusiness],
   ["notifications", Bell],
+  ["alerts", BellRing],
   ["profile", UserRound],
 ] as const;
 
@@ -579,6 +583,9 @@ export function PersonalSpace() {
           </TabsContent>
           <TabsContent value="notifications">
             <NotificationsPanel />
+          </TabsContent>
+          <TabsContent value="alerts">
+            <AlertsPanel />
           </TabsContent>
           <TabsContent value="profile">
             <ProfilePanel />

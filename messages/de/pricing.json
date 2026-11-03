@@ -54,7 +54,8 @@
       "find": "Schneller finden",
       "visible": "Sichtbarer werden",
       "everyone": "Für alle"
-    }
+    },
+    "regularPrice": "Regulärer Preis:"
   },
   "founder": {
     "title": "Werden Sie Gründungsmitglied",

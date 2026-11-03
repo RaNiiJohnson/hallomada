@@ -10,6 +10,11 @@ import {
   providerServiceValidator,
 } from "./providers/values";
 import {
+  jobTypeValidator,
+  jobWorkModeValidator,
+  listingPropertyTypeValidator,
+} from "./alerts/values";
+import {
   reportReasonValidator,
   reportStatusValidator,
   reportTargetIdValidator,
@@ -128,6 +133,8 @@ export default defineSchema({
     trainingRequirements: v.optional(v.string()),
     authorId: v.string(),
     authorName: v.optional(v.string()),
+    // Set when search alerts were sent for this offer, so they go out once.
+    alertsSentAt: v.optional(v.number()),
     // Optional during the rollout so existing offers remain visible as active.
     status: v.optional(
       v.union(
@@ -211,6 +218,8 @@ export default defineSchema({
 
     authorId: v.string(),
     authorName: v.optional(v.string()),
+    // Set when search alerts were sent for this listing, so they go out once.
+    alertsSentAt: v.optional(v.number()),
     updatedAt: v.number(),
     searchAll: v.optional(v.string()),
   })
@@ -445,6 +454,8 @@ export default defineSchema({
       v.literal("provider_rejected"),
       v.literal("provider_pending_review"),
       v.literal("job_contact_bounced"),
+      v.literal("alert_listing"),
+      v.literal("alert_job"),
     ),
     read: v.boolean(),
     postSlug: v.optional(v.string()),
@@ -535,6 +546,32 @@ export default defineSchema({
     ])
     .index("by_status_and_reportedAt", ["status", "reportedAt"])
     .index("by_reportedAt", ["reportedAt"]),
+
+  // Saved search alerts. `cityKey` is the normalized city, "" for any city.
+  // Criteria left empty match everything.
+  alerts: defineTable({
+    userId: v.string(),
+    kind: v.union(v.literal("listing"), v.literal("job")),
+    cityKey: v.string(),
+    city: v.optional(v.string()),
+    listingMode: v.optional(v.union(v.literal("rent"), v.literal("sale"))),
+    propertyType: v.optional(listingPropertyTypeValidator),
+    maxPrice: v.optional(v.number()),
+    jobType: v.optional(jobTypeValidator),
+    workMode: v.optional(jobWorkModeValidator),
+    email: v.boolean(),
+    paused: v.boolean(),
+    locale: v.union(v.literal("fr"), v.literal("en"), v.literal("de")),
+  })
+    .index("by_userId", ["userId"])
+    .index("by_kind_and_cityKey", ["kind", "cityKey"]),
+
+  // One row per (publication, member) already alerted, so a member with
+  // several matching alerts is notified once.
+  alertDeliveries: defineTable({
+    resourceKey: v.string(),
+    userId: v.string(),
+  }).index("by_resourceKey_and_userId", ["resourceKey", "userId"]),
 
   // "Founding member" badge holders. One row per user, never removed: the
   // badge is permanent once earned (see convex/founders.ts for the rules).

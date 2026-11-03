@@ -54,7 +54,8 @@
       "find": "To find faster",
       "visible": "To be more visible",
       "everyone": "For everyone"
-    }
+    },
+    "regularPrice": "Regular price:"
   },
   "founder": {
     "title": "Become a Founding member",

@@ -54,7 +54,8 @@
       "find": "Pour trouver plus vite",
       "visible": "Pour être plus visible",
       "everyone": "Pour tous"
-    }
+    },
+    "regularPrice": "Prix normal :"
   },
   "founder": {
     "title": "Devenez Membre fondateur",

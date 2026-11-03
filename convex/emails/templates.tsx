@@ -13,6 +13,7 @@ import {
   applicationFailedStrings,
   applicationSentStrings,
   resetPasswordStrings,
+  searchAlertStrings,
   shared,
   verifyEmailStrings,
   type EmailLocale,
@@ -162,6 +163,47 @@ export function ApplicationFailedEmail({
       </Paragraph>
       <Paragraph>{bounced ? t.bouncedRetry : t.retry}</Paragraph>
       <CtaButton href={jobUrl}>{t.button}</CtaButton>
+    </EmailLayout>
+  );
+}
+
+/** Sent when a new publication matches one of the member's search alerts. */
+export function SearchAlertEmail({
+  locale,
+  name,
+  kind,
+  title,
+  details,
+  url,
+  manageUrl,
+}: {
+  locale: EmailLocale;
+  name: string;
+  kind: "listing" | "job";
+  title: string;
+  details: string;
+  url: string;
+  manageUrl: string;
+}) {
+  const t = searchAlertStrings[locale];
+  const s = shared[locale];
+  return (
+    <EmailLayout lang={locale} preview={t.preview(kind)} footer={s.footer}>
+      <Title>{t.title(kind)}</Title>
+      <Paragraph>
+        {s.hello(name)}
+        <br />
+        {t.intro(kind)}
+      </Paragraph>
+      <Paragraph>
+        <Strong>{title}</Strong>
+        <br />
+        {details}
+      </Paragraph>
+      <CtaButton href={url}>{t.button(kind)}</CtaButton>
+      <Note>
+        {t.manage} <Link href={manageUrl}>{t.manageLink}</Link>
+      </Note>
     </EmailLayout>
   );
 }

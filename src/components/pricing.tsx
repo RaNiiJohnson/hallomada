@@ -33,7 +33,7 @@ const PREMIUM_GROUPS: {
     key: "find",
     icon: Search,
     features: [
-      { key: "alerts", soon: true },
+      { key: "alerts", soon: false },
       { key: "savedSearches", soon: true },
       { key: "highlight", soon: true },
       { key: "rentalFile", soon: true },
@@ -119,10 +119,13 @@ export default function PricingPage() {
                 <Sparkles className="h-4 w-4 text-primary" />
                 {t("premium.name")}
               </h2>
-              <p className="mt-3 text-3xl font-semibold">
-                {t("premium.price")}
+              <p className="mt-3 flex flex-wrap items-baseline gap-x-2 text-3xl font-semibold">
+                <span>{t("free.price")}</span>
+                <span className="text-xl font-medium text-muted-foreground line-through decoration-2">
+                  <span className="sr-only">{t("premium.regularPrice")} </span>
+                  {t("premium.price")}
+                </span>
                 <span className="text-sm font-normal text-muted-foreground">
-                  {" "}
                   {t("perMonth")}
                 </span>
               </p>

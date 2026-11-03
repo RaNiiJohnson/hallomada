@@ -1,4 +1,5 @@
 import { v } from "convex/values";
+import { scheduleAlertsForPublication } from "./alerts/dispatch";
 import { grantFounderIfEligible } from "./founders";
 import { adminMutation, adminQuery } from "./functions";
 import { throwNotFound, throwValidationError } from "./utils/errors";
@@ -127,6 +128,7 @@ export const decide = adminMutation({
       await ctx.db.patch(job._id, { status: nextStatus, updatedAt: Date.now() });
       if (decision === "approved") {
         await grantFounderIfEligible(ctx, job.authorId);
+        await scheduleAlertsForPublication(ctx, { kind: "job", doc: job });
       }
       await ctx.db.insert("notifications", {
         userId: job.authorId,
@@ -170,6 +172,7 @@ export const decide = adminMutation({
     });
     if (decision === "approved") {
       await grantFounderIfEligible(ctx, listing.authorId);
+      await scheduleAlertsForPublication(ctx, { kind: "listing", doc: listing });
     }
     await ctx.db.insert("notifications", {
       userId: listing.authorId,

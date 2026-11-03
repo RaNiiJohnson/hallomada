@@ -1,0 +1,45 @@
+{
+  "create": "Suchauftrag erstellen",
+  "form": {
+    "title": {
+      "listing": "Neuer Suchauftrag Wohnen",
+      "job": "Neuer Suchauftrag Jobs"
+    },
+    "description": "Werden Sie benachrichtigt, sobald eine neue Veröffentlichung zu Ihren Kriterien passt. Lassen Sie ein Feld leer, um alles zu erhalten.",
+    "city": "Stadt",
+    "cityPlaceholder": "Alle Städte",
+    "listingMode": "Miete oder Kauf",
+    "propertyType": "Objektart",
+    "maxPrice": "Höchstpreis (€)",
+    "maxPricePlaceholder": "Ohne Limit",
+    "jobType": "Angebotsart",
+    "workMode": "Arbeitsmodell",
+    "any": "Alle",
+    "email": "Zusätzlich per E-Mail",
+    "emailHint": "Zusätzlich zur Benachrichtigung in Hallomada.",
+    "submit": "Suchauftrag erstellen",
+    "saving": "Wird erstellt…",
+    "created": "Suchauftrag erstellt. Sie werden über neue Veröffentlichungen informiert.",
+    "error": "Der Suchauftrag konnte nicht gespeichert werden. Bitte erneut versuchen.",
+    "limitReached": "Sie haben das Limit von 10 Suchaufträgen erreicht. Löschen Sie einen, um einen neuen zu erstellen."
+  },
+  "panel": {
+    "title": "Meine Suchaufträge",
+    "description": "Erhalten Sie eine Benachrichtigung – und auf Wunsch eine E-Mail –, sobald ein passendes Inserat oder Stellenangebot veröffentlicht wird.",
+    "newListing": "Suchauftrag Wohnen",
+    "newJob": "Suchauftrag Jobs",
+    "empty": "Noch keine Suchaufträge. Erstellen Sie einen, um als Erster informiert zu werden.",
+    "active": "Suchauftrag aktiv",
+    "email": "E-Mail erhalten",
+    "delete": "Suchauftrag löschen",
+    "deleted": "Suchauftrag gelöscht"
+  },
+  "summary": {
+    "listing": "Wohnen",
+    "job": "Jobs",
+    "anyCity": "Alle Städte",
+    "everything": "Alle Kriterien",
+    "maxPrice": "Max. {price}",
+    "paused": "Pausiert"
+  }
+}

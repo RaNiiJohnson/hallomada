@@ -42,6 +42,8 @@ const notificationIcon: Record<string, string> = {
   provider_rejected: "❌",
   provider_pending_review: "🕒",
   job_contact_bounced: "⚠️",
+  alert_listing: "🔔",
+  alert_job: "🔔",
 };
 
 export function NotificationWidget({

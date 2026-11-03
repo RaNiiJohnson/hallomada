@@ -11,6 +11,11 @@
 import type * as adminAudit from "../adminAudit.js";
 import type * as adminAuditValues from "../adminAuditValues.js";
 import type * as aggregates from "../aggregates.js";
+import type * as alerts_dispatch from "../alerts/dispatch.js";
+import type * as alerts_emails from "../alerts/emails.js";
+import type * as alerts_mutations from "../alerts/mutations.js";
+import type * as alerts_queries from "../alerts/queries.js";
+import type * as alerts_values from "../alerts/values.js";
 import type * as auth_admin from "../auth/admin.js";
 import type * as auth_auth from "../auth/auth.js";
 import type * as auth_users from "../auth/users.js";
@@ -84,6 +89,11 @@ declare const fullApi: ApiFromModules<{
   adminAudit: typeof adminAudit;
   adminAuditValues: typeof adminAuditValues;
   aggregates: typeof aggregates;
+  "alerts/dispatch": typeof alerts_dispatch;
+  "alerts/emails": typeof alerts_emails;
+  "alerts/mutations": typeof alerts_mutations;
+  "alerts/queries": typeof alerts_queries;
+  "alerts/values": typeof alerts_values;
   "auth/admin": typeof auth_admin;
   "auth/auth": typeof auth_auth;
   "auth/users": typeof auth_users;

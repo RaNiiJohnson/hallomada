@@ -1,0 +1,45 @@
+{
+  "create": "Create an alert",
+  "form": {
+    "title": {
+      "listing": "New housing alert",
+      "job": "New job alert"
+    },
+    "description": "Get notified as soon as a new post matches your criteria. Leave a field empty to accept everything.",
+    "city": "City",
+    "cityPlaceholder": "All cities",
+    "listingMode": "Rent or sale",
+    "propertyType": "Property type",
+    "maxPrice": "Maximum price (€)",
+    "maxPricePlaceholder": "No limit",
+    "jobType": "Offer type",
+    "workMode": "Work mode",
+    "any": "Any",
+    "email": "Also send me an email",
+    "emailHint": "In addition to the notification in Hallomada.",
+    "submit": "Create alert",
+    "saving": "Creating…",
+    "created": "Alert created. You will be notified of new posts.",
+    "error": "Could not save the alert. Please try again.",
+    "limitReached": "You have reached the limit of 10 alerts. Delete one to create a new one."
+  },
+  "panel": {
+    "title": "My alerts",
+    "description": "Get a notification, and an email if you like, as soon as a listing or job matching your criteria is published.",
+    "newListing": "Housing alert",
+    "newJob": "Job alert",
+    "empty": "No alerts yet. Create one to be the first to know.",
+    "active": "Alert active",
+    "email": "Receive an email",
+    "delete": "Delete alert",
+    "deleted": "Alert deleted"
+  },
+  "summary": {
+    "listing": "Housing",
+    "job": "Job",
+    "anyCity": "All cities",
+    "everything": "All criteria",
+    "maxPrice": "Max. {price}",
+    "paused": "Paused"
+  }
+}

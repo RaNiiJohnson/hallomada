@@ -7,8 +7,9 @@
     "publications": "Posts",
     "communities": "Groups",
     "applications": "Applications",
-    "notifications": "Alerts",
-    "profile": "Settings"
+    "notifications": "Notifications",
+    "profile": "Settings",
+    "alerts": "Alerts"
   },
   "favorites": {
     "empty": "You have not saved anything yet.",

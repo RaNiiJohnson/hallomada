@@ -7,8 +7,9 @@
     "publications": "Publications",
     "communities": "Communautés",
     "applications": "Candidatures",
-    "notifications": "Alertes",
-    "profile": "Réglages"
+    "notifications": "Notifications",
+    "profile": "Réglages",
+    "alerts": "Alertes"
   },
   "favorites": {
     "empty": "Vous n’avez pas encore de favori.",
