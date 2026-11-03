@@ -35,18 +35,20 @@ const ANY = "all";
 export type AlertKind = AlertCriteria["kind"];
 
 export type AlertDefaults = {
+  keywords?: string;
   city?: string;
   propertyType?: string;
   listingMode?: string;
   maxPrice?: number;
   jobType?: string;
+  workMode?: string;
 };
 
 function pick<T extends string>(values: readonly T[], value: string | undefined) {
   return values.includes(value as T) ? (value as T) : undefined;
 }
 
-/** Dialog to create a search alert, optionally prefilled from the current filters. */
+/** Dialog to save a search (with optional alerts), prefilled from the current filters. */
 export function AlertFormDialog({
   kind,
   defaults = {},
@@ -65,22 +67,26 @@ export function AlertFormDialog({
   const create = useMutation(api.alerts.mutations.create);
 
   const [open, setOpen] = useState(false);
+  const [keywords, setKeywords] = useState("");
   const [city, setCity] = useState("");
   const [propertyType, setPropertyType] = useState<string>(ANY);
   const [listingMode, setListingMode] = useState<string>(ANY);
   const [maxPrice, setMaxPrice] = useState("");
   const [jobType, setJobType] = useState<string>(ANY);
   const [workMode, setWorkMode] = useState<string>(ANY);
+  const [notify, setNotify] = useState(true);
   const [email, setEmail] = useState(true);
   const [saving, setSaving] = useState(false);
 
   const reset = () => {
+    setKeywords(defaults.keywords ?? "");
     setCity(defaults.city ?? "");
     setPropertyType(pick(propertyTypeValues, defaults.propertyType) ?? ANY);
     setListingMode(pick(listingModeValues, defaults.listingMode) ?? ANY);
     setMaxPrice(defaults.maxPrice ? String(defaults.maxPrice) : "");
     setJobType(pick(jobTypeValues, defaults.jobType) ?? ANY);
-    setWorkMode(ANY);
+    setWorkMode(pick(workModeValues, defaults.workMode) ?? ANY);
+    setNotify(true);
     setEmail(true);
   };
 
@@ -92,10 +98,12 @@ export function AlertFormDialog({
   const submit = async () => {
     if (priceInvalid) return;
     const trimmedCity = city.trim() || undefined;
+    const trimmedKeywords = keywords.trim() || undefined;
     const criteria: AlertCriteria =
       kind === "listing"
         ? {
             kind,
+            keywords: trimmedKeywords,
             city: trimmedCity,
             propertyType: pick(propertyTypeValues, propertyType),
             listingMode: pick(listingModeValues, listingMode),
@@ -103,6 +111,7 @@ export function AlertFormDialog({
           }
         : {
             kind,
+            keywords: trimmedKeywords,
             city: trimmedCity,
             jobType: pick(jobTypeValues, jobType),
             workMode: pick(workModeValues, workMode),
@@ -111,10 +120,11 @@ export function AlertFormDialog({
     try {
       await create({
         criteria,
-        email,
+        notify,
+        email: notify && email,
         locale: locale === "fr" || locale === "de" ? locale : "en",
       });
-      toast.success(t("form.created"));
+      toast.success(t(notify ? "form.createdWithAlerts" : "form.created"));
       setOpen(false);
       onCreated?.();
     } catch (error) {
@@ -150,6 +160,17 @@ export function AlertFormDialog({
             void submit();
           }}
         >
+          <div className="space-y-2">
+            <Label htmlFor="alert-keywords">{t("form.keywords")}</Label>
+            <Input
+              id="alert-keywords"
+              value={keywords}
+              maxLength={100}
+              placeholder={t(`form.keywordsPlaceholder.${kind}`)}
+              onChange={(event) => setKeywords(event.target.value)}
+            />
+          </div>
+
           <div className="space-y-2">
             <Label htmlFor="alert-city">{t("form.city")}</Label>
             <Input
@@ -228,12 +249,31 @@ export function AlertFormDialog({
             </div>
           )}
 
-          <div className="flex items-center justify-between gap-4 rounded-lg border p-3">
-            <div>
-              <Label htmlFor="alert-email">{t("form.email")}</Label>
-              <p className="text-xs text-muted-foreground">{t("form.emailHint")}</p>
+          <div className="divide-y rounded-lg border">
+            <div className="flex items-center justify-between gap-4 p-3">
+              <div>
+                <Label htmlFor="alert-notify">{t("form.notify")}</Label>
+                <p className="text-xs text-muted-foreground">{t("form.notifyHint")}</p>
+              </div>
+              <Switch id="alert-notify" checked={notify} onCheckedChange={setNotify} />
             </div>
-            <Switch id="alert-email" checked={email} onCheckedChange={setEmail} />
+            <div className="flex items-center justify-between gap-4 p-3">
+              <div>
+                <Label
+                  htmlFor="alert-email"
+                  className={notify ? undefined : "text-muted-foreground"}
+                >
+                  {t("form.email")}
+                </Label>
+                <p className="text-xs text-muted-foreground">{t("form.emailHint")}</p>
+              </div>
+              <Switch
+                id="alert-email"
+                checked={notify && email}
+                disabled={!notify}
+                onCheckedChange={setEmail}
+              />
+            </div>
           </div>
         </form>
 

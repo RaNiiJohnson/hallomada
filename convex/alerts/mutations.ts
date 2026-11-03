@@ -12,6 +12,7 @@ import {
   alertCriteriaValidator,
   alertLocaleValidator,
   MAX_ALERT_CITY_LENGTH,
+  MAX_ALERT_KEYWORDS_LENGTH,
   MAX_ALERT_PRICE,
   MAX_ALERTS_PER_USER,
   normalizeCity,
@@ -20,11 +21,13 @@ import {
 export const create = authMutation({
   args: {
     criteria: alertCriteriaValidator,
+    // false saves the search without notifications.
+    notify: v.optional(v.boolean()),
     email: v.boolean(),
     locale: alertLocaleValidator,
   },
   returns: v.id("alerts"),
-  handler: async (ctx, { criteria, email, locale }) => {
+  handler: async (ctx, { criteria, notify = true, email, locale }) => {
     const userId = ctx.user._id;
     const existing = await ctx.db
       .query("alerts")
@@ -41,12 +44,18 @@ export const create = authMutation({
       throwValidationError("City is too long");
     }
 
+    const keywords = criteria.keywords?.trim().replace(/\s+/g, " ") || undefined;
+    if (keywords && keywords.length > MAX_ALERT_KEYWORDS_LENGTH) {
+      throwValidationError("Keywords are too long");
+    }
+
     const base = {
       userId,
+      keywords,
       cityKey: normalizeCity(city),
       city,
       email,
-      paused: false,
+      paused: !notify,
       locale,
     };
 

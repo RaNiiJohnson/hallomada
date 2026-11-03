@@ -5,12 +5,14 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Switch } from "@/components/ui/switch";
+import { Link } from "@/i18n/navigation";
+import { savedSearchHref } from "@/lib/saved-search";
 import { api } from "@convex/_generated/api";
 import type { Doc } from "@convex/_generated/dataModel";
 import { MAX_ALERTS_PER_USER } from "@convex/alerts/values";
 import { useQuery } from "convex-helpers/react/cache";
 import { useMutation } from "convex/react";
-import { BellRing, BriefcaseBusiness, Building2, Trash2 } from "lucide-react";
+import { BriefcaseBusiness, Building2, Search, Trash2 } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { toast } from "sonner";
 
@@ -24,7 +26,7 @@ export function AlertsPanel() {
       <div className="rounded-2xl border bg-card p-5 sm:p-6">
         <div className="flex items-start gap-3">
           <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
-            <BellRing className="h-5 w-5" />
+            <Search className="h-5 w-5" />
           </span>
           <div>
             <h2 className="text-lg font-semibold">{t("panel.title")}</h2>
@@ -122,6 +124,11 @@ function AlertRow({ alert }: { alert: Doc<"alerts"> }) {
           <p className="font-medium">
             {t(`summary.${alert.kind}`)} · {alert.city || t("summary.anyCity")}
           </p>
+          {alert.keywords && (
+            <p className="mt-0.5 truncate text-sm text-muted-foreground">
+              « {alert.keywords} »
+            </p>
+          )}
           <div className="mt-2 flex flex-wrap gap-1.5">
             {details.length === 0 ? (
               <Badge variant="secondary">{t("summary.everything")}</Badge>
@@ -132,7 +139,9 @@ function AlertRow({ alert }: { alert: Doc<"alerts"> }) {
                 </Badge>
               ))
             )}
-            {alert.paused && <Badge variant="outline">{t("summary.paused")}</Badge>}
+            {alert.paused && (
+              <Badge variant="outline">{t("summary.noAlerts")}</Badge>
+            )}
           </div>
         </div>
         <Button
@@ -149,6 +158,12 @@ function AlertRow({ alert }: { alert: Doc<"alerts"> }) {
           <Trash2 className="h-4 w-4" />
         </Button>
       </div>
+      <Button asChild className="mt-4 w-full rounded-full sm:w-auto">
+        <Link href={savedSearchHref(alert)}>
+          <Search className="h-4 w-4" />
+          {t("panel.viewResults")}
+        </Link>
+      </Button>
       <div className="mt-4 grid gap-3 border-t pt-4 sm:grid-cols-2">
         <label className="flex items-center justify-between gap-3 text-sm">
           {t("panel.active")}
@@ -160,9 +175,12 @@ function AlertRow({ alert }: { alert: Doc<"alerts"> }) {
           />
         </label>
         <label className="flex items-center justify-between gap-3 text-sm">
-          {t("panel.email")}
+          <span className={alert.paused ? "text-muted-foreground" : undefined}>
+            {t("panel.email")}
+          </span>
           <Switch
-            checked={alert.email}
+            checked={alert.email && !alert.paused}
+            disabled={alert.paused}
             onCheckedChange={(email) =>
               void run(() => update({ id: alert._id, email }))
             }

@@ -547,11 +547,13 @@ export default defineSchema({
     .index("by_status_and_reportedAt", ["status", "reportedAt"])
     .index("by_reportedAt", ["reportedAt"]),
 
-  // Saved search alerts. `cityKey` is the normalized city, "" for any city.
-  // Criteria left empty match everything.
+  // Saved searches. Each one can be rerun from the personal space and, unless
+  // `paused`, alerts its owner of new matching publications. `cityKey` is the
+  // normalized city, "" for any city. Criteria left empty match everything.
   alerts: defineTable({
     userId: v.string(),
     kind: v.union(v.literal("listing"), v.literal("job")),
+    keywords: v.optional(v.string()),
     cityKey: v.string(),
     city: v.optional(v.string()),
     listingMode: v.optional(v.union(v.literal("rent"), v.literal("sale"))),

@@ -1,11 +1,11 @@
 {
-  "create": "Create an alert",
+  "create": "Save this search",
   "form": {
     "title": {
-      "listing": "New housing alert",
-      "job": "New job alert"
+      "listing": "Save a housing search",
+      "job": "Save a job search"
     },
-    "description": "Get notified as soon as a new post matches your criteria. Leave a field empty to accept everything.",
+    "description": "Rerun this search in one click and, if you like, get notified of new posts. Leave a field empty to accept everything.",
     "city": "City",
     "cityPlaceholder": "All cities",
     "listingMode": "Rent or sale",
@@ -17,22 +17,31 @@
     "any": "Any",
     "email": "Also send me an email",
     "emailHint": "In addition to the notification in Hallomada.",
-    "submit": "Create alert",
-    "saving": "Creating…",
-    "created": "Alert created. You will be notified of new posts.",
-    "error": "Could not save the alert. Please try again.",
-    "limitReached": "You have reached the limit of 10 alerts. Delete one to create a new one."
+    "submit": "Save",
+    "saving": "Saving…",
+    "created": "Search saved. Find it in your personal space.",
+    "error": "Could not save the search. Please try again.",
+    "limitReached": "You have reached the limit of 10 searches. Delete one to save a new one.",
+    "keywords": "Keywords",
+    "keywordsPlaceholder": {
+      "listing": "e.g. furnished, balcony",
+      "job": "e.g. nurse, accountant"
+    },
+    "notify": "Notify me of new posts",
+    "notifyHint": "A notification in Hallomada as soon as a post matches.",
+    "createdWithAlerts": "Search saved. You will be notified of new posts."
   },
   "panel": {
-    "title": "My alerts",
-    "description": "Get a notification, and an email if you like, as soon as a listing or job matching your criteria is published.",
-    "newListing": "Housing alert",
-    "newJob": "Job alert",
-    "empty": "No alerts yet. Create one to be the first to know.",
-    "active": "Alert active",
-    "email": "Receive an email",
-    "delete": "Delete alert",
-    "deleted": "Alert deleted"
+    "title": "My searches",
+    "description": "Rerun your searches in one click. Turn on the alert to get a notification, and an email if you like, as soon as a matching listing or job is published.",
+    "newListing": "Housing search",
+    "newJob": "Job search",
+    "empty": "No saved searches yet. Save one from the Housing or Jobs pages, or here.",
+    "active": "Alert",
+    "email": "Email",
+    "delete": "Delete search",
+    "deleted": "Search deleted",
+    "viewResults": "View results"
   },
   "summary": {
     "listing": "Housing",
@@ -40,6 +49,7 @@
     "anyCity": "All cities",
     "everything": "All criteria",
     "maxPrice": "Max. {price}",
-    "paused": "Paused"
-  }
+    "noAlerts": "No alerts"
+  },
+  "removeFilter": "Remove the {filter} filter"
 }

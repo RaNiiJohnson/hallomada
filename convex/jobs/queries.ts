@@ -222,11 +222,18 @@ export const getJobs = query({
         v.literal("apprenticeship"),
       ),
     ),
+    workMode: v.optional(
+      v.union(v.literal("onSite"), v.literal("hybrid"), v.literal("remote")),
+    ),
     bookmarkedOnly: v.optional(v.boolean()),
   },
   handler: async (ctx, args) => {
-    const { searchTerm, type, contractType, bookmarkedOnly } = args;
+    const { searchTerm, type, contractType, workMode, bookmarkedOnly } = args;
     const user = await authComponent.safeGetAuthUser(ctx);
+    const listFilter = (q: Parameters<typeof visibleJobFilter>[0]) => {
+      const visible = visibleJobFilter(q, user?._id);
+      return workMode ? q.and(visible, q.eq(q.field("workMode"), workMode)) : visible;
+    };
 
     if (bookmarkedOnly) {
       if (!user) {
@@ -270,7 +277,7 @@ export const getJobs = query({
 
       // avant: return await searchResult.collect();
       const results = await searchResult
-        .filter((q) => visibleJobFilter(q, user?._id))
+        .filter(listFilter)
         .paginate(args.paginationOpts);
 
       const enrichedPage = await Promise.all(
@@ -307,20 +314,20 @@ export const getJobs = query({
         .query("JobOffer")
         .withIndex("by_type", (q) => q.eq("type", type))
         .order("desc")
-        .filter((q) => visibleJobFilter(q, user?._id))
+        .filter(listFilter)
         .paginate(args.paginationOpts);
     } else if (contractType) {
       results = await ctx.db
         .query("JobOffer")
         .withIndex("by_contract", (q) => q.eq("contractType", contractType))
         .order("desc")
-        .filter((q) => visibleJobFilter(q, user?._id))
+        .filter(listFilter)
         .paginate(args.paginationOpts);
     } else {
       results = await ctx.db
         .query("JobOffer")
         .order("desc")
-        .filter((q) => visibleJobFilter(q, user?._id))
+        .filter(listFilter)
         .paginate(args.paginationOpts);
     }
 

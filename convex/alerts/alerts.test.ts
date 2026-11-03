@@ -6,7 +6,7 @@ import { api } from "../_generated/api";
 import type { Id } from "../_generated/dataModel";
 import schema from "../schema";
 import { modules } from "../test.setup";
-import { MAX_ALERTS_PER_USER, normalizeCity } from "./values";
+import { MAX_ALERTS_PER_USER, matchesKeywords, normalizeCity } from "./values";
 
 vi.mock("../aggregates", async () => {
   const { aggregatesMock } = await import("../test.aggregates.mock");
@@ -119,6 +119,41 @@ describe("search alerts", () => {
     expect(normalizeCity("  Münster ")).toBe("munster");
     expect(normalizeCity("Frankfurt  am Main")).toBe("frankfurt am main");
     expect(normalizeCity(undefined)).toBe("");
+  });
+
+  it("matches keywords loosely, all of them required", () => {
+    expect(matchesKeywords(undefined, "anything")).toBe(true);
+    expect(matchesKeywords("Meublé  balcon", "Studio meuble avec BALCON")).toBe(true);
+    expect(matchesKeywords("meublé jardin", "Studio meublé avec balcon")).toBe(false);
+  });
+
+  it("filters on keywords and saves searches without alerts", async () => {
+    await t.mutation(api.alerts.mutations.create, {
+      criteria: { kind: "listing", keywords: "chambre berlin" },
+      email: false,
+      locale: "fr",
+    });
+    actAs("seeker-2");
+    await t.mutation(api.alerts.mutations.create, {
+      criteria: { kind: "listing", keywords: "jardin" },
+      email: false,
+      locale: "fr",
+    });
+    actAs("seeker-3");
+    const savedOnly = await t.mutation(api.alerts.mutations.create, {
+      criteria: { kind: "listing" },
+      notify: false,
+      email: true,
+      locale: "fr",
+    });
+    const saved = await t.run(async (ctx) => ctx.db.get(savedOnly));
+    expect(saved?.paused).toBe(true);
+
+    await approve(t, await insertPendingListing(t));
+
+    expect(await alertNotifications(t, "seeker-1")).toHaveLength(1);
+    expect(await alertNotifications(t, "seeker-2")).toHaveLength(0);
+    expect(await alertNotifications(t, "seeker-3")).toHaveLength(0);
   });
 
   it("notifies matching alerts once the listing is approved", async () => {

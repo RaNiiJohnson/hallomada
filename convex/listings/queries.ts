@@ -234,6 +234,7 @@ export const getListing = query({
         v.literal("shared"),
       ),
     ),
+    listingMode: v.optional(v.union(v.literal("rent"), v.literal("sale"))),
     bedrooms: v.optional(v.number()),
     minPrice: v.optional(v.number()),
     maxPrice: v.optional(v.number()),
@@ -243,6 +244,7 @@ export const getListing = query({
     const {
       searchTerm,
       propertyType,
+      listingMode,
       bedrooms,
       minPrice,
       maxPrice,
@@ -318,6 +320,9 @@ export const getListing = query({
       }
       if (maxPrice !== undefined) {
         expr = q.and(expr, q.lte(q.field("price"), maxPrice));
+      }
+      if (listingMode) {
+        expr = q.and(expr, q.eq(q.field("listingMode"), listingMode));
       }
       if (!searchTerm && bedrooms && bedrooms > 0) {
         expr = q.and(expr, q.eq(q.field("bedrooms"), bedrooms));

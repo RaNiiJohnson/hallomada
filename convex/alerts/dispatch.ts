@@ -3,7 +3,7 @@ import { v } from "convex/values";
 import { internal } from "../_generated/api";
 import type { Doc } from "../_generated/dataModel";
 import { internalMutation, type MutationCtx } from "../_generated/server";
-import { normalizeCity } from "./values";
+import { matchesKeywords, normalizeCity } from "./values";
 
 /**
  * Search alerts: when a job offer or a listing is approved by moderation,
@@ -48,12 +48,18 @@ export function alertMatches(alert: Doc<"alerts">, publication: Publication) {
     if (alert.listingMode && alert.listingMode !== listing.listingMode) return false;
     if (alert.propertyType && alert.propertyType !== listing.propertyType) return false;
     if (alert.maxPrice !== undefined && listing.price > alert.maxPrice) return false;
-    return true;
+    return matchesKeywords(
+      alert.keywords,
+      `${listing.title} ${listing.city} ${listing.neighborhood ?? ""} ${listing.description}`,
+    );
   }
   const job = publication.doc;
   if (alert.jobType && alert.jobType !== job.type) return false;
   if (alert.workMode && alert.workMode !== job.workMode) return false;
-  return true;
+  return matchesKeywords(
+    alert.keywords,
+    `${job.title} ${job.company} ${job.city} ${job.sector ?? ""} ${job.description}`,
+  );
 }
 
 async function loadPublication(

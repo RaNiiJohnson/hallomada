@@ -34,6 +34,7 @@ export function ListingList() {
     bedrooms: parseAsInteger.withDefault(0),
     minPrice: parseAsInteger.withDefault(0),
     maxPrice: parseAsInteger.withDefault(0),
+    mode: parseAsString.withDefault(""),
     bookmarkedOnly: parseAsString.withDefault("false"),
   });
 
@@ -48,6 +49,10 @@ export function ListingList() {
       propertyType: filters.type
         ? (filters.type as "room" | "apartment" | "house" | "studio" | "shared")
         : undefined,
+      listingMode:
+        filters.mode === "rent" || filters.mode === "sale"
+          ? filters.mode
+          : undefined,
       bedrooms: filters.bedrooms,
       minPrice: filters.minPrice > 0 ? filters.minPrice : undefined,
       maxPrice: filters.maxPrice > 0 ? filters.maxPrice : undefined,

@@ -1,11 +1,11 @@
 {
-  "create": "Créer une alerte",
+  "create": "Enregistrer la recherche",
   "form": {
     "title": {
-      "listing": "Nouvelle alerte logement",
-      "job": "Nouvelle alerte emploi"
+      "listing": "Enregistrer une recherche logement",
+      "job": "Enregistrer une recherche emploi"
     },
-    "description": "Soyez prévenu dès qu'une nouvelle publication correspond à vos critères. Laissez un champ vide pour tout accepter.",
+    "description": "Retrouvez cette recherche en un clic et, si vous le souhaitez, soyez prévenu des nouvelles publications. Laissez un champ vide pour tout accepter.",
     "city": "Ville",
     "cityPlaceholder": "Toutes les villes",
     "listingMode": "Location ou vente",
@@ -17,22 +17,31 @@
     "any": "Tous",
     "email": "Recevoir aussi un e-mail",
     "emailHint": "En plus de la notification dans Hallomada.",
-    "submit": "Créer l'alerte",
-    "saving": "Création…",
-    "created": "Alerte créée. Vous serez prévenu des nouvelles publications.",
-    "error": "Impossible d'enregistrer l'alerte. Réessayez.",
-    "limitReached": "Vous avez atteint la limite de 10 alertes. Supprimez-en une pour en créer une nouvelle."
+    "submit": "Enregistrer",
+    "saving": "Enregistrement…",
+    "created": "Recherche enregistrée. Retrouvez-la dans votre espace.",
+    "error": "Impossible d'enregistrer la recherche. Réessayez.",
+    "limitReached": "Vous avez atteint la limite de 10 recherches. Supprimez-en une pour en enregistrer une nouvelle.",
+    "keywords": "Mots-clés",
+    "keywordsPlaceholder": {
+      "listing": "Ex. : meublé, balcon",
+      "job": "Ex. : infirmier, comptable"
+    },
+    "notify": "M'avertir des nouvelles publications",
+    "notifyHint": "Notification dans Hallomada dès qu'une publication correspond.",
+    "createdWithAlerts": "Recherche enregistrée. Vous serez prévenu des nouvelles publications."
   },
   "panel": {
-    "title": "Mes alertes",
-    "description": "Recevez une notification, et un e-mail si vous le souhaitez, dès qu'une annonce ou une offre correspondant à vos critères est publiée.",
-    "newListing": "Alerte logement",
-    "newJob": "Alerte emploi",
-    "empty": "Aucune alerte pour le moment. Créez-en une pour être prévenu en premier.",
-    "active": "Alerte active",
-    "email": "Recevoir un e-mail",
-    "delete": "Supprimer l'alerte",
-    "deleted": "Alerte supprimée"
+    "title": "Mes recherches",
+    "description": "Relancez vos recherches en un clic. Activez l'alerte pour recevoir une notification, et un e-mail si vous le souhaitez, dès qu'une annonce ou une offre correspondante est publiée.",
+    "newListing": "Recherche logement",
+    "newJob": "Recherche emploi",
+    "empty": "Aucune recherche enregistrée. Enregistrez-en une depuis les pages Immobilier ou Emplois, ou ici.",
+    "active": "Alerte",
+    "email": "E-mail",
+    "delete": "Supprimer la recherche",
+    "deleted": "Recherche supprimée",
+    "viewResults": "Voir les résultats"
   },
   "summary": {
     "listing": "Logement",
@@ -40,6 +49,7 @@
     "anyCity": "Toutes les villes",
     "everything": "Tous les critères",
     "maxPrice": "Max. {price}",
-    "paused": "En pause"
-  }
+    "noAlerts": "Sans alerte"
+  },
+  "removeFilter": "Retirer le filtre {filter}"
 }

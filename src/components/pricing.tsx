@@ -34,7 +34,7 @@ const PREMIUM_GROUPS: {
     icon: Search,
     features: [
       { key: "alerts", soon: false },
-      { key: "savedSearches", soon: true },
+      { key: "savedSearches", soon: false },
       { key: "highlight", soon: true },
       { key: "rentalFile", soon: true },
     ],

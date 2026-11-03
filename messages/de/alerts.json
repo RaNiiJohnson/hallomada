@@ -1,11 +1,11 @@
 {
-  "create": "Suchauftrag erstellen",
+  "create": "Suche speichern",
   "form": {
     "title": {
-      "listing": "Neuer Suchauftrag Wohnen",
-      "job": "Neuer Suchauftrag Jobs"
+      "listing": "Wohnungssuche speichern",
+      "job": "Jobsuche speichern"
     },
-    "description": "Werden Sie benachrichtigt, sobald eine neue Veröffentlichung zu Ihren Kriterien passt. Lassen Sie ein Feld leer, um alles zu erhalten.",
+    "description": "Starten Sie diese Suche mit einem Klick erneut und lassen Sie sich auf Wunsch über neue Veröffentlichungen informieren. Lassen Sie ein Feld leer, um alles zu erhalten.",
     "city": "Stadt",
     "cityPlaceholder": "Alle Städte",
     "listingMode": "Miete oder Kauf",
@@ -17,22 +17,31 @@
     "any": "Alle",
     "email": "Zusätzlich per E-Mail",
     "emailHint": "Zusätzlich zur Benachrichtigung in Hallomada.",
-    "submit": "Suchauftrag erstellen",
-    "saving": "Wird erstellt…",
-    "created": "Suchauftrag erstellt. Sie werden über neue Veröffentlichungen informiert.",
-    "error": "Der Suchauftrag konnte nicht gespeichert werden. Bitte erneut versuchen.",
-    "limitReached": "Sie haben das Limit von 10 Suchaufträgen erreicht. Löschen Sie einen, um einen neuen zu erstellen."
+    "submit": "Speichern",
+    "saving": "Wird gespeichert…",
+    "created": "Suche gespeichert. Sie finden sie in Ihrem persönlichen Bereich.",
+    "error": "Die Suche konnte nicht gespeichert werden. Bitte erneut versuchen.",
+    "limitReached": "Sie haben das Limit von 10 Suchen erreicht. Löschen Sie eine, um eine neue zu speichern.",
+    "keywords": "Stichwörter",
+    "keywordsPlaceholder": {
+      "listing": "z. B. möbliert, Balkon",
+      "job": "z. B. Pflege, Buchhaltung"
+    },
+    "notify": "Über neue Veröffentlichungen informieren",
+    "notifyHint": "Benachrichtigung in Hallomada, sobald etwas passt.",
+    "createdWithAlerts": "Suche gespeichert. Sie werden über neue Veröffentlichungen informiert."
   },
   "panel": {
     "title": "Meine Suchaufträge",
-    "description": "Erhalten Sie eine Benachrichtigung – und auf Wunsch eine E-Mail –, sobald ein passendes Inserat oder Stellenangebot veröffentlicht wird.",
-    "newListing": "Suchauftrag Wohnen",
-    "newJob": "Suchauftrag Jobs",
-    "empty": "Noch keine Suchaufträge. Erstellen Sie einen, um als Erster informiert zu werden.",
-    "active": "Suchauftrag aktiv",
-    "email": "E-Mail erhalten",
-    "delete": "Suchauftrag löschen",
-    "deleted": "Suchauftrag gelöscht"
+    "description": "Starten Sie Ihre Suchen mit einem Klick erneut. Aktivieren Sie die Benachrichtigung, um – auf Wunsch auch per E-Mail – informiert zu werden, sobald ein passendes Inserat oder Stellenangebot erscheint.",
+    "newListing": "Wohnungssuche",
+    "newJob": "Jobsuche",
+    "empty": "Noch keine gespeicherten Suchen. Speichern Sie eine auf den Seiten Wohnen oder Jobs – oder hier.",
+    "active": "Benachrichtigung",
+    "email": "E-Mail",
+    "delete": "Suche löschen",
+    "deleted": "Suche gelöscht",
+    "viewResults": "Ergebnisse ansehen"
   },
   "summary": {
     "listing": "Wohnen",
@@ -40,6 +49,7 @@
     "anyCity": "Alle Städte",
     "everything": "Alle Kriterien",
     "maxPrice": "Max. {price}",
-    "paused": "Pausiert"
-  }
+    "noAlerts": "Ohne Benachrichtigung"
+  },
+  "removeFilter": "Filter {filter} entfernen"
 }

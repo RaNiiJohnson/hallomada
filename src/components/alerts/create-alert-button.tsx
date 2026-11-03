@@ -3,27 +3,30 @@
 import { Button } from "@/components/ui/button";
 import { useAuthRequiredAction } from "@/hooks/use-auth-required-action";
 import { useConvexAuth } from "convex/react";
-import { BellPlus } from "lucide-react";
+import { BookmarkPlus } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { parseAsInteger, parseAsString, useQueryStates } from "nuqs";
 import { AlertFormDialog, type AlertKind } from "./alert-form-dialog";
 
 /**
- * "Create an alert" button for the listing and job pages. Prefills the alert
- * with the filters currently applied; sends visitors to the login page first.
+ * "Save this search" button for the listing and job pages. Prefills the saved
+ * search with the filters currently applied; sends visitors to log in first.
  */
 export function CreateAlertButton({ kind }: { kind: AlertKind }) {
   const t = useTranslations("alerts");
   const { isAuthenticated, isLoading } = useConvexAuth();
   const requireAuth = useAuthRequiredAction();
   const [filters] = useQueryStates({
+    search: parseAsString.withDefault(""),
     type: parseAsString.withDefault("all"),
     maxPrice: parseAsInteger.withDefault(0),
+    mode: parseAsString.withDefault(""),
+    workMode: parseAsString.withDefault(""),
   });
 
   const button = (
     <Button variant="outline" className="flex items-center gap-2" disabled={isLoading}>
-      <BellPlus className="h-4 w-4" />
+      <BookmarkPlus className="h-4 w-4" />
       <span>{t("create")}</span>
     </Button>
   );
@@ -36,7 +39,7 @@ export function CreateAlertButton({ kind }: { kind: AlertKind }) {
         disabled={isLoading}
         onClick={requireAuth}
       >
-        <BellPlus className="h-4 w-4" />
+        <BookmarkPlus className="h-4 w-4" />
         <span>{t("create")}</span>
       </Button>
     );
@@ -49,10 +52,16 @@ export function CreateAlertButton({ kind }: { kind: AlertKind }) {
       defaults={
         kind === "listing"
           ? {
+              keywords: filters.search,
               propertyType: filters.type,
+              listingMode: filters.mode,
               maxPrice: filters.maxPrice || undefined,
             }
-          : { jobType: filters.type }
+          : {
+              keywords: filters.search,
+              jobType: filters.type,
+              workMode: filters.workMode,
+            }
       }
     />
   );
