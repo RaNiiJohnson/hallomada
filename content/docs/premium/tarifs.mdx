@@ -1,0 +1,48 @@
+---
+title: Page des tarifs
+description: Les plans Gratuit et Premium, et l'offre gratuite en cours.
+new: true
+---
+
+## Ce que voient les visiteurs
+
+La page **/pricing** présente deux cartes :
+
+- **Gratuit (0 €)** : ce qui est inclus (consulter, contacter, postuler, messagerie, communautés, favoris), les **limites** (3 annonces et 3 offres par semaine, 1 communauté tous les 30 jours, modération standard) et ce qui n'est **pas inclus**.
+- **Premium** : affiche **0 €** avec **4,90 €** barré, l'étiquette « Vous êtes ici » et le message « Offert pour le moment. Tous les membres profitent gratuitement de l'offre Premium. »
+
+Les avantages Premium sont regroupés en trois blocs : **Pour trouver plus vite**, **Pour être plus visible** et **Pour tous**. Sous les cartes : un encadré « Devenez Membre fondateur » et un lien vers la FAQ.
+
+<Callout type="info" title="Un seul abonnement">
+On ne sépare pas « chercheurs » et « annonceurs » : un même membre cherche un logement puis en propose un. La FAQ l'explique avec l'exemple d'Ali.
+</Callout>
+
+## Règles
+
+- Pendant la période gratuite, **tout le monde est Premium** (réglage `PREMIUM_OFFERED_TO_ALL` dans `convex/premium.ts`).
+- Un avantage pas encore disponible porte l'étiquette **« Bientôt »**. Aujourd'hui, seul le **badge Premium** est dans ce cas.
+- Les **quotas étendus** (10 / 10 / 3) ne sont vrais que si l'administrateur les a réglés dans [Quotas](/admin/quotas).
+
+## Comment tester
+
+<Steps>
+<Step title="Ouvrir la page">
+Allez sur `/fr/pricing`, puis `/en/pricing` et `/de/pricing`.
+</Step>
+<Step title="Vérifier sur mobile">
+Réduisez la fenêtre : la carte Premium doit passer en premier, sans défilement horizontal.
+</Step>
+<Step title="Vérifier la FAQ">
+Sur `/fr/faq`, les six questions sur Premium et le badge fondateur apparaissent après « Y a-t-il des limites de publication ? ».
+</Step>
+</Steps>
+
+## Côté technique
+
+- Page : `app/[locale]/(main)/pricing/page.tsx`, composant `src/components/pricing.tsx`.
+- Liste des avantages et étiquettes « Bientôt » : tableaux `PREMIUM_GROUPS` dans `pricing.tsx` (`soon: true` ou `false`).
+- Textes : `messages/fr|en|de/pricing.json`, FAQ dans `messages/*/faq.json`.
+
+<Callout type="warning" title="Pas encore de lien vers la page">
+Aucun menu ne mène à /pricing pour l'instant. Le composant « Passez au Premium » (`src/components/CTA.pricing.tsx`) existe mais n'est affiché nulle part.
+</Callout>

@@ -1,0 +1,58 @@
+---
+title: Dossier de location
+description: Préparer une fois son dossier de locataire et l'envoyer en un clic.
+new: true
+---
+
+## Côté locataire
+
+Onglet **Dossier** de l'espace personnel :
+
+- **Mes informations** (l'équivalent de la Mieterselbstauskunft) : profession, employeur, revenu net, nombre de personnes, emménagement souhaité, animaux, fumeur, présentation. Tout est facultatif.
+- **Mes justificatifs** par catégorie : pièce d'identité, fiches de paie, SCHUFA, attestation de l'ancien propriétaire, contrat de travail, autres. PDF, JPG, PNG ou WebP, **10 Mo** maximum, **12 documents** au total.
+- **Envoyé à** : les annonces où le dossier a été envoyé, avec la date de fin d'accès et **« Retirer l'accès »**.
+
+Sur une annonce **de location**, le bouton **« Envoyer mon dossier »** (avec un message facultatif). Si le dossier est vide, le bouton propose de le préparer.
+
+## Côté propriétaire
+
+- Une **notification** 📁 dans Hallomada.
+- Un **e-mail en allemand** « Neue Mieterbewerbung » avec un lien privé. Il peut répondre directement au locataire. L'e-mail part à l'adresse de contact de l'annonce, sinon à celle du compte de l'auteur.
+- Une liste **« Dossiers reçus »** sous son annonce, les dossiers Premium en premier.
+- Le lien ouvre la page **/dossier/…** : informations, message et justificatifs. Pas besoin de compte.
+
+## Protection des documents
+
+- Les fichiers sont dans un **stockage privé (R2)**, jamais publics.
+- Chaque document s'ouvre par un lien temporaire de **5 minutes**.
+- L'accès du propriétaire dure **30 jours**, ou moins si le locataire le retire. Une tâche automatique ferme les accès expirés **toutes les heures**.
+- Le propriétaire voit toujours la **version actuelle** du dossier : un document supprimé disparaît aussi chez lui.
+
+<Callout type="warning" title="Données sensibles">
+Pièces d'identité, fiches de paie, SCHUFA : la [politique de confidentialité](/admin/docs/exploitation/confidentialite) doit être complétée et relue avant l'ouverture publique. Un propriétaire peut télécharger les documents pendant que son accès est ouvert ; Hallomada ne peut pas effacer ces copies.
+</Callout>
+
+## Comment tester
+
+<Steps>
+<Step title="Préparer le dossier (compte A)">
+Onglet Dossier : remplissez quelques informations et ajoutez au moins un PDF.
+</Step>
+<Step title="Envoyer (compte A)">
+Sur une annonce de location publiée par B, « Envoyer mon dossier » avec un message. Le bouton devient « Dossier envoyé ».
+</Step>
+<Step title="Ouvrir (compte B)">
+B reçoit la notification et l'e-mail. Sous son annonce, « Dossiers reçus » ; « Voir le dossier » ouvre la page avec les documents.
+</Step>
+<Step title="Retirer l'accès (compte A)">
+Dans « Envoyé à », « Retirer l'accès ». La page du dossier affiche « Dossier indisponible ».
+</Step>
+</Steps>
+
+## Côté technique
+
+- Dossier `convex/rentalFiles/` : `mutations.ts`, `queries.ts`, `send.ts` (envoi, expiration, route de téléchargement), `actions.tsx` (e-mail), `values.ts`.
+- Tables `rentalFiles`, `rentalDocuments`, `rentalApplications` ; type d'upload `rentalDocument` dans `convex/integrations/r2.ts`.
+- Route HTTP `/rental-document` (`convex/http.ts`) ; tâche « expire rental dossier access » dans `convex/crons.ts`.
+- Interface : onglet `app/[locale]/(main)/me/rental-file-panel.tsx`, `src/components/rental-file/`, page `app/[locale]/(main)/dossier/[token]`.
+- Tests : `convex/rentalFiles/rentalFiles.test.ts`.

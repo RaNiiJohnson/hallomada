@@ -10,7 +10,9 @@
     "returnSite": "Retour au site",
     "logout": "Déconnexion",
     "loadingUser": "Chargement de l'administrateur",
-    "quotas": "Quotas de publication"
+    "quotas": "Quotas de publication",
+    "docs": "Documentation",
+    "docsNew": "Nouveau"
   },
   "dashboard": {
     "title": "Dashboard",

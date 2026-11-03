@@ -1,0 +1,41 @@
+---
+title: Statistiques de vues
+description: Ce que voit l'auteur sur sa publication.
+new: true
+---
+
+## Ce que voit l'auteur
+
+Un panneau **« Statistiques »** sur la page de son annonce ou de son offre : vues au total, vues sur 7 jours, mises en favori, dossiers reçus (annonce) ou candidatures (offre), et un **histogramme des vues par jour sur 30 jours** (survol d'une barre pour le détail, tableau pour les lecteurs d'écran).
+
+Les publications démarrent à zéro : les vues n'étaient pas comptées avant.
+
+## Comment les vues sont comptées
+
+- Une vue = l'ouverture de la page de la publication.
+- Les visites de **l'auteur** ne comptent jamais.
+- Une même personne compte **une fois toutes les 12 heures** :
+  - **membre connecté** : grâce à son compte ;
+  - **visiteur anonyme** : grâce à un identifiant aléatoire gardé dans son navigateur, **seulement s'il a accepté la mesure d'audience**. Sinon, rien n'est stocké et chaque ouverture compte.
+- Les vues sont stockées à part, par jour, pour ne pas ralentir les listes.
+
+## Comment tester
+
+<Steps>
+<Step title="Visiter avec un autre compte">
+Avec le compte B, ouvrez deux fois l'annonce du compte A.
+</Step>
+<Step title="Vérifier côté auteur">
+Avec A, sur la page de l'annonce : **une seule** vue est comptée pour aujourd'hui.
+</Step>
+</Steps>
+
+<Callout type="info" title="Pourquoi tester à la main">
+Les tests automatiques du projet remplacent le limiteur par un faux qui accepte tout. Le dédoublonnage sur 12 heures n'est donc vérifiable qu'avec le vrai service.
+</Callout>
+
+## Côté technique
+
+- `convex/stats.ts` (comptage et lecture), `convex/statsValues.ts` ; table `publicationViews`.
+- Enregistrement de la vue : `src/hooks/use-record-view.ts`. Panneau : `src/components/featured/publication-stats.tsx`.
+- Tests : `convex/stats.test.ts`.

@@ -1,0 +1,32 @@
+---
+title: Bienvenue
+description: La documentation interne de Hallomada, pour l'équipe.
+---
+
+Cette documentation explique **comment fonctionne chaque partie du site**, **les règles** qui s'appliquent et **comment tester**. Elle est réservée aux administrateurs.
+
+## Les pages « Nouveau »
+
+Les pages marquées <span className="rounded-full bg-amber-500/15 px-1.5 text-xs font-semibold text-amber-700 dark:text-amber-400">NOUVEAU</span> dans le menu décrivent des fonctionnalités ajoutées récemment et **pas encore vérifiées**. Commencez par la page [À vérifier](/admin/docs/a-verifier) : elle liste tout ce qu'il faut tester.
+
+Quand une fonctionnalité est vérifiée, retirez la ligne `new: true` en haut de sa page : elle repasse dans la couleur normale.
+
+## Ce qui a été ajouté
+
+- **Premium** : la page des tarifs (Premium offert à tous pour le moment) et le badge Membre fondateur.
+- **Pour trouver plus vite** : recherches sauvegardées et alertes, candidature mise en avant, dossier de location.
+- **Pour être plus visible** : badge « En vedette », remontée d'annonce, statistiques de vues, modération prioritaire.
+- **Exploitation** : déploiement et migrations, préparation du Premium payant, politique de confidentialité.
+
+## Modifier cette documentation
+
+Les pages sont des fichiers Markdown (MDX) dans le dossier `content/docs` du projet.
+
+- Une page = un fichier `.mdx`. Le titre et la description sont en haut du fichier, entre deux lignes `---`.
+- L'ordre du menu est défini dans les fichiers `meta.json` de chaque dossier.
+- Pour signaler une nouveauté, ajoutez `new: true` en haut de la page.
+- Encadrés disponibles : `<Callout type="info">`, `<Callout type="warning">`, `<Callout type="tip">`. Étapes numérotées : `<Steps>` et `<Step title="…">`.
+
+<Callout type="warning" title="Pas de secrets ici">
+Ces pages sont générées à partir des fichiers du projet. N'y mettez jamais de clé, de mot de passe ou de donnée personnelle.
+</Callout>

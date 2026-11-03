@@ -10,7 +10,9 @@
     "returnSite": "Zurück zur Website",
     "logout": "Abmelden",
     "loadingUser": "Administrator wird geladen",
-    "quotas": "Veröffentlichungslimits"
+    "quotas": "Veröffentlichungslimits",
+    "docs": "Dokumentation",
+    "docsNew": "Neu"
   },
   "dashboard": {
     "title": "Dashboard",

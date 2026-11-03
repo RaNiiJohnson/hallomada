@@ -15,6 +15,9 @@
 
 # next.js
 /.next/
+
+# fumadocs (generated from content/docs by `fumadocs-mdx`)
+/.source/
 /out/
 
 # production
@@ -48,4 +51,4 @@ next-env.d.ts
 /.kiro
 .env*
 !.env-template
-docs/
+/docs/

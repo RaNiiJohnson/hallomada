@@ -1,0 +1,57 @@
+---
+title: Membre fondateur
+description: Le badge permanent des premiers membres actifs.
+new: true
+---
+
+## Règles
+
+Un membre obtient le badge **Membre fondateur** avec sa **première publication** faite pendant que le programme est ouvert :
+
+- un **post de communauté** (compte dès la publication) ;
+- ou une **annonce** ou une **offre d'emploi validée par la modération** (une publication refusée ou en attente ne compte pas).
+
+Le badge est **permanent**. Le programme se ferme à une date fixée par l'administrateur, en principe le jour du lancement du Premium payant.
+
+## Où il apparaît
+
+À côté du nom, partout : posts, commentaires, réponses, messages du chat, offres d'emploi, annonces, pages prestataires, et sur le profil avec le texte « Membre fondateur ».
+
+## Fermer le programme
+
+Dans l'admin, page [Quotas](/admin/quotas), bloc **« Programme Membre fondateur »** : choisissez la date de fin, ou retirez-la pour rouvrir le programme.
+
+## Comment tester
+
+<Steps>
+<Step title="Publier un post">
+Avec le compte A, publiez un post dans une communauté. Le badge apparaît à côté du nom de A.
+</Step>
+<Step title="Valider une annonce">
+Avec le compte B, publiez une annonce. Elle est en attente : pas de badge. Validez-la dans [Modération](/admin/moderation) : le badge apparaît.
+</Step>
+<Step title="Fermer le programme">
+Fixez une date de fin passée. Un nouveau compte qui publie ne reçoit plus le badge. Retirez ensuite la date.
+</Step>
+</Steps>
+
+## Membres qui avaient déjà publié
+
+Ils n'ont le badge qu'après la migration (une seule fois par déploiement) :
+
+```bash
+npx convex run aggregates:run '{"fn": "founders:backfillFoundersFromPosts"}'
+npx convex run aggregates:run '{"fn": "founders:backfillFoundersFromJobs"}'
+npx convex run aggregates:run '{"fn": "founders:backfillFoundersFromListings"}'
+```
+
+## Côté technique
+
+- Règles et migrations : `convex/founders.ts` ; tables `founders` et `founderProgram`.
+- Attribution : `convex/posts/mutations.ts` (post) et `convex/publicationModeration.ts` (validation).
+- Badge : `src/components/founder-badge.tsx`.
+- Tests : `convex/founders.test.ts`.
+
+<Callout type="tip" title="Idée pour plus tard">
+Un tarif réduit pour les membres fondateurs au lancement du Premium payant (par exemple 2,90 € au lieu de 4,90 €). Rien n'est affiché à ce sujet pour l'instant.
+</Callout>

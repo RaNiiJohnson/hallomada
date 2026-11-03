@@ -10,7 +10,9 @@
     "returnSite": "Back to site",
     "logout": "Sign out",
     "loadingUser": "Loading administrator",
-    "quotas": "Publication quotas"
+    "quotas": "Publication quotas",
+    "docs": "Documentation",
+    "docsNew": "New"
   },
   "dashboard": {
     "title": "Dashboard",

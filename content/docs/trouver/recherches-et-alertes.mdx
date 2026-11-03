@@ -1,0 +1,56 @@
+---
+title: Recherches sauvegardées et alertes
+description: Relancer une recherche en un clic et être prévenu des nouvelles publications.
+new: true
+---
+
+## Le principe
+
+Une **recherche sauvegardée** et une **alerte** sont le même objet : chaque recherche peut être relancée en un clic, et l'alerte est une option qu'on active ou non.
+
+## Ce que voient les membres
+
+- Sur **Immobilier** et **Emplois**, un bouton **« Enregistrer la recherche »**, pré-rempli avec les filtres en cours (texte, type, prix maximum…). Un visiteur non connecté est envoyé vers la connexion.
+- Critères : **mots-clés** et **ville** ; pour les logements, location ou vente, type de bien, prix maximum ; pour les emplois, type d'offre et mode de travail. Un champ vide accepte tout.
+- Options : **« M'avertir des nouvelles publications »** (activée par défaut) et **e-mail** (seulement si l'alerte est active).
+- Espace personnel, onglet **Recherches** : bouton **« Voir les résultats »**, interrupteurs Alerte et E-mail, suppression.
+
+## Règles
+
+- **10 recherches** maximum par membre.
+- Les alertes partent **au moment où la modération valide** une annonce ou une offre, **une seule fois** par publication (une publication modifiée puis revalidée ne relance pas les alertes).
+- Un membre est prévenu **une seule fois** par publication, même si plusieurs recherches correspondent. L'auteur n'est jamais prévenu de sa propre publication.
+- **Ville** : majuscules et accents ignorés (« munster » trouve « Münster »), comparaison exacte, sans notion de distance.
+- **Mots-clés** : majuscules et accents ignorés, **tous** doivent apparaître dans le titre, la ville ou la description.
+
+<Callout type="info" title="Filtres affichés en étiquette">
+Les filtres « location / vente » et « mode de travail » n'existent pas dans le panneau Filtres. Quand une recherche relancée les utilise, ils apparaissent en étiquette qu'on peut retirer (par exemple « À louer ✕ »). En relance, la ville est placée dans la barre de recherche texte.
+</Callout>
+
+## Comment tester
+
+<Steps>
+<Step title="Créer une recherche (compte A)">
+Sur `/fr/listing`, filtrez sur « Chambre », puis « Enregistrer la recherche ». Indiquez la ville « Berlin », gardez l'alerte et l'e-mail activés.
+</Step>
+<Step title="Publier une annonce correspondante (compte B)">
+Publiez une chambre à Berlin. Elle est en attente : A ne reçoit rien.
+</Step>
+<Step title="Valider (administrateur)">
+Validez l'annonce dans [Modération](/admin/moderation). A reçoit une notification 🔔 et un e-mail « Nouvelle annonce pour votre alerte ». B ne reçoit rien.
+</Step>
+<Step title="Relancer la recherche">
+Avec A, onglet Recherches de l'espace personnel, « Voir les résultats » : la page Immobilier s'ouvre avec les bons filtres.
+</Step>
+</Steps>
+
+## Côté technique
+
+- Dossier `convex/alerts/` : `mutations.ts` (créer, modifier, supprimer), `queries.ts`, `dispatch.ts` (envoi par lots à la validation), `emails.tsx`, `values.ts` (critères, normalisation).
+- Tables `alerts` et `alertDeliveries` ; champ `alertsSentAt` sur les annonces et les offres.
+- Interface : `src/components/alerts/`, onglet `app/[locale]/(main)/me/alerts-panel.tsx`.
+- Tests : `convex/alerts/alerts.test.ts`.
+
+<Callout type="tip" title="Pour le plan Gratuit, plus tard">
+Au lancement du Premium payant, il faudra décider ce que reçoivent les membres gratuits, par exemple un résumé quotidien au lieu du temps réel.
+</Callout>

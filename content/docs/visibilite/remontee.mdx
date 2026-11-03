@@ -1,0 +1,49 @@
+---
+title: Remontée d'annonce
+description: Replacer une publication en tête de liste, une fois par semaine.
+new: true
+---
+
+## Règles
+
+- Bouton **« Remonter en tête »** pour l'auteur, sur ses annonces et offres **en ligne**.
+- **Une fois par semaine** et par publication. Ensuite le bouton affiche « Remontée possible le … ».
+- La publication repasse en premier dans les listes Immobilier et Emplois (avec ou sans filtre de type).
+- Les résultats d'une **recherche texte** restent classés par pertinence.
+
+## Le tri des listes a changé
+
+Les listes sont triées par une **date de mise en liste** (`listedAt`) au lieu de la date de création :
+
+- fixée à la création ;
+- remise à la date de **première validation** par la modération (une annonce restée en attente arrive en haut à sa publication) ;
+- une **modification** ne fait **pas** remonter la publication, même si elle repasse par la modération.
+
+<Callout type="warning" title="Migration obligatoire au déploiement">
+Sans elle, les anciennes publications apparaissent en bas des listes :
+
+```bash
+npx convex run aggregates:run '{"fn": "bump:backfillListedAtListings"}'
+npx convex run aggregates:run '{"fn": "bump:backfillListedAtJobs"}'
+```
+</Callout>
+
+## Comment tester
+
+<Steps>
+<Step title="Repérer une ancienne annonce">
+Sur `/fr/listing`, notez une de vos annonces en bas de la liste.
+</Step>
+<Step title="Remonter">
+Sur sa page, « Remonter en tête ». Revenez à la liste : elle est en premier.
+</Step>
+<Step title="Vérifier le délai">
+Le bouton affiche maintenant la date de la prochaine remontée possible.
+</Step>
+</Steps>
+
+## Côté technique
+
+- `convex/bump.ts` (remontée et migrations), délai dans `convex/bumpValues.ts`.
+- Index `by_listedAt`, `by_propertyType_and_listedAt`, `by_type_and_listedAt`, `by_contract_and_listedAt` ; requêtes `getListing` et `getJobs`.
+- Bouton : `src/components/featured/bump-button.tsx`. Tests : `convex/bump.test.ts`.

@@ -1,0 +1,31 @@
+---
+title: À vérifier
+description: La liste de tout ce qui doit être testé avant la mise en ligne.
+new: true
+---
+
+Pour tester, il faut **deux comptes membres** (A et B) et **un compte administrateur**. Travaillez d'abord sur le déploiement de **développement** (voir [Déploiement et migrations](/admin/docs/exploitation/deploiement-et-migrations)).
+
+## Avant de tester
+
+- [ ] `npx convex dev` lancé, sans erreur de schéma.
+- [ ] Les migrations lancées sur le déploiement de développement.
+- [ ] Les quotas réglés à **10 annonces / 10 offres / 3 communautés** dans [Quotas](/admin/quotas).
+
+## Fonctionnalités
+
+- [ ] [Page des tarifs](/admin/docs/premium/tarifs) : affichage en français, anglais et allemand, sur ordinateur et mobile.
+- [ ] [Membre fondateur](/admin/docs/premium/membre-fondateur) : le badge apparaît après une première publication.
+- [ ] [Recherches et alertes](/admin/docs/trouver/recherches-et-alertes) : notification et e-mail reçus après validation d'une annonce.
+- [ ] [Candidature mise en avant](/admin/docs/trouver/candidature-mise-en-avant) : e-mail du recruteur et liste « Candidatures reçues ».
+- [ ] [Dossier de location](/admin/docs/trouver/dossier-de-location) : envoi, ouverture par le propriétaire, retrait de l'accès.
+- [ ] [En vedette](/admin/docs/visibilite/en-vedette) : badge visible sur les cartes et les pages.
+- [ ] [Remontée](/admin/docs/visibilite/remontee) : l'annonce repasse en tête de liste.
+- [ ] [Statistiques](/admin/docs/visibilite/statistiques) : une seule vue comptée par visiteur.
+- [ ] [Modération prioritaire](/admin/docs/visibilite/moderation-prioritaire) : étiquette « Prioritaire » dans la file.
+
+## Avant la mise en ligne
+
+- [ ] [Politique de confidentialité](/admin/docs/exploitation/confidentialite) complétée et relue.
+- [ ] Mentions légales complétées.
+- [ ] Déploiement en production puis migrations avec `--prod`.

@@ -16,6 +16,7 @@ describe("admin V1 navigation", () => {
       { key: "moderation", href: "/admin/moderation", external: false },
       { key: "audit", href: "/admin/audit", external: false },
       { key: "quotas", href: "/admin/quotas", external: false },
+      { key: "docs", href: "/admin/docs", external: false },
     ]);
     expect(navigation.map((item) => item.href)).not.toEqual(
       expect.arrayContaining([...RETIRED_ADMIN_ROUTES]),

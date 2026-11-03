@@ -1,0 +1,41 @@
+---
+title: Candidature mise en avant
+description: Les candidatures des membres Premium ressortent auprès des recruteurs.
+new: true
+---
+
+## Où la candidature est mise en avant
+
+1. **Dans l'e-mail du recruteur** (en allemand) : objet **« ⭐ Hervorgehobene Bewerbung : … »** et encadré doré indiquant que le candidat est membre Premium, et Membre fondateur s'il l'est. Sa ville et un lien vers son profil sont ajoutés uniquement si son profil est public.
+2. **Dans la liste « Candidatures reçues »**, sur la page de l'offre, visible seulement par son auteur : les candidatures mises en avant en premier (cadre doré, badge « Mise en avant »), puis les plus récentes. Pour chacune : nom, badge fondateur, début de la lettre, bouton « Ouvrir le CV ».
+
+## Règles
+
+- Le statut Premium est **enregistré au moment de la candidature** (`highlighted`).
+- Pendant la période gratuite, **toutes les candidatures sont mises en avant**. L'effet réel commencera avec le Premium payant.
+- Le lien vers le CV reste valable **90 jours**.
+- Les candidatures envoyées avant cette version s'affichent avec le nom « Candidat ».
+
+<Callout type="info" title="Annonces immobilières">
+Ici, le contact passe par WhatsApp ou l'e-mail de l'annonceur, hors de Hallomada. La mise en avant pour les logements passe par le [dossier de location](/admin/docs/trouver/dossier-de-location).
+</Callout>
+
+## Comment tester
+
+<Steps>
+<Step title="Publier une offre (compte A)">
+Publiez une offre d'emploi avec votre propre adresse comme e-mail de contact, puis validez-la dans [Modération](/admin/moderation).
+</Step>
+<Step title="Postuler (compte B)">
+Postulez avec un CV et une lettre.
+</Step>
+<Step title="Vérifier l'e-mail et la liste">
+L'e-mail reçu a l'objet « ⭐ Hervorgehobene Bewerbung ». Sur la page de l'offre, A voit la candidature dans « Candidatures reçues » et peut ouvrir le CV.
+</Step>
+</Steps>
+
+## Côté technique
+
+- Mise en avant : `convex/jobs/mutations.ts` (`submitApplication`) avec `hasPremium` de `convex/premium.ts`.
+- E-mail : `NewApplicationEmail` dans `convex/emails/templates.tsx`, envoyé par `convex/jobs/actions.tsx`.
+- Liste : requête `listReceivedApplications` (`convex/jobs/queries.ts`), composant `app/[locale]/(main)/jobs/[id]/_component/received-applications.tsx`.

@@ -11,7 +11,8 @@
     "test": "vitest",
     "test:once": "vitest run",
     "test:debug": "vitest --inspect-brk --no-file-parallelism",
-    "test:coverage": "vitest run --coverage --coverage.reporter=text"
+    "test:coverage": "vitest run --coverage --coverage.reporter=text",
+    "postinstall": "fumadocs-mdx"
   },
   "dependencies": {
     "@cloudinary/react": "^1.14.4",
@@ -52,6 +53,8 @@
     "date-fns": "^4.4.0",
     "embla-carousel-react": "^8.6.0",
     "flag-icons": "^7.5.0",
+    "fumadocs-core": "16.17.10",
+    "fumadocs-mdx": "15.4.10",
     "lucide-react": "^0.562.0",
     "maplibre-gl": "^6.16.0",
     "micro-cors": "^0.1.1",
@@ -78,13 +81,14 @@
     "tailwind-merge": "^3.6.0",
     "undici": "^8.3.0",
     "use-debounce": "^10.1.1",
-    "zod": "^4.4.3"
+    "zod": "^4.6.7"
   },
   "devDependencies": {
     "@edge-runtime/vm": "^5.0.0",
     "@tailwindcss/postcss": "^4.3.0",
     "@tailwindcss/typography": "^0.5.20",
     "@types/geojson": "^7946.0.16",
+    "@types/mdx": "^2.0.14",
     "@types/node": "^25.9.1",
     "@types/react": "19.2.16",
     "@types/react-dom": "19.2.3",
