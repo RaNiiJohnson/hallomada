@@ -1,35 +1,50 @@
 {
+  "metaTitle": "Pricing",
   "title": "Choose your plan",
-  "description": "Start for free and grow as you need.",
+  "description": "Hallomada stays open to everyone. Premium gives you more visibility and tools to find what you need faster.",
+  "perMonth": "/ month",
+  "soon": "Coming soon",
   "free": {
     "name": "Free",
-    "price": "€0 / month",
-    "cta": "Get started for free",
-    "features": [
-      "Basic profile",
-      "Browse listings",
-      "3 contacts per month",
-      "Access to public events",
-      "Basic search"
-    ]
+    "price": "€0",
+    "tagline": "The essentials to connect with the community.",
+    "includedTitle": "Included",
+    "included": {
+      "browse": "Browse listings and job offers",
+      "contact": "Contact advertisers and apply to job offers",
+      "messages": "Private messaging between members",
+      "communities": "Join communities, post and comment",
+      "bookmarks": "Bookmarks and personal space"
+    },
+    "limitsTitle": "Limits",
+    "limits": {
+      "listings": "3 real estate listings per week",
+      "jobs": "3 job offers per week",
+      "communities": "1 community created every 30 days",
+      "moderation": "Standard moderation of your posts"
+    },
+    "excludedTitle": "Not included",
+    "excluded": {
+      "featured": "\"Featured\" badge",
+      "boost": "Bump listings to the top",
+      "stats": "View statistics",
+      "alerts": "Instant alerts"
+    }
   },
-  "pro": {
-    "name": "Pro",
-    "price": "€9 / month",
-    "earlyBirdPrice": "€0 / month",
-    "earlyBirdBadge": "Free for now!",
-    "cta": "Choose Premium",
-    "features": [
-      "Group messages",
-      "Unlimited search (Jobs & Listings)",
-      "Access to interactive map",
-      "Unlimited contacts (Jobs & Listings)",
-      "Priority support"
-    ]
-  },
-  "faq": {
-    "title": "Frequently asked questions",
-    "description": "Have questions? We are here to help.",
-    "cta": "View FAQ"
+  "premium": {
+    "name": "Premium",
+    "price": "€4.90",
+    "current": "You are here",
+    "offerTitle": "Free for now.",
+    "offerText": "All members enjoy the Premium plan for free.",
+    "featuresTitle": "Everything in Free, plus",
+    "features": {
+      "alerts": "Instant alerts for new housing and job offers",
+      "featured": "\"Featured\" badge on your listings and job offers",
+      "boost": "Bump your listings to the top of the list",
+      "priority": "Priority moderation of your posts",
+      "stats": "View statistics on your listings and job offers",
+      "quotas": "Extended quotas: 10 listings and 10 job offers per week, 3 communities every 30 days"
+    }
   }
 }

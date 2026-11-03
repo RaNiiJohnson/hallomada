@@ -1,35 +1,50 @@
 {
+  "metaTitle": "Preise",
   "title": "Wählen Sie Ihren Plan",
-  "description": "Starten Sie kostenlos und wachsen Sie nach Bedarf.",
+  "description": "Hallomada bleibt für alle offen. Premium bringt Ihnen mehr Sichtbarkeit und Werkzeuge, um schneller zu finden, was Sie suchen.",
+  "perMonth": "/ Monat",
+  "soon": "Bald verfügbar",
   "free": {
     "name": "Kostenlos",
-    "price": "0€ / Monat",
-    "cta": "Kostenlos starten",
-    "features": [
-      "Basisprofil",
-      "Anzeigen durchsuchen",
-      "3 Kontakte pro Monat",
-      "Zugang zu öffentlichen Veranstaltungen",
-      "Einfache Suche"
-    ]
+    "price": "0 €",
+    "tagline": "Das Wichtigste, um sich mit der Community auszutauschen.",
+    "includedTitle": "Enthalten",
+    "included": {
+      "browse": "Inserate und Stellenangebote ansehen",
+      "contact": "Inserenten kontaktieren und sich auf Stellen bewerben",
+      "messages": "Private Nachrichten zwischen Mitgliedern",
+      "communities": "Communities beitreten, posten und kommentieren",
+      "bookmarks": "Favoriten und persönlicher Bereich"
+    },
+    "limitsTitle": "Limits",
+    "limits": {
+      "listings": "3 Immobilieninserate pro Woche",
+      "jobs": "3 Stellenangebote pro Woche",
+      "communities": "1 neue Community alle 30 Tage",
+      "moderation": "Standard-Moderation Ihrer Beiträge"
+    },
+    "excludedTitle": "Nicht enthalten",
+    "excluded": {
+      "featured": "Badge „Hervorgehoben“",
+      "boost": "Inserate nach oben schieben",
+      "stats": "Aufrufstatistiken",
+      "alerts": "Sofort-Benachrichtigungen"
+    }
   },
-  "pro": {
-    "name": "Pro",
-    "price": "9€ / Monat",
-    "earlyBirdPrice": "0€ / Monat",
-    "earlyBirdBadge": "Vorerst kostenlos!",
-    "cta": "Premium wählen",
-    "features": [
-      "Gruppennachrichten",
-      "Unbegrenzte Suche (Jobs & Inserate)",
-      "Zugang zur interaktiven Karte",
-      "Unbegrenzte Kontakte (Jobs & Inserate)",
-      "Prioritätssupport"
-    ]
-  },
-  "faq": {
-    "title": "Häufig gestellte Fragen",
-    "description": "Haben Sie Fragen? Wir sind hier, um zu helfen.",
-    "cta": "FAQ ansehen"
+  "premium": {
+    "name": "Premium",
+    "price": "4,90 €",
+    "current": "Hier sind Sie",
+    "offerTitle": "Derzeit kostenlos.",
+    "offerText": "Alle Mitglieder nutzen das Premium-Angebot kostenlos.",
+    "featuresTitle": "Alles aus Kostenlos, plus",
+    "features": {
+      "alerts": "Sofort-Benachrichtigungen für neue Wohnungen und Jobs",
+      "featured": "Badge „Hervorgehoben“ auf Ihren Inseraten und Stellenangeboten",
+      "boost": "Ihre Inserate an die Spitze der Liste schieben",
+      "priority": "Bevorzugte Moderation Ihrer Beiträge",
+      "stats": "Aufrufstatistiken für Ihre Inserate und Stellenangebote",
+      "quotas": "Erweiterte Kontingente: 10 Inserate und 10 Stellenangebote pro Woche, 3 Communities alle 30 Tage"
+    }
   }
 }
