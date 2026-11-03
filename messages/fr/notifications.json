@@ -28,6 +28,7 @@
     "provider_pending_review": "Nouvelle page prestataire « {title} » soumise par {name}",
     "job_contact_bounced": "L’e-mail de contact de votre offre « {title} » ne fonctionne pas : les candidatures ne vous parviennent pas. Modifiez-le.",
     "alert_listing": "Nouvelle annonce pour votre alerte : « {title} »",
-    "alert_job": "Nouvelle offre pour votre alerte : « {title} »"
+    "alert_job": "Nouvelle offre pour votre alerte : « {title} »",
+    "rental_file_received": "{name} vous a envoyé son dossier de location pour « {title} »"
   }
 }

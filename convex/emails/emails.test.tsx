@@ -5,6 +5,7 @@ import {
   ApplicationFailedEmail,
   ApplicationSentEmail,
   NewApplicationEmail,
+  RentalFileReceivedEmail,
   SearchAlertEmail,
   ResetPasswordEmail,
   VerifyEmail,
@@ -100,6 +101,23 @@ describe("job application emails", () => {
     expect(html).toContain("Gründungsmitglied");
     expect(html).toContain("Berlin");
     expect(html).toContain("https://hallomada.de/de/hl/ada");
+  });
+
+  it("sends the landlord a private link to the rental dossier", async () => {
+    const html = await render(
+      <RentalFileReceivedEmail
+        candidateName="Rova"
+        candidateEmail="rova@example.com"
+        listingTitle="Zimmer in Berlin"
+        message="Guten Tag"
+        dossierUrl="https://hallomada.de/de/dossier/abc"
+        highlighted
+      />,
+    );
+    expect(html).toContain("Neue Mieterbewerbung");
+    expect(html).toContain("Hervorgehobene Bewerbung");
+    expect(html).toContain("https://hallomada.de/de/dossier/abc");
+    expect(html).toContain("Guten Tag");
   });
 
   it("renders the alert email for a new listing", async () => {

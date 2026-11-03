@@ -19,6 +19,11 @@ import {
   throwValidationError,
 } from "../utils/errors";
 
+import {
+  MAX_RENTAL_DOCUMENT_SIZE,
+  rentalDocumentContentTypeValidator,
+} from "../rentalFiles/values";
+
 export const r2 = new R2(components.r2);
 type R2ActionCtx = Parameters<typeof r2.syncMetadata>[0];
 type R2QueryCtx = Parameters<typeof r2.getMetadata>[0];
@@ -30,6 +35,7 @@ const uploadKindValidator = v.union(
   v.literal("cover"),
   v.literal("applicationCv"),
   v.literal("provider"),
+  v.literal("rentalDocument"),
 );
 
 type UploadKind =
@@ -38,7 +44,8 @@ type UploadKind =
   | "profile"
   | "cover"
   | "applicationCv"
-  | "provider";
+  | "provider"
+  | "rentalDocument";
 
 const PDF_CONTENT_TYPE = "application/pdf" as const;
 const imageContentTypeValidator = v.union(
@@ -124,6 +131,19 @@ export const generateApplicationCvUploadUrl = authMutation({
       kind: "applicationCv",
       contentType,
       maxSize: MAX_CV_SIZE,
+    });
+  },
+});
+
+export const generateRentalDocumentUploadUrl = authMutation({
+  args: { contentType: rentalDocumentContentTypeValidator },
+  returns: uploadUrlResultValidator,
+  handler: async (ctx, { contentType }) => {
+    return await issueUploadUrl(ctx, {
+      userId: ctx.user._id,
+      kind: "rentalDocument",
+      contentType,
+      maxSize: MAX_RENTAL_DOCUMENT_SIZE,
     });
   },
 });

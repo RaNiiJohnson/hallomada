@@ -1,0 +1,117 @@
+{
+  "panel": {
+    "title": "My rental dossier",
+    "description": "Prepare your dossier once (details and documents), then send it in one click from a rental listing. The landlord gets a private link, valid for 30 days, that you can withdraw at any time."
+  },
+  "profile": {
+    "title": "My details",
+    "description": "The equivalent of the German \"Mieterselbstauskunft\". Every field is optional.",
+    "occupation": "Occupation",
+    "employer": "Employer",
+    "income": "Net monthly income (€)",
+    "household": "Number of people",
+    "moveIn": "Desired move-in date",
+    "pets": "Pets",
+    "smoker": "Smoker",
+    "about": "A few words about you",
+    "aboutPlaceholder": "Introduce yourself to the landlord in a few lines.",
+    "unset": "Not specified",
+    "yes": "Yes",
+    "no": "No",
+    "save": "Save",
+    "saving": "Saving…",
+    "saved": "Details saved",
+    "error": "Could not save. Please check the fields."
+  },
+  "documents": {
+    "title": "My documents",
+    "description": "PDF, JPG, PNG or WebP, up to 10 MB per file.",
+    "privacyTip": "These documents are private: only the landlords you send your dossier to can see them. Hide anything that isn't needed, such as your ID number.",
+    "add": "Add",
+    "uploaded": "Document added",
+    "uploadError": "Could not add the document. Please try again.",
+    "tooLarge": "This file is larger than 10 MB.",
+    "removed": "Document deleted",
+    "remove": "Delete {name}",
+    "limit": "You have reached the limit of {max} documents.",
+    "categories": {
+      "id": {
+        "label": "ID document",
+        "hint": "Passport or ID card, both sides."
+      },
+      "payslip": {
+        "label": "Payslips",
+        "hint": "Your last 3 (Gehaltsnachweise)."
+      },
+      "schufa": {
+        "label": "SCHUFA",
+        "hint": "Recent SCHUFA credit report (SCHUFA-Auskunft)."
+      },
+      "rentDebtFree": {
+        "label": "Previous landlord certificate",
+        "hint": "Mietschuldenfreiheitsbescheinigung: no unpaid rent."
+      },
+      "employment": {
+        "label": "Employment contract",
+        "hint": "Or a certificate from your employer, university, scholarship…"
+      },
+      "other": {
+        "label": "Other documents",
+        "hint": "Guarantor, reference letter, etc."
+      }
+    }
+  },
+  "sentList": {
+    "title": "Sent to",
+    "description": "Landlords always see the current version of your dossier. A deleted document disappears for them too.",
+    "empty": "You haven't sent your dossier to any listing yet.",
+    "deletedListing": "Deleted listing",
+    "sentOn": "Sent on {date}",
+    "openUntil": "Access until {date}",
+    "revoke": "Withdraw access",
+    "revoked": "Access withdrawn",
+    "closed": "Access ended",
+    "error": "Something went wrong. Please try again."
+  },
+  "send": {
+    "button": "Send my dossier",
+    "sent": "Dossier sent",
+    "title": "Send my rental dossier",
+    "description": "The landlord gets a notification and a private link to your dossier, valid for 30 days.",
+    "empty": "Your dossier is empty. Add at least one document before sending it.",
+    "prepare": "Prepare my dossier",
+    "summary": "{count, plural, one {# document will be shared.} other {# documents will be shared.}}",
+    "edit": "Edit my dossier",
+    "message": "Message to the landlord (optional)",
+    "messagePlaceholder": "Hello, I'm very interested in your listing…",
+    "privacy": "You can withdraw access at any time from your personal space.",
+    "submit": "Send",
+    "sending": "Sending…",
+    "success": "Dossier sent to the landlord.",
+    "error": "Could not send the dossier. Please try again."
+  },
+  "received": {
+    "title": "{count, plural, =0 {Dossiers received} one {# dossier received} other {# dossiers received}}",
+    "empty": "No dossiers received yet.",
+    "hint": "Highlighted dossiers come from Premium members and are shown first.",
+    "highlighted": "Highlighted",
+    "open": "View dossier",
+    "closed": "Access withdrawn or expired."
+  },
+  "view": {
+    "metaTitle": "Rental dossier",
+    "eyebrow": "Rental dossier",
+    "highlighted": "Highlighted",
+    "for": "For the listing",
+    "validUntil": "Link valid until {date}.",
+    "message": "Message",
+    "profile": "Details",
+    "noProfile": "No details provided.",
+    "documents": "Documents",
+    "noDocuments": "No documents in this dossier.",
+    "open": "Open",
+    "confidential": "Confidential documents, shared only for this application. Please do not forward them.",
+    "unavailableTitle": "Dossier unavailable",
+    "unavailableText": "This link has expired or its owner withdrew access."
+  }
+}

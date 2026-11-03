@@ -9,7 +9,8 @@
     "applications": "Candidatures",
     "notifications": "Notifications",
     "profile": "Réglages",
-    "alerts": "Recherches"
+    "alerts": "Recherches",
+    "dossier": "Dossier"
   },
   "favorites": {
     "empty": "Vous n’avez pas encore de favori.",

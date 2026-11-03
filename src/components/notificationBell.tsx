@@ -44,6 +44,7 @@ const notificationIcon: Record<string, string> = {
   job_contact_bounced: "⚠️",
   alert_listing: "🔔",
   alert_job: "🔔",
+  rental_file_received: "📁",
 };
 
 export function NotificationWidget({

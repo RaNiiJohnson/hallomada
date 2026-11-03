@@ -18,6 +18,7 @@ import { toast } from "sonner";
 import { ListingLifecycleActions } from "../_component/listingLifecycleActions";
 import { PropertyPageSkeleton } from "../_component/skeleton";
 import { PropertyDetails } from "./components/PropertyDetails";
+import { ReceivedRentalFiles } from "@/components/rental-file/received-rental-files";
 import { SimilarListings } from "./components/SimilarListings";
 
 export default function PropertyPage() {
@@ -135,6 +136,7 @@ export default function PropertyPage() {
           property={property}
           showContactBar={showVisitorActions}
         />
+        {canManage && <ReceivedRentalFiles listingId={property._id} />}
         {/* Section des annonces similaires */}
         <div className="mt-6 sm:mt-8">
           <SimilarListings slug={params.id} property={property} />

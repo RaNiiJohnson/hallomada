@@ -9,7 +9,8 @@
     "applications": "Bewerbungen",
     "notifications": "Hinweise",
     "profile": "Einstellungen",
-    "alerts": "Suchaufträge"
+    "alerts": "Suchaufträge",
+    "dossier": "Mappe"
   },
   "favorites": {
     "empty": "Sie haben noch keine Favoriten.",

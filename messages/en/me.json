@@ -9,7 +9,8 @@
     "applications": "Applications",
     "notifications": "Notifications",
     "profile": "Settings",
-    "alerts": "Searches"
+    "alerts": "Searches",
+    "dossier": "Dossier"
   },
   "favorites": {
     "empty": "You have not saved anything yet.",

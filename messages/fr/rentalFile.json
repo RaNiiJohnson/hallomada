@@ -1,0 +1,117 @@
+{
+  "panel": {
+    "title": "Mon dossier de location",
+    "description": "Préparez une fois votre dossier (informations et justificatifs), puis envoyez-le en un clic depuis une annonce de location. Le propriétaire reçoit un lien privé, valable 30 jours, que vous pouvez retirer à tout moment."
+  },
+  "profile": {
+    "title": "Mes informations",
+    "description": "L'équivalent de la « Mieterselbstauskunft ». Tous les champs sont facultatifs.",
+    "occupation": "Profession",
+    "employer": "Employeur",
+    "income": "Revenu net mensuel (€)",
+    "household": "Nombre de personnes",
+    "moveIn": "Emménagement souhaité",
+    "pets": "Animaux",
+    "smoker": "Fumeur",
+    "about": "Quelques mots sur vous",
+    "aboutPlaceholder": "Présentez-vous en quelques lignes au propriétaire.",
+    "unset": "Non précisé",
+    "yes": "Oui",
+    "no": "Non",
+    "save": "Enregistrer",
+    "saving": "Enregistrement…",
+    "saved": "Informations enregistrées",
+    "error": "Impossible d'enregistrer. Vérifiez les champs."
+  },
+  "documents": {
+    "title": "Mes justificatifs",
+    "description": "PDF, JPG, PNG ou WebP, 10 Mo maximum par fichier.",
+    "privacyTip": "Ces documents sont privés : ils ne sont visibles que par les propriétaires à qui vous envoyez votre dossier. Masquez ce qui n'est pas nécessaire, comme le numéro de pièce d'identité.",
+    "add": "Ajouter",
+    "uploaded": "Document ajouté",
+    "uploadError": "Impossible d'ajouter le document. Réessayez.",
+    "tooLarge": "Ce fichier dépasse 10 Mo.",
+    "removed": "Document supprimé",
+    "remove": "Supprimer {name}",
+    "limit": "Vous avez atteint la limite de {max} documents.",
+    "categories": {
+      "id": {
+        "label": "Pièce d'identité",
+        "hint": "Passeport ou carte d'identité, recto-verso."
+      },
+      "payslip": {
+        "label": "Fiches de paie",
+        "hint": "Les 3 dernières (Gehaltsnachweise)."
+      },
+      "schufa": {
+        "label": "SCHUFA",
+        "hint": "Auto-information SCHUFA récente (SCHUFA-Auskunft)."
+      },
+      "rentDebtFree": {
+        "label": "Attestation de l'ancien propriétaire",
+        "hint": "Mietschuldenfreiheitsbescheinigung : aucun loyer impayé."
+      },
+      "employment": {
+        "label": "Contrat de travail",
+        "hint": "Ou attestation d'employeur, d'études, de bourse…"
+      },
+      "other": {
+        "label": "Autres documents",
+        "hint": "Garant, lettre de recommandation, etc."
+      }
+    }
+  },
+  "sentList": {
+    "title": "Envoyé à",
+    "description": "Les propriétaires voient toujours la version actuelle de votre dossier. Un document supprimé disparaît aussi de leur côté.",
+    "empty": "Vous n'avez encore envoyé votre dossier à aucune annonce.",
+    "deletedListing": "Annonce supprimée",
+    "sentOn": "Envoyé le {date}",
+    "openUntil": "Accès jusqu'au {date}",
+    "revoke": "Retirer l'accès",
+    "revoked": "Accès retiré",
+    "closed": "Accès terminé",
+    "error": "Une erreur est survenue. Réessayez."
+  },
+  "send": {
+    "button": "Envoyer mon dossier",
+    "sent": "Dossier envoyé",
+    "title": "Envoyer mon dossier de location",
+    "description": "Le propriétaire reçoit une notification et un lien privé vers votre dossier, valable 30 jours.",
+    "empty": "Votre dossier est vide. Ajoutez au moins un justificatif avant de l'envoyer.",
+    "prepare": "Préparer mon dossier",
+    "summary": "{count, plural, one {# document sera partagé.} other {# documents seront partagés.}}",
+    "edit": "Modifier mon dossier",
+    "message": "Message au propriétaire (facultatif)",
+    "messagePlaceholder": "Bonjour, votre annonce m'intéresse beaucoup…",
+    "privacy": "Vous pourrez retirer l'accès à tout moment depuis votre espace personnel.",
+    "submit": "Envoyer",
+    "sending": "Envoi…",
+    "success": "Dossier envoyé au propriétaire.",
+    "error": "Impossible d'envoyer le dossier. Réessayez."
+  },
+  "received": {
+    "title": "{count, plural, =0 {Dossiers reçus} one {# dossier reçu} other {# dossiers reçus}}",
+    "empty": "Aucun dossier reçu pour le moment.",
+    "hint": "Les dossiers mis en avant viennent de membres Premium et s'affichent en premier.",
+    "highlighted": "Mis en avant",
+    "open": "Voir le dossier",
+    "closed": "Accès retiré ou expiré."
+  },
+  "view": {
+    "metaTitle": "Dossier de location",
+    "eyebrow": "Dossier de location",
+    "highlighted": "Mis en avant",
+    "for": "Pour l'annonce",
+    "validUntil": "Lien valable jusqu'au {date}.",
+    "message": "Message",
+    "profile": "Informations",
+    "noProfile": "Aucune information renseignée.",
+    "documents": "Justificatifs",
+    "noDocuments": "Aucun document dans ce dossier.",
+    "open": "Ouvrir",
+    "confidential": "Documents confidentiels, partagés uniquement pour cette candidature. Merci de ne pas les transmettre.",
+    "unavailableTitle": "Dossier indisponible",
+    "unavailableText": "Ce lien a expiré ou la personne en a retiré l'accès."
+  }
+}

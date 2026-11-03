@@ -14,6 +14,7 @@ import {
   jobWorkModeValidator,
   listingPropertyTypeValidator,
 } from "./alerts/values";
+import { rentalDocumentCategoryValidator } from "./rentalFiles/values";
 import {
   reportReasonValidator,
   reportStatusValidator,
@@ -456,6 +457,7 @@ export default defineSchema({
       v.literal("job_contact_bounced"),
       v.literal("alert_listing"),
       v.literal("alert_job"),
+      v.literal("rental_file_received"),
     ),
     read: v.boolean(),
     postSlug: v.optional(v.string()),
@@ -479,6 +481,7 @@ export default defineSchema({
       v.literal("cover"),
       v.literal("applicationCv"),
       v.literal("provider"),
+      v.literal("rentalDocument"),
     ),
     expectedContentType: v.string(),
     maxSize: v.number(),
@@ -550,6 +553,51 @@ export default defineSchema({
     ])
     .index("by_status_and_reportedAt", ["status", "reportedAt"])
     .index("by_reportedAt", ["reportedAt"]),
+
+  // A member's rental dossier ("Mieterselbstauskunft" + documents). One row
+  // per member; documents live in `rentalDocuments`.
+  rentalFiles: defineTable({
+    userId: v.string(),
+    occupation: v.optional(v.string()),
+    employer: v.optional(v.string()),
+    netMonthlyIncome: v.optional(v.number()),
+    householdSize: v.optional(v.number()),
+    moveInDate: v.optional(v.string()),
+    pets: v.optional(v.boolean()),
+    smoker: v.optional(v.boolean()),
+    about: v.optional(v.string()),
+    updatedAt: v.number(),
+  }).index("by_userId", ["userId"]),
+
+  // Private files stored in R2. Never public: landlords open them through a
+  // time-limited, revocable link (`rentalApplications.token`).
+  rentalDocuments: defineTable({
+    userId: v.string(),
+    category: rentalDocumentCategoryValidator,
+    key: v.string(),
+    fileName: v.string(),
+    contentType: v.string(),
+    uploadedAt: v.number(),
+  }).index("by_userId", ["userId"]),
+
+  // A dossier sent to a listing. The landlord sees the candidate's dossier as
+  // it is now (so deleted documents disappear) until `expiresAt` or until the
+  // candidate revokes access.
+  rentalApplications: defineTable({
+    listingId: v.id("RealestateListing"),
+    candidateId: v.string(),
+    candidateName: v.string(),
+    message: v.optional(v.string()),
+    highlighted: v.boolean(),
+    token: v.string(),
+    sentAt: v.number(),
+    expiresAt: v.number(),
+    revokedAt: v.optional(v.number()),
+  })
+    .index("by_listingId_and_candidateId", ["listingId", "candidateId"])
+    .index("by_candidateId", ["candidateId"])
+    .index("by_token", ["token"])
+    .index("by_expiresAt", ["expiresAt"]),
 
   // Saved searches. Each one can be rerun from the personal space and, unless
   // `paused`, alerts its owner of new matching publications. `cityKey` is the

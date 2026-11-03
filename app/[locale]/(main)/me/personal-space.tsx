@@ -18,6 +18,7 @@ import {
   BriefcaseBusiness,
   Building2,
   FileText,
+  FolderLock,
   Heart,
   Store,
   UserRound,
@@ -27,6 +28,7 @@ import { useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { AlertsPanel } from "./alerts-panel";
+import { RentalFilePanel } from "./rental-file-panel";
 
 const validTabs = [
   "favorites",
@@ -35,6 +37,7 @@ const validTabs = [
   "applications",
   "notifications",
   "alerts",
+  "dossier",
   "profile",
 ] as const;
 
@@ -47,6 +50,7 @@ const tabs = [
   ["applications", BriefcaseBusiness],
   ["notifications", Bell],
   ["alerts", BellRing],
+  ["dossier", FolderLock],
   ["profile", UserRound],
 ] as const;
 
@@ -586,6 +590,9 @@ export function PersonalSpace() {
           </TabsContent>
           <TabsContent value="alerts">
             <AlertsPanel />
+          </TabsContent>
+          <TabsContent value="dossier">
+            <RentalFilePanel />
           </TabsContent>
           <TabsContent value="profile">
             <ProfilePanel />

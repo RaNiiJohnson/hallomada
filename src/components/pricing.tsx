@@ -36,7 +36,7 @@ const PREMIUM_GROUPS: {
       { key: "alerts", soon: false },
       { key: "savedSearches", soon: false },
       { key: "highlight", soon: false },
-      { key: "rentalFile", soon: true },
+      { key: "rentalFile", soon: false },
     ],
   },
   {

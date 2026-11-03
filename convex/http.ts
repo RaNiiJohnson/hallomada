@@ -4,6 +4,7 @@ import { components } from "./_generated/api";
 import { httpAction } from "./_generated/server";
 import { authComponent, createAuth } from "./auth/auth";
 import { downloadApplicationCv } from "./jobs/applicationCv";
+import { downloadRentalDocument } from "./rentalFiles/send";
 import { resend } from "./sendEmails";
 
 const http = httpRouter();
@@ -26,6 +27,12 @@ http.route({
   path: "/application-cv",
   method: "GET",
   handler: downloadApplicationCv,
+});
+
+http.route({
+  path: "/rental-document",
+  method: "GET",
+  handler: downloadRentalDocument,
 });
 
 export default http;
