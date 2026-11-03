@@ -16,7 +16,11 @@ import {
   isPublicPublicationStatus,
   type PublicationStatus,
 } from "../../src/lib/publication-lifecycle";
+import type { QueryCtx } from "../_generated/server";
 import { authComponent } from "../auth/auth";
+import { SITE_URL } from "../emails/layout";
+import { isFounderUser } from "../founders";
+import { hasPremium } from "../premium";
 import {
   APPLICATION_CV_RETENTION_MS,
   ensureCvToken,
@@ -67,7 +71,34 @@ const applicationEmailPayloadValidator = v.object({
   contactEmail: v.optional(v.string()),
   cvToken: v.string(),
   coverLetter: v.optional(v.string()),
+  highlighted: v.boolean(),
+  candidateCity: v.optional(v.string()),
+  candidateProfileUrl: v.optional(v.string()),
+  candidateIsFounder: v.boolean(),
 });
+
+/** Public details shown to the recruiter on a highlighted application. */
+async function candidateHighlight(
+  ctx: QueryCtx,
+  candidate: {
+    _id: string;
+    slug?: string | null;
+    city?: string | null;
+    isPublic?: boolean | null;
+  },
+  highlighted: boolean,
+) {
+  const isPublic = candidate.isPublic !== false;
+  return {
+    highlighted,
+    candidateCity: highlighted && candidate.city ? candidate.city : undefined,
+    candidateProfileUrl:
+      highlighted && isPublic && candidate.slug
+        ? `${SITE_URL}/de/hl/${candidate.slug}`
+        : undefined,
+    candidateIsFounder: highlighted && (await isFounderUser(ctx, candidate._id)),
+  };
+}
 
 function assertValidJobInput(args: {
   title: string;
@@ -472,15 +503,18 @@ export const submitApplication = internalMutation({
 
     const now = Date.now();
     const cvToken = generateCvToken();
+    const highlighted = await hasPremium(ctx, candidateId);
     const applicationId = await ctx.db.insert("jobApplications", {
       jobId,
       candidateId,
+      candidateName: candidate.name,
       cvKey,
       cvToken,
       cvExpiresAt: now + APPLICATION_CV_RETENTION_MS,
       coverLetter,
       appliedAt: now,
       emailStatus: "pending",
+      highlighted,
     });
     if (applicationCvKey) await consumeUploadGrant(ctx, applicationCvKey);
 
@@ -498,6 +532,7 @@ export const submitApplication = internalMutation({
       contactEmail: contact?.email,
       cvToken,
       coverLetter,
+      ...(await candidateHighlight(ctx, candidate, highlighted)),
     };
   },
 });
@@ -548,6 +583,11 @@ export const prepareApplicationEmailRetry = internalMutation({
       contactEmail: contact?.email,
       cvToken,
       coverLetter: application.coverLetter,
+      ...(await candidateHighlight(
+        ctx,
+        candidate,
+        application.highlighted === true,
+      )),
     };
   },
 });

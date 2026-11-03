@@ -19,6 +19,10 @@ async function getClosesAt(ctx: QueryCtx): Promise<number | null> {
   return row?.closesAt ?? null;
 }
 
+export async function isFounderUser(ctx: QueryCtx, userId: string) {
+  return (await findFounder(ctx, userId)) !== null;
+}
+
 async function findFounder(ctx: QueryCtx, userId: string) {
   return await ctx.db
     .query("founders")

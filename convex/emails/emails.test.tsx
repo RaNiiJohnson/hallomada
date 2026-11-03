@@ -5,6 +5,7 @@ import {
   ApplicationFailedEmail,
   ApplicationSentEmail,
   NewApplicationEmail,
+  SearchAlertEmail,
   ResetPasswordEmail,
   VerifyEmail,
 } from "./templates";
@@ -78,6 +79,44 @@ describe("job application emails", () => {
     expect(html).toContain("Lebenslauf öffnen");
     expect(html).toContain("https://files.example.com/cv.pdf");
     expect(html).toContain("Guten Tag");
+    expect(html).not.toContain("Hervorgehobene Bewerbung");
+  });
+
+  it("marks a Premium candidate's application as highlighted", async () => {
+    const html = await render(
+      <NewApplicationEmail
+        candidateName="Ada Lovelace"
+        candidateEmail="ada@example.com"
+        jobTitle="Softwareentwicklerin"
+        cvUrl="https://files.example.com/cv.pdf"
+        highlight={{
+          city: "Berlin",
+          profileUrl: "https://hallomada.de/de/hl/ada",
+          isFounder: true,
+        }}
+      />,
+    );
+    expect(html).toContain("Hervorgehobene Bewerbung");
+    expect(html).toContain("Gründungsmitglied");
+    expect(html).toContain("Berlin");
+    expect(html).toContain("https://hallomada.de/de/hl/ada");
+  });
+
+  it("renders the alert email for a new listing", async () => {
+    const html = await render(
+      <SearchAlertEmail
+        locale="fr"
+        name="Ada"
+        kind="listing"
+        title="Chambre à Berlin"
+        details="Berlin · 450 €"
+        url="https://hallomada.de/fr/listing/chambre"
+        manageUrl="https://hallomada.de/fr/me?tab=alerts"
+      />,
+    );
+    expect(html).toContain("Nouvelle annonce pour vous");
+    expect(html).toContain("Chambre à Berlin");
+    expect(html).toContain("Gérer mes alertes");
   });
 
   it("confirms a sent application to the candidate in their language", async () => {

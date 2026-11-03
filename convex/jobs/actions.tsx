@@ -28,6 +28,10 @@ type ApplicationEmailPayload = {
   contactEmail?: string;
   cvToken: string;
   coverLetter?: string;
+  highlighted: boolean;
+  candidateCity?: string;
+  candidateProfileUrl?: string;
+  candidateIsFounder: boolean;
 };
 
 type Candidate = { name: string; email: string };
@@ -60,7 +64,9 @@ async function deliverApplicationEmail(
 
     const recruiterEmailId = await sendTemplateEmail(ctx, {
       to: contactEmail,
-      subject: `Neue Bewerbung: ${application.jobTitle}`,
+      subject: application.highlighted
+        ? `⭐ Hervorgehobene Bewerbung: ${application.jobTitle}`
+        : `Neue Bewerbung: ${application.jobTitle}`,
       // Lets the recruiter answer the candidate by simply hitting "reply".
       replyTo: [user.email],
       email: (
@@ -70,6 +76,15 @@ async function deliverApplicationEmail(
           jobTitle={application.jobTitle}
           coverLetter={application.coverLetter}
           cvUrl={cvUrl}
+          highlight={
+            application.highlighted
+              ? {
+                  city: application.candidateCity,
+                  profileUrl: application.candidateProfileUrl,
+                  isFounder: application.candidateIsFounder,
+                }
+              : undefined
+          }
         />
       ),
     });

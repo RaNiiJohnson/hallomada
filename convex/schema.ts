@@ -490,6 +490,8 @@ export default defineSchema({
   jobApplications: defineTable({
     jobId: v.id("JobOffer"),
     candidateId: v.string(),
+    // Snapshot for the job author's list; older applications don't have it.
+    candidateName: v.optional(v.string()),
     cvKey: v.string(),
     // Unguessable token embedded in the recruiter's e-mail. The /application-cv
     // route trades it for a short-lived signed R2 URL, so the link keeps working
@@ -500,6 +502,8 @@ export default defineSchema({
     cvPurgedAt: v.optional(v.number()),
     coverLetter: v.optional(v.string()),
     appliedAt: v.number(),
+    // Premium candidates are highlighted to the recruiter (email and list).
+    highlighted: v.optional(v.boolean()),
     // Optional during the safe rollout: legacy applications predate email
     // delivery tracking and remain readable until they are backfilled.
     emailStatus: v.optional(

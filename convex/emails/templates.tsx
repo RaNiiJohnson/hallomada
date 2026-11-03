@@ -1,4 +1,4 @@
-import { Link } from "react-email";
+import { Link, Section, Text } from "react-email";
 import {
   CtaButton,
   EmailLayout,
@@ -64,12 +64,15 @@ export function NewApplicationEmail({
   jobTitle,
   coverLetter,
   cvUrl,
+  highlight,
 }: {
   candidateName: string;
   candidateEmail: string;
   jobTitle: string;
   coverLetter?: string;
   cvUrl: string;
+  /** Present for Premium candidates: the application is highlighted. */
+  highlight?: { city?: string; profileUrl?: string; isFounder: boolean };
 }) {
   return (
     <EmailLayout
@@ -77,6 +80,32 @@ export function NewApplicationEmail({
       preview={`${candidateName} hat sich auf ${jobTitle} beworben.`}
       footer={shared.de.footer}
     >
+      {highlight && (
+        <Section
+          style={{
+            backgroundColor: "#fef3c7",
+            border: "1px solid #fcd34d",
+            borderRadius: "10px",
+            padding: "12px 16px",
+            marginBottom: "16px",
+          }}
+        >
+          <Text style={{ margin: 0, fontSize: "14px", fontWeight: 600, color: "#92400e" }}>
+            ⭐ Hervorgehobene Bewerbung
+          </Text>
+          <Text style={{ margin: "4px 0 0", fontSize: "13px", color: "#78350f" }}>
+            {candidateName} ist Premium-Mitglied von Hallomada
+            {highlight.isFounder ? " und Gründungsmitglied" : ""}
+            {highlight.city ? ` · ${highlight.city}` : ""}.
+            {highlight.profileUrl ? (
+              <>
+                {" "}
+                <Link href={highlight.profileUrl}>Profil ansehen</Link>
+              </>
+            ) : null}
+          </Text>
+        </Section>
+      )}
       <Title>Neue Bewerbung</Title>
       <Paragraph>
         <Strong>{candidateName}</Strong> hat sich auf Ihre Stelle{" "}
