@@ -313,20 +313,23 @@ export const getJobs = query({
     if (type) {
       results = await ctx.db
         .query("JobOffer")
-        .withIndex("by_type", (q) => q.eq("type", type))
+        .withIndex("by_type_and_listedAt", (q) => q.eq("type", type))
         .order("desc")
         .filter(listFilter)
         .paginate(args.paginationOpts);
     } else if (contractType) {
       results = await ctx.db
         .query("JobOffer")
-        .withIndex("by_contract", (q) => q.eq("contractType", contractType))
+        .withIndex("by_contract_and_listedAt", (q) =>
+          q.eq("contractType", contractType),
+        )
         .order("desc")
         .filter(listFilter)
         .paginate(args.paginationOpts);
     } else {
       results = await ctx.db
         .query("JobOffer")
+        .withIndex("by_listedAt")
         .order("desc")
         .filter(listFilter)
         .paginate(args.paginationOpts);

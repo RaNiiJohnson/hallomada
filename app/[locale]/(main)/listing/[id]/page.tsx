@@ -1,6 +1,7 @@
 "use client";
 
 import { FeatureToggle } from "@/components/featured/feature-toggle";
+import { BumpButton } from "@/components/featured/bump-button";
 import { ShareButton } from "@/components/ShareButton";
 import { MobileActionsMenu } from "@/components/mobile-actions-menu";
 import { ReportDialog } from "@/components/report-dialog";
@@ -58,6 +59,13 @@ export default function PropertyPage() {
         <FeatureToggle
           resource={{ type: "listing", id: property._id }}
           featuredUntil={property.featuredUntil}
+          status={property.status}
+        />
+      )}
+      {canManage && (
+        <BumpButton
+          resource={{ type: "listing", id: property._id }}
+          bumpedAt={property.bumpedAt}
           status={property.status}
         />
       )}

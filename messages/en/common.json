@@ -55,5 +55,16 @@
     "movedFrom": "Featured until {date}. “{title}” is no longer featured.",
     "removed": "\"Featured\" badge removed.",
     "error": "Could not change the featured status. Please try again."
+  },
+  "bump": {
+    "start": "Bump to top",
+    "waiting": "Bump available on {date}",
+    "nextOn": "Next bump available on {date}",
+    "hint": {
+      "listing": "Moves your listing back to the top of the list. Once a week.",
+      "job": "Moves your job offer back to the top of the list. Once a week."
+    },
+    "done": "Moved to the top of the list. Next bump available on {date}.",
+    "error": "Could not bump the publication. Please try again later."
   }
 }

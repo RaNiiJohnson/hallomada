@@ -44,7 +44,7 @@ const PREMIUM_GROUPS: {
     icon: Megaphone,
     features: [
       { key: "featured", soon: false },
-      { key: "boost", soon: true },
+      { key: "boost", soon: false },
       { key: "stats", soon: true },
       { key: "priority", soon: true },
       { key: "quotas", soon: false },

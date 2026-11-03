@@ -265,6 +265,7 @@ export const createListing = authMutation({
       authorName: user.name,
       status: "pending",
       updatedAt: Date.now(),
+      listedAt: Date.now(),
       searchAll: searchAllContent,
       currency: "EUR",
       ...normalizeRentalTerms(args.listingMode, {

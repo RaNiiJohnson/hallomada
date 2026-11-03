@@ -55,5 +55,16 @@
     "movedFrom": "En vedette jusqu'au {date}. « {title} » n'est plus en vedette.",
     "removed": "Badge « En vedette » retiré.",
     "error": "Impossible de modifier la mise en vedette. Réessayez."
+  },
+  "bump": {
+    "start": "Remonter en tête",
+    "waiting": "Remontée possible le {date}",
+    "nextOn": "Prochaine remontée possible le {date}",
+    "hint": {
+      "listing": "Replace votre annonce en tête de la liste. Une fois par semaine.",
+      "job": "Replace votre offre en tête de la liste. Une fois par semaine."
+    },
+    "done": "Remontée en tête de liste. Prochaine remontée possible le {date}.",
+    "error": "Impossible de remonter la publication. Réessayez plus tard."
   }
 }

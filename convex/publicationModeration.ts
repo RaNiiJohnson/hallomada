@@ -125,7 +125,15 @@ export const decide = adminMutation({
       if (job.status !== "pending") {
         throwValidationError("This job is no longer pending moderation");
       }
-      await ctx.db.patch(job._id, { status: nextStatus, updatedAt: Date.now() });
+      await ctx.db.patch(job._id, {
+        status: nextStatus,
+        updatedAt: Date.now(),
+        // First publication: list it as new. Re-approvals after an edit keep
+        // their place, so editing is not a free bump.
+        ...(decision === "approved" && job.alertsSentAt === undefined
+          ? { listedAt: Date.now() }
+          : {}),
+      });
       if (decision === "approved") {
         await grantFounderIfEligible(ctx, job.authorId);
         await scheduleAlertsForPublication(ctx, { kind: "job", doc: job });
@@ -169,6 +177,9 @@ export const decide = adminMutation({
     await ctx.db.patch(listing._id, {
       status: nextStatus,
       updatedAt: Date.now(),
+      ...(decision === "approved" && listing.alertsSentAt === undefined
+        ? { listedAt: Date.now() }
+        : {}),
     });
     if (decision === "approved") {
       await grantFounderIfEligible(ctx, listing.authorId);

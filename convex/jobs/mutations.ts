@@ -289,6 +289,7 @@ export const createJob = authMutation({
       authorName: user.name,
       status: "pending",
       updatedAt: Date.now(),
+      listedAt: Date.now(),
       searchAll: searchAllContent,
     });
     await ctx.db.insert("JobContactInfo", {

@@ -300,9 +300,11 @@ export const getListing = query({
       });
     } else {
       // Step 2: Standard index or no index
-      let indexedQuery: Query<DataModel["RealestateListing"]> = tableQuery;
+      // Newest (or most recently bumped) first.
+      let indexedQuery: Query<DataModel["RealestateListing"]> =
+        tableQuery.withIndex("by_listedAt");
       if (propertyType) {
-        indexedQuery = tableQuery.withIndex("by_propertyType", (q) =>
+        indexedQuery = tableQuery.withIndex("by_propertyType_and_listedAt", (q) =>
           q.eq("propertyType", propertyType),
         );
       }

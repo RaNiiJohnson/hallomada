@@ -22,6 +22,8 @@ import type * as auth_users from "../auth/users.js";
 import type * as bookmarks_migrations from "../bookmarks/migrations.js";
 import type * as bookmarks_mutations from "../bookmarks/mutations.js";
 import type * as bookmarks_queries from "../bookmarks/queries.js";
+import type * as bump from "../bump.js";
+import type * as bumpValues from "../bumpValues.js";
 import type * as cascadeDeletes from "../cascadeDeletes.js";
 import type * as cascadeHelpers from "../cascadeHelpers.js";
 import type * as chat_mutations from "../chat/mutations.js";
@@ -107,6 +109,8 @@ declare const fullApi: ApiFromModules<{
   "bookmarks/migrations": typeof bookmarks_migrations;
   "bookmarks/mutations": typeof bookmarks_mutations;
   "bookmarks/queries": typeof bookmarks_queries;
+  bump: typeof bump;
+  bumpValues: typeof bumpValues;
   cascadeDeletes: typeof cascadeDeletes;
   cascadeHelpers: typeof cascadeHelpers;
   "chat/mutations": typeof chat_mutations;

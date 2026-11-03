@@ -55,5 +55,16 @@
     "movedFrom": "Hervorgehoben bis {date}. „{title}“ ist nicht mehr hervorgehoben.",
     "removed": "Badge „Hervorgehoben“ entfernt.",
     "error": "Hervorhebung konnte nicht geändert werden. Bitte erneut versuchen."
+  },
+  "bump": {
+    "start": "Nach oben schieben",
+    "waiting": "Wieder möglich am {date}",
+    "nextOn": "Nächstes Hochschieben möglich am {date}",
+    "hint": {
+      "listing": "Schiebt Ihr Inserat wieder an die Spitze der Liste. Einmal pro Woche.",
+      "job": "Schiebt Ihr Stellenangebot wieder an die Spitze der Liste. Einmal pro Woche."
+    },
+    "done": "An die Spitze der Liste geschoben. Nächstes Mal möglich am {date}.",
+    "error": "Hochschieben nicht möglich. Bitte später erneut versuchen."
   }
 }

@@ -2,6 +2,7 @@
 
 import { FeaturedBadge } from "@/components/featured/featured-badge";
 import { FeatureToggle } from "@/components/featured/feature-toggle";
+import { BumpButton } from "@/components/featured/bump-button";
 import { FounderBadge } from "@/components/founder-badge";
 import { ShareButton } from "@/components/ShareButton";
 import { MobileActionsMenu } from "@/components/mobile-actions-menu";
@@ -176,6 +177,11 @@ export default function JobDetailsPage() {
       <FeatureToggle
         resource={{ type: "job", id: jobOffer._id }}
         featuredUntil={jobOffer.featuredUntil}
+        status={jobOffer.status}
+      />
+      <BumpButton
+        resource={{ type: "job", id: jobOffer._id }}
+        bumpedAt={jobOffer.bumpedAt}
         status={jobOffer.status}
       />
       <ShareButton text={jobOffer.title} showLabel />

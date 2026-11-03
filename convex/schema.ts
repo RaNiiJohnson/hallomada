@@ -138,6 +138,10 @@ export default defineSchema({
     alertsSentAt: v.optional(v.number()),
     // "En vedette" badge until this time (Premium; one per member and kind).
     featuredUntil: v.optional(v.number()),
+    // Position in the default (newest first) list: set on first approval and
+    // moved to "now" by a bump. Older rows are backfilled (see convex/bump.ts).
+    listedAt: v.optional(v.number()),
+    bumpedAt: v.optional(v.number()),
     // Optional during the rollout so existing offers remain visible as active.
     status: v.optional(
       v.union(
@@ -156,6 +160,9 @@ export default defineSchema({
     .index("by_city", ["city"])
     .index("by_type", ["type"])
     .index("by_contract", ["contractType"])
+    .index("by_listedAt", ["listedAt"])
+    .index("by_type_and_listedAt", ["type", "listedAt"])
+    .index("by_contract_and_listedAt", ["contractType", "listedAt"])
     .index("by_salary", ["salary"])
     .index("by_slug", ["slug"])
     .searchIndex("search_all_fields", {
@@ -225,6 +232,10 @@ export default defineSchema({
     alertsSentAt: v.optional(v.number()),
     // "En vedette" badge until this time (Premium; one per member and kind).
     featuredUntil: v.optional(v.number()),
+    // Position in the default (newest first) list: set on first approval and
+    // moved to "now" by a bump. Older rows are backfilled (see convex/bump.ts).
+    listedAt: v.optional(v.number()),
+    bumpedAt: v.optional(v.number()),
     updatedAt: v.number(),
     searchAll: v.optional(v.string()),
   })
@@ -232,6 +243,8 @@ export default defineSchema({
     .index("by_status", ["status"])
     .index("by_city", ["city"])
     .index("by_propertyType", ["propertyType"])
+    .index("by_listedAt", ["listedAt"])
+    .index("by_propertyType_and_listedAt", ["propertyType", "listedAt"])
     .index("by_listingMode", ["listingMode"])
     .index("by_price", ["price"])
     .index("by_bedrooms", ["bedrooms"])
