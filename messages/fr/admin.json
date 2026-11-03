@@ -64,7 +64,8 @@
       },
       "submittedBy": "Soumise par {name}, le {date}",
       "approve": "Valider",
-      "reject": "Refuser"
+      "reject": "Refuser",
+      "priority": "Prioritaire"
     },
     "toast": {
       "approved": "Annonce validée et publiée.",

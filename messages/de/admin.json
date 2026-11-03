@@ -64,7 +64,8 @@
       },
       "submittedBy": "Eingereicht von {name} am {date}",
       "approve": "Freigeben",
-      "reject": "Ablehnen"
+      "reject": "Ablehnen",
+      "priority": "Priorität"
     },
     "toast": {
       "approved": "Anzeige freigegeben und veröffentlicht.",

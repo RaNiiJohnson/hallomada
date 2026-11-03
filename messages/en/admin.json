@@ -64,7 +64,8 @@
       },
       "submittedBy": "Submitted by {name} on {date}",
       "approve": "Approve",
-      "reject": "Reject"
+      "reject": "Reject",
+      "priority": "Priority"
     },
     "toast": {
       "approved": "Listing approved and published.",

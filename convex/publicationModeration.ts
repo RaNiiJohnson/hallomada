@@ -2,6 +2,7 @@ import { v } from "convex/values";
 import { scheduleAlertsForPublication } from "./alerts/dispatch";
 import { grantFounderIfEligible } from "./founders";
 import { adminMutation, adminQuery } from "./functions";
+import { hasPremium } from "./premium";
 import { throwNotFound, throwValidationError } from "./utils/errors";
 
 const moderationResourceValidator = v.union(
@@ -17,6 +18,8 @@ const pendingPublicationValidator = v.union(
     authorName: v.optional(v.string()),
     submittedAt: v.number(),
     href: v.string(),
+    // Submitted by a Premium member: reviewed first.
+    priority: v.boolean(),
   }),
   v.object({
     resource: v.object({
@@ -27,6 +30,8 @@ const pendingPublicationValidator = v.union(
     authorName: v.optional(v.string()),
     submittedAt: v.number(),
     href: v.string(),
+    // Submitted by a Premium member: reviewed first.
+    priority: v.boolean(),
   }),
   v.object({
     resource: v.object({ type: v.literal("provider"), id: v.id("providers") }),
@@ -34,6 +39,8 @@ const pendingPublicationValidator = v.union(
     authorName: v.optional(v.string()),
     submittedAt: v.number(),
     href: v.string(),
+    // Submitted by a Premium member: reviewed first.
+    priority: v.boolean(),
   }),
 );
 
@@ -59,30 +66,49 @@ export const listPending = adminQuery({
         .take(100),
     ]);
 
-    return [
-      ...jobs.map((job) => ({
+    const premiumByAuthor = new Map<string, boolean>();
+    const isPriority = async (authorId: string) => {
+      let premium = premiumByAuthor.get(authorId);
+      if (premium === undefined) {
+        premium = await hasPremium(ctx, authorId);
+        premiumByAuthor.set(authorId, premium);
+      }
+      return premium;
+    };
+
+    const items = await Promise.all([
+      ...jobs.map(async (job) => ({
         resource: { type: "job" as const, id: job._id },
         title: job.title,
         authorName: job.authorName,
         submittedAt: job.updatedAt,
         href: `/jobs/${job.slug}`,
+        priority: await isPriority(job.authorId),
       })),
-      ...listings.map((listing) => ({
+      ...listings.map(async (listing) => ({
         resource: { type: "listing" as const, id: listing._id },
         title: listing.title,
         authorName: listing.authorName,
         submittedAt: listing.updatedAt,
         href: `/listing/${listing.slug}`,
+        priority: await isPriority(listing.authorId),
       })),
-      ...providers.map((provider) => ({
+      ...providers.map(async (provider) => ({
         resource: { type: "provider" as const, id: provider._id },
         title: provider.name,
         authorName: provider.authorName,
         submittedAt: provider.updatedAt,
         href: `/providers/${provider.slug}`,
+        priority: await isPriority(provider.authorId),
       })),
-    ]
-      .sort((a, b) => b.submittedAt - a.submittedAt)
+    ]);
+
+    // Premium (priority) submissions first, then the usual newest first.
+    return items
+      .sort(
+        (a, b) =>
+          Number(b.priority) - Number(a.priority) || b.submittedAt - a.submittedAt,
+      )
       .slice(0, 100);
   },
 });

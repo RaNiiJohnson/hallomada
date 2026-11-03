@@ -46,7 +46,7 @@ const PREMIUM_GROUPS: {
       { key: "featured", soon: false },
       { key: "boost", soon: false },
       { key: "stats", soon: false },
-      { key: "priority", soon: true },
+      { key: "priority", soon: false },
       { key: "quotas", soon: false },
     ],
   },
