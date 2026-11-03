@@ -80,7 +80,7 @@
       },
       {
         "h": "9. Cookies and audience measurement",
-        "p": "Measurement tools (PostHog, Vercel Analytics) are only enabled after you agree. You can refuse or change your choice at any time via \"Manage cookies\" at the bottom of the page. If you refuse, no optional event is sent. Strictly necessary cookies (sign-in, security) are still used."
+        "p": "Measurement tools (PostHog, Vercel Analytics) are only enabled after you agree. You can refuse or change your choice at any time via \"Manage cookies\" at the bottom of the page. If you refuse, no optional event is sent. With your consent, a random identifier is also kept in your browser so your visits to a listing or job offer count only once in its author's view statistics. Strictly necessary cookies (sign-in, security) are still used."
       },
       {
         "h": "10. Retention periods",

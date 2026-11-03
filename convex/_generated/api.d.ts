@@ -75,6 +75,8 @@ import type * as publicationModeration from "../publicationModeration.js";
 import type * as publicationQuotas from "../publicationQuotas.js";
 import type * as premium from "../premium.js";
 import type * as rateLimits from "../rateLimits.js";
+import type * as stats from "../stats.js";
+import type * as statsValues from "../statsValues.js";
 import type * as rentalFiles_actions from "../rentalFiles/actions.js";
 import type * as rentalFiles_mutations from "../rentalFiles/mutations.js";
 import type * as rentalFiles_queries from "../rentalFiles/queries.js";
@@ -162,6 +164,8 @@ declare const fullApi: ApiFromModules<{
   publicationQuotas: typeof publicationQuotas;
   premium: typeof premium;
   rateLimits: typeof rateLimits;
+  stats: typeof stats;
+  statsValues: typeof statsValues;
   "rentalFiles/actions": typeof rentalFiles_actions;
   "rentalFiles/mutations": typeof rentalFiles_mutations;
   "rentalFiles/queries": typeof rentalFiles_queries;

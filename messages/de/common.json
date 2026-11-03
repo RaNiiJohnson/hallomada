@@ -66,5 +66,23 @@
     },
     "done": "An die Spitze der Liste geschoben. Nächstes Mal möglich am {date}.",
     "error": "Hochschieben nicht möglich. Bitte später erneut versuchen."
+  },
+  "stats": {
+    "title": "Statistiken",
+    "premiumOnly": "Aufrufstatistiken sind in Premium enthalten.",
+    "discover": "Premium entdecken",
+    "totalViews": "Aufrufe gesamt",
+    "last7Days": "Aufrufe, letzte 7 Tage",
+    "bookmarks": "Gemerkt",
+    "responses": {
+      "listing": "Eingegangene Mappen",
+      "job": "Bewerbungen"
+    },
+    "chartTitle": "Aufrufe pro Tag, letzte 30 Tage",
+    "chartHint": "Fahren Sie über einen Balken",
+    "tooltip": "{count, plural, =0 {Keine Aufrufe} one {# Aufruf} other {# Aufrufe}} am {date}",
+    "date": "Datum",
+    "views": "Aufrufe",
+    "note": "Ein Aufruf zählt einmal alle 12 Stunden für angemeldete Mitglieder und Besucher, die der Reichweitenmessung zugestimmt haben. Ihre eigenen Besuche zählen nicht."
   }
 }

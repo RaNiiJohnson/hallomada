@@ -66,5 +66,23 @@
     },
     "done": "Remontée en tête de liste. Prochaine remontée possible le {date}.",
     "error": "Impossible de remonter la publication. Réessayez plus tard."
+  },
+  "stats": {
+    "title": "Statistiques",
+    "premiumOnly": "Les statistiques de vues sont incluses dans Premium.",
+    "discover": "Découvrir Premium",
+    "totalViews": "Vues au total",
+    "last7Days": "Vues sur 7 jours",
+    "bookmarks": "Mises en favori",
+    "responses": {
+      "listing": "Dossiers reçus",
+      "job": "Candidatures"
+    },
+    "chartTitle": "Vues par jour, 30 derniers jours",
+    "chartHint": "Survolez une barre",
+    "tooltip": "{count, plural, =0 {Aucune vue} one {# vue} other {# vues}} le {date}",
+    "date": "Date",
+    "views": "Vues",
+    "note": "Une vue est comptée une seule fois sur 12 heures pour les membres connectés et les visiteurs ayant accepté la mesure d'audience. Vos propres visites ne comptent pas."
   }
 }

@@ -45,7 +45,7 @@ const PREMIUM_GROUPS: {
     features: [
       { key: "featured", soon: false },
       { key: "boost", soon: false },
-      { key: "stats", soon: true },
+      { key: "stats", soon: false },
       { key: "priority", soon: true },
       { key: "quotas", soon: false },
     ],

@@ -616,6 +616,15 @@ export default defineSchema({
     .index("by_token", ["token"])
     .index("by_expiresAt", ["expiresAt"]),
 
+  // Daily view counters for listings and job offers ("listing:<id>" or
+  // "job:<id>"), kept apart from the publications so a view never
+  // invalidates the lists that show them.
+  publicationViews: defineTable({
+    resourceKey: v.string(),
+    day: v.string(),
+    views: v.number(),
+  }).index("by_resourceKey_and_day", ["resourceKey", "day"]),
+
   // Saved searches. Each one can be rerun from the personal space and, unless
   // `paused`, alerts its owner of new matching publications. `cityKey` is the
   // normalized city, "" for any city. Criteria left empty match everything.

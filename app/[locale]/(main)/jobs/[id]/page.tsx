@@ -23,6 +23,8 @@ import { Link } from "@/i18n/navigation";
 import { useAuthRequiredAction } from "@/hooks/use-auth-required-action";
 import { formatDateLong, getRelativeTime } from "@/lib/date";
 import { ReceivedApplications } from "./_component/received-applications";
+import { PublicationStats } from "@/components/featured/publication-stats";
+import { useRecordView } from "@/hooks/use-record-view";
 import { getConvexErrorCode } from "@/lib/convex-error";
 import { getSafeExternalUrl } from "@/lib/external-url";
 import { LocationMap } from "@/lib/LocationMap";
@@ -69,6 +71,7 @@ export default function JobDetailsPage() {
   const jobOffer = useQuery(api.jobs.queries.getJobWithContact, {
     slug: id as string,
   });
+  useRecordView(jobOffer ? { type: "job", id: jobOffer._id } : null);
   const applicationEmailStatus = useQuery(
     api.jobs.queries.hasCurrentUserAppliedToJob,
     jobOffer ? { jobId: jobOffer._id } : "skip",
@@ -799,6 +802,9 @@ export default function JobDetailsPage() {
               </div>
             </div>
 
+            {isAuthor && (
+              <PublicationStats resource={{ type: "job", id: jobOffer._id }} />
+            )}
             {isAuthor && <ReceivedApplications jobId={jobOffer._id} />}
 
             {/* Apply CTA */}

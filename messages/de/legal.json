@@ -80,7 +80,7 @@
       },
       {
         "h": "9. Cookies und Reichweitenmessung",
-        "p": "Messwerkzeuge (PostHog, Vercel Analytics) werden erst nach Ihrer Einwilligung aktiviert. Sie können jederzeit über „Cookies verwalten“ unten auf der Seite ablehnen oder Ihre Wahl ändern. Lehnen Sie ab, werden keine optionalen Ereignisse gesendet. Technisch notwendige Cookies (Anmeldung, Sicherheit) werden weiterhin verwendet."
+        "p": "Messwerkzeuge (PostHog, Vercel Analytics) werden erst nach Ihrer Einwilligung aktiviert. Sie können jederzeit über „Cookies verwalten“ unten auf der Seite ablehnen oder Ihre Wahl ändern. Lehnen Sie ab, werden keine optionalen Ereignisse gesendet. Mit Ihrer Einwilligung wird außerdem eine zufällige Kennung in Ihrem Browser gespeichert, damit Ihre Besuche eines Inserats oder Stellenangebots in dessen Aufrufstatistik nur einmal zählen. Technisch notwendige Cookies (Anmeldung, Sicherheit) werden weiterhin verwendet."
       },
       {
         "h": "10. Speicherdauer",

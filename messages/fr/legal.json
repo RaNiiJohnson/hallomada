@@ -80,7 +80,7 @@
       },
       {
         "h": "9. Cookies et mesure d'audience",
-        "p": "Les outils de mesure (PostHog, Vercel Analytics) ne sont activés qu'après votre accord. Vous pouvez refuser ou modifier votre choix à tout moment via « Gérer les cookies » en bas de page. Si vous refusez, aucun événement optionnel n'est envoyé. Les cookies strictement nécessaires (connexion, sécurité) restent utilisés."
+        "p": "Les outils de mesure (PostHog, Vercel Analytics) ne sont activés qu'après votre accord. Vous pouvez refuser ou modifier votre choix à tout moment via « Gérer les cookies » en bas de page. Si vous refusez, aucun événement optionnel n'est envoyé. Avec votre accord, un identifiant aléatoire est aussi conservé dans votre navigateur pour ne compter qu'une fois vos visites d'une annonce ou d'une offre dans les statistiques de vues de son auteur. Les cookies strictement nécessaires (connexion, sécurité) restent utilisés."
       },
       {
         "h": "10. Durées de conservation",
