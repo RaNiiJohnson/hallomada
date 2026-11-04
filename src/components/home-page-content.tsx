@@ -27,6 +27,7 @@ import {
   Users,
 } from "lucide-react";
 import { useTranslations } from "next-intl";
+import PricingPage from "./pricing";
 import { Skeleton } from "./ui/skeleton";
 
 const iconMap = {
@@ -258,7 +259,8 @@ export function HomePageContent() {
         </div>
       </section>
 
-      {/*<PricingPage />*/}
+      {/* Pricing: Free and Premium (Premium offered for now) */}
+      <PricingPage variant="section" />
     </div>
   );
 }

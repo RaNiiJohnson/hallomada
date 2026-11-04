@@ -1,6 +1,7 @@
 "use client";
 
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Link } from "@/i18n/navigation";
 import { Award, Check, Gift, Megaphone, Search, Sparkles, X } from "lucide-react";
@@ -57,14 +58,34 @@ const PREMIUM_GROUPS: {
   },
 ];
 
-export default function PricingPage() {
+/**
+ * Free and Premium plans. `variant="section"` is the home page block (h2,
+ * anchor #tarifs, link to the full page); the default is the /pricing page.
+ */
+export default function PricingPage({
+  variant = "page",
+}: {
+  variant?: "page" | "section";
+}) {
   const t = useTranslations("pricing");
+  const Heading = variant === "page" ? "h1" : "h2";
 
   return (
-    <section className="py-16 md:py-24">
+    <section
+      id={variant === "section" ? "tarifs" : undefined}
+      className={variant === "page" ? "py-16 md:py-24" : "scroll-mt-20 px-4 py-8 sm:py-12 md:py-16"}
+    >
       <div className="mx-auto max-w-5xl px-4 sm:px-6">
         <div className="mx-auto max-w-2xl space-y-3 text-center">
-          <h1 className="text-3xl font-semibold md:text-4xl">{t("title")}</h1>
+          <Heading
+            className={
+              variant === "page"
+                ? "text-3xl font-semibold md:text-4xl"
+                : "text-3xl font-bold tracking-tight"
+            }
+          >
+            {t("title")}
+          </Heading>
           <p className="text-muted-foreground">{t("description")}</p>
         </div>
 
@@ -172,6 +193,14 @@ export default function PricingPage() {
             <p className="text-sm text-muted-foreground">{t("founder.text")}</p>
           </div>
         </div>
+
+        {variant === "section" && (
+          <div className="mt-8 flex justify-center">
+            <Button asChild variant="outline" className="rounded-full">
+              <Link href="/pricing">{t("seeDetails")}</Link>
+            </Button>
+          </div>
+        )}
 
         <p className="mt-8 text-center text-sm text-muted-foreground">
           {t("faq.question")}{" "}

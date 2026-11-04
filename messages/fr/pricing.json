@@ -64,5 +64,6 @@
   "faq": {
     "question": "Des questions sur Premium ?",
     "link": "Consultez la FAQ"
-  }
+  },
+  "seeDetails": "Voir la page des tarifs"
 }
