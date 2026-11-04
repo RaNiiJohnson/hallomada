@@ -1,0 +1,65 @@
+---
+title: Mise en ligne
+description: L'ordre à suivre pour mettre les changements en ligne.
+new: true
+---
+
+## L'ordre à respecter
+
+<Steps>
+<Step title="Récupérer la branche">
+```bash
+git fetch origin
+git checkout ccr-0c8eef51-463xld
+pnpm install
+```
+`pnpm install` génère aussi les fichiers de cette documentation (`.source`).
+</Step>
+<Step title="Déploiement de développement">
+Dans un premier terminal, laissé ouvert : `npx convex dev`. Il envoie le schéma mis à jour et régénère `convex/_generated/`.
+</Step>
+<Step title="Migrations, sur le développement">
+Dans un deuxième terminal, **dans cet ordre** :
+```bash
+npx convex run aggregates:run '{"fn": "bump:backfillListedAtListings"}'
+npx convex run aggregates:run '{"fn": "bump:backfillListedAtJobs"}'
+npx convex run founders:rebuildFounders
+```
+Les deux premières remettent les anciennes annonces et offres à leur place dans les listes. La troisième recalcule les badges fondateur avec les nouvelles règles (les 100 premières annonces ou offres validées) et garde les badges donnés à la main. Toutes peuvent être relancées sans risque.
+</Step>
+<Step title="Tester">
+Suivez la page [À vérifier](/admin/docs/a-verifier).
+</Step>
+<Step title="Production">
+Déployez le backend (`npx convex deploy`), puis relancez les mêmes commandes avec `--prod`, par exemple `npx convex run --prod founders:rebuildFounders`.
+</Step>
+</Steps>
+
+<Callout type="warning" title="Erreur « Can't find function »">
+Le code n'est pas encore déployé sur ce déploiement. Déployez d'abord, puis relancez la commande.
+</Callout>
+
+<Callout type="info" title="Windows (PowerShell)">
+Les guillemets s'écrivent autrement : `npx convex run aggregates:run '{\"fn\": \"bump:backfillListedAtListings\"}'`
+</Callout>
+
+## Tâches automatiques
+
+| Tâche | Fréquence | Rôle |
+|---|---|---|
+| purge expired application CVs | toutes les 24 h | ferme l'accès aux CV des candidatures après 90 jours |
+| expire rental dossier access | toutes les heures | ferme l'accès des propriétaires aux dossiers après 30 jours |
+
+Définies dans `convex/crons.ts`.
+
+## Réglages dans l'admin
+
+- [Quotas](/admin/quotas) : **10 / 10 / 3** pour que les « quotas étendus » de la carte Premium soient vrais.
+- [Quotas](/admin/quotas), bloc « Programme Membre fondateur » : places prises et date de fin.
+
+## Bon à savoir
+
+- Aucune nouvelle variable d'environnement : R2 et Resend sont déjà configurés.
+- **Fumadocs** (`fumadocs-core`, `fumadocs-mdx`) sert pour cette doc ; gratuit et open source.
+- **zod** est en 4.6.7, la version de Fumadocs (deux versions faisaient planter `tsc` par manque de mémoire).
+- Si la doc s'affiche mal pendant `pnpm dev` (menu au-dessus du contenu), supprimez `.next` et relancez.

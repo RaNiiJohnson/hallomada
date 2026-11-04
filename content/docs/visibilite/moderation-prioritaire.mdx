@@ -1,23 +1,26 @@
 ---
 title: Modération prioritaire
-description: Les publications des membres Premium passent en tête de la file.
+description: Les publications des membres Premium sont examinées en premier.
 new: true
 ---
 
-## Règles
+## En bref
 
-- Dans [Modération](/admin/moderation), les publications des membres Premium portent l'étiquette **⚡ « Prioritaire »** et passent **en tête de la file**.
-- Dans chaque groupe, l'ordre reste le même : les plus récentes d'abord.
-- Concerne les **offres d'emploi, annonces et pages prestataires**.
+Dans la file de [Modération](/admin/moderation), les publications des membres Premium portent l'étiquette **⚡ « Prioritaire »** et passent **en tête**.
 
-Pendant la période gratuite, **toutes** les publications sont prioritaires : l'ordre ne change pas. L'effet réel commencera avec le Premium payant.
+## Les règles
 
-## Comment tester
+- Concerne les offres d'emploi, les annonces et les pages prestataires.
+- Dans chaque groupe, les plus récentes restent en premier.
+- Pendant la période gratuite, **toutes** les publications sont prioritaires : l'ordre ne change pas encore. La différence se verra avec le Premium payant.
+
+## Comment vérifier
 
 Ouvrez [Modération](/admin/moderation) avec une publication en attente : l'étiquette « Prioritaire » est affichée.
 
-## Côté technique
+<DevNotes>
 
-- `listPending` dans `convex/publicationModeration.ts`.
-- Page : `app/[locale]/admin/moderation/page.tsx`.
-- Test (avec un membre Premium et un gratuit) : `convex/priorityModeration.test.ts`.
+- `listPending` dans `convex/publicationModeration.ts` ; page `app/[locale]/admin/moderation/page.tsx`.
+- Test avec un membre Premium et un membre gratuit : `convex/priorityModeration.test.ts`.
+
+</DevNotes>

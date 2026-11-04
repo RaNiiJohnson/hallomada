@@ -4,24 +4,25 @@ description: Faire ressortir une annonce et une offre à la fois.
 new: true
 ---
 
-## Règles
+## En bref
 
-- Un membre Premium peut mettre en vedette **une annonce et une offre d'emploi à la fois**.
-- Le badge dure **7 jours**, renouvelable.
-- Mettre en vedette une autre publication **retire le badge de la précédente** (un message le signale).
+Un membre Premium peut mettre **une annonce et une offre d'emploi** en vedette pendant **7 jours**. Elles portent alors un badge doré « En vedette ».
+
+<Screenshot src="/doc-images/en-vedette.png" alt="Bouton Mettre en vedette et badge En vedette sur une carte" caption="En haut, le bouton du propriétaire. En dessous, le badge sur une carte d'annonce et sur une offre." />
+
+## Les règles
+
+- **Une annonce et une offre à la fois.** Mettre en vedette une autre annonce retire le badge de la précédente ; un message le signale.
+- Le badge dure **7 jours** et se renouvelle en un clic.
 - Seules les publications **en ligne** peuvent être mises en vedette.
+- Le badge ne change pas l'ordre des listes. Pour ça, il y a la [remontée](/admin/docs/visibilite/remontee).
+- Le badge est rare **volontairement** : même pendant la période gratuite, chaque membre n'a qu'un emplacement.
 
-Le badge est rare **volontairement** : même si tout le monde est Premium pendant la période gratuite, une seule publication par membre peut l'avoir.
-
-## Où il apparaît
-
-Badge doré « ⭐ En vedette » sur les cartes Immobilier et Emplois et sur la page de détail. Il **ne change pas l'ordre** des listes (c'est le rôle de la [remontée](/admin/docs/visibilite/remontee)).
-
-## Comment tester
+## Comment vérifier
 
 <Steps>
 <Step title="Mettre en vedette">
-Sur une de vos annonces publiées, cliquez sur « Mettre en vedette ». Le badge apparaît sur la page et dans la liste Immobilier.
+Sur une de vos annonces en ligne, cliquez sur « Mettre en vedette ». Le badge apparaît sur la page et dans la liste Immobilier.
 </Step>
 <Step title="Changer d'annonce">
 Mettez en vedette une deuxième annonce : la première perd son badge.
@@ -31,8 +32,9 @@ Cliquez sur « Retirer la vedette ».
 </Step>
 </Steps>
 
-## Côté technique
+<DevNotes>
 
 - Règles : `convex/featured.ts` (`FEATURE_DURATION_MS`, un emplacement par type) ; champ `featuredUntil`.
 - Interface : `src/components/featured/featured-badge.tsx` et `feature-toggle.tsx`.
-- Tests : `convex/featured.test.ts`.
+
+</DevNotes>

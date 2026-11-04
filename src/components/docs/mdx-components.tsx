@@ -63,6 +63,52 @@ export function Step({ title, children }: { title: string; children: ReactNode }
   );
 }
 
+/** Screenshot with an optional caption: <Screenshot src="/doc-images/x.png" alt="…" caption="…" /> */
+export function Screenshot({
+  src,
+  alt,
+  caption,
+  width = 720,
+}: {
+  src: string;
+  alt: string;
+  caption?: string;
+  width?: number;
+}) {
+  return (
+    <figure className="not-prose my-6">
+      <a href={src} target="_blank" rel="noreferrer" className="block">
+        {/* Static screenshots from /public: plain img keeps their natural size. */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={src}
+          alt={alt}
+          loading="lazy"
+          style={{ maxWidth: width }}
+          className="h-auto w-full rounded-lg border shadow-sm"
+        />
+      </a>
+      {caption && (
+        <figcaption className="mt-2 text-sm text-muted-foreground">{caption}</figcaption>
+      )}
+    </figure>
+  );
+}
+
+/** Collapsed technical notes for the developer: <DevNotes>…</DevNotes> */
+export function DevNotes({ children }: { children: ReactNode }) {
+  return (
+    <details className="not-prose group my-6 rounded-lg border bg-muted/30 p-4 text-sm">
+      <summary className="cursor-pointer select-none font-semibold">
+        Détails techniques (pour le développeur)
+      </summary>
+      <div className="mt-3 space-y-2 text-muted-foreground [&_code]:rounded [&_code]:bg-muted [&_code]:px-1 [&_code]:py-0.5 [&_code]:text-foreground [&_li]:ml-4 [&_li]:list-disc [&_pre]:overflow-x-auto [&_pre]:rounded-md [&_pre]:bg-muted [&_pre]:p-3 [&_pre_code]:bg-transparent [&_pre_code]:p-0">
+        {children}
+      </div>
+    </details>
+  );
+}
+
 /** Internal links keep the current locale; external ones open in a new tab. */
 function Anchor({ href = "", ...props }: ComponentProps<"a">) {
   if (href.startsWith("/")) return <Link href={href} {...props} />;
@@ -75,4 +121,6 @@ export const docsMdxComponents: MDXComponents = {
   Callout,
   Steps,
   Step,
+  Screenshot,
+  DevNotes,
 };

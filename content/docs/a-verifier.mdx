@@ -1,22 +1,21 @@
 ---
 title: À vérifier
-description: La liste de tout ce qui doit être testé avant la mise en ligne.
+description: Tout ce qu'il faut tester avant la mise en ligne.
 new: true
 ---
 
-Pour tester, il faut **deux comptes membres** (A et B) et **un compte administrateur**. Travaillez d'abord sur le déploiement de **développement** (voir [Déploiement et migrations](/admin/docs/exploitation/deploiement-et-migrations)).
+Pour tester, il faut **deux comptes membres** (appelés A et B dans les pages) et **un compte administrateur**. Les tests se font d'abord sur la version de test du site, avant la version publique.
 
-## Avant de tester
+## Avant de commencer
 
-- [ ] `npx convex dev` lancé, sans erreur de schéma.
-- [ ] Les migrations lancées sur le déploiement de développement.
-- [ ] Les quotas réglés à **10 annonces / 10 offres / 3 communautés** dans [Quotas](/admin/quotas).
+- [ ] Le développeur a mis la nouvelle version en place sur la version de test (voir [Mise en ligne](/admin/docs/developpeur/deploiement-et-migrations)).
+- [ ] Les quotas sont réglés à **10 annonces / 10 offres / 3 communautés** dans [Quotas](/admin/quotas).
 
-## Fonctionnalités
+## Les fonctionnalités
 
-- [ ] [Page des tarifs](/admin/docs/premium/tarifs) : affichage en français, anglais et allemand, sur ordinateur et mobile.
-- [ ] [Membre fondateur](/admin/docs/premium/membre-fondateur) : le badge apparaît après une première publication.
-- [ ] [Recherches et alertes](/admin/docs/trouver/recherches-et-alertes) : notification et e-mail reçus après validation d'une annonce.
+- [ ] [Page des tarifs](/admin/docs/premium/tarifs) : visible sur la page d'accueil, sur /pricing et via le lien « Tarifs » du pied de page.
+- [ ] [Membre fondateur](/admin/docs/premium/membre-fondateur) : le badge numéroté apparaît après la validation d'une annonce, avec son explication au survol.
+- [ ] [Recherches et alertes](/admin/docs/trouver/recherches-et-alertes) : notification et e-mail reçus quand une annonce correspondante est validée.
 - [ ] [Candidature mise en avant](/admin/docs/trouver/candidature-mise-en-avant) : e-mail du recruteur et liste « Candidatures reçues ».
 - [ ] [Dossier de location](/admin/docs/trouver/dossier-de-location) : envoi, ouverture par le propriétaire, retrait de l'accès.
 - [ ] [En vedette](/admin/docs/visibilite/en-vedette) : badge visible sur les cartes et les pages.
@@ -24,8 +23,9 @@ Pour tester, il faut **deux comptes membres** (A et B) et **un compte administra
 - [ ] [Statistiques](/admin/docs/visibilite/statistiques) : une seule vue comptée par visiteur.
 - [ ] [Modération prioritaire](/admin/docs/visibilite/moderation-prioritaire) : étiquette « Prioritaire » dans la file.
 
-## Avant la mise en ligne
+## Avant l'ouverture au public
 
-- [ ] [Politique de confidentialité](/admin/docs/exploitation/confidentialite) complétée et relue.
-- [ ] Mentions légales complétées.
-- [ ] Déploiement en production puis migrations avec `--prod`.
+- [ ] [Textes légaux](/admin/docs/textes-legaux) complétés et relus.
+- [ ] Le développeur a mis la nouvelle version sur le site public.
+
+Quand une fonctionnalité est vérifiée, le développeur la fait repasser en couleur normale dans le menu.

@@ -1,57 +1,60 @@
 ---
 title: Membre fondateur
-description: Le badge permanent des premiers membres actifs.
+description: Un badge numéroté pour les 100 premiers membres actifs.
 new: true
 ---
 
-## Règles
+## En bref
 
-Un membre obtient le badge **Membre fondateur** avec sa **première publication** faite pendant que le programme est ouvert :
+Les **100 premiers membres** dont une **annonce** ou une **offre d'emploi** est validée par la modération reçoivent un badge numéroté : **« Fondateur n° 23 »**. Ils le gardent à vie.
 
-- un **post de communauté** (compte dès la publication) ;
-- ou une **annonce** ou une **offre d'emploi validée par la modération** (une publication refusée ou en attente ne compte pas).
+## Ce que voient les membres
 
-Le badge est **permanent**. Le programme se ferme à une date fixée par l'administrateur, en principe le jour du lancement du Premium payant.
+<Screenshot src="/doc-images/fondateur-bulle.png" alt="Badge Fondateur n° 23 avec sa bulle d'explication" caption="Au survol du badge, une bulle explique ce qu'il signifie." width={620} />
 
-## Où il apparaît
+Le badge apparaît à côté du nom :
 
-À côté du nom, partout : posts, commentaires, réponses, messages du chat, offres d'emploi, annonces, pages prestataires, et sur le profil avec le texte « Membre fondateur ».
+- sur le **profil** du membre ;
+- sur ses **annonces** et ses **offres d'emploi** ;
+- dans les candidatures et les dossiers de location que les recruteurs et propriétaires reçoivent.
 
-## Fermer le programme
+Il n'apparaît **pas** dans les communautés, les commentaires ni le chat, pour ne pas être partout.
 
-Dans l'admin, page [Quotas](/admin/quotas), bloc **« Programme Membre fondateur »** : choisissez la date de fin, ou retirez-la pour rouvrir le programme.
+## Les règles
 
-## Comment tester
+- Seule une **annonce ou une offre validée** compte. Un post dans une communauté ne suffit pas.
+- Les numéros sont donnés dans l'ordre : le premier membre validé est le n° 1.
+- Après **100 badges**, plus personne ne l'obtient automatiquement.
+- Le programme peut aussi être **fermé plus tôt** à une date choisie, par exemple le jour du lancement du Premium payant.
+
+## Ce que l'administrateur peut faire
+
+- **Donner ou retirer le badge à la main** : page [Utilisateurs](/admin/users), menu « … » d'un membre, « Donner le badge fondateur » ou « Retirer le badge fondateur ». Un badge donné à la main prend le numéro suivant, même au-delà de 100.
+- **Voir les places prises et fermer le programme** : page [Quotas](/admin/quotas), bloc « Programme Membre fondateur ».
+
+## Comment vérifier
 
 <Steps>
-<Step title="Publier un post">
-Avec le compte A, publiez un post dans une communauté. Le badge apparaît à côté du nom de A.
+<Step title="Publier une annonce (compte A)">
+Publiez une annonce. Tant qu'elle est en attente de modération, pas de badge.
 </Step>
-<Step title="Valider une annonce">
-Avec le compte B, publiez une annonce. Elle est en attente : pas de badge. Validez-la dans [Modération](/admin/moderation) : le badge apparaît.
+<Step title="Valider (administrateur)">
+Validez l'annonce dans [Modération](/admin/moderation). Le badge « Fondateur n° … » apparaît sur le profil de A et sur son annonce.
 </Step>
-<Step title="Fermer le programme">
-Fixez une date de fin passée. Un nouveau compte qui publie ne reçoit plus le badge. Retirez ensuite la date.
+<Step title="Survoler le badge">
+Passez la souris sur le badge : la bulle d'explication s'affiche.
+</Step>
+<Step title="Donner et retirer à la main">
+Dans [Utilisateurs](/admin/users), donnez le badge au compte B, puis retirez-le.
 </Step>
 </Steps>
 
-## Membres qui avaient déjà publié
+<DevNotes>
 
-Ils n'ont le badge qu'après la migration (une seule fois par déploiement) :
-
-```bash
-npx convex run aggregates:run '{"fn": "founders:backfillFoundersFromPosts"}'
-npx convex run aggregates:run '{"fn": "founders:backfillFoundersFromJobs"}'
-npx convex run aggregates:run '{"fn": "founders:backfillFoundersFromListings"}'
-```
-
-## Côté technique
-
-- Règles et migrations : `convex/founders.ts` ; tables `founders` et `founderProgram`.
-- Attribution : `convex/posts/mutations.ts` (post) et `convex/publicationModeration.ts` (validation).
-- Badge : `src/components/founder-badge.tsx`.
+- Règles : `convex/founders.ts` ; limite dans `convex/foundersValues.ts` (`MAX_FOUNDERS = 100`) ; table `founders` (numéro, source auto ou manuelle).
+- Attribution à la validation : `convex/publicationModeration.ts`.
+- Badge avec bulle (Tooltip shadcn) : `src/components/founder-badge.tsx` ; menu admin : `app/[locale]/admin/users/founder-menu-item.tsx`.
+- Les règles ont changé : il faut recalculer les badges une fois (voir [Mise en ligne](/admin/docs/developpeur/deploiement-et-migrations)). Les badges donnés à la main sont conservés.
 - Tests : `convex/founders.test.ts`.
 
-<Callout type="tip" title="Idée pour plus tard">
-Un tarif réduit pour les membres fondateurs au lancement du Premium payant (par exemple 2,90 € au lieu de 4,90 €). Rien n'est affiché à ce sujet pour l'instant.
-</Callout>
+</DevNotes>

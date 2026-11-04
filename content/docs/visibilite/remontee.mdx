@@ -1,49 +1,40 @@
 ---
 title: Remontée d'annonce
-description: Replacer une publication en tête de liste, une fois par semaine.
+description: Replacer une annonce en tête de liste, une fois par semaine.
 new: true
 ---
 
-## Règles
+## En bref
 
-- Bouton **« Remonter en tête »** pour l'auteur, sur ses annonces et offres **en ligne**.
-- **Une fois par semaine** et par publication. Ensuite le bouton affiche « Remontée possible le … ».
-- La publication repasse en premier dans les listes Immobilier et Emplois (avec ou sans filtre de type).
-- Les résultats d'une **recherche texte** restent classés par pertinence.
+L'auteur d'une annonce ou d'une offre peut la **remonter en tête de liste**, **une fois par semaine**, avec le bouton **« Remonter en tête »**.
 
-## Le tri des listes a changé
+## Les règles
 
-Les listes sont triées par une **date de mise en liste** (`listedAt`) au lieu de la date de création :
+- Une fois par semaine **par annonce**. Ensuite, le bouton indique la date de la prochaine remontée possible.
+- Seules les publications **en ligne** peuvent être remontées.
+- Les listes Immobilier et Emplois sont classées des plus récentes aux plus anciennes : une annonce remontée repasse en premier.
+- Quand on tape un texte dans la recherche, les résultats restent classés par pertinence.
+- Une nouvelle annonce arrive en haut **le jour où elle est validée**, même si elle est restée quelques jours en attente.
+- **Modifier** une annonce ne la fait **pas** remonter.
 
-- fixée à la création ;
-- remise à la date de **première validation** par la modération (une annonce restée en attente arrive en haut à sa publication) ;
-- une **modification** ne fait **pas** remonter la publication, même si elle repasse par la modération.
-
-<Callout type="warning" title="Migration obligatoire au déploiement">
-Sans elle, les anciennes publications apparaissent en bas des listes :
-
-```bash
-npx convex run aggregates:run '{"fn": "bump:backfillListedAtListings"}'
-npx convex run aggregates:run '{"fn": "bump:backfillListedAtJobs"}'
-```
-</Callout>
-
-## Comment tester
+## Comment vérifier
 
 <Steps>
 <Step title="Repérer une ancienne annonce">
-Sur `/fr/listing`, notez une de vos annonces en bas de la liste.
+Sur Immobilier, repérez une de vos annonces plus bas dans la liste.
 </Step>
 <Step title="Remonter">
-Sur sa page, « Remonter en tête ». Revenez à la liste : elle est en premier.
+Sur sa page, cliquez sur « Remonter en tête ». Revenez à la liste : elle est en premier.
 </Step>
 <Step title="Vérifier le délai">
 Le bouton affiche maintenant la date de la prochaine remontée possible.
 </Step>
 </Steps>
 
-## Côté technique
+<DevNotes>
 
-- `convex/bump.ts` (remontée et migrations), délai dans `convex/bumpValues.ts`.
-- Index `by_listedAt`, `by_propertyType_and_listedAt`, `by_type_and_listedAt`, `by_contract_and_listedAt` ; requêtes `getListing` et `getJobs`.
-- Bouton : `src/components/featured/bump-button.tsx`. Tests : `convex/bump.test.ts`.
+- `convex/bump.ts` (remontée et migrations) ; délai dans `convex/bumpValues.ts`.
+- Les listes sont triées par `listedAt` (index `by_listedAt`, `by_propertyType_and_listedAt`, `by_type_and_listedAt`, `by_contract_and_listedAt`).
+- **Migration obligatoire** au déploiement, sinon les anciennes annonces passent en bas (voir [Mise en ligne](/admin/docs/developpeur/deploiement-et-migrations)).
+
+</DevNotes>

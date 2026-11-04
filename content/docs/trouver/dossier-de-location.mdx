@@ -4,55 +4,59 @@ description: Préparer une fois son dossier de locataire et l'envoyer en un clic
 new: true
 ---
 
-## Côté locataire
+## En bref
 
-Onglet **Dossier** de l'espace personnel :
+Un membre qui cherche un logement prépare **une seule fois** son dossier (ses informations et ses justificatifs), puis l'**envoie en un clic** depuis une annonce de location. Le propriétaire reçoit un **lien privé**, valable 30 jours.
 
-- **Mes informations** (l'équivalent de la Mieterselbstauskunft) : profession, employeur, revenu net, nombre de personnes, emménagement souhaité, animaux, fumeur, présentation. Tout est facultatif.
-- **Mes justificatifs** par catégorie : pièce d'identité, fiches de paie, SCHUFA, attestation de l'ancien propriétaire, contrat de travail, autres. PDF, JPG, PNG ou WebP, **10 Mo** maximum, **12 documents** au total.
-- **Envoyé à** : les annonces où le dossier a été envoyé, avec la date de fin d'accès et **« Retirer l'accès »**.
+## Ce que voit le locataire
 
-Sur une annonce **de location**, le bouton **« Envoyer mon dossier »** (avec un message facultatif). Si le dossier est vide, le bouton propose de le préparer.
+<Screenshot src="/doc-images/dossier-onglet.png" alt="Onglet Dossier de l'espace personnel" caption="L'onglet « Dossier » de l'espace personnel (exemple)." width={620} />
 
-## Côté propriétaire
+- **Mes informations** : profession, employeur, revenu, nombre de personnes, date d'emménagement, animaux, fumeur, présentation. Tout est facultatif.
+- **Mes justificatifs**, par catégorie : pièce d'identité, fiches de paie, SCHUFA, attestation de l'ancien propriétaire, contrat de travail, autres. 12 documents au maximum, 10 Mo chacun.
+- **Envoyé à** : la liste des annonces où le dossier a été envoyé, avec un bouton **« Retirer l'accès »**.
 
-- Une **notification** 📁 dans Hallomada.
-- Un **e-mail en allemand** « Neue Mieterbewerbung » avec un lien privé. Il peut répondre directement au locataire. L'e-mail part à l'adresse de contact de l'annonce, sinon à celle du compte de l'auteur.
-- Une liste **« Dossiers reçus »** sous son annonce, les dossiers Premium en premier.
-- Le lien ouvre la page **/dossier/…** : informations, message et justificatifs. Pas besoin de compte.
+Sur une annonce de **location**, le bouton **« Envoyer mon dossier »**, avec un message facultatif au propriétaire.
 
-## Protection des documents
+## Ce que voit le propriétaire
 
-- Les fichiers sont dans un **stockage privé (R2)**, jamais publics.
-- Chaque document s'ouvre par un lien temporaire de **5 minutes**.
-- L'accès du propriétaire dure **30 jours**, ou moins si le locataire le retire. Une tâche automatique ferme les accès expirés **toutes les heures**.
-- Le propriétaire voit toujours la **version actuelle** du dossier : un document supprimé disparaît aussi chez lui.
+- Une **notification** 📁 dans Hallomada, et un **e-mail en allemand** avec un lien privé.
+- Sous son annonce, la liste **« Dossiers reçus »**, les membres Premium en premier.
+- Le lien ouvre une page avec les informations, le message et les justificatifs. Pas besoin de compte.
+
+## Les règles
+
+- Les documents ne sont **jamais publics**. Seuls les propriétaires choisis par le locataire peuvent les voir.
+- L'accès dure **30 jours**, ou moins si le locataire le retire.
+- Si le locataire supprime un document, il disparaît aussi chez le propriétaire.
+- Le propriétaire peut télécharger les documents pendant que son accès est ouvert. Hallomada ne peut pas effacer ces copies.
 
 <Callout type="warning" title="Données sensibles">
-Pièces d'identité, fiches de paie, SCHUFA : la [politique de confidentialité](/admin/docs/exploitation/confidentialite) doit être complétée et relue avant l'ouverture publique. Un propriétaire peut télécharger les documents pendant que son accès est ouvert ; Hallomada ne peut pas effacer ces copies.
+Pièces d'identité, fiches de paie, SCHUFA : les [textes légaux](/admin/docs/textes-legaux) doivent être complétés et relus avant l'ouverture au public.
 </Callout>
 
-## Comment tester
+## Comment vérifier
 
 <Steps>
 <Step title="Préparer le dossier (compte A)">
 Onglet Dossier : remplissez quelques informations et ajoutez au moins un PDF.
 </Step>
 <Step title="Envoyer (compte A)">
-Sur une annonce de location publiée par B, « Envoyer mon dossier » avec un message. Le bouton devient « Dossier envoyé ».
+Sur une annonce de location publiée par B, cliquez sur « Envoyer mon dossier ». Le bouton devient « Dossier envoyé ».
 </Step>
 <Step title="Ouvrir (compte B)">
-B reçoit la notification et l'e-mail. Sous son annonce, « Dossiers reçus » ; « Voir le dossier » ouvre la page avec les documents.
+B reçoit la notification et l'e-mail. Sous son annonce, « Dossiers reçus », puis « Voir le dossier ».
 </Step>
 <Step title="Retirer l'accès (compte A)">
-Dans « Envoyé à », « Retirer l'accès ». La page du dossier affiche « Dossier indisponible ».
+Dans « Envoyé à », cliquez sur « Retirer l'accès ». La page du dossier affiche « Dossier indisponible ».
 </Step>
 </Steps>
 
-## Côté technique
+<DevNotes>
 
-- Dossier `convex/rentalFiles/` : `mutations.ts`, `queries.ts`, `send.ts` (envoi, expiration, route de téléchargement), `actions.tsx` (e-mail), `values.ts`.
-- Tables `rentalFiles`, `rentalDocuments`, `rentalApplications` ; type d'upload `rentalDocument` dans `convex/integrations/r2.ts`.
-- Route HTTP `/rental-document` (`convex/http.ts`) ; tâche « expire rental dossier access » dans `convex/crons.ts`.
-- Interface : onglet `app/[locale]/(main)/me/rental-file-panel.tsx`, `src/components/rental-file/`, page `app/[locale]/(main)/dossier/[token]`.
-- Tests : `convex/rentalFiles/rentalFiles.test.ts`.
+- Dossier `convex/rentalFiles/` : `mutations.ts`, `queries.ts`, `send.ts` (envoi, expiration, téléchargement), `actions.tsx` (e-mail).
+- Tables `rentalFiles`, `rentalDocuments`, `rentalApplications` ; fichiers privés sur R2 (type d'upload `rentalDocument`), liens de 5 minutes via la route `/rental-document`.
+- Tâche automatique horaire « expire rental dossier access » (`convex/crons.ts`).
+- Interface : `app/[locale]/(main)/me/rental-file-panel.tsx`, `src/components/rental-file/`, page `app/[locale]/(main)/dossier/[token]`.
+
+</DevNotes>

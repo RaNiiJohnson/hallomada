@@ -4,45 +4,55 @@ description: Les plans Gratuit et Premium, et l'offre gratuite en cours.
 new: true
 ---
 
+## En bref
+
+Hallomada propose deux plans : **Gratuit** et **Premium (4,90 € par mois)**. Pour le moment, **Premium est offert à tous les membres**. Les tarifs sont présentés à trois endroits :
+
+- en bas de la **page d'accueil**, après « À propos de nous » ;
+- sur la page **/pricing** ;
+- via le lien **« Tarifs »** du pied de page.
+
 ## Ce que voient les visiteurs
 
-La page **/pricing** présente deux cartes :
+<Screenshot src="/doc-images/tarifs-page.png" alt="Page des tarifs avec les cartes Gratuit et Premium" caption="La page /pricing : la carte Gratuit à gauche, la carte Premium à droite avec l'étiquette « Vous êtes ici »." />
 
-- **Gratuit (0 €)** : ce qui est inclus (consulter, contacter, postuler, messagerie, communautés, favoris), les **limites** (3 annonces et 3 offres par semaine, 1 communauté tous les 30 jours, modération standard) et ce qui n'est **pas inclus**.
-- **Premium** : affiche **0 €** avec **4,90 €** barré, l'étiquette « Vous êtes ici » et le message « Offert pour le moment. Tous les membres profitent gratuitement de l'offre Premium. »
+- **Carte Gratuit** : ce qui est inclus, les limites (3 annonces et 3 offres par semaine, 1 communauté tous les 30 jours) et ce qui n'est pas inclus.
+- **Carte Premium** : **0 €** avec **4,90 €** barré, le message « Offert pour le moment », et les avantages en trois blocs : *Pour trouver plus vite*, *Pour être plus visible*, *Pour tous*.
+- Sous les cartes : l'encadré **Membre fondateur** et un lien vers la FAQ.
 
-Les avantages Premium sont regroupés en trois blocs : **Pour trouver plus vite**, **Pour être plus visible** et **Pour tous**. Sous les cartes : un encadré « Devenez Membre fondateur » et un lien vers la FAQ.
+<Screenshot src="/doc-images/tarifs-accueil.png" alt="Section des tarifs sur la page d'accueil" caption="Sur la page d'accueil, la même présentation, avec un bouton « Voir la page des tarifs »." />
 
-<Callout type="info" title="Un seul abonnement">
-On ne sépare pas « chercheurs » et « annonceurs » : un même membre cherche un logement puis en propose un. La FAQ l'explique avec l'exemple d'Ali.
-</Callout>
+<Screenshot src="/doc-images/pied-de-page.png" alt="Pied de page avec le lien Tarifs" caption="Le lien « Tarifs » dans le pied de page." />
 
-## Règles
+## Les règles
 
-- Pendant la période gratuite, **tout le monde est Premium** (réglage `PREMIUM_OFFERED_TO_ALL` dans `convex/premium.ts`).
+- Un seul abonnement pour tout le monde : on ne sépare pas ceux qui cherchent et ceux qui publient, car un même membre fait souvent les deux. La FAQ l'explique avec l'exemple d'Ali.
 - Un avantage pas encore disponible porte l'étiquette **« Bientôt »**. Aujourd'hui, seul le **badge Premium** est dans ce cas.
-- Les **quotas étendus** (10 / 10 / 3) ne sont vrais que si l'administrateur les a réglés dans [Quotas](/admin/quotas).
+- Les **quotas étendus** (10 / 10 / 3) ne sont vrais que s'ils sont réglés dans [Quotas](/admin/quotas).
 
-## Comment tester
+<Screenshot src="/doc-images/faq-ali.png" alt="Question de la FAQ avec l'exemple d'Ali" caption="La FAQ explique pourquoi un seul abonnement suffit." width={640} />
+
+## Comment vérifier
 
 <Steps>
-<Step title="Ouvrir la page">
-Allez sur `/fr/pricing`, puis `/en/pricing` et `/de/pricing`.
+<Step title="Page d'accueil">
+Ouvrez la page d'accueil et descendez tout en bas : les deux cartes apparaissent après « À propos de nous ».
 </Step>
-<Step title="Vérifier sur mobile">
-Réduisez la fenêtre : la carte Premium doit passer en premier, sans défilement horizontal.
+<Step title="Lien du pied de page">
+Cliquez sur « Tarifs » dans le pied de page : la page des tarifs s'ouvre.
 </Step>
-<Step title="Vérifier la FAQ">
-Sur `/fr/faq`, les six questions sur Premium et le badge fondateur apparaissent après « Y a-t-il des limites de publication ? ».
+<Step title="Langues et mobile">
+Changez de langue (FR, EN, DE) et regardez la page sur un téléphone : la carte Premium passe en premier.
+</Step>
+<Step title="FAQ">
+Sur la page FAQ, les questions sur Premium et le badge fondateur apparaissent.
 </Step>
 </Steps>
 
-## Côté technique
+<DevNotes>
 
-- Page : `app/[locale]/(main)/pricing/page.tsx`, composant `src/components/pricing.tsx`.
-- Liste des avantages et étiquettes « Bientôt » : tableaux `PREMIUM_GROUPS` dans `pricing.tsx` (`soon: true` ou `false`).
-- Textes : `messages/fr|en|de/pricing.json`, FAQ dans `messages/*/faq.json`.
+- Composant : `src/components/pricing.tsx` (`variant="section"` sur l'accueil, page `/pricing` sinon).
+- Avantages et étiquettes « Bientôt » : tableau `PREMIUM_GROUPS` (`soon: true` ou `false`).
+- Textes : `messages/fr|en|de/pricing.json` ; FAQ : `messages/*/faq.json` ; lien : `src/components/footer.tsx`.
 
-<Callout type="warning" title="Pas encore de lien vers la page">
-Aucun menu ne mène à /pricing pour l'instant. Le composant « Passez au Premium » (`src/components/CTA.pricing.tsx`) existe mais n'est affiché nulle part.
-</Callout>
+</DevNotes>

@@ -1,0 +1,30 @@
+---
+title: Textes légaux
+description: La politique de confidentialité rédigée, et ce qu'il reste à compléter.
+new: true
+---
+
+## En bref
+
+La page **Confidentialité** du site a été réécrite en français, anglais et allemand. Elle explique quelles données Hallomada utilise et pourquoi, avec une partie détaillée sur le **dossier de location**, qui contient des données sensibles.
+
+<Screenshot src="/doc-images/confidentialite.png" alt="Début de la politique de confidentialité" caption="Le début de la page Confidentialité." width={620} />
+
+## Ce qu'il reste à compléter
+
+Le texte contient des repères **[À compléter]** ou **[À vérifier]** :
+
+- **Qui est responsable** des données : nom ou raison sociale, adresse, e-mail. La page **Mentions légales** a les mêmes manques.
+- **L'autorité de protection des données** compétente : celle du Land où Hallomada est établi.
+- **Où sont hébergées les données** de chaque service utilisé. Le développeur peut le vérifier.
+
+<Callout type="warning" title="À faire relire">
+C'est un brouillon, marqué « Contenu provisoire » sur le site. Faites-le relire par un juriste avant l'ouverture au public, surtout la version allemande.
+</Callout>
+
+<DevNotes>
+
+- Textes : `messages/fr|en|de/legal.json`, section `privacy` ; affichage : `src/components/legal-document.tsx`.
+- Prestataires cités : Convex, Cloudflare R2, Cloudinary, Resend, OpenAI, Google, Vercel (hébergement supposé), PostHog ; Stripe au lancement du Premium payant.
+
+</DevNotes>

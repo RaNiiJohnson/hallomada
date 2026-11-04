@@ -1,0 +1,28 @@
+---
+title: Passer au Premium payant
+description: Ce qu'il faudra faire le jour où Premium devient payant.
+new: true
+---
+
+Aujourd'hui, **tout le monde est Premium**. Tout est prêt pour séparer gratuit et payant ; il reste ces étapes.
+
+<Steps>
+<Step title="Brancher Stripe">
+Le composant Stripe est installé (`convex/integrations/stripe.ts`, webhook `/stripe/webhook`), mais aucun prix n'est configuré et les adresses de retour pointent vers `localhost`. Créer le prix (4,90 € par mois), corriger les adresses, ajouter le bouton d'abonnement.
+</Step>
+<Step title="Lire l'abonnement">
+Dans `convex/premium.ts`, passer `PREMIUM_OFFERED_TO_ALL` à `false` et faire lire à `hasPremium` l'abonnement actif. Toutes les fonctionnalités Premium passent par cette fonction.
+</Step>
+<Step title="Fermer le programme fondateur">
+Fixer la date de fin dans [Quotas](/admin/quotas), si les 100 places ne sont pas déjà prises.
+</Step>
+<Step title="Mettre à jour la page des tarifs">
+Afficher le vrai prix et retirer « Vous êtes ici » pour les membres gratuits ; activer le badge Premium (`soon: false`).
+</Step>
+<Step title="Décider ce que garde le plan Gratuit">
+Par exemple, des alertes en résumé quotidien au lieu du temps réel, et des quotas séparés selon le plan.
+</Step>
+<Step title="Textes légaux et annonce aux membres">
+Politique de confidentialité (Stripe), CGU (prix, résiliation, rétractation). Prévenir les membres à l'avance, comme promis dans la FAQ.
+</Step>
+</Steps>

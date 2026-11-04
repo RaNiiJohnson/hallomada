@@ -17,12 +17,6 @@ export default async function DocPage({ params }: Props) {
     <div className="grid gap-10 xl:grid-cols-[minmax(0,1fr)_13rem]">
       <article className="min-w-0">
         <header className="mb-8 border-b pb-6">
-          {page.data.new && (
-            <span className="mb-3 inline-flex items-center gap-1.5 rounded-full bg-amber-500/15 px-2.5 py-0.5 text-xs font-semibold text-amber-700 dark:text-amber-400">
-              <span className="size-1.5 rounded-full bg-amber-500" />
-              Nouveau : à vérifier
-            </span>
-          )}
           <h1 className="text-3xl font-bold tracking-tight">{page.data.title}</h1>
           {page.data.description && (
             <p className="mt-2 text-lg text-muted-foreground">{page.data.description}</p>

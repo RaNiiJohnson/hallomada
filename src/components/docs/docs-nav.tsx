@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 import type { DocsNavNode } from "@/lib/docs-nav";
 import { BookOpen, Menu } from "lucide-react";
 
-/** Left navigation of the internal docs. Pages added today are highlighted. */
+/** Left navigation of the internal docs. Pages still to check are in amber. */
 export function DocsNav({ nodes }: { nodes: DocsNavNode[] }) {
   const pathname = usePathname();
   const list = <NavList nodes={nodes} pathname={pathname} />;
@@ -26,7 +26,7 @@ export function DocsNav({ nodes }: { nodes: DocsNavNode[] }) {
         </p>
         {list}
         <p className="mt-6 flex items-center gap-2 border-t pt-4 text-xs text-muted-foreground">
-          <NewDot /> Nouveau : à vérifier
+          <NewDot /> En orange : à vérifier
         </p>
       </nav>
     </>
@@ -102,12 +102,7 @@ function NavLink({
   const content = (
     <>
       <span className="min-w-0 flex-1">{name}</span>
-      {isNew && !heading && (
-        <span className="shrink-0 rounded-full bg-amber-500/15 px-1.5 text-[10px] font-semibold uppercase">
-          Nouveau
-        </span>
-      )}
-      {isNew && heading && <NewDot />}
+      {isNew && <NewDot />}
     </>
   );
   if (url === null) return <span className={className}>{content}</span>;
