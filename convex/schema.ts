@@ -653,12 +653,19 @@ export default defineSchema({
     userId: v.string(),
   }).index("by_resourceKey_and_userId", ["resourceKey", "userId"]),
 
-  // "Founding member" badge holders. One row per user, never removed: the
-  // badge is permanent once earned (see convex/founders.ts for the rules).
+  // "Founding member" badge holders, one row per user (see convex/founders.ts
+  // for the rules: first 100 approved publishers, plus manual grants).
   founders: defineTable({
     userId: v.string(),
     since: v.number(),
-  }).index("by_userId", ["userId"]),
+    // "Fondateur n° 23". Optional for rows created before numbering;
+    // `founders:rebuildFounders` assigns them.
+    number: v.optional(v.number()),
+    source: v.optional(v.union(v.literal("auto"), v.literal("manual"))),
+    grantedBy: v.optional(v.string()),
+  })
+    .index("by_userId", ["userId"])
+    .index("by_number", ["number"]),
 
   // Singleton row edited from the admin dashboard. Absent or `closesAt: null`
   // means the founder program is still open.

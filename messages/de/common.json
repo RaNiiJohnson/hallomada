@@ -40,7 +40,8 @@
   "rateLimited": "Zu viele Anfragen, bitte versuche es gleich erneut.",
   "founderBadge": {
     "label": "Gründungsmitglied",
-    "tooltip": "Gründungsmitglied: hat Hallomada von Anfang an mitgestaltet"
+    "labelNumber": "Gründer Nr. {number}",
+    "tooltip": "Gehört zu den ersten 100 Mitgliedern, die auf Hallomada ein Inserat oder Stellenangebot veröffentlicht haben."
   },
   "featured": {
     "badge": "Hervorgehoben",

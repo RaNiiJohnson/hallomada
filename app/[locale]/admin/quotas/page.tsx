@@ -97,7 +97,15 @@ function toDateInput(timestamp: number | null) {
   return new Date(timestamp).toISOString().slice(0, 10);
 }
 
-function FounderProgramForm({ closesAt }: { closesAt: number | null }) {
+function FounderProgramForm({
+  closesAt,
+  count,
+  max,
+}: {
+  closesAt: number | null;
+  count: number;
+  max: number;
+}) {
   const t = useTranslations("admin.founders");
   const setClosesAt = useMutation(api.founders.setProgramClosesAt);
   const [date, setDate] = useState(toDateInput(closesAt));
@@ -128,6 +136,7 @@ function FounderProgramForm({ closesAt }: { closesAt: number | null }) {
         <h3 className="font-semibold">{t("title")}</h3>
         <p className="text-sm text-muted-foreground">{t("description")}</p>
       </div>
+      <p className="text-sm font-medium">{t("places", { count, max })}</p>
       <p className="text-sm font-medium">
         {closesAt === null
           ? t("statusOpen")
@@ -186,7 +195,11 @@ export default function QuotasPage() {
       {founderProgram === undefined ? (
         <Skeleton className="h-48 w-full max-w-md rounded-xl" />
       ) : (
-        <FounderProgramForm closesAt={founderProgram.closesAt} />
+        <FounderProgramForm
+          closesAt={founderProgram.closesAt}
+          count={founderProgram.count}
+          max={founderProgram.max}
+        />
       )}
     </div>
   );

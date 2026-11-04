@@ -40,7 +40,8 @@
   "rateLimited": "Trop de requêtes, réessayez dans un instant.",
   "founderBadge": {
     "label": "Membre fondateur",
-    "tooltip": "Membre fondateur : a contribué à Hallomada dès ses débuts"
+    "labelNumber": "Fondateur n° {number}",
+    "tooltip": "Fait partie des 100 premiers membres à avoir publié une annonce ou une offre sur Hallomada."
   },
   "featured": {
     "badge": "En vedette",

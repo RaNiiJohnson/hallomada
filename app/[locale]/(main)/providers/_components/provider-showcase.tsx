@@ -1,6 +1,5 @@
 "use client";
 
-import { FounderBadge } from "@/components/founder-badge";
 import { ShareButton } from "@/components/ShareButton";
 import { ReportDialog } from "@/components/report-dialog";
 import { Badge } from "@/components/ui/badge";
@@ -349,7 +348,6 @@ function AuthorLine({ provider }: { provider: ProviderPage }) {
       ) : (
         <span className="font-medium text-foreground">{name}</span>
       )}
-      <FounderBadge userId={provider.authorId} compact />
     </p>
   );
 }

@@ -40,7 +40,8 @@
   "rateLimited": "Too many requests, please try again shortly.",
   "founderBadge": {
     "label": "Founding member",
-    "tooltip": "Founding member: contributed to Hallomada from the very beginning"
+    "labelNumber": "Founder no. {number}",
+    "tooltip": "One of the first 100 members to publish a listing or job offer on Hallomada."
   },
   "featured": {
     "badge": "Featured",

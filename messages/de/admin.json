@@ -202,6 +202,13 @@
       "title": "Benutzer können nicht geladen werden",
       "description": "Die Admin-Anfrage ist fehlgeschlagen. Unvollständige Ergebnisse werden nicht angezeigt.",
       "retry": "Erneut versuchen"
+    },
+    "founder": {
+      "grant": "Gründer-Badge vergeben",
+      "revoke": "Gründer-Badge entfernen",
+      "granted": "Gründer-Badge an {name} vergeben",
+      "revoked": "Gründer-Badge von {name} entfernt",
+      "error": "Gründer-Badge konnte nicht geändert werden."
     }
   },
   "quotas": {
@@ -219,13 +226,14 @@
   },
   "founders": {
     "title": "Gründungsmitglied-Programm",
-    "description": "Mitglieder, die vor diesem Datum veröffentlichen (Community-Beitrag oder freigegebenes Inserat bzw. Stellenangebot), erhalten das Badge dauerhaft. Setzen Sie das Datum auf den Start von Premium.",
+    "description": "Die ersten 100 Mitglieder, deren Inserat oder Stellenangebot freigegeben wird, erhalten das Badge mit Nummer. Mit einem Enddatum schließen Sie das Programm früher. Unter Benutzer können Sie das Badge auch vergeben oder entfernen.",
     "statusOpen": "Status: offen, ohne Enddatum.",
     "statusClosesAt": "Status: endet am {date, date, long}.",
     "closesAt": "Enddatum",
     "save": "Datum speichern",
     "reopen": "Enddatum entfernen",
     "saved": "Gründungsprogramm aktualisiert",
-    "error": "Gründungsprogramm konnte nicht aktualisiert werden"
+    "error": "Gründungsprogramm konnte nicht aktualisiert werden",
+    "places": "{count} / {max} Plätze vergeben"
   }
 }

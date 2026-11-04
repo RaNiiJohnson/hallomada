@@ -1,6 +1,5 @@
 "use client";
 
-import { FounderBadge } from "@/components/founder-badge";
 import { ShareButton } from "@/components/ShareButton";
 import { TranslateMenu } from "@/components/translate-menu";
 import { Button, buttonVariants } from "@/components/ui/button";
@@ -27,7 +26,6 @@ type CommunityPost = {
   slug: string;
   title: string;
   content?: string;
-  authorId?: string;
   authorName?: string;
   _creationTime: number;
   commentsCount?: number;
@@ -109,7 +107,6 @@ export function CommunityPostCard({
           <span className="text-primary hover:underline">
             {post.authorName}
           </span>
-          <FounderBadge userId={post.authorId} compact />
           •<span>{getRelativeTime(post._creationTime, timeT)}</span>
         </p>
         <h2 className="font-bold text-foreground text-xl leading-snug mb-1">

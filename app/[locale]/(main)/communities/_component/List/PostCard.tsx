@@ -1,4 +1,3 @@
-import { FounderBadge } from "@/components/founder-badge";
 import { ShareButton } from "@/components/ShareButton";
 import { TranslateMenu } from "@/components/translate-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -102,7 +101,6 @@ export function PostCard({
               <span className="text-foreground/80 group-hover/author:text-foreground group-hover/author:underline">
                 {post.authorName}
               </span>
-              <FounderBadge userId={post.authorId} compact />
             </Link>
           ) : (
             <span className="flex items-center gap-2 text-foreground/80">
@@ -113,7 +111,6 @@ export function PostCard({
                 </AvatarFallback>
               </Avatar>
               {post.authorName}
-              <FounderBadge userId={post.authorId} compact />
             </span>
           )}
           <ChevronRight className="size-3 text-muted-foreground/50" />

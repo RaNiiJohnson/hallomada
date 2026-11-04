@@ -202,6 +202,13 @@
       "title": "Unable to load users",
       "description": "The admin request failed. No incomplete results are displayed.",
       "retry": "Try again"
+    },
+    "founder": {
+      "grant": "Give founder badge",
+      "revoke": "Remove founder badge",
+      "granted": "Founder badge given to {name}",
+      "revoked": "Founder badge removed from {name}",
+      "error": "Could not change the founder badge."
     }
   },
   "quotas": {
@@ -219,13 +226,14 @@
   },
   "founders": {
     "title": "Founding member program",
-    "description": "Members who publish before this date (a community post, or an approved listing or job offer) earn the badge for life. Set it to the day paid Premium launches.",
+    "description": "The first 100 members whose listing or job offer is approved get the badge, with a number. Set an end date to close the program earlier. You can also give or remove the badge from Users.",
     "statusOpen": "Status: open, no end date.",
     "statusClosesAt": "Status: ends on {date, date, long}.",
     "closesAt": "End date",
     "save": "Save date",
     "reopen": "Remove end date",
     "saved": "Founder program updated",
-    "error": "Could not update the founder program"
+    "error": "Could not update the founder program",
+    "places": "{count} / {max} places taken"
   }
 }
