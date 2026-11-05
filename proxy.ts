@@ -24,6 +24,6 @@ export const config = {
     "/",
     "/(fr|en|de)/:path*",
     // Exclure les fichiers statiques, routes API et assets Next.js
-    "/((?!api|_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|html|xml|txt)$).*)",
+    "/((?!api|_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|html|xml|txt|mjs)$).*)",
   ],
 };
