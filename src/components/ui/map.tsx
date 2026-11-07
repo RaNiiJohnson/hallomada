@@ -22,6 +22,12 @@ import { X, Minus, Plus, Locate, Maximize, Loader2 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
+// The bundler moves maplibre into a chunk, so its default worker URL (next to
+// the module) 404s. The worker is copied to public/ on postinstall.
+if (typeof window !== "undefined") {
+  MapLibreGL.setWorkerUrl("/maplibre-gl-worker.mjs");
+}
+
 // Check document class for theme (works with next-themes, etc.)
 function getDocumentTheme(): Theme | null {
   if (typeof document === "undefined") return null;
