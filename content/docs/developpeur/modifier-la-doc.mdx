@@ -1,0 +1,17 @@
+---
+title: Modifier cette documentation
+description: Ajouter une page, la marquer à vérifier, ajouter une capture.
+---
+
+- Les pages sont des fichiers `.mdx` dans `content/docs/`. Le titre et la description sont en haut, entre deux lignes `---`.
+- L'ordre du menu est dans les fichiers `meta.json` de chaque dossier.
+- **Page à vérifier (en orange)** : ajoutez `new: true` en haut de la page. Retirez la ligne une fois la fonctionnalité vérifiée.
+- **Capture** : placez l'image dans `public/doc-images/`, puis `<Screenshot src="/doc-images/nom.png" alt="…" caption="…" />`.
+- **Encadrés** : `<Callout type="info">`, `<Callout type="warning">`, `<Callout type="tip">`.
+- **Étapes numérotées** : `<Steps>` et `<Step title="…">`.
+- **Détails techniques repliés** : `<DevNotes>…</DevNotes>` (laisser une ligne vide après l'ouverture et avant la fermeture).
+- Composants : `src/components/docs/mdx-components.tsx`.
+
+<Callout type="warning" title="Pas de secrets">
+Ces pages sont générées à partir des fichiers du projet. N'y mettez jamais de clé, de mot de passe ou de donnée personnelle.
+</Callout>

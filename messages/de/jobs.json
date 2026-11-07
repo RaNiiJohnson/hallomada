@@ -264,5 +264,14 @@
       "fullTime": "Vollzeit",
       "partTime": "Teilzeit"
     }
+  },
+  "received": {
+    "title": "{count, plural, =0 {Eingegangene Bewerbungen} one {# Bewerbung eingegangen} other {# Bewerbungen eingegangen}}",
+    "empty": "Noch keine Bewerbungen. Sie erscheinen hier und werden Ihnen auch per E-Mail zugesandt.",
+    "hint": "Hervorgehobene Bewerbungen stammen von Premium-Mitgliedern und werden zuerst angezeigt.",
+    "highlighted": "Hervorgehoben",
+    "anonymous": "Bewerber/in",
+    "openCv": "Lebenslauf öffnen",
+    "cvUnavailable": "Der Lebenslauf ist nicht mehr verfügbar."
   }
 }

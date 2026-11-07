@@ -10,7 +10,9 @@
     "returnSite": "Back to site",
     "logout": "Sign out",
     "loadingUser": "Loading administrator",
-    "quotas": "Publication quotas"
+    "quotas": "Publication quotas",
+    "docs": "Documentation",
+    "docsNew": "New"
   },
   "dashboard": {
     "title": "Dashboard",
@@ -64,7 +66,8 @@
       },
       "submittedBy": "Submitted by {name} on {date}",
       "approve": "Approve",
-      "reject": "Reject"
+      "reject": "Reject",
+      "priority": "Priority"
     },
     "toast": {
       "approved": "Listing approved and published.",
@@ -199,19 +202,48 @@
       "title": "Unable to load users",
       "description": "The admin request failed. No incomplete results are displayed.",
       "retry": "Try again"
+    },
+    "founder": {
+      "grant": "Give founder badge",
+      "revoke": "Remove founder badge",
+      "granted": "Founder badge given to {name}",
+      "revoked": "Founder badge removed from {name}",
+      "error": "Could not change the founder badge."
     }
   },
   "quotas": {
     "title": "Publication quotas",
-    "description": "Limits enforced on the server for every verified member.",
-    "community": "Communities per 30 days",
+    "description": "Publication limits enforced on the server, with different numbers for Free and Premium members. While Premium is offered to everyone, the Premium numbers apply.",
     "jobs": "Job offers per week",
-    "listings": "Listings per week",
+    "listings": "Real estate listings per week",
     "hint": "Whole number between 1 and {max}.",
     "save": "Save",
     "saving": "Saving...",
     "saved": "Quotas updated",
     "error": "Could not save the quotas",
-    "loading": "Loading quotas"
+    "loading": "Loading quotas",
+    "providers": "Provider pages per month",
+    "plans": {
+      "free": {
+        "title": "Free plan",
+        "description": "Members without a subscription."
+      },
+      "premium": {
+        "title": "Premium plan",
+        "description": "Subscribed members (everyone for now)."
+      }
+    }
+  },
+  "founders": {
+    "title": "Founding member program",
+    "description": "The first 100 members whose listing or job offer is approved get the badge, with a number. Set an end date to close the program earlier. You can also give or remove the badge from Users.",
+    "statusOpen": "Status: open, no end date.",
+    "statusClosesAt": "Status: ends on {date, date, long}.",
+    "closesAt": "End date",
+    "save": "Save date",
+    "reopen": "Remove end date",
+    "saved": "Founder program updated",
+    "error": "Could not update the founder program",
+    "places": "{count} / {max} places taken"
   }
 }

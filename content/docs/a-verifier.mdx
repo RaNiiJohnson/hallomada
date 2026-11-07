@@ -1,0 +1,37 @@
+---
+title: À vérifier
+description: Tout ce qu'il faut tester avant la mise en ligne.
+new: true
+---
+
+Pour tester, il faut **deux comptes membres** (appelés A et B dans les pages) et **un compte administrateur**. Les tests se font d'abord sur la version de test du site, avant la version publique.
+
+## Avant de commencer
+
+- [ ] Le développeur a mis la nouvelle version en place sur la version de test (voir [Mise en ligne](/admin/docs/developpeur/deploiement-et-migrations)).
+- [ ] Les quotas Gratuit et Premium sont réglés dans [Quotas](/admin/quotas) (voir [Limites de publication](/admin/docs/premium/limites-de-publication)).
+
+## Les fonctionnalités
+
+- [ ] [Page des tarifs](/admin/docs/premium/tarifs) : visible sur la page d'accueil, sur /pricing et via le lien « Tarifs » du pied de page.
+- [ ] [Limites de publication](/admin/docs/premium/limites-de-publication) : deux formulaires, chiffres repris sur la page des tarifs, message quand la limite est atteinte.
+- [ ] [Membre fondateur](/admin/docs/premium/membre-fondateur) : le badge numéroté apparaît après la validation d'une annonce, avec son explication au survol.
+- [ ] [Dossier de location](/admin/docs/trouver/dossier-de-location) : choix « dossier » ou « contact » à la publication, envoi, ouverture par le propriétaire, retrait de l'accès.
+- [ ] [Statistiques](/admin/docs/visibilite/statistiques) : une seule vue comptée par visiteur.
+- [ ] [Modération prioritaire](/admin/docs/visibilite/moderation-prioritaire) : étiquette « Prioritaire » dans la file.
+
+## Petits changements
+
+- [ ] Les champs de date (publier une annonce ou une offre, dossier de location, programme fondateur) ouvrent un **calendrier**.
+- [ ] Dans les notifications, le bouton « Tout marquer comme lu » est **grisé** quand tout est lu.
+
+## Retirés ou désactivés
+
+Alertes et recherches sauvegardées et badge « En vedette » ont été **supprimés**. La candidature mise en avant et la remontée d'annonce sont **désactivées** (« Bientôt »). Il n'y a rien à tester pour ces quatre-là.
+
+## Avant l'ouverture au public
+
+- [ ] [Textes légaux](/admin/docs/textes-legaux) complétés et relus.
+- [ ] Le développeur a mis la nouvelle version sur le site public.
+
+Quand une fonctionnalité est vérifiée, le développeur la fait repasser en couleur normale dans le menu.

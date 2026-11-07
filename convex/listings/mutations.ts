@@ -226,6 +226,8 @@ export const createListing = authMutation({
     description: v.string(),
     extras: v.array(v.string()),
     availableFrom: v.optional(v.number()),
+    // Required for rentals: dossier requested, or contact only.
+    acceptsRentalFile: v.optional(v.boolean()),
     contact: v.optional(contactValidator),
   },
   returns: v.id("RealestateListing"),
@@ -235,6 +237,9 @@ export const createListing = authMutation({
     const normalizedContact = normalizeContact(contact);
     if (args.listingMode === "rent" && availableFrom === undefined) {
       throwValidationError("Availability date is required");
+    }
+    if (args.listingMode === "rent" && args.acceptsRentalFile === undefined) {
+      throwValidationError("Choose between a rental dossier and contact only");
     }
     assertListingNumbers({ ...args, charges, deposit });
     if (!normalizedContact.email && !normalizedContact.phone) {
@@ -260,11 +265,14 @@ export const createListing = authMutation({
 
     const listingId = await ctx.db.insert("RealestateListing", {
       ...listingArgs,
+      acceptsRentalFile:
+        args.listingMode === "rent" ? args.acceptsRentalFile : undefined,
       slug: generatedSlug(args.title),
       authorId: user._id,
       authorName: user.name,
       status: "pending",
       updatedAt: Date.now(),
+      listedAt: Date.now(),
       searchAll: searchAllContent,
       currency: "EUR",
       ...normalizeRentalTerms(args.listingMode, {
@@ -379,6 +387,7 @@ export const updateListing = authMutation({
       description: v.optional(v.string()),
       extras: v.optional(v.array(v.string())),
       availableFrom: v.optional(v.union(v.number(), v.null())),
+      acceptsRentalFile: v.optional(v.boolean()),
     }),
   },
   returns: v.null(),
@@ -398,6 +407,8 @@ export const updateListing = authMutation({
     const nextListingMode = otherFields.listingMode ?? listing.listingMode;
     const normalizedPatch = {
       ...otherFields,
+      // Only rentals ask for a dossier.
+      ...(nextListingMode === "sale" ? { acceptsRentalFile: undefined } : {}),
       ...(location !== undefined ? { location: location ?? undefined } : {}),
       ...normalizeRentalTerms(nextListingMode, {
         charges,

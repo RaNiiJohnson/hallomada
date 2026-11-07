@@ -24,6 +24,7 @@ export function JobList() {
     search: parseAsString.withDefault(""),
     type: parseAsString.withDefault(""),
     contract: parseAsString.withDefault(""),
+    workMode: parseAsString.withDefault(""),
     bookmarkedOnly: parseAsString.withDefault("false"),
   });
   const {
@@ -34,6 +35,12 @@ export function JobList() {
     api.jobs.queries.getJobs,
     {
       searchTerm: filters.search,
+      workMode:
+        filters.workMode === "onSite" ||
+        filters.workMode === "hybrid" ||
+        filters.workMode === "remote"
+          ? filters.workMode
+          : undefined,
       contractType:
         filters.contract === "CDI" || filters.contract === "CDD"
           ? filters.contract

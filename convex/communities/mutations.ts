@@ -1,8 +1,12 @@
 import { v } from "convex/values";
 import { generatedSlug } from "../../src/lib/utils";
 import { authMutation } from "../functions";
-import { consumePublicationQuota } from "../publicationQuotas";
-import { throwForbidden, throwValidationError } from "../utils/errors";
+import { limiter } from "../rateLimits";
+import {
+  throwForbidden,
+  throwLimitReached,
+  throwValidationError,
+} from "../utils/errors";
 
 const MAX_LABEL_LENGTH = 60;
 const MAX_RULES_LENGTH = 1000;
@@ -66,7 +70,14 @@ export const createCommunity = authMutation({
     const { user } = ctx;
 
     const focus = normalizeFocus(args);
-    await consumePublicationQuota(ctx, "community", user._id);
+    const rate = await limiter.limit(ctx, "createCommunityPerUser", {
+      key: user._id,
+    });
+    if (!rate.ok) {
+      throwLimitReached("Community creation limit reached", {
+        retryAfter: rate.retryAfter ?? 0,
+      });
+    }
 
     const slug = generatedSlug(args.name);
 

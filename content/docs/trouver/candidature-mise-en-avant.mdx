@@ -1,0 +1,26 @@
+---
+title: Candidature mise en avant
+description: Prête dans le code mais désactivée pour le moment (« Bientôt »).
+---
+
+## En bref
+
+Quand un membre Premium postule à une offre d'emploi, sa candidature devait **ressortir** auprès du recruteur. Cette fonctionnalité est **prête, mais désactivée** : elle est affichée « **Bientôt** » sur la page des tarifs et rien ne la montre dans le site.
+
+## Pourquoi elle est désactivée
+
+Pendant la période gratuite, **tout le monde est Premium**. Toutes les candidatures ressortiraient donc de la même façon, et la mise en avant ne servirait à rien. Elle sera réactivée avec le Premium payant.
+
+## Ce que ça changera, le moment venu
+
+- L'e-mail du recruteur commencera par ⭐ et présentera le candidat dans un encadré doré.
+- Sur la page de l'offre, la liste « Candidatures reçues » mettra les candidatures mises en avant en premier.
+
+<DevNotes>
+
+- Le code est conservé. Le réglage est `comingSoon.highlightedApplications` dans `convex/premium.ts` (`false` = désactivé).
+- Quand il est à `false`, `hasHighlight` répond toujours non : les candidatures et les dossiers ne sont plus marqués comme mis en avant.
+- Pour réactiver : passer le réglage à `true`, puis mettre `soon: false` pour `highlight` dans `src/components/pricing.tsx`.
+- E-mail : `NewApplicationEmail` (`convex/emails/templates.tsx`). Liste : `app/[locale]/(main)/jobs/[id]/_component/received-applications.tsx`.
+
+</DevNotes>

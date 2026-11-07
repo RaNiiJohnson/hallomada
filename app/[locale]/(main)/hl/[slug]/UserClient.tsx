@@ -1,5 +1,6 @@
 "use client";
 
+import { FounderBadge } from "@/components/founder-badge";
 import { api } from "@convex/_generated/api";
 import { useQuery } from "convex-helpers/react/cache";
 import { Preloaded, usePreloadedQuery } from "convex/react";
@@ -104,7 +105,10 @@ export default function UserClient({
           {/* Name / headline + toggle vue/édition */}
           <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
             <div className="flex-1">
-              <h1 className="text-2xl sm:text-3xl font-bold">{profile.name}</h1>
+              <h1 className="flex flex-wrap items-center gap-2 text-2xl font-bold sm:text-3xl">
+                {profile.name}
+                <FounderBadge userId={profile._id} />
+              </h1>
               {!isEditing && profile.headline && (
                 <p className="text-muted-foreground mt-1 text-base sm:text-lg">
                   {profile.headline}

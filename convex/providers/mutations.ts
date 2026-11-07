@@ -1,3 +1,4 @@
+import { consumePublicationQuota } from "../publicationQuotas";
 import { v } from "convex/values";
 import type { Doc } from "../_generated/dataModel";
 import type { MutationCtx } from "../_generated/server";
@@ -220,6 +221,7 @@ export const createProvider = authMutation({
     const provider = normalizeProviderInput(args);
     const keys = imageKeys(provider);
     await verifyNewUploads(ctx, ctx.user._id, keys);
+    await consumePublicationQuota(ctx, "provider", ctx.user._id);
 
     const slug = generatedSlug(provider.name);
     const id = await ctx.db.insert("providers", {

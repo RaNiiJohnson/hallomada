@@ -5,7 +5,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { api } from "./_generated/api";
 import {
   consumePublicationQuota,
-  DEFAULT_PUBLICATION_QUOTAS,
+  DEFAULT_PLAN_QUOTAS,
 } from "./publicationQuotas";
 import { limiter } from "./rateLimits";
 import schema from "./schema";
@@ -18,6 +18,8 @@ const authState = vi.hoisted(() => ({
     role: "user" as "user" | "admin",
   },
 }));
+
+const premiumState = vi.hoisted(() => ({ on: true }));
 
 const rateState = vi.hoisted(() => ({ ok: true, retryAfter: 0 }));
 
@@ -34,6 +36,12 @@ vi.mock("./auth/auth", async (importOriginal) => {
     }),
   };
 });
+
+vi.mock("./premium", () => ({
+  hasPremium: vi.fn(async () => premiumState.on),
+  hasHighlight: vi.fn(async () => false),
+  comingSoon: { highlightedApplications: false },
+}));
 
 vi.mock("./aggregates", async () => {
   const { aggregatesMock } = await import("./test.aggregates.mock");
@@ -55,20 +63,31 @@ describe("publication quotas", () => {
   beforeEach(() => {
     authState.actor.role = "user";
     rateState.ok = true;
+    premiumState.on = true;
     rateState.retryAfter = 0;
     vi.mocked(limiter.limit).mockClear();
     t = convexTest(schema, modules);
   });
 
-  it("falls back to 1 community per 30 days and 3 offers/listings per week", async () => {
+  it("falls back to the default numbers for both plans", async () => {
     authState.actor.role = "admin";
     expect(await t.query(api.publicationQuotas.get, {})).toEqual(
-      DEFAULT_PUBLICATION_QUOTAS,
+      DEFAULT_PLAN_QUOTAS,
+    );
+    // The pricing page reads the same numbers without being an admin.
+    authState.actor.role = "user";
+    expect(await t.query(api.publicationQuotas.getPublic, {})).toEqual(
+      DEFAULT_PLAN_QUOTAS,
     );
   });
 
-  it("lets only administrators change quotas, with validated values", async () => {
-    const next = { communityPer30Days: 2, jobsPerWeek: 5, listingsPerWeek: 4 };
+  it("lets only administrators change a plan's quotas, with validated values", async () => {
+    const next = {
+      plan: "free" as const,
+      jobsPerWeek: 5,
+      listingsPerWeek: 4,
+      providersPerMonth: 2,
+    };
     await expect(
       t.mutation(api.publicationQuotas.update, next),
     ).rejects.toThrow("Admin access required");
@@ -83,26 +102,51 @@ describe("publication quotas", () => {
 
     await t.mutation(api.publicationQuotas.update, next);
     await t.mutation(api.publicationQuotas.update, next);
-    expect(await t.query(api.publicationQuotas.get, {})).toEqual(next);
-    const rows = await t.run((ctx) => ctx.db.query("publicationQuotas").collect());
+    const quotas = await t.query(api.publicationQuotas.get, {});
+    expect(quotas.free).toEqual({
+      jobsPerWeek: 5,
+      listingsPerWeek: 4,
+      providersPerMonth: 2,
+    });
+    // The other plan is untouched.
+    expect(quotas.premium).toEqual(DEFAULT_PLAN_QUOTAS.premium);
+    const rows = await t.run((ctx) => ctx.db.query("planQuotas").collect());
     expect(rows).toHaveLength(1);
   });
 
-  it("enforces the configured rate server-side", async () => {
+  it("enforces the member's plan numbers server-side", async () => {
     authState.actor.role = "admin";
     await t.mutation(api.publicationQuotas.update, {
-      communityPer30Days: 2,
-      jobsPerWeek: 5,
-      listingsPerWeek: 4,
+      plan: "premium",
+      jobsPerWeek: 7,
+      listingsPerWeek: 8,
+      providersPerMonth: 9,
+    });
+    await t.mutation(api.publicationQuotas.update, {
+      plan: "free",
+      jobsPerWeek: 1,
+      listingsPerWeek: 2,
+      providersPerMonth: 3,
     });
 
+    premiumState.on = true;
     await t.run((ctx) => consumePublicationQuota(ctx, "job", "user-1"));
-    expect(limiter.limit).toHaveBeenCalledWith(
+    expect(limiter.limit).toHaveBeenLastCalledWith(
       expect.anything(),
       "createJobPerUser",
       expect.objectContaining({
         key: "user-1",
-        config: expect.objectContaining({ rate: 5 }),
+        config: expect.objectContaining({ rate: 7 }),
+      }),
+    );
+
+    premiumState.on = false;
+    await t.run((ctx) => consumePublicationQuota(ctx, "provider", "user-1"));
+    expect(limiter.limit).toHaveBeenLastCalledWith(
+      expect.anything(),
+      "createProviderPerUser",
+      expect.objectContaining({
+        config: expect.objectContaining({ rate: 3 }),
       }),
     );
 
@@ -113,7 +157,7 @@ describe("publication quotas", () => {
     ).rejects.toThrow(/LIMIT_REACHED/);
   });
 
-  it("blocks community creation once the quota is exhausted", async () => {
+  it("blocks community creation once the hidden rate limit is hit", async () => {
     rateState.ok = false;
     await expect(
       t.mutation(api.communities.mutations.createCommunity, {

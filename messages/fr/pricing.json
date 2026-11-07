@@ -1,35 +1,64 @@
 {
+  "metaTitle": "Tarifs",
   "title": "Choisissez votre plan",
-  "description": "Commencez gratuitement et évoluez selon vos besoins.",
+  "description": "Hallomada reste ouvert à tous. Premium vous donne plus de visibilité et des outils pour trouver plus vite.",
+  "perMonth": "/ mois",
+  "soon": "Bientôt",
   "free": {
     "name": "Gratuit",
-    "price": "0€ / mois",
-    "cta": "Commencer gratuitement",
-    "features": [
-      "Profil de base",
-      "Consultation des annonces",
-      "3 contacts par mois",
-      "Accès aux événements publics",
-      "Recherche simple"
-    ]
+    "price": "0 €",
+    "tagline": "L'essentiel pour échanger avec la communauté.",
+    "includedTitle": "Inclus",
+    "included": {
+      "browse": "Consulter les annonces et les offres d'emploi",
+      "contact": "Contacter les annonceurs et postuler aux offres",
+      "messages": "Messagerie privée entre membres",
+      "communities": "Rejoindre les communautés, publier et commenter",
+      "bookmarks": "Favoris et espace personnel"
+    },
+    "limitsTitle": "Limites",
+    "limits": {
+      "listings": "{count} annonces immobilières par semaine",
+      "jobs": "{count} offres d'emploi par semaine",
+      "providers": "{count} pages prestataire par mois"
+    },
+    "excludedTitle": "Non inclus",
+    "excluded": {
+      "highlight": "Candidature mise en avant",
+      "stats": "Statistiques de vues",
+      "boost": "Remontée des annonces en tête de liste"
+    }
   },
-  "pro": {
-    "name": "Pro",
-    "price": "9€ / mois",
-    "earlyBirdPrice": "0€ / mois",
-    "earlyBirdBadge": "Gratuit pour le moment !",
-    "cta": "Choisir Premium",
-    "features": [
-      "Messages groupés",
-      "Recherche illimitée (Jobs & Inserates)",
-      "Accès à la carte interactive",
-      "Contacts illimités (Jobs & Inserates)",
-      "Support prioritaire"
-    ]
+  "premium": {
+    "name": "Premium",
+    "price": "4,90 €",
+    "current": "Vous êtes ici",
+    "offerTitle": "Offert pour le moment.",
+    "offerText": "Tous les membres profitent gratuitement de l'offre Premium.",
+    "features": {
+      "highlight": "Candidature mise en avant auprès des recruteurs",
+      "rentalFile": "Dossier de location prêt à envoyer en un clic",
+      "boost": "Remontée de vos annonces et offres en tête de liste, une fois par semaine",
+      "stats": "Statistiques de vues sur vos annonces et offres d'emploi",
+      "priority": "Modération prioritaire : vos publications sont examinées en premier",
+      "quotas": "Quotas étendus : {listings} annonces, {jobs} offres d'emploi par semaine, {providers} pages prestataire par mois",
+      "premiumBadge": "Badge Premium à côté de votre nom"
+    },
+    "oneSubscription": "Un seul abonnement, que vous cherchiez ou que vous publiez.",
+    "groups": {
+      "find": "Pour trouver plus vite",
+      "visible": "Pour être plus visible",
+      "everyone": "Pour tous"
+    },
+    "regularPrice": "Prix normal :"
+  },
+  "founder": {
+    "title": "Devenez Membre fondateur",
+    "text": "Les 100 premiers membres dont une annonce ou une offre d'emploi est validée par la modération reçoivent à vie le badge numéroté « Fondateur n° … » à côté de leur nom."
   },
   "faq": {
-    "title": "Questions fréquentes",
-    "description": "Vous avez des questions ? Nous sommes là pour vous aider.",
-    "cta": "Voir la FAQ"
-  }
+    "question": "Des questions sur Premium ?",
+    "link": "Consultez la FAQ"
+  },
+  "seeDetails": "Voir la page des tarifs"
 }

@@ -6,20 +6,104 @@
     "title": "Datenschutzerklärung",
     "sections": [
       {
-        "h": "Erhobene Daten",
-        "p": "Kontodaten (Name, E-Mail-Adresse), von Ihnen veröffentlichte Inhalte (Anzeigen, Stellenangebote, Nachrichten, Meldungen) sowie technische Daten, die für den Betrieb der Seite nötig sind."
+        "h": "1. Verantwortlicher",
+        "p": [
+          "Verantwortlich für die Verarbeitung Ihrer Daten auf Hallomada ist: [Zu ergänzen: Name bzw. Firma, Anschrift, Kontakt-E-Mail].",
+          "Bei Fragen zu Ihren Daten schreiben Sie uns über die Kontaktseite."
+        ]
       },
       {
-        "h": "Reichweitenmessung",
-        "p": "Messwerkzeuge (PostHog, Vercel Analytics) werden erst nach Ihrer Zustimmung aktiviert. Sie können jederzeit über „Cookies verwalten“ im Footer ablehnen oder Ihre Wahl ändern. Bei Ablehnung wird kein optionales Ereignis gesendet."
+        "h": "2. Welche Daten wir verarbeiten",
+        "items": [
+          "Konto: Name, E-Mail-Adresse, Passwort (verschlüsselt gespeichert) oder Anmeldung mit Google, Profil- und Titelbild.",
+          "Profil (freiwillig): Stadt, Land, Werdegang, Kenntnisse, Vorstellung, Lebenslauf, öffentliche oder private Sichtbarkeit des Profils.",
+          "Veröffentlichte Inhalte: Immobilieninserate (mit Fotos und Standort), Stellenangebote, Anbieterseiten, Communities, Beiträge, Kommentare, Nachrichten, Meldungen.",
+          "Bewerbungen auf Stellenangebote: Lebenslauf, Anschreiben, Datum.",
+          "Bewerbungsmappe für Wohnungen (freiwillig): die Angaben und Nachweise, die Sie hochladen (siehe Abschnitt 3).",
+          "Premium-Status und Badges, z. B. „Gründungsmitglied“.",
+          "Technische Daten: Verbindungsprotokolle, Sitzungen, IP-Adresse und Daten, die für Sicherheit und Betrieb der Website nötig sind.",
+          "Reichweitenmessung, nur mit Ihrer Einwilligung (siehe Abschnitt 9)."
+        ]
       },
       {
-        "h": "Ihre Rechte",
-        "p": "Sie können Auskunft, Berichtigung oder Löschung Ihrer Daten über die Kontaktseite verlangen."
+        "h": "3. Bewerbungsmappe für Wohnungen",
+        "p": [
+          "Mit der Bewerbungsmappe bereiten Sie Ihre Mieterangaben und Nachweise einmal vor und senden sie aus einem Inserat an einen Vermieter.",
+          "Sie kann sensible Daten enthalten: Beruf, Arbeitgeber, monatliches Nettoeinkommen, Haushaltsgröße, gewünschtes Einzugsdatum, Haustiere, Rauchen, eine freie Vorstellung sowie Dokumente wie Ausweis, Gehaltsnachweise, SCHUFA-Auskunft, Mietschuldenfreiheitsbescheinigung oder Arbeitsvertrag. Alle Angaben sind freiwillig: Laden Sie nur hoch, was nötig ist, und schwärzen Sie, was nicht nötig ist (z. B. die Ausweisnummer)."
+        ],
+        "items": [
+          "Rechtsgrundlage: Ihre Einwilligung (Art. 6 Abs. 1 lit. a DSGVO) und beim Versand vorvertragliche Maßnahmen auf Ihre Anfrage (Art. 6 Abs. 1 lit. b DSGVO).",
+          "Speicherung: Ihre Dokumente liegen in einem privaten Speicher. Sie sind nie öffentlich und erscheinen nicht in Ihrem Profil.",
+          "Empfänger: nur die Vermieter, denen Sie Ihre Mappe senden. Sie erhalten einen privaten Link, 30 Tage gültig; jedes Dokument öffnet sich über einen Link, der nach wenigen Minuten abläuft.",
+          "Kontrolle: Sie können einem Vermieter den Zugriff jederzeit in Ihrem persönlichen Bereich entziehen. Gelöschte Dokumente verschwinden auch für Vermieter.",
+          "Kopien: Ein Vermieter kann Dokumente herunterladen, solange sein Zugriff besteht. Hallomada kann diese Kopien nicht löschen; dafür ist der Vermieter verantwortlich.",
+          "Speicherdauer: bis Sie die Dokumente oder Ihr Konto löschen."
+        ]
       },
       {
-        "h": "Verantwortlicher",
-        "p": "Siehe Impressum."
+        "h": "4. Bewerbungen auf Stellenangebote",
+        "p": "Wenn Sie sich bewerben, werden Ihr Name, Ihre E-Mail-Adresse, Ihr Anschreiben und ein Link zu Ihrem Lebenslauf per E-Mail an den Kontakt der Stelle gesendet. Der Verfasser des Angebots sieht Ihre Bewerbung auch in Hallomada. Der Link zum Lebenslauf ist 90 Tage gültig, danach wird der Zugriff entfernt. Rechtsgrundlage: vorvertragliche Maßnahmen auf Ihre Anfrage (Art. 6 Abs. 1 lit. b DSGVO)."
+      },
+      {
+        "h": "5. E-Mails",
+        "p": "Wir senden E-Mails zu Ihrem Konto und Ihrer Aktivität (Adressbestätigung, Passwort, Bewerbungen, erhaltene Mappen)."
+      },
+      {
+        "h": "6. Zwecke und Rechtsgrundlagen",
+        "items": [
+          "Bereitstellung des Dienstes (Konto, Veröffentlichungen, Nachrichten, Bewerbungen, Bewerbungsmappe): Vertragserfüllung, Art. 6 Abs. 1 lit. b DSGVO.",
+          "Sicherheit, Moderation, Missbrauchsvermeidung und Begrenzung von Aktionen: berechtigtes Interesse, Art. 6 Abs. 1 lit. f DSGVO.",
+          "Reichweitenmessung und Hochladen von Dokumenten in die Bewerbungsmappe: Einwilligung, Art. 6 Abs. 1 lit. a DSGVO, jederzeit widerrufbar.",
+          "Erfüllung rechtlicher Pflichten: Art. 6 Abs. 1 lit. c DSGVO."
+        ]
+      },
+      {
+        "h": "7. Empfänger und Auftragsverarbeiter",
+        "p": [
+          "Ihre öffentlichen Inhalte (Inserate, Angebote, Beiträge, öffentliches Profil) sind für Besucher sichtbar. Andere Daten teilen wir nur mit Personen, die Sie wählen (Arbeitgeber, Vermieter), und mit folgenden technischen Dienstleistern, die sie in unserem Auftrag verarbeiten:"
+        ],
+        "items": [
+          "Convex: Datenbank und Betrieb des Dienstes.",
+          "Cloudflare (R2): Speicherung privater Dateien (Lebensläufe, Dokumente der Bewerbungsmappe).",
+          "Cloudinary: Speicherung und Auslieferung von Bildern.",
+          "Resend: Versand von E-Mails.",
+          "OpenAI: automatische Übersetzung einer Veröffentlichung auf Ihre Anfrage; nur deren Text wird übermittelt.",
+          "Google: Anmeldung mit einem Google-Konto, wenn Sie diese wählen.",
+          "Vercel: Hosting der Website [zu bestätigen]; Vercel Analytics und PostHog: Reichweitenmessung, nur mit Ihrer Einwilligung.",
+          "Stripe: Zahlungsabwicklung ab dem Start von kostenpflichtigem Premium. Diese Erklärung wird dann aktualisiert."
+        ]
+      },
+      {
+        "h": "8. Übermittlung in Drittländer",
+        "p": "Einige dieser Dienstleister haben ihren Sitz oder speichern Daten außerhalb der Europäischen Union, insbesondere in den USA. Grundlage ist ein Angemessenheitsbeschluss (EU-U.S. Data Privacy Framework) oder die Standardvertragsklauseln der Europäischen Kommission. [Zu prüfen: Speicherregion jedes Dienstleisters.]"
+      },
+      {
+        "h": "9. Cookies und Reichweitenmessung",
+        "p": "Messwerkzeuge (PostHog, Vercel Analytics) werden erst nach Ihrer Einwilligung aktiviert. Sie können jederzeit über „Cookies verwalten“ unten auf der Seite ablehnen oder Ihre Wahl ändern. Lehnen Sie ab, werden keine optionalen Ereignisse gesendet. Mit Ihrer Einwilligung wird außerdem eine zufällige Kennung in Ihrem Browser gespeichert, damit Ihre Besuche eines Inserats oder Stellenangebots in dessen Aufrufstatistik nur einmal zählen. Technisch notwendige Cookies (Anmeldung, Sicherheit) werden weiterhin verwendet."
+      },
+      {
+        "h": "10. Speicherdauer",
+        "items": [
+          "Konto, Profil, Veröffentlichungen und Dokumente der Bewerbungsmappe: bis Sie sie oder Ihr Konto löschen.",
+          "Zugriff eines Arbeitgebers auf den Lebenslauf einer Bewerbung: 90 Tage.",
+          "Zugriff eines Vermieters auf eine Bewerbungsmappe: höchstens 30 Tage oder kürzer, wenn Sie den Zugriff entziehen.",
+          "Technische Daten und Protokolle: begrenzte Dauer, soweit für die Sicherheit des Dienstes nötig."
+        ]
+      },
+      {
+        "h": "11. Sicherheit",
+        "p": "Die Verbindung zur Website ist verschlüsselt (HTTPS). Private Dateien sind nur über zeitlich begrenzte Links erreichbar. Der Zugang zu Verwaltungswerkzeugen ist Administratoren vorbehalten."
+      },
+      {
+        "h": "12. Ihre Rechte",
+        "p": [
+          "Sie haben das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung, Datenübertragbarkeit und Widerspruch sowie das Recht, eine Einwilligung jederzeit zu widerrufen. Schreiben Sie uns dazu über die Kontaktseite.",
+          "Sie können sich außerdem bei einer Datenschutzaufsichtsbehörde beschweren, etwa bei der Behörde Ihres Bundeslandes oder der für Hallomada zuständigen Behörde: [Zu ergänzen]."
+        ]
+      },
+      {
+        "h": "13. Änderungen",
+        "p": "Wir können diese Erklärung ändern, etwa beim Start von kostenpflichtigem Premium. Bei wesentlichen Änderungen informieren wir Sie auf der Website oder per E-Mail."
       }
     ]
   },

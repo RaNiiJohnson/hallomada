@@ -1,5 +1,7 @@
 "use client";
 
+import { FounderBadge } from "@/components/founder-badge";
+import { SendRentalFileButton } from "@/components/rental-file/send-rental-file-button";
 import { TranslateMenu } from "@/components/translate-menu";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -132,6 +134,9 @@ export function PropertyDetails({
 
   const contactActions = (
     <div className="space-y-3">
+      {property.listingMode === "rent" && property.acceptsRentalFile === true && (
+        <SendRentalFileButton listingId={property._id} />
+      )}
       {contactLinks.whatsappHref && (
         <Button asChild className="w-full" size="lg">
           <a
@@ -529,7 +534,8 @@ export function PropertyDetails({
                       </Link>
                     ) : (
                       (property.authorName || tListing("details.anonymous"))
-                    )}
+                    )}{" "}
+                    <FounderBadge userId={property.authorId} compact />
                   </div>
                   <div className="text-sm text-muted-foreground">
                     {tListing(
@@ -617,7 +623,8 @@ export function PropertyDetails({
                       </Link>
                     ) : (
                       (property.authorName || tListing("details.anonymous"))
-                    )}
+                    )}{" "}
+                    <FounderBadge userId={property.authorId} compact />
                   </div>
                   <div className="text-sm text-muted-foreground">
                     {tListing(

@@ -1,92 +1,276 @@
 "use client";
 
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import { Link } from "@/i18n/navigation";
-import { Check } from "lucide-react";
+import { Award, Check, Gift, Megaphone, Search, Sparkles, X } from "lucide-react";
+import { api } from "@convex/_generated/api";
+import { useQuery } from "convex-helpers/react/cache";
 import { useTranslations } from "next-intl";
 
-export default function PricingPage() {
-  const t = useTranslations("pricing");
+/**
+ * Plan content. Keys map to `pricing.json`. Set `soon: false` once a
+ * Premium feature is actually live so its "Coming soon" tag disappears.
+ */
+const FREE_INCLUDED = [
+  "browse",
+  "contact",
+  "messages",
+  "communities",
+  "bookmarks",
+] as const;
+const FREE_LIMITS = ["listings", "jobs", "providers"] as const;
+const FREE_EXCLUDED = ["highlight", "boost", "stats"] as const;
 
-  const freeFeatures = t.raw("free.features") as string[];
-  const proFeatures = t.raw("pro.features") as string[];
+type PremiumFeature = { key: string; soon: boolean };
+
+// One subscription covers both moments of a member's life on Hallomada:
+// looking for something, then publishing something.
+const PREMIUM_GROUPS: {
+  key: "find" | "visible" | "everyone";
+  icon: typeof Search;
+  features: PremiumFeature[];
+}[] = [
+  {
+    key: "find",
+    icon: Search,
+    features: [
+      { key: "highlight", soon: true },
+      { key: "rentalFile", soon: false },
+    ],
+  },
+  {
+    key: "visible",
+    icon: Megaphone,
+    features: [
+      { key: "boost", soon: true },
+      { key: "stats", soon: false },
+      { key: "priority", soon: false },
+      { key: "quotas", soon: false },
+    ],
+  },
+  {
+    key: "everyone",
+    icon: Sparkles,
+    features: [{ key: "premiumBadge", soon: true }],
+  },
+];
+
+/**
+ * Free and Premium plans. `variant="section"` is the home page block (h2,
+ * anchor #tarifs, link to the full page); the default is the /pricing page.
+ */
+export default function PricingPage({
+  variant = "page",
+}: {
+  variant?: "page" | "section";
+}) {
+  const t = useTranslations("pricing");
+  // The numbers come from the admin quotas page, so they never go stale.
+  const quotas = useQuery(api.publicationQuotas.getPublic, {});
+  const shown = (value: number | undefined) => value ?? "…";
+  const Heading = variant === "page" ? "h1" : "h2";
 
   return (
-    <section className="py-16 md:py-32">
-      <div className="mx-auto max-w-5xl px-6">
-        <div className="mx-auto max-w-2xl space-y-2 text-center">
-          <h1 className="text-center text-3xl font-semibold">{t("title")}</h1>
-          <p className="text-accent-foreground">{t("description")}</p>
+    <section
+      id={variant === "section" ? "tarifs" : undefined}
+      className={variant === "page" ? "py-16 md:py-24" : "scroll-mt-20 px-4 py-8 sm:py-12 md:py-16"}
+    >
+      <div className="mx-auto max-w-5xl px-4 sm:px-6">
+        <div className="mx-auto max-w-2xl space-y-3 text-center">
+          <Heading
+            className={
+              variant === "page"
+                ? "text-3xl font-semibold md:text-4xl"
+                : "text-3xl font-bold tracking-tight"
+            }
+          >
+            {t("title")}
+          </Heading>
+          <p className="text-muted-foreground">{t("description")}</p>
         </div>
 
-        <div className="mt-8 grid gap-6 md:grid-cols-5 md:gap-0">
+        <div className="mt-10 grid items-start gap-6 md:grid-cols-2">
           {/* Free */}
-          <div className="rounded-lg flex flex-col justify-between space-y-8 border p-6 md:col-span-2 md:my-2 md:rounded-r-none md:border-r-0 lg:p-10">
-            <div className="space-y-4">
-              <div>
-                <h2 className="font-medium">{t("free.name")}</h2>
-                <span className="my-3 block text-2xl font-semibold">
-                  {t("free.price")}
+          <div className="flex flex-col gap-6 rounded-xl border bg-card p-6 lg:p-8">
+            <div>
+              <h2 className="font-medium">{t("free.name")}</h2>
+              <p className="mt-3 text-3xl font-semibold">
+                {t("free.price")}
+                <span className="text-sm font-normal text-muted-foreground">
+                  {" "}
+                  {t("perMonth")}
                 </span>
-              </div>
-
-              <Button asChild variant="outline" className="w-full">
-                <Link href="">{t("free.cta")}</Link>
-              </Button>
-
-              <hr className="border-dashed" />
-
-              <ul className="list-outside space-y-3 text-sm">
-                {freeFeatures.map((item, index) => (
-                  <li key={index} className="flex items-center gap-2">
-                    <Check className="h-4 w-4 text-green-500" />
-                    {item}
-                  </li>
-                ))}
-              </ul>
+              </p>
+              <p className="mt-2 text-sm text-muted-foreground">
+                {t("free.tagline")}
+              </p>
             </div>
+
+            <FeatureGroup title={t("free.includedTitle")}>
+              {FREE_INCLUDED.map((key) => (
+                <FeatureItem key={key} icon="check">
+                  {t(`free.included.${key}`)}
+                </FeatureItem>
+              ))}
+            </FeatureGroup>
+
+            <FeatureGroup title={t("free.limitsTitle")}>
+              {FREE_LIMITS.map((key) => (
+                <FeatureItem key={key} icon="dot">
+                  {t(`free.limits.${key}`, {
+                    count: shown(
+                      key === "listings"
+                        ? quotas?.free.listingsPerWeek
+                        : key === "jobs"
+                          ? quotas?.free.jobsPerWeek
+                          : quotas?.free.providersPerMonth,
+                    ),
+                  })}
+                </FeatureItem>
+              ))}
+            </FeatureGroup>
+
+            <FeatureGroup title={t("free.excludedTitle")}>
+              {FREE_EXCLUDED.map((key) => (
+                <FeatureItem key={key} icon="x">
+                  {t(`free.excluded.${key}`)}
+                </FeatureItem>
+              ))}
+            </FeatureGroup>
           </div>
 
-          {/* Pro */}
-          <div className="dark:bg-muted rounded-lg border p-6 shadow-lg shadow-gray-950/5 md:col-span-3 lg:p-10 dark:[--color-muted:var(--color-zinc-900)]">
-            <div className="grid gap-6 sm:grid-cols-2">
-              <div className="space-y-4">
-                <div>
-                  <div className="flex items-center gap-2">
-                    <h2 className="font-medium">{t("pro.name")}</h2>
-                    <span className="rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-semibold text-primary">
-                      {t("pro.earlyBirdBadge")}
-                    </span>
-                  </div>
-                  <div className="my-3 flex items-baseline gap-2">
-                    <span className="text-2xl font-semibold">
-                      {t("pro.earlyBirdPrice")}
-                    </span>
-                    <span className="text-sm font-medium text-muted-foreground line-through decoration-muted-foreground/50">
-                      {t("pro.price")}
-                    </span>
-                  </div>
-                </div>
+          {/* Premium */}
+          <div className="relative order-first flex flex-col gap-6 rounded-xl border-2 border-primary bg-card p-6 shadow-lg shadow-primary/10 md:order-none lg:p-8">
+            <Badge className="absolute -top-3 left-6">{t("premium.current")}</Badge>
 
-                <Button asChild className="w-full">
-                  <Link href="">{t("pro.cta")}</Link>
-                </Button>
-              </div>
-
-              <div>
-                <ul className="mt-4 list-outside space-y-3 text-sm">
-                  {proFeatures.map((item, index) => (
-                    <li key={index} className="flex items-center gap-2">
-                      <Check className="h-4 w-4 text-green-500" />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
+            <div>
+              <h2 className="flex items-center gap-2 font-medium">
+                <Sparkles className="h-4 w-4 text-primary" />
+                {t("premium.name")}
+              </h2>
+              <p className="mt-3 flex flex-wrap items-baseline gap-x-2 text-3xl font-semibold">
+                <span>{t("free.price")}</span>
+                <span className="text-xl font-medium text-muted-foreground line-through decoration-2">
+                  <span className="sr-only">{t("premium.regularPrice")} </span>
+                  {t("premium.price")}
+                </span>
+                <span className="text-sm font-normal text-muted-foreground">
+                  {t("perMonth")}
+                </span>
+              </p>
+              <div className="mt-4 flex gap-3 rounded-lg bg-primary/10 p-3 text-sm">
+                <Gift className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+                <p>
+                  <span className="font-semibold">
+                    {t("premium.offerTitle")}
+                  </span>{" "}
+                  {t("premium.offerText")}
+                </p>
               </div>
             </div>
+
+            <p className="text-sm font-medium">{t("premium.oneSubscription")}</p>
+
+            {PREMIUM_GROUPS.map(({ key, icon: Icon, features }) => (
+              <FeatureGroup
+                key={key}
+                title={t(`premium.groups.${key}`)}
+                icon={<Icon className="h-3.5 w-3.5" />}
+              >
+                {features.map((feature) => (
+                  <FeatureItem key={feature.key} icon="check">
+                    <span>
+                      {t(`premium.features.${feature.key}`, {
+                        listings: shown(quotas?.premium.listingsPerWeek),
+                        jobs: shown(quotas?.premium.jobsPerWeek),
+                        providers: shown(quotas?.premium.providersPerMonth),
+                      })}
+                    </span>
+                    {feature.soon && (
+                      <Badge variant="secondary" className="ml-2 align-middle">
+                        {t("soon")}
+                      </Badge>
+                    )}
+                  </FeatureItem>
+                ))}
+              </FeatureGroup>
+            ))}
           </div>
         </div>
+
+        <div className="mt-8 flex flex-col gap-4 rounded-xl border border-amber-500/30 bg-amber-500/5 p-6 sm:flex-row sm:items-start">
+          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-amber-500/15 text-amber-700 dark:text-amber-400">
+            <Award className="h-5 w-5" />
+          </span>
+          <div className="space-y-1">
+            <h2 className="font-semibold">{t("founder.title")}</h2>
+            <p className="text-sm text-muted-foreground">{t("founder.text")}</p>
+          </div>
+        </div>
+
+        {variant === "section" && (
+          <div className="mt-8 flex justify-center">
+            <Button asChild variant="outline" className="rounded-full">
+              <Link href="/pricing">{t("seeDetails")}</Link>
+            </Button>
+          </div>
+        )}
+
+        <p className="mt-8 text-center text-sm text-muted-foreground">
+          {t("faq.question")}{" "}
+          <Link href="/faq" className="font-medium text-primary hover:underline">
+            {t("faq.link")}
+          </Link>
+        </p>
       </div>
     </section>
+  );
+}
+
+function FeatureGroup({
+  title,
+  icon,
+  children,
+}: {
+  title: string;
+  icon?: React.ReactNode;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="space-y-3 border-t border-dashed pt-5">
+      <h3 className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+        {icon}
+        {title}
+      </h3>
+      <ul className="space-y-2.5 text-sm">{children}</ul>
+    </div>
+  );
+}
+
+function FeatureItem({
+  icon,
+  children,
+}: {
+  icon: "check" | "x" | "dot";
+  children: React.ReactNode;
+}) {
+  return (
+    <li
+      className={cn(
+        "flex items-start gap-2",
+        icon === "x" && "text-muted-foreground",
+      )}
+    >
+      {icon === "check" && (
+        <Check className="mt-0.5 h-4 w-4 shrink-0 text-green-500" />
+      )}
+      {icon === "x" && <X className="mt-0.5 h-4 w-4 shrink-0" />}
+      {icon === "dot" && (
+        <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-muted-foreground" />
+      )}
+      <span>{children}</span>
+    </li>
   );
 }

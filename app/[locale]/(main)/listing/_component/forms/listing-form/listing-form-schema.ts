@@ -42,6 +42,9 @@ export function createListingFormSchema(t: Translate) {
       description: z.string().min(10, t("form.validation.descMin")),
       extras: z.array(z.string()).optional(),
       availableFrom: z.string(),
+      // Rentals: ask candidates for a dossier, or contact only. No default on
+      // a new listing: the owner has to choose.
+      rentalContact: z.enum(["dossier", "contact"]).optional(),
       contactEmail: z
         .string()
         .trim()
@@ -59,6 +62,13 @@ export function createListingFormSchema(t: Translate) {
           code: "custom",
           message: t("form.validation.availableFromReq"),
           path: ["availableFrom"],
+        });
+      }
+      if (values.listingMode === "rent" && !values.rentalContact) {
+        ctx.addIssue({
+          code: "custom",
+          message: t("form.validation.rentalContactReq"),
+          path: ["rentalContact"],
         });
       }
       const checks: Array<[string, string | undefined, number, number, boolean]> = [
@@ -148,6 +158,11 @@ export function listingFormDefaults(
     availableFrom: listing?.availableFrom
       ? formatLocalCalendarDate(listing.availableFrom)
       : "",
+    rentalContact: listing
+      ? listing.acceptsRentalFile
+        ? "dossier"
+        : "contact"
+      : undefined,
     contactEmail: listing?.contact?.email ?? "",
     contactPhone: listing?.contact?.phone ?? "",
   };

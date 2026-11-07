@@ -1,4 +1,6 @@
 {
+  "clear": "Clear",
+  "pickDate": "Pick a date",
   "prev": "Previous",
   "next": "Next",
   "share": "Share",
@@ -37,5 +39,39 @@
   "errorRetry": "Try again",
   "errorHome": "Back to home",
   "limitReached": "Publication limit reached. Please try again later.",
-  "rateLimited": "Too many requests, please try again shortly."
+  "rateLimited": "Too many requests, please try again shortly.",
+  "founderBadge": {
+    "label": "Founding member",
+    "labelNumber": "Founder no. {number}",
+    "tooltip": "One of the first 100 members to publish a listing or job offer on Hallomada."
+  },
+  "bump": {
+    "start": "Bump to top",
+    "waiting": "Bump available on {date}",
+    "nextOn": "Next bump available on {date}",
+    "hint": {
+      "listing": "Moves your listing back to the top of the list. Once a week.",
+      "job": "Moves your job offer back to the top of the list. Once a week."
+    },
+    "done": "Moved to the top of the list. Next bump available on {date}.",
+    "error": "Could not bump the publication. Please try again later."
+  },
+  "stats": {
+    "title": "Statistics",
+    "premiumOnly": "View statistics are included with Premium.",
+    "discover": "Discover Premium",
+    "totalViews": "Total views",
+    "last7Days": "Views, last 7 days",
+    "bookmarks": "Saved",
+    "responses": {
+      "listing": "Dossiers received",
+      "job": "Applications"
+    },
+    "chartTitle": "Daily views, last 30 days",
+    "chartHint": "Hover over a bar",
+    "tooltip": "{count, plural, =0 {No views} one {# view} other {# views}} on {date}",
+    "date": "Date",
+    "views": "Views",
+    "note": "A view counts once every 12 hours for signed-in members and for visitors who accepted audience measurement. Your own visits don't count."
+  }
 }

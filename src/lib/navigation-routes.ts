@@ -16,4 +16,5 @@ export const sitemapRoutes = [
   "/terms",
   "/legal-notice",
   "/contact",
+  "/pricing",
 ] as const;

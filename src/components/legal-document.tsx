@@ -3,8 +3,12 @@ import { getTranslations } from "next-intl/server";
 
 type Page = "privacy" | "terms" | "notice" | "contact";
 
+type LegalSection = { h: string; p?: string | string[]; items?: string[] };
+
 export async function LegalDocument({ page }: { page: Page }) {
   const t = await getTranslations("legal");
+  const sections =
+    page === "contact" ? [] : (t.raw(`${page}.sections`) as LegalSection[]);
 
   return (
     <article className="mx-auto max-w-3xl px-4 py-12 space-y-6">
@@ -31,16 +35,23 @@ export async function LegalDocument({ page }: { page: Page }) {
       ) : (
         <>
           <p className="text-sm text-muted-foreground">{t("updated")}</p>
-          {[0, 1, 2, 3].map((i) =>
-            t.has(`${page}.sections.${i}.h`) ? (
-              <section key={i} className="space-y-2">
-                <h2 className="text-xl font-semibold">
-                  {t(`${page}.sections.${i}.h`)}
-                </h2>
-                <p>{t(`${page}.sections.${i}.p`)}</p>
-              </section>
-            ) : null,
-          )}
+          {sections.map((section, i) => (
+            <section key={i} className="space-y-2">
+              <h2 className="text-xl font-semibold">{section.h}</h2>
+              {(Array.isArray(section.p) ? section.p : section.p ? [section.p] : []).map(
+                (paragraph, j) => (
+                  <p key={j}>{paragraph}</p>
+                ),
+              )}
+              {section.items && (
+                <ul className="list-disc space-y-1 pl-6">
+                  {section.items.map((item, j) => (
+                    <li key={j}>{item}</li>
+                  ))}
+                </ul>
+              )}
+            </section>
+          ))}
         </>
       )}
     </article>

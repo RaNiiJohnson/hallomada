@@ -1,0 +1,58 @@
+---
+title: Page des tarifs
+description: Les plans Gratuit et Premium, et l'offre gratuite en cours.
+new: true
+---
+
+## En bref
+
+Hallomada propose deux plans : **Gratuit** et **Premium (4,90 € par mois)**. Pour le moment, **Premium est offert à tous les membres**. Les tarifs sont présentés à trois endroits :
+
+- en bas de la **page d'accueil**, après « À propos de nous » ;
+- sur la page **/pricing** ;
+- via le lien **« Tarifs »** du pied de page.
+
+## Ce que voient les visiteurs
+
+<Screenshot src="/doc-images/tarifs-page.png" alt="Page des tarifs avec les cartes Gratuit et Premium" caption="La page /pricing : la carte Gratuit à gauche, la carte Premium à droite avec l'étiquette « Vous êtes ici »." />
+
+- **Carte Gratuit** : ce qui est inclus, les limites (annonces, offres d'emploi et pages prestataire) et ce qui n'est pas inclus.
+- **Carte Premium** : **0 €** avec **4,90 €** barré, le message « Offert pour le moment », et les avantages en trois blocs : *Pour trouver plus vite*, *Pour être plus visible*, *Pour tous*.
+- Sous les cartes : l'encadré **Membre fondateur** et un lien vers la FAQ.
+
+<Screenshot src="/doc-images/tarifs-accueil.png" alt="Section des tarifs sur la page d'accueil" caption="Sur la page d'accueil, la même présentation, avec un bouton « Voir la page des tarifs »." />
+
+<Screenshot src="/doc-images/pied-de-page.png" alt="Pied de page avec le lien Tarifs" caption="Le lien « Tarifs » dans le pied de page." />
+
+## Les règles
+
+- Un seul abonnement pour tout le monde : on ne sépare pas ceux qui cherchent et ceux qui publient, car un même membre fait souvent les deux. La FAQ l'explique avec l'exemple d'Ali.
+- Un avantage pas encore disponible porte l'étiquette **« Bientôt »**. Aujourd'hui, c'est le cas du **badge Premium**, de la **candidature mise en avant** et de la **remontée d'annonce**.
+- Les chiffres des limites et des **quotas étendus** viennent de la page [Quotas](/admin/quotas) : ils se mettent à jour tout seuls (voir [Limites de publication](/admin/docs/premium/limites-de-publication)).
+
+<Screenshot src="/doc-images/faq-ali.png" alt="Question de la FAQ avec l'exemple d'Ali" caption="La FAQ explique pourquoi un seul abonnement suffit." width={640} />
+
+## Comment vérifier
+
+<Steps>
+<Step title="Page d'accueil">
+Ouvrez la page d'accueil et descendez tout en bas : les deux cartes apparaissent après « À propos de nous ».
+</Step>
+<Step title="Lien du pied de page">
+Cliquez sur « Tarifs » dans le pied de page : la page des tarifs s'ouvre.
+</Step>
+<Step title="Langues et mobile">
+Changez de langue (FR, EN, DE) et regardez la page sur un téléphone : la carte Premium passe en premier.
+</Step>
+<Step title="FAQ">
+Sur la page FAQ, les questions sur Premium et le badge fondateur apparaissent.
+</Step>
+</Steps>
+
+<DevNotes>
+
+- Composant : `src/components/pricing.tsx` (`variant="section"` sur l'accueil, page `/pricing` sinon).
+- Avantages et étiquettes « Bientôt » : tableau `PREMIUM_GROUPS` (`soon: true` ou `false`).
+- Textes : `messages/fr|en|de/pricing.json` ; FAQ : `messages/*/faq.json` ; lien : `src/components/footer.tsx`.
+
+</DevNotes>

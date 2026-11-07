@@ -26,6 +26,7 @@
     "provider_approved": "Ihre Dienstleisterseite „{title}“ wurde freigegeben und veröffentlicht",
     "provider_rejected": "Ihre Dienstleisterseite „{title}“ wurde abgelehnt",
     "provider_pending_review": "Neue Dienstleisterseite „{title}“ von {name} eingereicht",
-    "job_contact_bounced": "Die Kontakt-E-Mail Ihrer Stelle „{title}“ funktioniert nicht, Bewerbungen kommen nicht an. Bitte ändern Sie sie."
+    "job_contact_bounced": "Die Kontakt-E-Mail Ihrer Stelle „{title}“ funktioniert nicht, Bewerbungen kommen nicht an. Bitte ändern Sie sie.",
+    "rental_file_received": "{name} hat Ihnen eine Bewerbungsmappe für „{title}“ geschickt"
   }
 }

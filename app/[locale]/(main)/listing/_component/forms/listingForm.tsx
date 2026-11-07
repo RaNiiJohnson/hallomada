@@ -173,6 +173,9 @@ export function ListingForm({ listing, onSuccess }: ListingFormProps) {
           contact,
           patch: {
             ...values,
+            acceptsRentalFile: isRental
+              ? data.rentalContact === "dossier"
+              : undefined,
             location: location ?? null,
             charges: charges ?? null,
             deposit: deposit ?? null,
@@ -182,6 +185,9 @@ export function ListingForm({ listing, onSuccess }: ListingFormProps) {
       } else {
         await createListing({
           ...values,
+          acceptsRentalFile: isRental
+            ? data.rentalContact === "dossier"
+            : undefined,
           contact,
           location,
           charges,

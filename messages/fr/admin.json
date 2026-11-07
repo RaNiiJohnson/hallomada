@@ -10,7 +10,9 @@
     "returnSite": "Retour au site",
     "logout": "Déconnexion",
     "loadingUser": "Chargement de l'administrateur",
-    "quotas": "Quotas de publication"
+    "quotas": "Quotas de publication",
+    "docs": "Documentation",
+    "docsNew": "Nouveau"
   },
   "dashboard": {
     "title": "Dashboard",
@@ -64,7 +66,8 @@
       },
       "submittedBy": "Soumise par {name}, le {date}",
       "approve": "Valider",
-      "reject": "Refuser"
+      "reject": "Refuser",
+      "priority": "Prioritaire"
     },
     "toast": {
       "approved": "Annonce validée et publiée.",
@@ -199,19 +202,48 @@
       "title": "Impossible de charger les utilisateurs",
       "description": "La requête administrative a échoué. Aucun résultat incomplet n'est affiché.",
       "retry": "Réessayer"
+    },
+    "founder": {
+      "grant": "Donner le badge fondateur",
+      "revoke": "Retirer le badge fondateur",
+      "granted": "Badge fondateur donné à {name}",
+      "revoked": "Badge fondateur retiré à {name}",
+      "error": "Impossible de modifier le badge fondateur."
     }
   },
   "quotas": {
     "title": "Quotas de publication",
-    "description": "Limites appliquées côté serveur à chaque membre vérifié.",
-    "community": "Communautés par 30 jours",
-    "jobs": "Offres par semaine",
-    "listings": "Annonces par semaine",
+    "description": "Limites de publication appliquées côté serveur, avec des chiffres différents pour les membres Gratuit et Premium. Tant que Premium est offert à tous, ce sont les chiffres Premium qui s'appliquent.",
+    "jobs": "Offres d'emploi par semaine",
+    "listings": "Annonces immobilières par semaine",
     "hint": "Nombre entier entre 1 et {max}.",
     "save": "Enregistrer",
     "saving": "Enregistrement...",
     "saved": "Quotas mis à jour",
     "error": "Impossible d'enregistrer les quotas",
-    "loading": "Chargement des quotas"
+    "loading": "Chargement des quotas",
+    "providers": "Pages prestataire par mois",
+    "plans": {
+      "free": {
+        "title": "Plan Gratuit",
+        "description": "Membres sans abonnement."
+      },
+      "premium": {
+        "title": "Plan Premium",
+        "description": "Membres abonnés (tout le monde pour le moment)."
+      }
+    }
+  },
+  "founders": {
+    "title": "Programme Membre fondateur",
+    "description": "Les 100 premiers membres dont une annonce ou une offre est validée reçoivent le badge, avec un numéro. Fixez une date de fin pour fermer le programme plus tôt. Vous pouvez aussi donner ou retirer le badge depuis Utilisateurs.",
+    "statusOpen": "Statut : ouvert, sans date de fin.",
+    "statusClosesAt": "Statut : se termine le {date, date, long}.",
+    "closesAt": "Date de fin",
+    "save": "Enregistrer la date",
+    "reopen": "Retirer la date de fin",
+    "saved": "Programme fondateur mis à jour",
+    "error": "Impossible de mettre à jour le programme fondateur",
+    "places": "{count} / {max} places attribuées"
   }
 }

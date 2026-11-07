@@ -25,6 +25,30 @@
       "answer": "Pour garder une communauté de qualité et éviter les abus, le nombre de publications est limité dans le temps pour chaque membre (communautés, offres d'emploi, annonces immobilières). Ces limites peuvent évoluer, et un message vous l'indique lorsque vous les atteignez."
     },
     {
+      "question": "Hallomada est-il payant ?",
+      "answer": "Non. Tout l'essentiel reste gratuit : consulter les annonces et les offres, contacter, postuler, discuter en message privé et participer aux communautés. Un abonnement Premium à 4,90 € par mois existe pour aller plus loin, et il est actuellement offert à tous les membres."
+    },
+    {
+      "question": "Pourquoi un seul abonnement, que je cherche ou que je publie ?",
+      "answer": "Parce que sur Hallomada, chercher et publier sont deux moments de la vie d'un même membre. Prenons Ali : en janvier, il cherche une chambre à Berlin et envoie son dossier de location en un clic. Il la trouve. En juin, il sous-loue cette même chambre pour l'été et son annonce est examinée en priorité. L'année suivante, son entreprise recrute et il publie l'offre. C'est le même Ali et le même abonnement : Premium l'aide à trouver plus vite, puis à être plus visible."
+    },
+    {
+      "question": "Je cherche seulement un logement ou un emploi. Premium m'est-il utile ?",
+      "answer": "Oui. Premium vous aide à arriver le premier et à sortir du lot : dossier de location prêt à envoyer en un clic, statistiques de vues et modération prioritaire, puis bientôt la candidature mise en avant auprès des recruteurs et la remontée de vos annonces. Certaines fonctionnalités arrivent progressivement."
+    },
+    {
+      "question": "Pourquoi certains avantages Premium sont marqués « Bientôt » ?",
+      "answer": "Nous les développons un par un. Ils seront activés pour tous les membres Premium dès qu'ils seront prêts, sans démarche de votre part."
+    },
+    {
+      "question": "Que se passera-t-il quand Premium deviendra payant ?",
+      "answer": "Nous vous préviendrons à l'avance. L'essentiel restera gratuit, et vous pourrez continuer à utiliser Hallomada avec le plan Gratuit et ses limites, ou choisir Premium."
+    },
+    {
+      "question": "Comment obtenir le badge Membre fondateur ?",
+      "answer": "Il est réservé aux 100 premiers membres dont une annonce immobilière ou une offre d'emploi est validée par la modération. Chaque badge porte un numéro (« Fondateur n° 23 ») et se garde à vie. Il apparaît sur votre profil, vos annonces et vos offres."
+    },
+    {
       "question": "Comment signaler un contenu inapproprié ?",
       "answer": "Utilisez l'option de signalement disponible sur les publications, commentaires, offres et annonces. Les administrateurs examinent chaque signalement et peuvent retirer le contenu concerné."
     },

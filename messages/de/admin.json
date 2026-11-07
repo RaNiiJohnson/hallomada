@@ -10,7 +10,9 @@
     "returnSite": "Zurück zur Website",
     "logout": "Abmelden",
     "loadingUser": "Administrator wird geladen",
-    "quotas": "Veröffentlichungslimits"
+    "quotas": "Veröffentlichungslimits",
+    "docs": "Dokumentation",
+    "docsNew": "Neu"
   },
   "dashboard": {
     "title": "Dashboard",
@@ -64,7 +66,8 @@
       },
       "submittedBy": "Eingereicht von {name} am {date}",
       "approve": "Freigeben",
-      "reject": "Ablehnen"
+      "reject": "Ablehnen",
+      "priority": "Priorität"
     },
     "toast": {
       "approved": "Anzeige freigegeben und veröffentlicht.",
@@ -199,19 +202,48 @@
       "title": "Benutzer können nicht geladen werden",
       "description": "Die Admin-Anfrage ist fehlgeschlagen. Unvollständige Ergebnisse werden nicht angezeigt.",
       "retry": "Erneut versuchen"
+    },
+    "founder": {
+      "grant": "Gründer-Badge vergeben",
+      "revoke": "Gründer-Badge entfernen",
+      "granted": "Gründer-Badge an {name} vergeben",
+      "revoked": "Gründer-Badge von {name} entfernt",
+      "error": "Gründer-Badge konnte nicht geändert werden."
     }
   },
   "quotas": {
     "title": "Veröffentlichungslimits",
-    "description": "Serverseitig durchgesetzte Limits für jedes verifizierte Mitglied.",
-    "community": "Communities pro 30 Tage",
+    "description": "Serverseitige Veröffentlichungslimits, mit unterschiedlichen Werten für kostenlose und Premium-Mitglieder. Solange Premium für alle angeboten wird, gelten die Premium-Werte.",
     "jobs": "Stellenangebote pro Woche",
-    "listings": "Anzeigen pro Woche",
+    "listings": "Immobilieninserate pro Woche",
     "hint": "Ganze Zahl zwischen 1 und {max}.",
     "save": "Speichern",
     "saving": "Wird gespeichert...",
     "saved": "Limits aktualisiert",
     "error": "Limits konnten nicht gespeichert werden",
-    "loading": "Limits werden geladen"
+    "loading": "Limits werden geladen",
+    "providers": "Anbieterseiten pro Monat",
+    "plans": {
+      "free": {
+        "title": "Kostenloser Plan",
+        "description": "Mitglieder ohne Abonnement."
+      },
+      "premium": {
+        "title": "Premium-Plan",
+        "description": "Abonnierte Mitglieder (derzeit alle)."
+      }
+    }
+  },
+  "founders": {
+    "title": "Gründungsmitglied-Programm",
+    "description": "Die ersten 100 Mitglieder, deren Inserat oder Stellenangebot freigegeben wird, erhalten das Badge mit Nummer. Mit einem Enddatum schließen Sie das Programm früher. Unter Benutzer können Sie das Badge auch vergeben oder entfernen.",
+    "statusOpen": "Status: offen, ohne Enddatum.",
+    "statusClosesAt": "Status: endet am {date, date, long}.",
+    "closesAt": "Enddatum",
+    "save": "Datum speichern",
+    "reopen": "Enddatum entfernen",
+    "saved": "Gründungsprogramm aktualisiert",
+    "error": "Gründungsprogramm konnte nicht aktualisiert werden",
+    "places": "{count} / {max} Plätze vergeben"
   }
 }

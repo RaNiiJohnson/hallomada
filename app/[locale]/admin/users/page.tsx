@@ -1,5 +1,6 @@
 "use client";
 
+import { FounderBadge } from "@/components/founder-badge";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -48,6 +49,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 import { useDebounce } from "use-debounce";
+import { FounderMenuItem } from "./founder-menu-item";
 
 type Role = "admin" | "user";
 type SearchField = "name" | "email";
@@ -382,7 +384,10 @@ export default function UsersPage() {
                       >
                         <td className="p-4 align-middle">
                           <div className="flex flex-col">
-                            <span className="font-medium">{user.name}</span>
+                            <span className="flex flex-wrap items-center gap-1.5 font-medium">
+                              {user.name}
+                              <FounderBadge userId={user.id} />
+                            </span>
                             <span className="text-xs text-muted-foreground">
                               {user.email}
                             </span>
@@ -482,6 +487,7 @@ export default function UsersPage() {
                                     </Link>
                                   </DropdownMenuItem>
                                 ) : null}
+                                <FounderMenuItem userId={user.id} name={user.name} />
                                 <DropdownMenuItem
                                   onClick={() => setConfirmBan(user)}
                                   disabled={isSelf}

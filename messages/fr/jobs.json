@@ -264,5 +264,14 @@
       "fullTime": "Temps plein",
       "partTime": "Temps partiel"
     }
+  },
+  "received": {
+    "title": "{count, plural, =0 {Candidatures reçues} one {# candidature reçue} other {# candidatures reçues}}",
+    "empty": "Aucune candidature pour le moment. Elles apparaîtront ici et vous seront aussi envoyées par e-mail.",
+    "hint": "Les candidatures mises en avant viennent de membres Premium et s'affichent en premier.",
+    "highlighted": "Mise en avant",
+    "anonymous": "Candidat",
+    "openCv": "Ouvrir le CV",
+    "cvUnavailable": "Le CV n'est plus disponible."
   }
 }

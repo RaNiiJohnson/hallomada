@@ -6,6 +6,7 @@ import {
   requiresPublicationModeration,
   type PublicationStatus,
 } from "../../src/lib/publication-lifecycle";
+import { env } from "../_generated/server";
 import { authComponent } from "../auth/auth";
 import { query } from "../functions";
 import { getPublicAuthorSlug } from "../posts/publicAuthorSlug";
@@ -222,11 +223,18 @@ export const getJobs = query({
         v.literal("apprenticeship"),
       ),
     ),
+    workMode: v.optional(
+      v.union(v.literal("onSite"), v.literal("hybrid"), v.literal("remote")),
+    ),
     bookmarkedOnly: v.optional(v.boolean()),
   },
   handler: async (ctx, args) => {
-    const { searchTerm, type, contractType, bookmarkedOnly } = args;
+    const { searchTerm, type, contractType, workMode, bookmarkedOnly } = args;
     const user = await authComponent.safeGetAuthUser(ctx);
+    const listFilter = (q: Parameters<typeof visibleJobFilter>[0]) => {
+      const visible = visibleJobFilter(q, user?._id);
+      return workMode ? q.and(visible, q.eq(q.field("workMode"), workMode)) : visible;
+    };
 
     if (bookmarkedOnly) {
       if (!user) {
@@ -270,7 +278,7 @@ export const getJobs = query({
 
       // avant: return await searchResult.collect();
       const results = await searchResult
-        .filter((q) => visibleJobFilter(q, user?._id))
+        .filter(listFilter)
         .paginate(args.paginationOpts);
 
       const enrichedPage = await Promise.all(
@@ -305,22 +313,25 @@ export const getJobs = query({
     if (type) {
       results = await ctx.db
         .query("JobOffer")
-        .withIndex("by_type", (q) => q.eq("type", type))
+        .withIndex("by_type_and_listedAt", (q) => q.eq("type", type))
         .order("desc")
-        .filter((q) => visibleJobFilter(q, user?._id))
+        .filter(listFilter)
         .paginate(args.paginationOpts);
     } else if (contractType) {
       results = await ctx.db
         .query("JobOffer")
-        .withIndex("by_contract", (q) => q.eq("contractType", contractType))
+        .withIndex("by_contract_and_listedAt", (q) =>
+          q.eq("contractType", contractType),
+        )
         .order("desc")
-        .filter((q) => visibleJobFilter(q, user?._id))
+        .filter(listFilter)
         .paginate(args.paginationOpts);
     } else {
       results = await ctx.db
         .query("JobOffer")
+        .withIndex("by_listedAt")
         .order("desc")
-        .filter((q) => visibleJobFilter(q, user?._id))
+        .filter(listFilter)
         .paginate(args.paginationOpts);
     }
 
@@ -380,5 +391,68 @@ export const getTranslation = query({
         q.eq("jobId", args.jobId).eq("language", args.language),
       )
       .unique();
+  },
+});
+
+const MAX_RECEIVED_APPLICATIONS = 200;
+
+/**
+ * Applications received for one of the viewer's own job offers. Highlighted
+ * (Premium) applications come first, then the most recent ones.
+ */
+export const listReceivedApplications = query({
+  args: { jobId: v.id("JobOffer") },
+  returns: v.union(
+    v.null(),
+    v.array(
+      v.object({
+        _id: v.id("jobApplications"),
+        appliedAt: v.number(),
+        highlighted: v.boolean(),
+        candidateName: v.union(v.string(), v.null()),
+        candidateId: v.string(),
+        candidateSlug: v.union(v.string(), v.null()),
+        coverLetter: v.union(v.string(), v.null()),
+        cvUrl: v.union(v.string(), v.null()),
+      }),
+    ),
+  ),
+  handler: async (ctx, { jobId }) => {
+    const user = await authComponent.safeGetAuthUser(ctx);
+    if (!user) return null;
+    const job = await ctx.db.get(jobId);
+    if (!job || job.authorId !== user._id) return null;
+
+    const applications = await ctx.db
+      .query("jobApplications")
+      .withIndex("by_jobId_and_candidateId", (q) => q.eq("jobId", jobId))
+      .take(MAX_RECEIVED_APPLICATIONS);
+
+    const rows = await Promise.all(
+      applications.map(async (application) => {
+        // Expired CVs are purged by a scheduled job; the link route also
+        // refuses expired tokens.
+        const cvAvailable =
+          application.cvToken !== undefined &&
+          application.cvPurgedAt === undefined;
+        return {
+          _id: application._id,
+          appliedAt: application.appliedAt,
+          highlighted: application.highlighted === true,
+          candidateName: application.candidateName ?? null,
+          candidateId: application.candidateId,
+          candidateSlug: await getPublicAuthorSlug(ctx, application.candidateId),
+          coverLetter: application.coverLetter ?? null,
+          cvUrl: cvAvailable
+            ? `${env.CONVEX_SITE_URL}/application-cv?t=${application.cvToken}`
+            : null,
+        };
+      }),
+    );
+
+    return rows.sort(
+      (a, b) =>
+        Number(b.highlighted) - Number(a.highlighted) || b.appliedAt - a.appliedAt,
+    );
   },
 });

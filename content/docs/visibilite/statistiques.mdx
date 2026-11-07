@@ -1,0 +1,43 @@
+---
+title: Statistiques de vues
+description: Ce que voit l'auteur sur son annonce ou son offre.
+new: true
+---
+
+## En bref
+
+L'auteur d'une annonce ou d'une offre voit, sur sa page, combien de personnes l'ont consultée.
+
+<Screenshot src="/doc-images/statistiques.png" alt="Panneau Statistiques" caption="Le panneau « Statistiques » (exemple) : chiffres clés et vues par jour sur 30 jours. Au survol d'une barre, le détail du jour s'affiche." width={340} />
+
+## Ce qui est compté
+
+- **Vues au total** et **vues sur 7 jours**.
+- **Mises en favori**.
+- **Dossiers reçus** (annonce) ou **candidatures** (offre).
+
+## Les règles
+
+- Une vue est comptée quand quelqu'un **ouvre la page** de l'annonce.
+- Les visites de **l'auteur** ne comptent jamais.
+- Une même personne ne compte qu'**une fois toutes les 12 heures** : un membre connecté est reconnu par son compte, un visiteur anonyme seulement s'il a accepté la mesure d'audience.
+- Les annonces existantes démarrent à zéro.
+
+## Comment vérifier
+
+<Steps>
+<Step title="Visiter avec un autre compte">
+Avec le compte B, ouvrez deux fois l'annonce du compte A.
+</Step>
+<Step title="Regarder les chiffres">
+Avec le compte A, sur la page de l'annonce : **une seule** vue est comptée pour aujourd'hui.
+</Step>
+</Steps>
+
+<DevNotes>
+
+- `convex/stats.ts` et `convex/statsValues.ts` ; table `publicationViews` (compteurs par jour).
+- Enregistrement de la vue : `src/hooks/use-record-view.ts` ; panneau : `src/components/featured/publication-stats.tsx`.
+- Les tests automatiques remplacent le limiteur par un faux : le dédoublonnage sur 12 heures ne se vérifie qu'à la main.
+
+</DevNotes>

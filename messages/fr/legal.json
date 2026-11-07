@@ -6,20 +6,104 @@
     "title": "Politique de confidentialité",
     "sections": [
       {
-        "h": "Données collectées",
-        "p": "Compte (nom, adresse e-mail), contenus que vous publiez (annonces, offres, messages, signalements) et données techniques nécessaires au fonctionnement du site."
+        "h": "1. Responsable du traitement",
+        "p": [
+          "Le responsable du traitement de vos données sur Hallomada est : [À compléter : nom ou raison sociale, adresse postale, e-mail de contact].",
+          "Pour toute question sur vos données, écrivez-nous via la page Contact."
+        ]
       },
       {
-        "h": "Mesure d'audience",
-        "p": "Les outils de mesure (PostHog, Vercel Analytics) ne sont activés qu'après votre accord. Vous pouvez refuser ou modifier votre choix à tout moment via « Gérer les cookies » en bas de page. Si vous refusez, aucun événement optionnel n'est envoyé."
+        "h": "2. Données que nous traitons",
+        "items": [
+          "Compte : nom, adresse e-mail, mot de passe (stocké sous forme chiffrée) ou connexion via Google, photo de profil et de couverture.",
+          "Profil (facultatif) : ville, pays, parcours, compétences, présentation, CV, visibilité publique ou privée du profil.",
+          "Contenus publiés : annonces immobilières (avec photos et localisation), offres d'emploi, pages prestataires, communautés, publications, commentaires, messages, signalements.",
+          "Candidatures à des offres d'emploi : CV, lettre de motivation, date d'envoi.",
+          "Dossier de location (facultatif) : les informations et justificatifs que vous déposez (voir section 3).",
+          "Statut Premium et badges, par exemple le badge « Membre fondateur ».",
+          "Données techniques : journaux de connexion, sessions, adresse IP et données nécessaires à la sécurité et au bon fonctionnement du site.",
+          "Mesure d'audience, uniquement avec votre accord (voir section 9)."
+        ]
       },
       {
-        "h": "Vos droits",
-        "p": "Vous pouvez demander l'accès, la rectification ou la suppression de vos données en nous écrivant via la page Contact."
+        "h": "3. Dossier de location",
+        "p": [
+          "Le dossier de location vous permet de préparer une fois vos informations de locataire et vos justificatifs, puis de les envoyer à un propriétaire depuis une annonce.",
+          "Il peut contenir des données sensibles : profession, employeur, revenu net mensuel, composition du foyer, date d'emménagement souhaitée, animaux, tabac, présentation libre, ainsi que des documents comme une pièce d'identité, des fiches de paie, une auto-information SCHUFA, une attestation de l'ancien propriétaire (Mietschuldenfreiheitsbescheinigung) ou un contrat de travail. Toutes ces informations sont facultatives : ne déposez que ce qui est nécessaire, et masquez ce qui ne l'est pas (par exemple le numéro de votre pièce d'identité)."
+        ],
+        "items": [
+          "Base légale : votre consentement (art. 6, paragraphe 1, point a du RGPD) et, lors de l'envoi, des mesures précontractuelles prises à votre demande (art. 6, paragraphe 1, point b).",
+          "Stockage : vos documents sont conservés dans un espace de stockage privé. Ils ne sont jamais publics et n'apparaissent pas sur votre profil.",
+          "Destinataires : uniquement les propriétaires à qui vous choisissez d'envoyer votre dossier. Ils reçoivent un lien privé, valable 30 jours, et chaque document s'ouvre via un lien temporaire de quelques minutes.",
+          "Contrôle : vous pouvez retirer l'accès d'un propriétaire à tout moment depuis votre espace personnel. Les documents que vous supprimez disparaissent aussi pour les propriétaires.",
+          "Copies : un propriétaire peut télécharger les documents pendant que son accès est ouvert. Hallomada ne peut pas effacer ces copies ; c'est le propriétaire qui en devient responsable.",
+          "Conservation : jusqu'à ce que vous supprimiez les documents ou votre compte."
+        ]
       },
       {
-        "h": "Responsable du traitement",
-        "p": "Voir les mentions légales."
+        "h": "4. Candidatures à des offres d'emploi",
+        "p": "Lorsque vous postulez, votre nom, votre adresse e-mail, votre lettre de motivation et un lien vers votre CV sont envoyés par e-mail au contact de l'offre. L'auteur de l'offre voit aussi votre candidature dans Hallomada. Le lien vers le CV reste valable 90 jours, puis l'accès est supprimé. Base légale : mesures précontractuelles prises à votre demande (art. 6, paragraphe 1, point b du RGPD)."
+      },
+      {
+        "h": "5. E-mails",
+        "p": "Nous envoyons des e-mails liés à votre compte et à votre activité (vérification d'adresse, mot de passe, candidatures, dossiers reçus)."
+      },
+      {
+        "h": "6. Finalités et bases légales",
+        "items": [
+          "Fournir le service (compte, publications, messagerie, candidatures, dossier de location) : exécution du contrat, art. 6, paragraphe 1, point b du RGPD.",
+          "Sécurité, modération, prévention des abus et limitation du nombre d'actions : intérêt légitime, art. 6, paragraphe 1, point f.",
+          "Mesure d'audience et dépôt de documents dans le dossier de location : consentement, art. 6, paragraphe 1, point a. Vous pouvez le retirer à tout moment.",
+          "Respect de nos obligations légales : art. 6, paragraphe 1, point c."
+        ]
+      },
+      {
+        "h": "7. Destinataires et sous-traitants",
+        "p": [
+          "Vos contenus publics (annonces, offres, publications, profil public) sont visibles par les visiteurs du site. Les autres données ne sont partagées qu'avec les personnes que vous choisissez (recruteurs, propriétaires) et avec les prestataires techniques suivants, qui les traitent pour notre compte :"
+        ],
+        "items": [
+          "Convex : base de données et exécution du service.",
+          "Cloudflare (R2) : stockage des fichiers privés (CV, documents du dossier de location).",
+          "Cloudinary : stockage et affichage des images.",
+          "Resend : envoi des e-mails.",
+          "OpenAI : traduction automatique d'une publication lorsque vous la demandez ; seul le texte de la publication est transmis.",
+          "Google : connexion avec un compte Google, si vous la choisissez.",
+          "Vercel : hébergement du site [à confirmer] ; Vercel Analytics et PostHog : mesure d'audience, uniquement avec votre accord.",
+          "Stripe : traitement des paiements, à partir du lancement de Premium payant. Cette politique sera mise à jour à ce moment-là."
+        ]
+      },
+      {
+        "h": "8. Transferts hors de l'Union européenne",
+        "p": "Certains de ces prestataires sont établis ou hébergent des données hors de l'Union européenne, notamment aux États-Unis. Ces transferts sont encadrés par une décision d'adéquation (EU-U.S. Data Privacy Framework) ou par les clauses contractuelles types de la Commission européenne. [À vérifier : région d'hébergement de chaque prestataire.]"
+      },
+      {
+        "h": "9. Cookies et mesure d'audience",
+        "p": "Les outils de mesure (PostHog, Vercel Analytics) ne sont activés qu'après votre accord. Vous pouvez refuser ou modifier votre choix à tout moment via « Gérer les cookies » en bas de page. Si vous refusez, aucun événement optionnel n'est envoyé. Avec votre accord, un identifiant aléatoire est aussi conservé dans votre navigateur pour ne compter qu'une fois vos visites d'une annonce ou d'une offre dans les statistiques de vues de son auteur. Les cookies strictement nécessaires (connexion, sécurité) restent utilisés."
+      },
+      {
+        "h": "10. Durées de conservation",
+        "items": [
+          "Compte, profil, publications et documents du dossier de location : jusqu'à leur suppression par vous ou la suppression de votre compte.",
+          "Accès d'un recruteur au CV d'une candidature : 90 jours.",
+          "Accès d'un propriétaire à un dossier de location : 30 jours au maximum, ou moins si vous retirez l'accès.",
+          "Données techniques et journaux : durée limitée, nécessaire à la sécurité du service."
+        ]
+      },
+      {
+        "h": "11. Sécurité",
+        "p": "Les échanges avec le site sont chiffrés (HTTPS). Les fichiers privés ne sont accessibles que par des liens temporaires. L'accès aux outils d'administration est réservé aux administrateurs."
+      },
+      {
+        "h": "12. Vos droits",
+        "p": [
+          "Vous disposez d'un droit d'accès, de rectification, d'effacement, de limitation du traitement, de portabilité et d'opposition, ainsi que du droit de retirer votre consentement à tout moment. Pour les exercer, écrivez-nous via la page Contact.",
+          "Vous pouvez aussi introduire une réclamation auprès d'une autorité de protection des données, par exemple celle du Land où vous résidez ou celle compétente pour Hallomada : [À compléter]."
+        ]
+      },
+      {
+        "h": "13. Modifications",
+        "p": "Nous pouvons modifier cette politique, par exemple lors du lancement de Premium payant. En cas de changement important, nous vous en informerons sur le site ou par e-mail."
       }
     ]
   },

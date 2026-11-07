@@ -77,6 +77,14 @@ export default async function Footer() {
               </li>
               <li>
                 <Link
+                  href="/pricing"
+                  className="text-muted-foreground hover:text-primary transition-colors"
+                >
+                  {t("nav.pricing")}
+                </Link>
+              </li>
+              <li>
+                <Link
                   href="/faq"
                   className="text-muted-foreground hover:text-primary transition-colors"
                 >

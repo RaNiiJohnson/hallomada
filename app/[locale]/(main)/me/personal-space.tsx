@@ -17,6 +17,7 @@ import {
   BriefcaseBusiness,
   Building2,
   FileText,
+  FolderLock,
   Heart,
   Store,
   UserRound,
@@ -25,6 +26,7 @@ import {
 import { useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { RentalFilePanel } from "./rental-file-panel";
 
 const validTabs = [
   "favorites",
@@ -32,6 +34,7 @@ const validTabs = [
   "communities",
   "applications",
   "notifications",
+  "dossier",
   "profile",
 ] as const;
 
@@ -43,6 +46,7 @@ const tabs = [
   ["communities", UsersRound],
   ["applications", BriefcaseBusiness],
   ["notifications", Bell],
+  ["dossier", FolderLock],
   ["profile", UserRound],
 ] as const;
 
@@ -403,6 +407,7 @@ function NotificationsPanel() {
     {},
     { initialNumItems: 20 },
   );
+  const unreadCount = useQuery(api.notifications.queries.getUnreadCount, {});
   const markAllRead = useMutation(api.notifications.mutations.markAllRead);
   const markOneRead = useMutation(api.notifications.mutations.markOneRead);
   if (notifications.status === "LoadingFirstPage") return <ListSkeleton />;
@@ -412,6 +417,7 @@ function NotificationsPanel() {
         <Button
           variant="outline"
           className="min-h-11 rounded-full"
+          disabled={!unreadCount}
           onClick={() => markAllRead()}
         >
           {t("markAllRead")}
@@ -579,6 +585,9 @@ export function PersonalSpace() {
           </TabsContent>
           <TabsContent value="notifications">
             <NotificationsPanel />
+          </TabsContent>
+          <TabsContent value="dossier">
+            <RentalFilePanel />
           </TabsContent>
           <TabsContent value="profile">
             <ProfilePanel />

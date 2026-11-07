@@ -5,6 +5,7 @@ import {
   ApplicationFailedEmail,
   ApplicationSentEmail,
   NewApplicationEmail,
+  RentalFileReceivedEmail,
   ResetPasswordEmail,
   VerifyEmail,
 } from "./templates";
@@ -77,6 +78,44 @@ describe("job application emails", () => {
     expect(html).toContain("Neue Bewerbung");
     expect(html).toContain("Lebenslauf öffnen");
     expect(html).toContain("https://files.example.com/cv.pdf");
+    expect(html).toContain("Guten Tag");
+    expect(html).not.toContain("Hervorgehobene Bewerbung");
+  });
+
+  it("marks a Premium candidate's application as highlighted", async () => {
+    const html = await render(
+      <NewApplicationEmail
+        candidateName="Ada Lovelace"
+        candidateEmail="ada@example.com"
+        jobTitle="Softwareentwicklerin"
+        cvUrl="https://files.example.com/cv.pdf"
+        highlight={{
+          city: "Berlin",
+          profileUrl: "https://hallomada.de/de/hl/ada",
+          isFounder: true,
+        }}
+      />,
+    );
+    expect(html).toContain("Hervorgehobene Bewerbung");
+    expect(html).toContain("Gründungsmitglied");
+    expect(html).toContain("Berlin");
+    expect(html).toContain("https://hallomada.de/de/hl/ada");
+  });
+
+  it("sends the landlord a private link to the rental dossier", async () => {
+    const html = await render(
+      <RentalFileReceivedEmail
+        candidateName="Rova"
+        candidateEmail="rova@example.com"
+        listingTitle="Zimmer in Berlin"
+        message="Guten Tag"
+        dossierUrl="https://hallomada.de/de/dossier/abc"
+        highlighted
+      />,
+    );
+    expect(html).toContain("Neue Mieterbewerbung");
+    expect(html).toContain("Hervorgehobene Bewerbung");
+    expect(html).toContain("https://hallomada.de/de/dossier/abc");
     expect(html).toContain("Guten Tag");
   });
 

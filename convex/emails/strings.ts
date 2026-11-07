@@ -211,3 +211,4 @@ export const applicationFailedStrings: Record<EmailLocale, ApplicationFailedStri
     button: "Bewerbung erneut senden",
   },
 };
+

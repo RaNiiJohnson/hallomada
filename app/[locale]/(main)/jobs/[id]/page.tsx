@@ -1,5 +1,6 @@
 "use client";
 
+import { FounderBadge } from "@/components/founder-badge";
 import { ShareButton } from "@/components/ShareButton";
 import { MobileActionsMenu } from "@/components/mobile-actions-menu";
 import { ReportDialog } from "@/components/report-dialog";
@@ -18,6 +19,9 @@ import { useTimeTranslations } from "@/hooks/use-time-translations";
 import { Link } from "@/i18n/navigation";
 import { useAuthRequiredAction } from "@/hooks/use-auth-required-action";
 import { formatDateLong, getRelativeTime } from "@/lib/date";
+import { ReceivedApplications } from "./_component/received-applications";
+import { PublicationStats } from "@/components/featured/publication-stats";
+import { useRecordView } from "@/hooks/use-record-view";
 import { getConvexErrorCode } from "@/lib/convex-error";
 import { getSafeExternalUrl } from "@/lib/external-url";
 import { LocationMap } from "@/lib/LocationMap";
@@ -64,6 +68,7 @@ export default function JobDetailsPage() {
   const jobOffer = useQuery(api.jobs.queries.getJobWithContact, {
     slug: id as string,
   });
+  useRecordView(jobOffer ? { type: "job", id: jobOffer._id } : null);
   const applicationEmailStatus = useQuery(
     api.jobs.queries.hasCurrentUserAppliedToJob,
     jobOffer ? { jobId: jobOffer._id } : "skip",
@@ -383,6 +388,7 @@ export default function JobDetailsPage() {
                       {jobOffer.authorName || t("details.anonymous")}
                     </span>
                   )}{" "}
+                  <FounderBadge userId={jobOffer.authorId} compact />{" "}
                 </>
               )}{" "}
               {!isLoading && (
@@ -778,6 +784,11 @@ export default function JobDetailsPage() {
                 </div>
               </div>
             </div>
+
+            {isAuthor && (
+              <PublicationStats resource={{ type: "job", id: jobOffer._id }} />
+            )}
+            {isAuthor && <ReceivedApplications jobId={jobOffer._id} />}
 
             {/* Apply CTA */}
 

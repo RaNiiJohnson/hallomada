@@ -1,35 +1,64 @@
 {
+  "metaTitle": "Pricing",
   "title": "Choose your plan",
-  "description": "Start for free and grow as you need.",
+  "description": "Hallomada stays open to everyone. Premium gives you more visibility and tools to find what you need faster.",
+  "perMonth": "/ month",
+  "soon": "Coming soon",
   "free": {
     "name": "Free",
-    "price": "€0 / month",
-    "cta": "Get started for free",
-    "features": [
-      "Basic profile",
-      "Browse listings",
-      "3 contacts per month",
-      "Access to public events",
-      "Basic search"
-    ]
+    "price": "€0",
+    "tagline": "The essentials to connect with the community.",
+    "includedTitle": "Included",
+    "included": {
+      "browse": "Browse listings and job offers",
+      "contact": "Contact advertisers and apply to job offers",
+      "messages": "Private messaging between members",
+      "communities": "Join communities, post and comment",
+      "bookmarks": "Bookmarks and personal space"
+    },
+    "limitsTitle": "Limits",
+    "limits": {
+      "listings": "{count} real estate listings per week",
+      "jobs": "{count} job offers per week",
+      "providers": "{count} provider pages per month"
+    },
+    "excludedTitle": "Not included",
+    "excluded": {
+      "highlight": "Highlighted applications",
+      "stats": "View statistics",
+      "boost": "Bumping your listings to the top of the list"
+    }
   },
-  "pro": {
-    "name": "Pro",
-    "price": "€9 / month",
-    "earlyBirdPrice": "€0 / month",
-    "earlyBirdBadge": "Free for now!",
-    "cta": "Choose Premium",
-    "features": [
-      "Group messages",
-      "Unlimited search (Jobs & Listings)",
-      "Access to interactive map",
-      "Unlimited contacts (Jobs & Listings)",
-      "Priority support"
-    ]
+  "premium": {
+    "name": "Premium",
+    "price": "€4.90",
+    "current": "You are here",
+    "offerTitle": "Free for now.",
+    "offerText": "All members enjoy the Premium plan for free.",
+    "features": {
+      "highlight": "Your job applications highlighted to recruiters",
+      "rentalFile": "Rental application file ready to send in one click",
+      "boost": "Bump your listings and job offers to the top of the list, once a week",
+      "stats": "View statistics on your listings and job offers",
+      "priority": "Priority moderation: your posts are reviewed first",
+      "quotas": "Extended quotas: {listings} listings and {jobs} job offers per week, {providers} provider pages per month",
+      "premiumBadge": "Premium badge next to your name"
+    },
+    "oneSubscription": "One subscription, whether you are looking or publishing.",
+    "groups": {
+      "find": "To find faster",
+      "visible": "To be more visible",
+      "everyone": "For everyone"
+    },
+    "regularPrice": "Regular price:"
+  },
+  "founder": {
+    "title": "Become a Founding member",
+    "text": "The first 100 members whose listing or job offer is approved by moderation get the numbered \"Founder no. …\" badge next to their name, for life."
   },
   "faq": {
-    "title": "Frequently asked questions",
-    "description": "Have questions? We are here to help.",
-    "cta": "View FAQ"
-  }
+    "question": "Questions about Premium?",
+    "link": "Read the FAQ"
+  },
+  "seeDetails": "See the pricing page"
 }

@@ -1,35 +1,64 @@
 {
+  "metaTitle": "Preise",
   "title": "Wählen Sie Ihren Plan",
-  "description": "Starten Sie kostenlos und wachsen Sie nach Bedarf.",
+  "description": "Hallomada bleibt für alle offen. Premium bringt Ihnen mehr Sichtbarkeit und Werkzeuge, um schneller zu finden, was Sie suchen.",
+  "perMonth": "/ Monat",
+  "soon": "Bald verfügbar",
   "free": {
     "name": "Kostenlos",
-    "price": "0€ / Monat",
-    "cta": "Kostenlos starten",
-    "features": [
-      "Basisprofil",
-      "Anzeigen durchsuchen",
-      "3 Kontakte pro Monat",
-      "Zugang zu öffentlichen Veranstaltungen",
-      "Einfache Suche"
-    ]
+    "price": "0 €",
+    "tagline": "Das Wichtigste, um sich mit der Community auszutauschen.",
+    "includedTitle": "Enthalten",
+    "included": {
+      "browse": "Inserate und Stellenangebote ansehen",
+      "contact": "Inserenten kontaktieren und sich auf Stellen bewerben",
+      "messages": "Private Nachrichten zwischen Mitgliedern",
+      "communities": "Communities beitreten, posten und kommentieren",
+      "bookmarks": "Favoriten und persönlicher Bereich"
+    },
+    "limitsTitle": "Limits",
+    "limits": {
+      "listings": "{count} Immobilieninserate pro Woche",
+      "jobs": "{count} Stellenangebote pro Woche",
+      "providers": "{count} Anbieterseiten pro Monat"
+    },
+    "excludedTitle": "Nicht enthalten",
+    "excluded": {
+      "highlight": "Hervorgehobene Bewerbungen",
+      "stats": "Aufrufstatistiken",
+      "boost": "Anzeigen an die Listenspitze schieben"
+    }
   },
-  "pro": {
-    "name": "Pro",
-    "price": "9€ / Monat",
-    "earlyBirdPrice": "0€ / Monat",
-    "earlyBirdBadge": "Vorerst kostenlos!",
-    "cta": "Premium wählen",
-    "features": [
-      "Gruppennachrichten",
-      "Unbegrenzte Suche (Jobs & Inserate)",
-      "Zugang zur interaktiven Karte",
-      "Unbegrenzte Kontakte (Jobs & Inserate)",
-      "Prioritätssupport"
-    ]
+  "premium": {
+    "name": "Premium",
+    "price": "4,90 €",
+    "current": "Hier sind Sie",
+    "offerTitle": "Derzeit kostenlos.",
+    "offerText": "Alle Mitglieder nutzen das Premium-Angebot kostenlos.",
+    "features": {
+      "highlight": "Ihre Bewerbungen werden bei Arbeitgebern hervorgehoben",
+      "rentalFile": "Bewerbungsmappe für Wohnungen, mit einem Klick versendet",
+      "boost": "Ihre Inserate und Stellenangebote einmal pro Woche an die Spitze der Liste schieben",
+      "stats": "Aufrufstatistiken für Ihre Inserate und Stellenangebote",
+      "priority": "Bevorzugte Moderation: Ihre Veröffentlichungen werden zuerst geprüft",
+      "quotas": "Erweiterte Kontingente: {listings} Inserate und {jobs} Stellenangebote pro Woche, {providers} Anbieterseiten pro Monat",
+      "premiumBadge": "Premium-Badge neben Ihrem Namen"
+    },
+    "oneSubscription": "Ein einziges Abo – ob Sie suchen oder veröffentlichen.",
+    "groups": {
+      "find": "Schneller finden",
+      "visible": "Sichtbarer werden",
+      "everyone": "Für alle"
+    },
+    "regularPrice": "Regulärer Preis:"
+  },
+  "founder": {
+    "title": "Werden Sie Gründungsmitglied",
+    "text": "Die ersten 100 Mitglieder, deren Inserat oder Stellenangebot von der Moderation freigegeben wird, erhalten dauerhaft das nummerierte Badge „Gründer Nr. …“ neben ihrem Namen."
   },
   "faq": {
-    "title": "Häufig gestellte Fragen",
-    "description": "Haben Sie Fragen? Wir sind hier, um zu helfen.",
-    "cta": "FAQ ansehen"
-  }
+    "question": "Fragen zu Premium?",
+    "link": "Zu den FAQ"
+  },
+  "seeDetails": "Zur Preisseite"
 }

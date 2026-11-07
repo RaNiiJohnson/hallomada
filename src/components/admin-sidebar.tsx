@@ -32,6 +32,7 @@ import { Logo } from "@/web/logo";
 import { api } from "@convex/_generated/api";
 import { useQuery } from "convex-helpers/react/cache";
 import {
+  BookOpen,
   ChartNoAxesCombined,
   ChevronsUpDown,
   ExternalLink,
@@ -53,6 +54,7 @@ const navigationIcons = {
   moderation: Flag,
   audit: ShieldCheck,
   quotas: Gauge,
+  docs: BookOpen,
   analytics: ChartNoAxesCombined,
 } as const;
 
@@ -134,6 +136,7 @@ export function AdminSidebar({ ...props }: React.ComponentProps<typeof Sidebar>)
                 const isActive =
                   !item.external &&
                   (pathname.endsWith(item.href) ||
+                    (item.key === "docs" && pathname.includes("/admin/docs")) ||
                     (item.href === "/admin" && pathname.endsWith("/admin")));
                 const content = (
                   <>
@@ -141,6 +144,10 @@ export function AdminSidebar({ ...props }: React.ComponentProps<typeof Sidebar>)
                     <span>{title}</span>
                     {item.external ? (
                       <ExternalLink className="ml-auto size-3.5" />
+                    ) : item.key === "docs" ? (
+                      <span className="ml-auto rounded-full bg-amber-500/15 px-1.5 text-[10px] font-semibold uppercase text-amber-700 dark:text-amber-400">
+                        {t("sidebar.docsNew")}
+                      </span>
                     ) : item.key === "moderation" &&
                       moderationCount !== undefined &&
                       moderationCount > 0 ? (

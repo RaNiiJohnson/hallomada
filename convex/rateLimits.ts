@@ -38,6 +38,11 @@ export const limiter = new RateLimiter(components.rateLimiter, {
     period: MINUTE,
     capacity: 5,
   },
+  rentalFilePerUser: {
+    kind: "token bucket",
+    rate: 20,
+    period: DAY,
+  },
   applicationPerUser: {
     kind: "token bucket",
     rate: 20,
@@ -51,6 +56,13 @@ export const limiter = new RateLimiter(components.rateLimiter, {
     rate: 3,
     period: DAY,
     capacity: 3,
+  },
+  // Silent protection against abuse (not shown to members): 20 communities
+  // per 30 days per user.
+  createCommunityPerUser: {
+    kind: "fixed window",
+    rate: 20,
+    period: 30 * DAY,
   },
   reportPerUser: {
     kind: "token bucket",

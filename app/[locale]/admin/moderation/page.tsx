@@ -7,7 +7,7 @@ import { Link } from "@/i18n/navigation";
 import { api } from "@convex/_generated/api";
 import { usePaginatedQuery, useQuery } from "convex-helpers/react/cache";
 import { useMutation } from "convex/react";
-import { Check, ExternalLink, Flag, Loader2, X } from "lucide-react";
+import { Check, ExternalLink, Flag, Loader2, X, Zap } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
@@ -135,6 +135,12 @@ export default function ModerationPage() {
                     <div className="min-w-0 space-y-2">
                       <div className="flex flex-wrap items-center gap-2">
                         <Badge>{moderationT("publications.pending")}</Badge>
+                        {publication.priority && (
+                          <Badge className="gap-1 bg-amber-400 text-amber-950 hover:bg-amber-400">
+                            <Zap className="size-3" />
+                            {moderationT("publications.priority")}
+                          </Badge>
+                        )}
                         <Badge variant="outline">
                           {moderationT(
                             `publications.types.${publication.resource.type}`,

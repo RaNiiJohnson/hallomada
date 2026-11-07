@@ -18,6 +18,9 @@ import { toast } from "sonner";
 import { ListingLifecycleActions } from "../_component/listingLifecycleActions";
 import { PropertyPageSkeleton } from "../_component/skeleton";
 import { PropertyDetails } from "./components/PropertyDetails";
+import { ReceivedRentalFiles } from "@/components/rental-file/received-rental-files";
+import { PublicationStats } from "@/components/featured/publication-stats";
+import { useRecordView } from "@/hooks/use-record-view";
 import { SimilarListings } from "./components/SimilarListings";
 
 export default function PropertyPage() {
@@ -31,6 +34,7 @@ export default function PropertyPage() {
   const property = useQuery(api.listings.queries.getListingWithContact, {
     slug: params.id,
   });
+  useRecordView(property ? { type: "listing", id: property._id } : null);
 
   if (property === undefined) {
     return <PropertyPageSkeleton />;
@@ -135,6 +139,15 @@ export default function PropertyPage() {
           property={property}
           showContactBar={showVisitorActions}
         />
+        {canManage && (
+          <PublicationStats
+            resource={{ type: "listing", id: property._id }}
+            className="mt-6 sm:mt-8"
+          />
+        )}
+        {canManage && property.acceptsRentalFile === true && (
+          <ReceivedRentalFiles listingId={property._id} />
+        )}
         {/* Section des annonces similaires */}
         <div className="mt-6 sm:mt-8">
           <SimilarListings slug={params.id} property={property} />

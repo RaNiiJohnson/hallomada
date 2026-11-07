@@ -1,0 +1,27 @@
+---
+title: Remontée d'annonce
+description: Prête dans le code mais retirée de l'interface pour le moment (« Bientôt »).
+---
+
+## En bref
+
+L'idée : l'auteur d'une annonce ou d'une offre peut la **remonter en tête de liste**, **une fois par semaine**. Cette fonctionnalité est **prête, mais retirée du site** : le bouton n'apparaît plus et elle est affichée « **Bientôt** » sur la page des tarifs.
+
+## Pourquoi elle est retirée
+
+Pendant la période gratuite, **tout le monde est Premium** : tout le monde pourrait remonter toutes ses annonces, et les listes perdraient leur sens. Elle reviendra avec le Premium payant.
+
+## Ce qui reste en place
+
+- Les listes Immobilier et Emplois restent classées des plus récentes aux plus anciennes.
+- Une nouvelle annonce arrive en haut **le jour où elle est validée**, même si elle est restée quelques jours en attente.
+- **Modifier** une annonce ne la fait pas remonter.
+
+<DevNotes>
+
+- Le code est conservé : `convex/bump.ts`, `convex/bumpValues.ts` et le composant `src/components/featured/bump-button.tsx`.
+- Pour réactiver : remettre `<BumpButton>` dans `app/[locale]/(main)/listing/[id]/page.tsx` et `app/[locale]/(main)/jobs/[id]/page.tsx`, puis `soon: false` pour `boost` dans `src/components/pricing.tsx`.
+- Les listes sont triées par `listedAt` (index `by_listedAt`, `by_propertyType_and_listedAt`, `by_type_and_listedAt`, `by_contract_and_listedAt`).
+- **Migration toujours obligatoire** au déploiement, sinon les anciennes annonces passent en bas (voir [Mise en ligne](/admin/docs/developpeur/deploiement-et-migrations)).
+
+</DevNotes>

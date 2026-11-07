@@ -21,7 +21,8 @@
     "paths": {
       "@/*": ["./src/*"],
       "@app/*": ["./app/*"],
-      "@convex/*": ["./convex/*"]
+      "@convex/*": ["./convex/*"],
+      "fumadocs-mdx:collections/*": ["./.source/*"]
     }
   },
   "include": [

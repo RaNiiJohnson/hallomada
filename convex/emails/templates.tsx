@@ -1,4 +1,4 @@
-import { Link } from "react-email";
+import { Link, Section, Text } from "react-email";
 import {
   CtaButton,
   EmailLayout,
@@ -63,12 +63,15 @@ export function NewApplicationEmail({
   jobTitle,
   coverLetter,
   cvUrl,
+  highlight,
 }: {
   candidateName: string;
   candidateEmail: string;
   jobTitle: string;
   coverLetter?: string;
   cvUrl: string;
+  /** Present for Premium candidates: the application is highlighted. */
+  highlight?: { city?: string; profileUrl?: string; isFounder: boolean };
 }) {
   return (
     <EmailLayout
@@ -76,6 +79,32 @@ export function NewApplicationEmail({
       preview={`${candidateName} hat sich auf ${jobTitle} beworben.`}
       footer={shared.de.footer}
     >
+      {highlight && (
+        <Section
+          style={{
+            backgroundColor: "#fef3c7",
+            border: "1px solid #fcd34d",
+            borderRadius: "10px",
+            padding: "12px 16px",
+            marginBottom: "16px",
+          }}
+        >
+          <Text style={{ margin: 0, fontSize: "14px", fontWeight: 600, color: "#92400e" }}>
+            ⭐ Hervorgehobene Bewerbung
+          </Text>
+          <Text style={{ margin: "4px 0 0", fontSize: "13px", color: "#78350f" }}>
+            {candidateName} ist Premium-Mitglied von Hallomada
+            {highlight.isFounder ? " und Gründungsmitglied" : ""}
+            {highlight.city ? ` · ${highlight.city}` : ""}.
+            {highlight.profileUrl ? (
+              <>
+                {" "}
+                <Link href={highlight.profileUrl}>Profil ansehen</Link>
+              </>
+            ) : null}
+          </Text>
+        </Section>
+      )}
       <Title>Neue Bewerbung</Title>
       <Paragraph>
         <Strong>{candidateName}</Strong> hat sich auf Ihre Stelle{" "}
@@ -162,6 +191,71 @@ export function ApplicationFailedEmail({
       </Paragraph>
       <Paragraph>{bounced ? t.bouncedRetry : t.retry}</Paragraph>
       <CtaButton href={jobUrl}>{t.button}</CtaButton>
+    </EmailLayout>
+  );
+}
+
+/** Sent to the landlord. Listings are in Germany, so this one is German. */
+export function RentalFileReceivedEmail({
+  candidateName,
+  candidateEmail,
+  listingTitle,
+  message,
+  dossierUrl,
+  highlighted,
+}: {
+  candidateName: string;
+  candidateEmail: string;
+  listingTitle: string;
+  message?: string;
+  dossierUrl: string;
+  highlighted: boolean;
+}) {
+  return (
+    <EmailLayout
+      lang="de"
+      preview={`${candidateName} hat Ihnen Bewerbungsunterlagen für ${listingTitle} geschickt.`}
+      footer={shared.de.footer}
+    >
+      {highlighted && (
+        <Section
+          style={{
+            backgroundColor: "#fef3c7",
+            border: "1px solid #fcd34d",
+            borderRadius: "10px",
+            padding: "12px 16px",
+            marginBottom: "16px",
+          }}
+        >
+          <Text style={{ margin: 0, fontSize: "14px", fontWeight: 600, color: "#92400e" }}>
+            ⭐ Hervorgehobene Bewerbung
+          </Text>
+          <Text style={{ margin: "4px 0 0", fontSize: "13px", color: "#78350f" }}>
+            {candidateName} ist Premium-Mitglied von Hallomada.
+          </Text>
+        </Section>
+      )}
+      <Title>Neue Mieterbewerbung</Title>
+      <Paragraph>
+        <Strong>{candidateName}</Strong> interessiert sich für Ihr Inserat{" "}
+        <Strong>{listingTitle}</Strong> und hat Ihnen die Bewerbungsunterlagen
+        geschickt (Selbstauskunft und Nachweise).
+      </Paragraph>
+      <CtaButton href={dossierUrl}>Unterlagen ansehen</CtaButton>
+      {message && (
+        <>
+          <Paragraph>
+            <Strong>Nachricht</Strong>
+          </Paragraph>
+          <Quote>{message}</Quote>
+        </>
+      )}
+      <Note>
+        Der Link ist 30 Tage gültig, solange die Person ihn nicht zurückzieht.
+        Antworten Sie einfach auf diese E-Mail, um {candidateName} unter{" "}
+        <Link href={`mailto:${candidateEmail}`}>{candidateEmail}</Link> zu
+        kontaktieren.
+      </Note>
     </EmailLayout>
   );
 }

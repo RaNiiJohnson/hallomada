@@ -63,6 +63,7 @@ describe("Listings", () => {
       title: "Listing Title",
       propertyType: "apartment",
       listingMode: "rent",
+      acceptsRentalFile: true,
       location: { lat: 0, lng: 0 },
       city: "City",
       price: 1000,
@@ -103,6 +104,7 @@ describe("Listings", () => {
         title: "Contact Listing",
         propertyType: "studio",
         listingMode: "rent",
+        acceptsRentalFile: true,
         city: "Berlin",
         location: { lat: 52.52, lng: 13.405 },
         price: 900,
@@ -234,6 +236,7 @@ describe("Listings", () => {
         title: "No contact listing",
         propertyType: "studio",
         listingMode: "rent",
+        acceptsRentalFile: true,
         city: "Berlin",
         price: 900,
         availableFrom: 1_800_000_000_000,
@@ -285,6 +288,7 @@ describe("Listings", () => {
         title: "No city listing",
         propertyType: "studio",
         listingMode: "rent",
+        acceptsRentalFile: true,
         city: " ",
         price: 900,
         availableFrom: 1_800_000_000_000,
@@ -574,6 +578,7 @@ describe("Listings", () => {
       title: "Validated listing",
       propertyType: "apartment" as const,
       listingMode: "rent" as const,
+      acceptsRentalFile: true,
       city: "Berlin",
       price: 900,
       area: 40,
@@ -651,6 +656,21 @@ describe("Listings", () => {
           listingMode: "sale",
         }),
       ).resolves.toBeDefined();
+    });
+
+    it("makes a rental owner choose between a dossier and contact only", async () => {
+      await expect(
+        t.mutation(api.listings.mutations.createListing, {
+          ...base,
+          acceptsRentalFile: undefined,
+        }),
+      ).rejects.toThrow("Choose between a rental dossier and contact only");
+      const contactOnly = await t.mutation(api.listings.mutations.createListing, {
+        ...base,
+        acceptsRentalFile: false,
+      });
+      const stored = await t.run((ctx) => ctx.db.get(contactOnly));
+      expect(stored?.acceptsRentalFile).toBe(false);
     });
 
     it("applies the same bounds when updating", async () => {

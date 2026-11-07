@@ -42,6 +42,7 @@ const notificationIcon: Record<string, string> = {
   provider_rejected: "❌",
   provider_pending_review: "🕒",
   job_contact_bounced: "⚠️",
+  rental_file_received: "📁",
 };
 
 export function NotificationWidget({
@@ -211,7 +212,8 @@ export function NotificationWidget({
                   {notifications && notifications.length > 0 && (
                     <button
                       onClick={() => markAllRead()}
-                      className="text-xs text-muted-foreground hover:text-foreground transition-colors py-1 px-2 hover:bg-muted rounded-md"
+                      disabled={!unreadCount}
+                      className="text-xs text-muted-foreground hover:text-foreground transition-colors py-1 px-2 hover:bg-muted rounded-md disabled:pointer-events-none disabled:opacity-50"
                     >
                       {t("markAllRead")}
                     </button>
@@ -273,7 +275,8 @@ export function NotificationWidget({
               {notifications && notifications.length > 0 && (
                 <button
                   onClick={() => markAllRead()}
-                  className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+                  disabled={!unreadCount}
+                  className="text-xs text-muted-foreground hover:text-foreground transition-colors disabled:pointer-events-none disabled:opacity-50"
                 >
                   {t("markAllRead")}
                 </button>

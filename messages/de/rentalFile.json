@@ -1,0 +1,117 @@
+{
+  "panel": {
+    "title": "Meine Bewerbungsmappe",
+    "description": "Bereiten Sie Ihre Unterlagen einmal vor (Selbstauskunft und Nachweise) und senden Sie sie mit einem Klick aus einem Mietinserat. Der Vermieter erhält einen privaten Link, 30 Tage gültig, den Sie jederzeit zurückziehen können."
+  },
+  "profile": {
+    "title": "Selbstauskunft",
+    "description": "Alle Angaben sind freiwillig.",
+    "occupation": "Beruf",
+    "employer": "Arbeitgeber",
+    "income": "Monatliches Nettoeinkommen (€)",
+    "household": "Anzahl Personen",
+    "moveIn": "Gewünschter Einzug",
+    "pets": "Haustiere",
+    "smoker": "Raucher/in",
+    "about": "Ein paar Worte über Sie",
+    "aboutPlaceholder": "Stellen Sie sich dem Vermieter in wenigen Zeilen vor.",
+    "unset": "Keine Angabe",
+    "yes": "Ja",
+    "no": "Nein",
+    "save": "Speichern",
+    "saving": "Wird gespeichert…",
+    "saved": "Angaben gespeichert",
+    "error": "Speichern nicht möglich. Bitte prüfen Sie die Felder."
+  },
+  "documents": {
+    "title": "Meine Nachweise",
+    "description": "PDF, JPG, PNG oder WebP, höchstens 10 MB pro Datei.",
+    "privacyTip": "Diese Unterlagen sind privat: Nur Vermieter, denen Sie Ihre Mappe senden, können sie sehen. Schwärzen Sie, was nicht nötig ist, z. B. die Ausweisnummer.",
+    "add": "Hinzufügen",
+    "uploaded": "Dokument hinzugefügt",
+    "uploadError": "Dokument konnte nicht hinzugefügt werden. Bitte erneut versuchen.",
+    "tooLarge": "Diese Datei ist größer als 10 MB.",
+    "removed": "Dokument gelöscht",
+    "remove": "{name} löschen",
+    "limit": "Sie haben das Limit von {max} Dokumenten erreicht.",
+    "categories": {
+      "id": {
+        "label": "Ausweis",
+        "hint": "Personalausweis oder Reisepass, Vorder- und Rückseite."
+      },
+      "payslip": {
+        "label": "Gehaltsnachweise",
+        "hint": "Die letzten 3 Monate."
+      },
+      "schufa": {
+        "label": "SCHUFA-Auskunft",
+        "hint": "Aktuelle SCHUFA-Bonitätsauskunft."
+      },
+      "rentDebtFree": {
+        "label": "Mietschuldenfreiheitsbescheinigung",
+        "hint": "Bestätigung des Vorvermieters."
+      },
+      "employment": {
+        "label": "Arbeitsvertrag",
+        "hint": "Oder Bescheinigung von Arbeitgeber, Hochschule, Stipendium …"
+      },
+      "other": {
+        "label": "Weitere Unterlagen",
+        "hint": "Bürgschaft, Empfehlungsschreiben usw."
+      }
+    }
+  },
+  "sentList": {
+    "title": "Gesendet an",
+    "description": "Vermieter sehen immer die aktuelle Version Ihrer Mappe. Ein gelöschtes Dokument verschwindet auch bei ihnen.",
+    "empty": "Sie haben Ihre Mappe noch an kein Inserat gesendet.",
+    "deletedListing": "Gelöschtes Inserat",
+    "sentOn": "Gesendet am {date}",
+    "openUntil": "Zugriff bis {date}",
+    "revoke": "Zugriff entziehen",
+    "revoked": "Zugriff entzogen",
+    "closed": "Zugriff beendet",
+    "error": "Ein Fehler ist aufgetreten. Bitte erneut versuchen."
+  },
+  "send": {
+    "button": "Bewerbungsmappe senden",
+    "sent": "Mappe gesendet",
+    "title": "Bewerbungsmappe senden",
+    "description": "Der Vermieter erhält eine Benachrichtigung und einen privaten Link zu Ihrer Mappe, 30 Tage gültig.",
+    "empty": "Ihre Mappe ist leer. Fügen Sie vor dem Senden mindestens einen Nachweis hinzu.",
+    "prepare": "Mappe vorbereiten",
+    "summary": "{count, plural, one {# Dokument wird geteilt.} other {# Dokumente werden geteilt.}}",
+    "edit": "Mappe bearbeiten",
+    "message": "Nachricht an den Vermieter (optional)",
+    "messagePlaceholder": "Guten Tag, Ihr Inserat interessiert mich sehr …",
+    "privacy": "Sie können den Zugriff jederzeit in Ihrem persönlichen Bereich entziehen.",
+    "submit": "Senden",
+    "sending": "Wird gesendet…",
+    "success": "Mappe an den Vermieter gesendet.",
+    "error": "Mappe konnte nicht gesendet werden. Bitte erneut versuchen."
+  },
+  "received": {
+    "title": "{count, plural, =0 {Eingegangene Bewerbungen} one {# Bewerbung eingegangen} other {# Bewerbungen eingegangen}}",
+    "empty": "Noch keine Bewerbungen eingegangen.",
+    "hint": "Hervorgehobene Bewerbungen stammen von Premium-Mitgliedern und werden zuerst angezeigt.",
+    "highlighted": "Hervorgehoben",
+    "open": "Unterlagen ansehen",
+    "closed": "Zugriff entzogen oder abgelaufen."
+  },
+  "view": {
+    "metaTitle": "Bewerbungsmappe",
+    "eyebrow": "Bewerbungsmappe",
+    "highlighted": "Hervorgehoben",
+    "for": "Für das Inserat",
+    "validUntil": "Link gültig bis {date}.",
+    "message": "Nachricht",
+    "profile": "Selbstauskunft",
+    "noProfile": "Keine Angaben.",
+    "documents": "Nachweise",
+    "noDocuments": "Keine Dokumente in dieser Mappe.",
+    "open": "Öffnen",
+    "confidential": "Vertrauliche Unterlagen, nur für diese Bewerbung geteilt. Bitte nicht weitergeben.",
+    "unavailableTitle": "Mappe nicht verfügbar",
+    "unavailableText": "Dieser Link ist abgelaufen oder der Zugriff wurde entzogen."
+  }
+}

@@ -9,6 +9,7 @@ import {
   providerServiceModeValidator,
   providerServiceValidator,
 } from "./providers/values";
+import { rentalDocumentCategoryValidator } from "./rentalFiles/values";
 import {
   reportReasonValidator,
   reportStatusValidator,
@@ -128,6 +129,17 @@ export default defineSchema({
     trainingRequirements: v.optional(v.string()),
     authorId: v.string(),
     authorName: v.optional(v.string()),
+    // Deprecated (alerts and "En vedette" were removed). Kept optional only so
+    // rows written while they existed still validate; safe to drop once cleared.
+    alertsSentAt: v.optional(v.number()),
+    featuredUntil: v.optional(v.number()),
+    // Set the first time moderation approves it (later re-approvals after an
+    // edit keep their place in the list).
+    approvedAt: v.optional(v.number()),
+    // Position in the default (newest first) list: set on first approval and
+    // moved to "now" by a bump. Older rows are backfilled (see convex/bump.ts).
+    listedAt: v.optional(v.number()),
+    bumpedAt: v.optional(v.number()),
     // Optional during the rollout so existing offers remain visible as active.
     status: v.optional(
       v.union(
@@ -146,6 +158,9 @@ export default defineSchema({
     .index("by_city", ["city"])
     .index("by_type", ["type"])
     .index("by_contract", ["contractType"])
+    .index("by_listedAt", ["listedAt"])
+    .index("by_type_and_listedAt", ["type", "listedAt"])
+    .index("by_contract_and_listedAt", ["contractType", "listedAt"])
     .index("by_salary", ["salary"])
     .index("by_slug", ["slug"])
     .searchIndex("search_all_fields", {
@@ -211,6 +226,20 @@ export default defineSchema({
 
     authorId: v.string(),
     authorName: v.optional(v.string()),
+    // Deprecated (alerts and "En vedette" were removed). Kept optional only so
+    // rows written while they existed still validate; safe to drop once cleared.
+    alertsSentAt: v.optional(v.number()),
+    featuredUntil: v.optional(v.number()),
+    // Set the first time moderation approves it (later re-approvals after an
+    // edit keep their place in the list).
+    approvedAt: v.optional(v.number()),
+    // Rentals only: the owner asks candidates for a rental dossier (true) or
+    // only wants to be contacted (false). Missing on older listings = contact.
+    acceptsRentalFile: v.optional(v.boolean()),
+    // Position in the default (newest first) list: set on first approval and
+    // moved to "now" by a bump. Older rows are backfilled (see convex/bump.ts).
+    listedAt: v.optional(v.number()),
+    bumpedAt: v.optional(v.number()),
     updatedAt: v.number(),
     searchAll: v.optional(v.string()),
   })
@@ -218,6 +247,8 @@ export default defineSchema({
     .index("by_status", ["status"])
     .index("by_city", ["city"])
     .index("by_propertyType", ["propertyType"])
+    .index("by_listedAt", ["listedAt"])
+    .index("by_propertyType_and_listedAt", ["propertyType", "listedAt"])
     .index("by_listingMode", ["listingMode"])
     .index("by_price", ["price"])
     .index("by_bedrooms", ["bedrooms"])
@@ -445,6 +476,7 @@ export default defineSchema({
       v.literal("provider_rejected"),
       v.literal("provider_pending_review"),
       v.literal("job_contact_bounced"),
+      v.literal("rental_file_received"),
     ),
     read: v.boolean(),
     postSlug: v.optional(v.string()),
@@ -468,6 +500,7 @@ export default defineSchema({
       v.literal("cover"),
       v.literal("applicationCv"),
       v.literal("provider"),
+      v.literal("rentalDocument"),
     ),
     expectedContentType: v.string(),
     maxSize: v.number(),
@@ -479,6 +512,8 @@ export default defineSchema({
   jobApplications: defineTable({
     jobId: v.id("JobOffer"),
     candidateId: v.string(),
+    // Snapshot for the job author's list; older applications don't have it.
+    candidateName: v.optional(v.string()),
     cvKey: v.string(),
     // Unguessable token embedded in the recruiter's e-mail. The /application-cv
     // route trades it for a short-lived signed R2 URL, so the link keeps working
@@ -489,6 +524,8 @@ export default defineSchema({
     cvPurgedAt: v.optional(v.number()),
     coverLetter: v.optional(v.string()),
     appliedAt: v.number(),
+    // Premium candidates are highlighted to the recruiter (email and list).
+    highlighted: v.optional(v.boolean()),
     // Optional during the safe rollout: legacy applications predate email
     // delivery tracking and remain readable until they are backfilled.
     emailStatus: v.optional(
@@ -536,14 +573,92 @@ export default defineSchema({
     .index("by_status_and_reportedAt", ["status", "reportedAt"])
     .index("by_reportedAt", ["reportedAt"]),
 
-  // Singleton row edited from the admin dashboard; absent means defaults.
-  publicationQuotas: defineTable({
-    communityPer30Days: v.number(),
-    jobsPerWeek: v.number(),
-    listingsPerWeek: v.number(),
+  // A member's rental dossier ("Mieterselbstauskunft" + documents). One row
+  // per member; documents live in `rentalDocuments`.
+  rentalFiles: defineTable({
+    userId: v.string(),
+    occupation: v.optional(v.string()),
+    employer: v.optional(v.string()),
+    netMonthlyIncome: v.optional(v.number()),
+    householdSize: v.optional(v.number()),
+    moveInDate: v.optional(v.string()),
+    pets: v.optional(v.boolean()),
+    smoker: v.optional(v.boolean()),
+    about: v.optional(v.string()),
+    updatedAt: v.number(),
+  }).index("by_userId", ["userId"]),
+
+  // Private files stored in R2. Never public: landlords open them through a
+  // time-limited, revocable link (`rentalApplications.token`).
+  rentalDocuments: defineTable({
+    userId: v.string(),
+    category: rentalDocumentCategoryValidator,
+    key: v.string(),
+    fileName: v.string(),
+    contentType: v.string(),
+    uploadedAt: v.number(),
+  }).index("by_userId", ["userId"]),
+
+  // A dossier sent to a listing. The landlord sees the candidate's dossier as
+  // it is now (so deleted documents disappear) until `expiresAt` or until the
+  // candidate revokes access.
+  rentalApplications: defineTable({
+    listingId: v.id("RealestateListing"),
+    candidateId: v.string(),
+    candidateName: v.string(),
+    message: v.optional(v.string()),
+    highlighted: v.boolean(),
+    token: v.string(),
+    sentAt: v.number(),
+    expiresAt: v.number(),
+    revokedAt: v.optional(v.number()),
+  })
+    .index("by_listingId_and_candidateId", ["listingId", "candidateId"])
+    .index("by_candidateId", ["candidateId"])
+    .index("by_token", ["token"])
+    .index("by_expiresAt", ["expiresAt"]),
+
+  // Daily view counters for listings and job offers ("listing:<id>" or
+  // "job:<id>"), kept apart from the publications so a view never
+  // invalidates the lists that show them.
+  publicationViews: defineTable({
+    resourceKey: v.string(),
+    day: v.string(),
+    views: v.number(),
+  }).index("by_resourceKey_and_day", ["resourceKey", "day"]),
+
+  // "Founding member" badge holders, one row per user (see convex/founders.ts
+  // for the rules: first 100 approved publishers, plus manual grants).
+  founders: defineTable({
+    userId: v.string(),
+    since: v.number(),
+    // "Fondateur n° 23". Optional for rows created before numbering;
+    // `founders:rebuildFounders` assigns them.
+    number: v.optional(v.number()),
+    source: v.optional(v.union(v.literal("auto"), v.literal("manual"))),
+    grantedBy: v.optional(v.string()),
+  })
+    .index("by_userId", ["userId"])
+    .index("by_number", ["number"]),
+
+  // Singleton row edited from the admin dashboard. Absent or `closesAt: null`
+  // means the founder program is still open.
+  founderProgram: defineTable({
+    closesAt: v.union(v.number(), v.null()),
     updatedAt: v.number(),
     updatedBy: v.string(),
   }),
+
+  // One row per plan ("free" / "premium"), edited from the admin dashboard;
+  // a missing row means the defaults in publicationQuotaValues.ts.
+  planQuotas: defineTable({
+    plan: v.union(v.literal("free"), v.literal("premium")),
+    jobsPerWeek: v.number(),
+    listingsPerWeek: v.number(),
+    providersPerMonth: v.number(),
+    updatedAt: v.number(),
+    updatedBy: v.string(),
+  }).index("by_plan", ["plan"]),
 
   adminAuditEvents: defineTable({
     administratorId: v.string(),

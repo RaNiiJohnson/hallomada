@@ -12,4 +12,12 @@ crons.interval(
   {},
 );
 
+// Ends landlord access to rental dossiers once their access window is over.
+crons.interval(
+  "expire rental dossier access",
+  { hours: 1 },
+  internal.rentalFiles.send.expireAccess,
+  {},
+);
+
 export default crons;

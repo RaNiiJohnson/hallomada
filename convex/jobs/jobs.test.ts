@@ -1,12 +1,13 @@
 /// <reference types="vite/client" />
 
 import { convexTest } from "convex-test";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { api, internal } from "../_generated/api";
 import { Id } from "../_generated/dataModel";
 import schema from "../schema";
 import { modules } from "../test.setup";
 import { limiter } from "../rateLimits";
+import { comingSoon } from "../premium";
 
 vi.mock("../notifications/admin", () => ({
   notifyAdministratorsOfPendingPublication: vi.fn(),
@@ -541,6 +542,67 @@ describe("Jobs", () => {
     await expect(
       submitApplication({ jobId }),
     ).rejects.toThrow("You have already applied to this job");
+  });
+
+  afterEach(() => {
+    comingSoon.highlightedApplications = false;
+  });
+
+  it("does not highlight applications while the feature is coming soon", async () => {
+    authState.user._id = "candidate-a";
+    authState.user.id = "candidate-a";
+    const payload = await submitApplication({ jobId, coverLetter: "Bonjour" });
+    expect(payload.highlighted).toBe(false);
+  });
+
+  it("highlights Premium applications and lists them first for the job author", async () => {
+    comingSoon.highlightedApplications = true;
+    authState.user._id = "candidate-a";
+    authState.user.id = "candidate-a";
+    authState.user.name = "Candidate A";
+    const payload = await submitApplication({ jobId, coverLetter: "Bonjour" });
+    expect(payload.highlighted).toBe(true);
+    expect(payload.candidateIsFounder).toBe(false);
+
+    authState.user._id = "candidate-b";
+    authState.user.id = "candidate-b";
+    authState.user.name = "Candidate B";
+    const second = await submitApplication({ jobId });
+    // Make the order deterministic: B applied after A.
+    await t.run(async (ctx) => {
+      await ctx.db.patch(payload.applicationId, { appliedAt: 1_000 });
+      await ctx.db.patch(second.applicationId, { appliedAt: 2_000 });
+    });
+    // An older application from before highlighting existed.
+    await t.run(async (ctx) => {
+      await ctx.db.insert("jobApplications", {
+        jobId,
+        candidateId: "legacy",
+        cvKey: "cv/legacy.pdf",
+        appliedAt: 3_000,
+      });
+    });
+
+    // Candidates cannot see the list.
+    await expect(
+      t.query(api.jobs.queries.listReceivedApplications, { jobId }),
+    ).resolves.toBeNull();
+
+    authState.user._id = "testUserId";
+    authState.user.id = "testUserId";
+    authState.user.name = "Test User";
+    const received = await t.query(api.jobs.queries.listReceivedApplications, {
+      jobId,
+    });
+    expect(received?.map((a) => a.candidateName)).toEqual([
+      "Candidate B",
+      "Candidate A",
+      null,
+    ]);
+    expect(received?.[0].highlighted).toBe(true);
+    expect(received?.[1].coverLetter).toBe("Bonjour");
+    expect(received?.[1].cvUrl).toMatch(/application-cv\?t=/);
+    expect(received?.[2]).toMatchObject({ highlighted: false, cvUrl: null });
   });
 
   describe("Resend webhook", () => {

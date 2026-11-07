@@ -4,6 +4,7 @@ export type AdminNavigationKey =
   | "moderation"
   | "audit"
   | "quotas"
+  | "docs"
   | "analytics";
 
 export type AdminNavigationItem = {
@@ -48,6 +49,7 @@ export function getAdminNavigation(
     { key: "moderation", href: "/admin/moderation", external: false },
     { key: "audit", href: "/admin/audit", external: false },
     { key: "quotas", href: "/admin/quotas", external: false },
+    { key: "docs", href: "/admin/docs", external: false },
   ];
   const analyticsUrl = getPostHogDashboardUrl(postHogDashboardUrl);
 

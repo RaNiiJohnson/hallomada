@@ -264,5 +264,14 @@
       "fullTime": "Full-time",
       "partTime": "Part-time"
     }
+  },
+  "received": {
+    "title": "{count, plural, =0 {Applications received} one {# application received} other {# applications received}}",
+    "empty": "No applications yet. They will appear here and are also sent to you by email.",
+    "hint": "Highlighted applications come from Premium members and are shown first.",
+    "highlighted": "Highlighted",
+    "anonymous": "Candidate",
+    "openCv": "Open CV",
+    "cvUnavailable": "The CV is no longer available."
   }
 }

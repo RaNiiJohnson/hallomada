@@ -234,6 +234,7 @@ export const getListing = query({
         v.literal("shared"),
       ),
     ),
+    listingMode: v.optional(v.union(v.literal("rent"), v.literal("sale"))),
     bedrooms: v.optional(v.number()),
     minPrice: v.optional(v.number()),
     maxPrice: v.optional(v.number()),
@@ -243,6 +244,7 @@ export const getListing = query({
     const {
       searchTerm,
       propertyType,
+      listingMode,
       bedrooms,
       minPrice,
       maxPrice,
@@ -298,9 +300,11 @@ export const getListing = query({
       });
     } else {
       // Step 2: Standard index or no index
-      let indexedQuery: Query<DataModel["RealestateListing"]> = tableQuery;
+      // Newest (or most recently bumped) first.
+      let indexedQuery: Query<DataModel["RealestateListing"]> =
+        tableQuery.withIndex("by_listedAt");
       if (propertyType) {
-        indexedQuery = tableQuery.withIndex("by_propertyType", (q) =>
+        indexedQuery = tableQuery.withIndex("by_propertyType_and_listedAt", (q) =>
           q.eq("propertyType", propertyType),
         );
       }
@@ -318,6 +322,9 @@ export const getListing = query({
       }
       if (maxPrice !== undefined) {
         expr = q.and(expr, q.lte(q.field("price"), maxPrice));
+      }
+      if (listingMode) {
+        expr = q.and(expr, q.eq(q.field("listingMode"), listingMode));
       }
       if (!searchTerm && bedrooms && bedrooms > 0) {
         expr = q.and(expr, q.eq(q.field("bedrooms"), bedrooms));
