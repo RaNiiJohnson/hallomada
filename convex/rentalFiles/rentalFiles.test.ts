@@ -4,6 +4,7 @@ import { convexTest } from "convex-test";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { api, internal } from "../_generated/api";
 import type { Id } from "../_generated/dataModel";
+import { comingSoon } from "../premium";
 import schema from "../schema";
 import { modules } from "../test.setup";
 import { MAX_RENTAL_DOCUMENTS, RENTAL_ACCESS_MS } from "./values";
@@ -56,6 +57,7 @@ async function insertListing(t: T, authorId = "landlord-1", slug = "chambre-berl
       title: "Chambre à Berlin",
       propertyType: "room",
       listingMode: "rent",
+      acceptsRentalFile: true,
       status: "active",
       slug,
       city: "Berlin",
@@ -171,7 +173,21 @@ describe("rental dossier", () => {
     expect(r2Mock.deleteObject).toHaveBeenCalledWith(expect.anything(), "rentalDocument/a.pdf");
   });
 
+  afterEach(() => {
+    comingSoon.highlightedApplications = false;
+  });
+
+  it("refuses a dossier for a listing that only wants to be contacted", async () => {
+    const listingId = await insertListing(t);
+    await t.run(async (ctx) => {
+      await ctx.db.patch(listingId, { acceptsRentalFile: false });
+    });
+    await addDocument(t, "tenant-1");
+    await expect(send(t, listingId)).rejects.toThrow("does not ask for a rental dossier");
+  });
+
   it("sends the dossier to a listing and shows it to the landlord", async () => {
+    comingSoon.highlightedApplications = true;
     const listingId = await insertListing(t);
     await expect(send(t, listingId)).rejects.toThrow("no documents");
 

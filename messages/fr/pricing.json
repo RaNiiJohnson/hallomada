@@ -25,10 +25,9 @@
     },
     "excludedTitle": "Non inclus",
     "excluded": {
-      "alerts": "Alertes instantanées et recherches sauvegardées",
       "highlight": "Candidature mise en avant",
-      "featured": "Badge « En vedette » et remontée des annonces",
-      "stats": "Statistiques de vues"
+      "stats": "Statistiques de vues",
+      "boost": "Remontée des annonces en tête de liste"
     }
   },
   "premium": {
@@ -38,11 +37,8 @@
     "offerTitle": "Offert pour le moment.",
     "offerText": "Tous les membres profitent gratuitement de l'offre Premium.",
     "features": {
-      "alerts": "Alertes instantanées pour les nouveaux logements et emplois",
-      "savedSearches": "Recherches sauvegardées, relancées en un clic",
       "highlight": "Candidature mise en avant auprès des recruteurs",
       "rentalFile": "Dossier de location prêt à envoyer en un clic",
-      "featured": "Badge « En vedette » sur une annonce et une offre d'emploi à la fois (7 jours, renouvelable)",
       "boost": "Remontée de vos annonces et offres en tête de liste, une fois par semaine",
       "stats": "Statistiques de vues sur vos annonces et offres d'emploi",
       "priority": "Modération prioritaire : vos publications sont examinées en premier",

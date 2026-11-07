@@ -130,7 +130,9 @@
       "photos": "Photos du bien",
       "photosDesc": "Ajoutez jusqu'à {maxFiles} photos (max. {maxSize}MB chacune)",
       "photosAdded": "Photos ajoutées ({count})",
-      "existingPhoto": "Photo existante"
+      "existingPhoto": "Photo existante",
+      "rentalContact": "Que souhaitez-vous recevoir des candidats ? *",
+      "rentalContactHint": "Vous pouvez le modifier plus tard en éditant l'annonce."
     },
     "placeholders": {
       "title": "Ex: Appartement 3 pièces lumineux, centre-ville",
@@ -165,7 +167,8 @@
       "descMin": "La description doit contenir au moins 10 caractères",
       "emailInvalid": "Saisissez une adresse email valide",
       "phoneInvalid": "Saisissez un numéro de téléphone valide",
-      "numberInvalid": "Indiquez une valeur valide"
+      "numberInvalid": "Indiquez une valeur valide",
+      "rentalContactReq": "Choisissez ce que vous souhaitez recevoir"
     },
     "messages": {
       "success": "Annonce envoyée à l’administration pour validation !",
@@ -207,6 +210,16 @@
     "sections": {
       "moreDetails": "Plus de détails",
       "moreDetailsDesc": "Quartier, charges, caution, animaux, équipements, carte… Ajoutez-les si vous le souhaitez."
+    },
+    "rentalContact": {
+      "dossier": {
+        "title": "Un dossier de location",
+        "text": "Les candidats peuvent vous envoyer leur dossier (pièce d'identité, justificatifs…). Vous le consultez depuis l'annonce, pendant 30 jours."
+      },
+      "contact": {
+        "title": "Un simple contact",
+        "text": "Les candidats vous écrivent directement par WhatsApp ou par e-mail, sans dossier."
+      }
     }
   },
   "labels": {

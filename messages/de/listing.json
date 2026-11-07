@@ -130,7 +130,9 @@
       "photos": "Fotos der Immobilie",
       "photosDesc": "Füge bis zu {maxFiles} Fotos hinzu (max. {maxSize}MB pro Foto)",
       "photosAdded": "Hinzugefügte Fotos ({count})",
-      "existingPhoto": "Vorhandenes Foto"
+      "existingPhoto": "Vorhandenes Foto",
+      "rentalContact": "Was möchten Sie von Interessenten erhalten? *",
+      "rentalContactHint": "Sie können das später beim Bearbeiten des Inserats ändern."
     },
     "placeholders": {
       "title": "Z.B. Helle 3-Zimmer-Wohnung im Zentrum",
@@ -165,7 +167,8 @@
       "descMin": "Die Beschreibung muss mindestens 10 Zeichen lang sein",
       "emailInvalid": "Gib eine gültige E-Mail-Adresse ein",
       "phoneInvalid": "Gib eine gültige Telefonnummer ein",
-      "numberInvalid": "Bitte einen gültigen Wert eingeben"
+      "numberInvalid": "Bitte einen gültigen Wert eingeben",
+      "rentalContactReq": "Bitte wählen Sie aus, was Sie erhalten möchten"
     },
     "messages": {
       "success": "Anzeige zur Prüfung an die Administration gesendet!",
@@ -207,6 +210,16 @@
     "sections": {
       "moreDetails": "Weitere Details",
       "moreDetailsDesc": "Stadtteil, Nebenkosten, Kaution, Haustiere, Ausstattung, Karte … Fügen Sie sie nach Wunsch hinzu."
+    },
+    "rentalContact": {
+      "dossier": {
+        "title": "Eine Bewerbungsmappe",
+        "text": "Interessenten können Ihnen ihre Mappe senden (Ausweis, Nachweise …). Sie sehen sie 30 Tage lang im Inserat."
+      },
+      "contact": {
+        "title": "Nur Kontakt",
+        "text": "Interessenten schreiben Ihnen direkt per WhatsApp oder E-Mail, ohne Mappe."
+      }
     }
   },
   "labels": {

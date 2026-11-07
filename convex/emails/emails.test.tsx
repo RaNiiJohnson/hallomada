@@ -6,7 +6,6 @@ import {
   ApplicationSentEmail,
   NewApplicationEmail,
   RentalFileReceivedEmail,
-  SearchAlertEmail,
   ResetPasswordEmail,
   VerifyEmail,
 } from "./templates";
@@ -118,23 +117,6 @@ describe("job application emails", () => {
     expect(html).toContain("Hervorgehobene Bewerbung");
     expect(html).toContain("https://hallomada.de/de/dossier/abc");
     expect(html).toContain("Guten Tag");
-  });
-
-  it("renders the alert email for a new listing", async () => {
-    const html = await render(
-      <SearchAlertEmail
-        locale="fr"
-        name="Ada"
-        kind="listing"
-        title="Chambre à Berlin"
-        details="Berlin · 450 €"
-        url="https://hallomada.de/fr/listing/chambre"
-        manageUrl="https://hallomada.de/fr/me?tab=alerts"
-      />,
-    );
-    expect(html).toContain("Nouvelle annonce pour vous");
-    expect(html).toContain("Chambre à Berlin");
-    expect(html).toContain("Gérer mes alertes");
   });
 
   it("confirms a sent application to the candidate in their language", async () => {

@@ -13,7 +13,6 @@ import { usePaginatedQuery, useQuery } from "convex-helpers/react/cache";
 import { useConvexAuth, useMutation } from "convex/react";
 import {
   Bell,
-  BellRing,
   Bookmark,
   BriefcaseBusiness,
   Building2,
@@ -27,7 +26,6 @@ import {
 import { useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { AlertsPanel } from "./alerts-panel";
 import { RentalFilePanel } from "./rental-file-panel";
 
 const validTabs = [
@@ -36,7 +34,6 @@ const validTabs = [
   "communities",
   "applications",
   "notifications",
-  "alerts",
   "dossier",
   "profile",
 ] as const;
@@ -49,7 +46,6 @@ const tabs = [
   ["communities", UsersRound],
   ["applications", BriefcaseBusiness],
   ["notifications", Bell],
-  ["alerts", BellRing],
   ["dossier", FolderLock],
   ["profile", UserRound],
 ] as const;
@@ -411,6 +407,7 @@ function NotificationsPanel() {
     {},
     { initialNumItems: 20 },
   );
+  const unreadCount = useQuery(api.notifications.queries.getUnreadCount, {});
   const markAllRead = useMutation(api.notifications.mutations.markAllRead);
   const markOneRead = useMutation(api.notifications.mutations.markOneRead);
   if (notifications.status === "LoadingFirstPage") return <ListSkeleton />;
@@ -420,6 +417,7 @@ function NotificationsPanel() {
         <Button
           variant="outline"
           className="min-h-11 rounded-full"
+          disabled={!unreadCount}
           onClick={() => markAllRead()}
         >
           {t("markAllRead")}
@@ -587,9 +585,6 @@ export function PersonalSpace() {
           </TabsContent>
           <TabsContent value="notifications">
             <NotificationsPanel />
-          </TabsContent>
-          <TabsContent value="alerts">
-            <AlertsPanel />
           </TabsContent>
           <TabsContent value="dossier">
             <RentalFilePanel />

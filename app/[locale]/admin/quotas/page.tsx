@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { DatePicker } from "@/components/ui/date-picker";
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -144,12 +145,7 @@ function FounderProgramForm({
       </p>
       <Field>
         <FieldLabel htmlFor="founder-closes-at">{t("closesAt")}</FieldLabel>
-        <Input
-          id="founder-closes-at"
-          type="date"
-          value={date}
-          onChange={(event) => setDate(event.target.value)}
-        />
+        <DatePicker id="founder-closes-at" value={date} onChange={setDate} />
       </Field>
       <div className="flex flex-col gap-2 sm:flex-row">
         <Button type="submit" disabled={!date || saving} className="flex-1">

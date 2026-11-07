@@ -11,6 +11,7 @@ import {
 } from "react-hook-form";
 
 import { Button } from "@/components/ui/button";
+import { DatePicker } from "@/components/ui/date-picker";
 import {
   Collapsible,
   CollapsibleContent,
@@ -89,6 +90,40 @@ export function TextFormField<T extends FieldValues>({
             id={name}
             aria-invalid={fieldState.invalid}
             autoComplete="off"
+          />
+          {description ? <FieldDescription>{description}</FieldDescription> : null}
+          {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+        </Field>
+      )}
+    />
+  );
+}
+
+/** Date field (shadcn Calendar). The form value stays a "YYYY-MM-DD" string. */
+export function DateFormField<T extends FieldValues>({
+  control,
+  name,
+  label,
+  optional,
+  description,
+  placeholder,
+  min,
+}: BaseProps<T> & { placeholder?: string; min?: string }) {
+  return (
+    <Controller
+      name={name}
+      control={control}
+      render={({ field, fieldState }) => (
+        <Field data-invalid={fieldState.invalid}>
+          <Label htmlFor={name} label={label} optional={optional} />
+          <DatePicker
+            id={name}
+            value={field.value ?? ""}
+            onChange={field.onChange}
+            placeholder={placeholder}
+            min={min}
+            clearable={optional}
+            aria-invalid={fieldState.invalid}
           />
           {description ? <FieldDescription>{description}</FieldDescription> : null}
           {fieldState.invalid && <FieldError errors={[fieldState.error]} />}

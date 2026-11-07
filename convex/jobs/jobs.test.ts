@@ -1,12 +1,13 @@
 /// <reference types="vite/client" />
 
 import { convexTest } from "convex-test";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { api, internal } from "../_generated/api";
 import { Id } from "../_generated/dataModel";
 import schema from "../schema";
 import { modules } from "../test.setup";
 import { limiter } from "../rateLimits";
+import { comingSoon } from "../premium";
 
 vi.mock("../notifications/admin", () => ({
   notifyAdministratorsOfPendingPublication: vi.fn(),
@@ -543,7 +544,19 @@ describe("Jobs", () => {
     ).rejects.toThrow("You have already applied to this job");
   });
 
+  afterEach(() => {
+    comingSoon.highlightedApplications = false;
+  });
+
+  it("does not highlight applications while the feature is coming soon", async () => {
+    authState.user._id = "candidate-a";
+    authState.user.id = "candidate-a";
+    const payload = await submitApplication({ jobId, coverLetter: "Bonjour" });
+    expect(payload.highlighted).toBe(false);
+  });
+
   it("highlights Premium applications and lists them first for the job author", async () => {
+    comingSoon.highlightedApplications = true;
     authState.user._id = "candidate-a";
     authState.user.id = "candidate-a";
     authState.user.name = "Candidate A";

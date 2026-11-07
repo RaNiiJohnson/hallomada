@@ -1,4 +1,6 @@
 {
+  "clear": "Clear",
+  "pickDate": "Pick a date",
   "prev": "Previous",
   "next": "Next",
   "share": "Share",
@@ -42,20 +44,6 @@
     "label": "Founding member",
     "labelNumber": "Founder no. {number}",
     "tooltip": "One of the first 100 members to publish a listing or job offer on Hallomada."
-  },
-  "featured": {
-    "badge": "Featured",
-    "start": "Feature",
-    "stop": "Stop featuring",
-    "until": "Featured until {date}",
-    "hint": {
-      "listing": "\"Featured\" badge for 7 days. One listing at a time.",
-      "job": "\"Featured\" badge for 7 days. One job offer at a time."
-    },
-    "added": "Featured until {date}.",
-    "movedFrom": "Featured until {date}. “{title}” is no longer featured.",
-    "removed": "\"Featured\" badge removed.",
-    "error": "Could not change the featured status. Please try again."
   },
   "bump": {
     "start": "Bump to top",

@@ -16,12 +16,21 @@ Un membre qui cherche un logement prépare **une seule fois** son dossier (ses i
 - **Mes justificatifs**, par catégorie : pièce d'identité, fiches de paie, SCHUFA, attestation de l'ancien propriétaire, contrat de travail, autres. 12 documents au maximum, 10 Mo chacun.
 - **Envoyé à** : la liste des annonces où le dossier a été envoyé, avec un bouton **« Retirer l'accès »**.
 
-Sur une annonce de **location**, le bouton **« Envoyer mon dossier »**, avec un message facultatif au propriétaire.
+Sur une annonce de **location**, le bouton **« Envoyer mon dossier »**, avec un message facultatif au propriétaire. Ce bouton n'apparaît **que si le propriétaire a demandé un dossier** (voir ci-dessous).
+
+## Ce que choisit le propriétaire
+
+En publiant une annonce de **location**, le propriétaire doit d'abord choisir ce qu'il veut recevoir (choix obligatoire) :
+
+- **Un dossier de location** : les candidats peuvent lui envoyer leur dossier.
+- **Un simple contact** : les candidats lui écrivent par WhatsApp ou par e-mail, sans dossier.
+
+Il peut changer d'avis en modifiant l'annonce. Les annonces publiées avant ce choix sont en « simple contact ». Pour une vente, la question n'est pas posée.
 
 ## Ce que voit le propriétaire
 
 - Une **notification** 📁 dans Hallomada, et un **e-mail en allemand** avec un lien privé.
-- Sous son annonce, la liste **« Dossiers reçus »**, les membres Premium en premier.
+- Sous son annonce, la liste **« Dossiers reçus »**.
 - Le lien ouvre une page avec les informations, le message et les justificatifs. Pas besoin de compte.
 
 ## Les règles
@@ -41,8 +50,11 @@ Pièces d'identité, fiches de paie, SCHUFA : les [textes légaux](/admin/docs/t
 <Step title="Préparer le dossier (compte A)">
 Onglet Dossier : remplissez quelques informations et ajoutez au moins un PDF.
 </Step>
+<Step title="Choisir à la publication (compte B)">
+Publiez une annonce de location : le choix « Un dossier de location » / « Un simple contact » est obligatoire. Choisissez « Un dossier de location » et faites valider l'annonce. Avec « Un simple contact », le bouton « Envoyer mon dossier » ne doit pas apparaître.
+</Step>
 <Step title="Envoyer (compte A)">
-Sur une annonce de location publiée par B, cliquez sur « Envoyer mon dossier ». Le bouton devient « Dossier envoyé ».
+Sur l'annonce de B, cliquez sur « Envoyer mon dossier ». Le bouton devient « Dossier envoyé ».
 </Step>
 <Step title="Ouvrir (compte B)">
 B reçoit la notification et l'e-mail. Sous son annonce, « Dossiers reçus », puis « Voir le dossier ».
@@ -54,6 +66,7 @@ Dans « Envoyé à », cliquez sur « Retirer l'accès ». La page du dossier af
 
 <DevNotes>
 
+- Le choix est le champ `acceptsRentalFile` de l'annonce (`convex/listings/mutations.ts`) ; l'envoi est refusé côté serveur si ce n'est pas `true` (`convex/rentalFiles/send.ts`).
 - Dossier `convex/rentalFiles/` : `mutations.ts`, `queries.ts`, `send.ts` (envoi, expiration, téléchargement), `actions.tsx` (e-mail).
 - Tables `rentalFiles`, `rentalDocuments`, `rentalApplications` ; fichiers privés sur R2 (type d'upload `rentalDocument`), liens de 5 minutes via la route `/rental-document`.
 - Tâche automatique horaire « expire rental dossier access » (`convex/crons.ts`).

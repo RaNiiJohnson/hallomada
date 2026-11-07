@@ -130,7 +130,9 @@
       "photos": "Property photos",
       "photosDesc": "Add up to {maxFiles} photos (max {maxSize}MB each)",
       "photosAdded": "Added photos ({count})",
-      "existingPhoto": "Existing photo"
+      "existingPhoto": "Existing photo",
+      "rentalContact": "What do you want to receive from candidates? *",
+      "rentalContactHint": "You can change this later by editing the listing."
     },
     "placeholders": {
       "title": "E.g. Bright 3-room apartment, downtown",
@@ -165,7 +167,8 @@
       "descMin": "Description must be at least 10 characters long",
       "emailInvalid": "Enter a valid email address",
       "phoneInvalid": "Enter a valid phone number",
-      "numberInvalid": "Enter a valid value"
+      "numberInvalid": "Enter a valid value",
+      "rentalContactReq": "Choose what you want to receive"
     },
     "messages": {
       "success": "Listing sent to the admin team for review!",
@@ -207,6 +210,16 @@
     "sections": {
       "moreDetails": "More details",
       "moreDetailsDesc": "Neighborhood, charges, deposit, pets, extras, map… Add them if you wish."
+    },
+    "rentalContact": {
+      "dossier": {
+        "title": "A rental dossier",
+        "text": "Candidates can send you their dossier (ID, supporting documents…). You view it from the listing for 30 days."
+      },
+      "contact": {
+        "title": "Just a contact",
+        "text": "Candidates write to you directly by WhatsApp or email, with no dossier."
+      }
     }
   },
   "labels": {

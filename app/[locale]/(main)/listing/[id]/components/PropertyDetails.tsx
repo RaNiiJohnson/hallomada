@@ -1,6 +1,5 @@
 "use client";
 
-import { FeaturedBadge } from "@/components/featured/featured-badge";
 import { FounderBadge } from "@/components/founder-badge";
 import { SendRentalFileButton } from "@/components/rental-file/send-rental-file-button";
 import { TranslateMenu } from "@/components/translate-menu";
@@ -135,7 +134,7 @@ export function PropertyDetails({
 
   const contactActions = (
     <div className="space-y-3">
-      {property.listingMode === "rent" && (
+      {property.listingMode === "rent" && property.acceptsRentalFile === true && (
         <SendRentalFileButton listingId={property._id} />
       )}
       {contactLinks.whatsappHref && (
@@ -227,10 +226,6 @@ export function PropertyDetails({
                 <span className="text-sm sm:text-base">{locationLabel}</span>
               </div>
               <div className="order-1 flex flex-wrap items-center gap-2 lg:order-3">
-                <FeaturedBadge
-                  featuredUntil={property.featuredUntil}
-                  status={property.status}
-                />
                 <Badge variant="secondary">
                   {tListing(
                     `labels.listingTypes.${property.propertyType}` as Parameters<

@@ -19,7 +19,6 @@
           "Profil (facultatif) : ville, pays, parcours, compétences, présentation, CV, visibilité publique ou privée du profil.",
           "Contenus publiés : annonces immobilières (avec photos et localisation), offres d'emploi, pages prestataires, communautés, publications, commentaires, messages, signalements.",
           "Candidatures à des offres d'emploi : CV, lettre de motivation, date d'envoi.",
-          "Recherches sauvegardées et alertes : vos critères de recherche (ville, type de bien, prix maximum, mots-clés…) et vos préférences de notification.",
           "Dossier de location (facultatif) : les informations et justificatifs que vous déposez (voir section 3).",
           "Statut Premium et badges, par exemple le badge « Membre fondateur ».",
           "Données techniques : journaux de connexion, sessions, adresse IP et données nécessaires à la sécurité et au bon fonctionnement du site.",
@@ -46,13 +45,13 @@
         "p": "Lorsque vous postulez, votre nom, votre adresse e-mail, votre lettre de motivation et un lien vers votre CV sont envoyés par e-mail au contact de l'offre. L'auteur de l'offre voit aussi votre candidature dans Hallomada. Le lien vers le CV reste valable 90 jours, puis l'accès est supprimé. Base légale : mesures précontractuelles prises à votre demande (art. 6, paragraphe 1, point b du RGPD)."
       },
       {
-        "h": "5. Recherches sauvegardées, alertes et e-mails",
-        "p": "Vos critères de recherche sont enregistrés pour relancer vos recherches et, si vous l'activez, vous prévenir des nouvelles publications par notification et par e-mail. Vous pouvez mettre en pause, couper les e-mails ou supprimer une recherche à tout moment. Nous envoyons aussi des e-mails liés à votre compte et à votre activité (vérification d'adresse, mot de passe, candidatures, dossiers reçus)."
+        "h": "5. E-mails",
+        "p": "Nous envoyons des e-mails liés à votre compte et à votre activité (vérification d'adresse, mot de passe, candidatures, dossiers reçus)."
       },
       {
         "h": "6. Finalités et bases légales",
         "items": [
-          "Fournir le service (compte, publications, messagerie, candidatures, recherches, dossier de location) : exécution du contrat, art. 6, paragraphe 1, point b du RGPD.",
+          "Fournir le service (compte, publications, messagerie, candidatures, dossier de location) : exécution du contrat, art. 6, paragraphe 1, point b du RGPD.",
           "Sécurité, modération, prévention des abus et limitation du nombre d'actions : intérêt légitime, art. 6, paragraphe 1, point f.",
           "Mesure d'audience et dépôt de documents dans le dossier de location : consentement, art. 6, paragraphe 1, point a. Vous pouvez le retirer à tout moment.",
           "Respect de nos obligations légales : art. 6, paragraphe 1, point c."
@@ -85,7 +84,7 @@
       {
         "h": "10. Durées de conservation",
         "items": [
-          "Compte, profil, publications, recherches sauvegardées et documents du dossier de location : jusqu'à leur suppression par vous ou la suppression de votre compte.",
+          "Compte, profil, publications et documents du dossier de location : jusqu'à leur suppression par vous ou la suppression de votre compte.",
           "Accès d'un recruteur au CV d'une candidature : 90 jours.",
           "Accès d'un propriétaire à un dossier de location : 30 jours au maximum, ou moins si vous retirez l'accès.",
           "Données techniques et journaux : durée limitée, nécessaire à la sécurité du service."

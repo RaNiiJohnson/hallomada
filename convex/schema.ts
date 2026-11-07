@@ -9,11 +9,6 @@ import {
   providerServiceModeValidator,
   providerServiceValidator,
 } from "./providers/values";
-import {
-  jobTypeValidator,
-  jobWorkModeValidator,
-  listingPropertyTypeValidator,
-} from "./alerts/values";
 import { rentalDocumentCategoryValidator } from "./rentalFiles/values";
 import {
   reportReasonValidator,
@@ -134,10 +129,13 @@ export default defineSchema({
     trainingRequirements: v.optional(v.string()),
     authorId: v.string(),
     authorName: v.optional(v.string()),
-    // Set when search alerts were sent for this offer, so they go out once.
+    // Deprecated (alerts and "En vedette" were removed). Kept optional only so
+    // rows written while they existed still validate; safe to drop once cleared.
     alertsSentAt: v.optional(v.number()),
-    // "En vedette" badge until this time (Premium; one per member and kind).
     featuredUntil: v.optional(v.number()),
+    // Set the first time moderation approves it (later re-approvals after an
+    // edit keep their place in the list).
+    approvedAt: v.optional(v.number()),
     // Position in the default (newest first) list: set on first approval and
     // moved to "now" by a bump. Older rows are backfilled (see convex/bump.ts).
     listedAt: v.optional(v.number()),
@@ -228,10 +226,16 @@ export default defineSchema({
 
     authorId: v.string(),
     authorName: v.optional(v.string()),
-    // Set when search alerts were sent for this listing, so they go out once.
+    // Deprecated (alerts and "En vedette" were removed). Kept optional only so
+    // rows written while they existed still validate; safe to drop once cleared.
     alertsSentAt: v.optional(v.number()),
-    // "En vedette" badge until this time (Premium; one per member and kind).
     featuredUntil: v.optional(v.number()),
+    // Set the first time moderation approves it (later re-approvals after an
+    // edit keep their place in the list).
+    approvedAt: v.optional(v.number()),
+    // Rentals only: the owner asks candidates for a rental dossier (true) or
+    // only wants to be contacted (false). Missing on older listings = contact.
+    acceptsRentalFile: v.optional(v.boolean()),
     // Position in the default (newest first) list: set on first approval and
     // moved to "now" by a bump. Older rows are backfilled (see convex/bump.ts).
     listedAt: v.optional(v.number()),
@@ -472,8 +476,6 @@ export default defineSchema({
       v.literal("provider_rejected"),
       v.literal("provider_pending_review"),
       v.literal("job_contact_bounced"),
-      v.literal("alert_listing"),
-      v.literal("alert_job"),
       v.literal("rental_file_received"),
     ),
     read: v.boolean(),
@@ -624,34 +626,6 @@ export default defineSchema({
     day: v.string(),
     views: v.number(),
   }).index("by_resourceKey_and_day", ["resourceKey", "day"]),
-
-  // Saved searches. Each one can be rerun from the personal space and, unless
-  // `paused`, alerts its owner of new matching publications. `cityKey` is the
-  // normalized city, "" for any city. Criteria left empty match everything.
-  alerts: defineTable({
-    userId: v.string(),
-    kind: v.union(v.literal("listing"), v.literal("job")),
-    keywords: v.optional(v.string()),
-    cityKey: v.string(),
-    city: v.optional(v.string()),
-    listingMode: v.optional(v.union(v.literal("rent"), v.literal("sale"))),
-    propertyType: v.optional(listingPropertyTypeValidator),
-    maxPrice: v.optional(v.number()),
-    jobType: v.optional(jobTypeValidator),
-    workMode: v.optional(jobWorkModeValidator),
-    email: v.boolean(),
-    paused: v.boolean(),
-    locale: v.union(v.literal("fr"), v.literal("en"), v.literal("de")),
-  })
-    .index("by_userId", ["userId"])
-    .index("by_kind_and_cityKey", ["kind", "cityKey"]),
-
-  // One row per (publication, member) already alerted, so a member with
-  // several matching alerts is notified once.
-  alertDeliveries: defineTable({
-    resourceKey: v.string(),
-    userId: v.string(),
-  }).index("by_resourceKey_and_userId", ["resourceKey", "userId"]),
 
   // "Founding member" badge holders, one row per user (see convex/founders.ts
   // for the rules: first 100 approved publishers, plus manual grants).

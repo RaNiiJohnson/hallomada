@@ -4,7 +4,7 @@ import { httpAction, internalMutation, internalQuery } from "../_generated/serve
 import { authComponent } from "../auth/auth";
 import { r2 } from "../integrations/r2";
 import { generateCvToken } from "../jobs/applicationCv";
-import { hasPremium } from "../premium";
+import { hasHighlight } from "../premium";
 import { limiter } from "../rateLimits";
 import {
   throwForbidden,
@@ -46,6 +46,9 @@ export const submit = internalMutation({
     if (listing.status !== undefined && listing.status !== "active") {
       throwValidationError("This listing is no longer available");
     }
+    if (listing.listingMode !== "rent" || listing.acceptsRentalFile !== true) {
+      throwValidationError("This listing does not ask for a rental dossier");
+    }
     if (listing.authorId === candidateId) {
       throwForbidden("You cannot send your dossier to your own listing");
     }
@@ -75,7 +78,7 @@ export const submit = internalMutation({
 
     const now = Date.now();
     const token = generateCvToken();
-    const highlighted = await hasPremium(ctx, candidateId);
+    const highlighted = await hasHighlight(ctx, candidateId);
     const row = {
       listingId,
       candidateId,

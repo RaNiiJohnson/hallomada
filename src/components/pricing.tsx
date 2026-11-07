@@ -19,7 +19,7 @@ const FREE_INCLUDED = [
   "bookmarks",
 ] as const;
 const FREE_LIMITS = ["listings", "jobs", "communities", "moderation"] as const;
-const FREE_EXCLUDED = ["alerts", "highlight", "featured", "stats"] as const;
+const FREE_EXCLUDED = ["highlight", "boost", "stats"] as const;
 
 type PremiumFeature = { key: string; soon: boolean };
 
@@ -34,9 +34,7 @@ const PREMIUM_GROUPS: {
     key: "find",
     icon: Search,
     features: [
-      { key: "alerts", soon: false },
-      { key: "savedSearches", soon: false },
-      { key: "highlight", soon: false },
+      { key: "highlight", soon: true },
       { key: "rentalFile", soon: false },
     ],
   },
@@ -44,8 +42,7 @@ const PREMIUM_GROUPS: {
     key: "visible",
     icon: Megaphone,
     features: [
-      { key: "featured", soon: false },
-      { key: "boost", soon: false },
+      { key: "boost", soon: true },
       { key: "stats", soon: false },
       { key: "priority", soon: false },
       { key: "quotas", soon: false },

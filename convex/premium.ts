@@ -17,3 +17,21 @@ export async function hasPremium(
   void userId;
   return false;
 }
+
+/**
+ * Premium features that are built but not shown yet ("coming soon"). Flip a
+ * flag to switch the feature back on; the screens already handle it.
+ */
+export const comingSoon = {
+  /** Premium applications and dossiers arrive highlighted for the recipient. */
+  highlightedApplications: false,
+};
+
+/** Whether this member's application / dossier should be highlighted. */
+export async function hasHighlight(
+  ctx: QueryCtx,
+  userId: string,
+): Promise<boolean> {
+  if (!comingSoon.highlightedApplications) return false;
+  return hasPremium(ctx, userId);
+}

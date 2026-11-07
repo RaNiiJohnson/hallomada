@@ -19,7 +19,6 @@
           "Profil (freiwillig): Stadt, Land, Werdegang, Kenntnisse, Vorstellung, Lebenslauf, öffentliche oder private Sichtbarkeit des Profils.",
           "Veröffentlichte Inhalte: Immobilieninserate (mit Fotos und Standort), Stellenangebote, Anbieterseiten, Communities, Beiträge, Kommentare, Nachrichten, Meldungen.",
           "Bewerbungen auf Stellenangebote: Lebenslauf, Anschreiben, Datum.",
-          "Gespeicherte Suchen und Suchaufträge: Ihre Suchkriterien (Stadt, Objektart, Höchstpreis, Stichwörter …) und Benachrichtigungseinstellungen.",
           "Bewerbungsmappe für Wohnungen (freiwillig): die Angaben und Nachweise, die Sie hochladen (siehe Abschnitt 3).",
           "Premium-Status und Badges, z. B. „Gründungsmitglied“.",
           "Technische Daten: Verbindungsprotokolle, Sitzungen, IP-Adresse und Daten, die für Sicherheit und Betrieb der Website nötig sind.",
@@ -46,13 +45,13 @@
         "p": "Wenn Sie sich bewerben, werden Ihr Name, Ihre E-Mail-Adresse, Ihr Anschreiben und ein Link zu Ihrem Lebenslauf per E-Mail an den Kontakt der Stelle gesendet. Der Verfasser des Angebots sieht Ihre Bewerbung auch in Hallomada. Der Link zum Lebenslauf ist 90 Tage gültig, danach wird der Zugriff entfernt. Rechtsgrundlage: vorvertragliche Maßnahmen auf Ihre Anfrage (Art. 6 Abs. 1 lit. b DSGVO)."
       },
       {
-        "h": "5. Gespeicherte Suchen, Suchaufträge und E-Mails",
-        "p": "Ihre Suchkriterien werden gespeichert, damit Sie Suchen erneut starten und – wenn Sie es aktivieren – per Benachrichtigung und E-Mail über neue Veröffentlichungen informiert werden. Sie können eine Suche jederzeit pausieren, E-Mails abschalten oder sie löschen. Außerdem senden wir E-Mails zu Ihrem Konto und Ihrer Aktivität (Bestätigung der Adresse, Passwort, Bewerbungen, eingegangene Mappen)."
+        "h": "5. E-Mails",
+        "p": "Wir senden E-Mails zu Ihrem Konto und Ihrer Aktivität (Adressbestätigung, Passwort, Bewerbungen, erhaltene Mappen)."
       },
       {
         "h": "6. Zwecke und Rechtsgrundlagen",
         "items": [
-          "Bereitstellung des Dienstes (Konto, Veröffentlichungen, Nachrichten, Bewerbungen, Suchen, Bewerbungsmappe): Vertragserfüllung, Art. 6 Abs. 1 lit. b DSGVO.",
+          "Bereitstellung des Dienstes (Konto, Veröffentlichungen, Nachrichten, Bewerbungen, Bewerbungsmappe): Vertragserfüllung, Art. 6 Abs. 1 lit. b DSGVO.",
           "Sicherheit, Moderation, Missbrauchsvermeidung und Begrenzung von Aktionen: berechtigtes Interesse, Art. 6 Abs. 1 lit. f DSGVO.",
           "Reichweitenmessung und Hochladen von Dokumenten in die Bewerbungsmappe: Einwilligung, Art. 6 Abs. 1 lit. a DSGVO, jederzeit widerrufbar.",
           "Erfüllung rechtlicher Pflichten: Art. 6 Abs. 1 lit. c DSGVO."
@@ -85,7 +84,7 @@
       {
         "h": "10. Speicherdauer",
         "items": [
-          "Konto, Profil, Veröffentlichungen, gespeicherte Suchen und Dokumente der Bewerbungsmappe: bis Sie sie oder Ihr Konto löschen.",
+          "Konto, Profil, Veröffentlichungen und Dokumente der Bewerbungsmappe: bis Sie sie oder Ihr Konto löschen.",
           "Zugriff eines Arbeitgebers auf den Lebenslauf einer Bewerbung: 90 Tage.",
           "Zugriff eines Vermieters auf eine Bewerbungsmappe: höchstens 30 Tage oder kürzer, wenn Sie den Zugriff entziehen.",
           "Technische Daten und Protokolle: begrenzte Dauer, soweit für die Sicherheit des Dienstes nötig."

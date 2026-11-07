@@ -6,6 +6,7 @@ import { useState, type ReactNode } from "react";
 import { Controller, useWatch, type UseFormReturn } from "react-hook-form";
 
 import {
+  DateFormField,
   OptionalSection,
   SelectFormField,
   TextareaFormField,
@@ -23,6 +24,7 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Switch } from "@/components/ui/switch";
 import { LocationPicker } from "@/lib/LocationPicker";
 import {
@@ -149,10 +151,9 @@ export function ListingFormFields({
             step="1"
             label={t("form.labels.floor")}
           />
-          <TextFormField
+          <DateFormField
             control={control}
             name="availableFrom"
-            type="date"
             label={t("form.labels.availableFrom")}
           />
         </div>
@@ -173,6 +174,49 @@ export function ListingFormFields({
             </>
           }
         />
+        {listingMode === "rent" && (
+          <Controller
+            name="rentalContact"
+            control={control}
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.invalid}>
+                <FieldLabel>{t("form.labels.rentalContact")}</FieldLabel>
+                <FieldDescription>
+                  {t("form.labels.rentalContactHint")}
+                </FieldDescription>
+                <RadioGroup
+                  value={field.value ?? ""}
+                  onValueChange={field.onChange}
+                  className="gap-3"
+                  aria-invalid={fieldState.invalid}
+                >
+                  {(["dossier", "contact"] as const).map((value) => (
+                    <label
+                      key={value}
+                      htmlFor={`rental-contact-${value}`}
+                      className="flex cursor-pointer items-start gap-3 rounded-lg border p-3 has-[[data-state=checked]]:border-primary has-[[data-state=checked]]:bg-primary/5"
+                    >
+                      <RadioGroupItem
+                        id={`rental-contact-${value}`}
+                        value={value}
+                        className="mt-0.5"
+                      />
+                      <span className="space-y-0.5">
+                        <span className="block text-sm font-medium">
+                          {t(`form.rentalContact.${value}.title`)}
+                        </span>
+                        <span className="block text-sm text-muted-foreground">
+                          {t(`form.rentalContact.${value}.text`)}
+                        </span>
+                      </span>
+                    </label>
+                  ))}
+                </RadioGroup>
+                {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+              </Field>
+            )}
+          />
+        )}
         {photos}
         <Field>
           <FieldLabel>{t("form.labels.contactMethods")}</FieldLabel>

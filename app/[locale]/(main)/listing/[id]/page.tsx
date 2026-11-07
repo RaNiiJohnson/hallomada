@@ -1,7 +1,5 @@
 "use client";
 
-import { FeatureToggle } from "@/components/featured/feature-toggle";
-import { BumpButton } from "@/components/featured/bump-button";
 import { ShareButton } from "@/components/ShareButton";
 import { MobileActionsMenu } from "@/components/mobile-actions-menu";
 import { ReportDialog } from "@/components/report-dialog";
@@ -55,20 +53,6 @@ export default function PropertyPage() {
       {canManage && (
         <ListingLifecycleActions
           listingId={property._id}
-          status={property.status}
-        />
-      )}
-      {canManage && (
-        <FeatureToggle
-          resource={{ type: "listing", id: property._id }}
-          featuredUntil={property.featuredUntil}
-          status={property.status}
-        />
-      )}
-      {canManage && (
-        <BumpButton
-          resource={{ type: "listing", id: property._id }}
-          bumpedAt={property.bumpedAt}
           status={property.status}
         />
       )}
@@ -161,7 +145,9 @@ export default function PropertyPage() {
             className="mt-6 sm:mt-8"
           />
         )}
-        {canManage && <ReceivedRentalFiles listingId={property._id} />}
+        {canManage && property.acceptsRentalFile === true && (
+          <ReceivedRentalFiles listingId={property._id} />
+        )}
         {/* Section des annonces similaires */}
         <div className="mt-6 sm:mt-8">
           <SimilarListings slug={params.id} property={property} />

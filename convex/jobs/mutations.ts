@@ -20,7 +20,7 @@ import type { QueryCtx } from "../_generated/server";
 import { authComponent } from "../auth/auth";
 import { SITE_URL } from "../emails/layout";
 import { isFounderUser } from "../founders";
-import { hasPremium } from "../premium";
+import { hasHighlight } from "../premium";
 import {
   APPLICATION_CV_RETENTION_MS,
   ensureCvToken,
@@ -504,7 +504,7 @@ export const submitApplication = internalMutation({
 
     const now = Date.now();
     const cvToken = generateCvToken();
-    const highlighted = await hasPremium(ctx, candidateId);
+    const highlighted = await hasHighlight(ctx, candidateId);
     const applicationId = await ctx.db.insert("jobApplications", {
       jobId,
       candidateId,

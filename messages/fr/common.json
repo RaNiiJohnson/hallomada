@@ -1,4 +1,6 @@
 {
+  "clear": "Effacer",
+  "pickDate": "Choisir une date",
   "prev": "Précédent",
   "next": "Suivant",
   "share": "Partager",
@@ -42,20 +44,6 @@
     "label": "Membre fondateur",
     "labelNumber": "Fondateur n° {number}",
     "tooltip": "Fait partie des 100 premiers membres à avoir publié une annonce ou une offre sur Hallomada."
-  },
-  "featured": {
-    "badge": "En vedette",
-    "start": "Mettre en vedette",
-    "stop": "Retirer la vedette",
-    "until": "En vedette jusqu'au {date}",
-    "hint": {
-      "listing": "Badge « En vedette » pendant 7 jours. Une seule annonce à la fois.",
-      "job": "Badge « En vedette » pendant 7 jours. Une seule offre à la fois."
-    },
-    "added": "En vedette jusqu'au {date}.",
-    "movedFrom": "En vedette jusqu'au {date}. « {title} » n'est plus en vedette.",
-    "removed": "Badge « En vedette » retiré.",
-    "error": "Impossible de modifier la mise en vedette. Réessayez."
   },
   "bump": {
     "start": "Remonter en tête",

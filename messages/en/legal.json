@@ -19,7 +19,6 @@
           "Profile (optional): city, country, background, skills, introduction, CV, public or private profile visibility.",
           "Published content: real estate listings (with photos and location), job offers, provider pages, communities, posts, comments, messages, reports.",
           "Job applications: CV, cover letter, date sent.",
-          "Saved searches and alerts: your search criteria (city, property type, maximum price, keywords…) and notification preferences.",
           "Rental dossier (optional): the details and documents you upload (see section 3).",
           "Premium status and badges, such as the \"Founding member\" badge.",
           "Technical data: connection logs, sessions, IP address and data needed for security and for the site to work.",
@@ -46,13 +45,13 @@
         "p": "When you apply, your name, email address, cover letter and a link to your CV are emailed to the job's contact. The job's author also sees your application in Hallomada. The CV link stays valid for 90 days, after which access is removed. Legal basis: pre-contractual steps taken at your request (Art. 6(1)(b) GDPR)."
       },
       {
-        "h": "5. Saved searches, alerts and emails",
-        "p": "Your search criteria are stored so you can rerun your searches and, if you turn it on, be notified of new posts by notification and email. You can pause, mute emails or delete a search at any time. We also send emails related to your account and activity (address verification, password, applications, dossiers received)."
+        "h": "5. Emails",
+        "p": "We send emails related to your account and activity (address verification, password, applications, dossiers received)."
       },
       {
         "h": "6. Purposes and legal bases",
         "items": [
-          "Providing the service (account, posts, messaging, applications, searches, rental dossier): performance of a contract, Art. 6(1)(b) GDPR.",
+          "Providing the service (account, posts, messaging, applications, rental dossier): performance of a contract, Art. 6(1)(b) GDPR.",
           "Security, moderation, abuse prevention and rate limiting: legitimate interest, Art. 6(1)(f).",
           "Audience measurement and uploading documents to the rental dossier: consent, Art. 6(1)(a), which you can withdraw at any time.",
           "Compliance with our legal obligations: Art. 6(1)(c)."
@@ -85,7 +84,7 @@
       {
         "h": "10. Retention periods",
         "items": [
-          "Account, profile, posts, saved searches and rental dossier documents: until you delete them or your account.",
+          "Account, profile, posts and rental dossier documents: until you delete them or your account.",
           "A recruiter's access to the CV in an application: 90 days.",
           "A landlord's access to a rental dossier: 30 days at most, or less if you withdraw access.",
           "Technical data and logs: a limited period, as needed for the security of the service."

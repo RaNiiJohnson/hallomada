@@ -27,8 +27,6 @@
     "provider_rejected": "Your provider page “{title}” was rejected",
     "provider_pending_review": "New provider page “{title}” submitted by {name}",
     "job_contact_bounced": "The contact email of your job “{title}” doesn’t work, so applications aren’t reaching you. Please update it.",
-    "alert_listing": "New listing for your alert: “{title}”",
-    "alert_job": "New job for your alert: “{title}”",
     "rental_file_received": "{name} sent you their rental dossier for “{title}”"
   }
 }

@@ -138,7 +138,7 @@ const SCAN_LIMIT = 5000;
 
 /** Approved at least once: active, or published before moderation existed. */
 function wasApproved(doc: Doc<"JobOffer"> | Doc<"RealestateListing">) {
-  return doc.status === undefined || doc.status === "active" || doc.alertsSentAt !== undefined;
+  return doc.status === undefined || doc.status === "active" || doc.approvedAt !== undefined;
 }
 
 export const rebuildFounders = internalMutation({

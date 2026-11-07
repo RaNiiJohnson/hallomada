@@ -2,6 +2,7 @@
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { DatePicker } from "@/components/ui/date-picker";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -129,7 +130,7 @@ function ProfileForm({ profile }: { profile: Doc<"rentalFiles"> | null }) {
           <Input id="rf-household" type="number" inputMode="numeric" min={1} max={20} step={1} value={household} onChange={(e) => setHousehold(e.target.value)} />
         </Field>
         <Field id="rf-move-in" label={t("moveIn")}>
-          <Input id="rf-move-in" type="date" value={moveIn} onChange={(e) => setMoveIn(e.target.value)} />
+          <DatePicker id="rf-move-in" value={moveIn} onChange={setMoveIn} clearable />
         </Field>
         <div className="grid grid-cols-2 gap-4">
           <TriSelect id="rf-pets" label={t("pets")} value={pets} onChange={setPets} />

@@ -1,4 +1,6 @@
 {
+  "clear": "Löschen",
+  "pickDate": "Datum wählen",
   "prev": "Zurück",
   "next": "Weiter",
   "share": "Teilen",
@@ -42,20 +44,6 @@
     "label": "Gründungsmitglied",
     "labelNumber": "Gründer Nr. {number}",
     "tooltip": "Gehört zu den ersten 100 Mitgliedern, die auf Hallomada ein Inserat oder Stellenangebot veröffentlicht haben."
-  },
-  "featured": {
-    "badge": "Hervorgehoben",
-    "start": "Hervorheben",
-    "stop": "Hervorhebung beenden",
-    "until": "Hervorgehoben bis {date}",
-    "hint": {
-      "listing": "Badge „Hervorgehoben“ für 7 Tage. Jeweils ein Inserat.",
-      "job": "Badge „Hervorgehoben“ für 7 Tage. Jeweils ein Stellenangebot."
-    },
-    "added": "Hervorgehoben bis {date}.",
-    "movedFrom": "Hervorgehoben bis {date}. „{title}“ ist nicht mehr hervorgehoben.",
-    "removed": "Badge „Hervorgehoben“ entfernt.",
-    "error": "Hervorhebung konnte nicht geändert werden. Bitte erneut versuchen."
   },
   "bump": {
     "start": "Nach oben schieben",

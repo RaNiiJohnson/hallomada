@@ -1,5 +1,4 @@
 import { v } from "convex/values";
-import { scheduleAlertsForPublication } from "./alerts/dispatch";
 import { grantFounderIfEligible } from "./founders";
 import { adminMutation, adminQuery } from "./functions";
 import { hasPremium } from "./premium";
@@ -156,13 +155,12 @@ export const decide = adminMutation({
         updatedAt: Date.now(),
         // First publication: list it as new. Re-approvals after an edit keep
         // their place, so editing is not a free bump.
-        ...(decision === "approved" && job.alertsSentAt === undefined
-          ? { listedAt: Date.now() }
+        ...(decision === "approved" && job.approvedAt === undefined
+          ? { approvedAt: Date.now(), listedAt: Date.now() }
           : {}),
       });
       if (decision === "approved") {
         await grantFounderIfEligible(ctx, job.authorId);
-        await scheduleAlertsForPublication(ctx, { kind: "job", doc: job });
       }
       await ctx.db.insert("notifications", {
         userId: job.authorId,
@@ -203,13 +201,12 @@ export const decide = adminMutation({
     await ctx.db.patch(listing._id, {
       status: nextStatus,
       updatedAt: Date.now(),
-      ...(decision === "approved" && listing.alertsSentAt === undefined
-        ? { listedAt: Date.now() }
+      ...(decision === "approved" && listing.approvedAt === undefined
+        ? { approvedAt: Date.now(), listedAt: Date.now() }
         : {}),
     });
     if (decision === "approved") {
       await grantFounderIfEligible(ctx, listing.authorId);
-      await scheduleAlertsForPublication(ctx, { kind: "listing", doc: listing });
     }
     await ctx.db.insert("notifications", {
       userId: listing.authorId,

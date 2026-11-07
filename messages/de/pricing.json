@@ -25,10 +25,9 @@
     },
     "excludedTitle": "Nicht enthalten",
     "excluded": {
-      "alerts": "Sofort-Benachrichtigungen und gespeicherte Suchen",
       "highlight": "Hervorgehobene Bewerbungen",
-      "featured": "Badge „Hervorgehoben“ und Inserate nach oben schieben",
-      "stats": "Aufrufstatistiken"
+      "stats": "Aufrufstatistiken",
+      "boost": "Anzeigen an die Listenspitze schieben"
     }
   },
   "premium": {
@@ -38,11 +37,8 @@
     "offerTitle": "Derzeit kostenlos.",
     "offerText": "Alle Mitglieder nutzen das Premium-Angebot kostenlos.",
     "features": {
-      "alerts": "Sofort-Benachrichtigungen für neue Wohnungen und Jobs",
-      "savedSearches": "Gespeicherte Suchen, mit einem Klick erneut starten",
       "highlight": "Ihre Bewerbungen werden bei Arbeitgebern hervorgehoben",
       "rentalFile": "Bewerbungsmappe für Wohnungen, mit einem Klick versendet",
-      "featured": "Badge „Hervorgehoben“ für jeweils ein Inserat und ein Stellenangebot (7 Tage, verlängerbar)",
       "boost": "Ihre Inserate und Stellenangebote einmal pro Woche an die Spitze der Liste schieben",
       "stats": "Aufrufstatistiken für Ihre Inserate und Stellenangebote",
       "priority": "Bevorzugte Moderation: Ihre Veröffentlichungen werden zuerst geprüft",

@@ -11,6 +11,7 @@ import {
 import { XIcon } from "lucide-react";
 
 import {
+  DateFormField,
   OptionalSection,
   SelectFormField,
   TextareaFormField,
@@ -205,10 +206,9 @@ export function JobFormFields({ form }: { form: UseFormReturn<JobFormValues> }) 
         )}
         {showDurationAndStart && (
           <div className="grid gap-4 sm:grid-cols-2">
-            <TextFormField
+            <DateFormField
               control={control}
               name="startDate"
-              type="date"
               label={t("form.labels.startDate")}
             />
             <TextFormField
@@ -307,11 +307,10 @@ export function JobFormFields({ form }: { form: UseFormReturn<JobFormValues> }) 
             label={t("form.labels.weeklyHours")}
           />
         ) : null}
-        <TextFormField
+        <DateFormField
           control={control}
           name="applicationDeadline"
           optional
-          type="date"
           label={t("form.labels.applicationDeadline")}
         />
         <TextareaFormField
