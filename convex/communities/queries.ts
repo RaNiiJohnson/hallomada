@@ -56,25 +56,43 @@ export const getCommunitiesPreview = query({
   },
   handler: async (ctx, args) => {
     const user = await authComponent.safeGetAuthUser(ctx);
+    // Secret communities are never listed. Privacy values sort as
+    // "private" < "public" < "secret", so this range keeps public and private
+    // communities only: public ones first, newest first within each group.
     const result = await ctx.db
       .query("communities")
+      .withIndex("by_privacy", (q) => q.lt("privacy", "secret"))
       .order("desc")
       .paginate(args.paginationOpts);
 
     const communitiesWithPreview = await Promise.all(
       result.page.map(async (community) => {
-        const [membersCount, postsCount] = await Promise.all([
+        const [membersCount, postsCount, canSeePosts] = await Promise.all([
           communityMembersCount.count(ctx, { namespace: community._id }),
           communityPostsCount.count(ctx, { namespace: community._id }),
+          community.privacy === "public"
+            ? Promise.resolve(true)
+            : user
+              ? ctx.db
+                  .query("communityMembers")
+                  .withIndex("by_userId_and_communityId", (q) =>
+                    q.eq("userId", user._id).eq("communityId", community._id),
+                  )
+                  .unique()
+                  .then((m) => !!m)
+              : Promise.resolve(false),
         ]);
 
-        const recentPosts = await ctx.db
-          .query("posts")
-          .withIndex("by_communityId", (q) =>
-            q.eq("communityId", community._id),
-          )
-          .order("desc")
-          .take(3);
+        // Posts of a private community are only previewed to its members.
+        const recentPosts = canSeePosts
+          ? await ctx.db
+              .query("posts")
+              .withIndex("by_communityId", (q) =>
+                q.eq("communityId", community._id),
+              )
+              .order("desc")
+              .take(3)
+          : [];
 
         const recentPostsWithLikes = await Promise.all(
           recentPosts.map(async (post) => {

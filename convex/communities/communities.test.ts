@@ -128,4 +128,53 @@ describe("Communities", () => {
       await t.query(api.communities.queries.getMyCommunities, {}),
     ).toHaveLength(0);
   });
+
+  it("hides secret communities and private posts from non-members", async () => {
+    await t.run(async (ctx) => {
+      const insertCommunity = (slug: string, privacy: "private" | "secret") =>
+        ctx.db.insert("communities", {
+          slug,
+          name: slug,
+          description: "Description",
+          authorId: "otherUserId",
+          privacy,
+        });
+      const insertPost = (slug: string, id: Id<"communities">) =>
+        ctx.db.insert("posts", {
+          slug,
+          title: slug,
+          content: "Content",
+          communityId: id,
+          scope: "community",
+          authorId: "otherUserId",
+        });
+
+      const privateId = await insertCommunity("private-community", "private");
+      const joinedId = await insertCommunity("joined-community", "private");
+      const secretId = await insertCommunity("secret-community", "secret");
+      await insertPost("public-post", communityId);
+      await insertPost("private-post", privateId);
+      await insertPost("joined-post", joinedId);
+      await insertPost("secret-post", secretId);
+      await ctx.db.insert("communityMembers", {
+        userId: "testUserId",
+        communityId: joinedId,
+        role: "member",
+      });
+    });
+
+    const { page } = await t.query(
+      api.communities.queries.getCommunitiesPreview,
+      { paginationOpts: { numItems: 10, cursor: null } },
+    );
+    const postsBySlug = Object.fromEntries(
+      page.map((c) => [c.slug, c.recentPosts.map((p) => p.slug)]),
+    );
+
+    expect(postsBySlug).toEqual({
+      [communitySlug]: ["public-post"],
+      "joined-community": ["joined-post"],
+      "private-community": [],
+    });
+  });
 });

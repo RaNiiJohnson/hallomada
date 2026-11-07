@@ -332,6 +332,7 @@ export default defineSchema({
   })
     .index("by_authorId", ["authorId"])
     .index("by_slug", ["slug"])
+    .index("by_privacy", ["privacy"])
     .searchIndex("search_all_fields", { searchField: "searchAll" }),
 
   communityMembers: defineTable({
