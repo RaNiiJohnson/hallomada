@@ -67,6 +67,7 @@ import type * as providers_mutations from "../providers/mutations.js";
 import type * as providers_queries from "../providers/queries.js";
 import type * as providers_values from "../providers/values.js";
 import type * as publicationModeration from "../publicationModeration.js";
+import type * as publicationQuotaValues from "../publicationQuotaValues.js";
 import type * as publicationQuotas from "../publicationQuotas.js";
 import type * as premium from "../premium.js";
 import type * as rateLimits from "../rateLimits.js";
@@ -151,6 +152,7 @@ declare const fullApi: ApiFromModules<{
   "providers/queries": typeof providers_queries;
   "providers/values": typeof providers_values;
   publicationModeration: typeof publicationModeration;
+  publicationQuotaValues: typeof publicationQuotaValues;
   publicationQuotas: typeof publicationQuotas;
   premium: typeof premium;
   rateLimits: typeof rateLimits;

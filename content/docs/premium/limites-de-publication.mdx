@@ -1,0 +1,60 @@
+---
+title: Limites de publication
+description: Combien d'annonces, d'offres et de pages prestataire un membre peut publier.
+new: true
+---
+
+## En bref
+
+Pour éviter les abus, chaque membre a un nombre maximum de publications. Ces chiffres sont **différents pour le plan Gratuit et pour le plan Premium**, et vous les réglez vous-même dans [Quotas](/admin/quotas), sans développeur.
+
+## Ce qui est limité
+
+| Publication | Période | Gratuit (au départ) | Premium (au départ) |
+| --- | --- | --- | --- |
+| Annonces immobilières | par semaine | 3 | 10 |
+| Offres d'emploi | par semaine | 3 | 10 |
+| Pages prestataire | par mois | 3 | 10 |
+
+Les chiffres de départ s'appliquent tant que vous n'avez rien enregistré.
+
+## Où les régler
+
+La page [Quotas](/admin/quotas) affiche **deux formulaires** : un pour le plan Gratuit, un pour le plan Premium. Chaque formulaire s'enregistre séparément.
+
+**Tant que Premium est offert à tous, tout le monde est Premium** : ce sont donc les chiffres du formulaire Premium qui s'appliquent à tous les membres. Les chiffres Gratuit ne servent qu'à partir du lancement payant.
+
+## Ce que voient les membres
+
+- La **page des tarifs** (et la section de l'accueil) affiche ces chiffres : ils changent tout seuls quand vous modifiez les quotas.
+- Un membre qui atteint sa limite voit le message « Limite de publication atteinte. Réessayez plus tard. »
+
+## Ce qui n'est pas annoncé
+
+- Les **communautés** ne sont plus limitées pour les membres. Une protection discrète reste en place contre les abus (20 créations par mois et par membre) ; elle n'est mentionnée nulle part.
+- Les **posts** (2 toutes les 5 minutes) et les **commentaires** (10 par minute) ont aussi une protection discrète contre les abus.
+
+## Comment vérifier
+
+<Steps>
+<Step title="Régler">
+Dans [Quotas](/admin/quotas), mettez 1 offre par semaine au plan Premium et enregistrez.
+</Step>
+<Step title="Vérifier la page des tarifs">
+Sur /pricing, la carte Premium annonce « 1 offre d'emploi ». Remettez ensuite 10.
+</Step>
+<Step title="Atteindre la limite">
+Avec un compte membre, publiez 2 offres : la deuxième est refusée avec le message de limite.
+</Step>
+</Steps>
+
+<DevNotes>
+
+- Tables : `planQuotas` (une ligne par plan) ; valeurs de départ dans `convex/publicationQuotaValues.ts`.
+- Application : `consumePublicationQuota` (`convex/publicationQuotas.ts`) choisit le plan avec `hasPremium` (`convex/premium.ts`), puis applique une fenêtre fixe.
+- Prestataires : limite appliquée dans `createProvider` (`convex/providers/mutations.ts`).
+- Communautés, posts, commentaires : limiteurs fixes dans `convex/rateLimits.ts` (`createCommunityPerUser`, `createPostPerUser`, `commentPerUser`).
+- Page des tarifs : `publicationQuotas.getPublic`.
+- Au lancement payant, `hasPremium` lira l'abonnement Stripe : les deux formulaires deviendront alors tous les deux utiles.
+
+</DevNotes>

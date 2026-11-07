@@ -18,10 +18,9 @@
     },
     "limitsTitle": "Limits",
     "limits": {
-      "listings": "3 real estate listings per week",
-      "jobs": "3 job offers per week",
-      "communities": "1 community created every 30 days",
-      "moderation": "Standard moderation of your posts"
+      "listings": "{count} real estate listings per week",
+      "jobs": "{count} job offers per week",
+      "providers": "{count} provider pages per month"
     },
     "excludedTitle": "Not included",
     "excluded": {
@@ -42,7 +41,7 @@
       "boost": "Bump your listings and job offers to the top of the list, once a week",
       "stats": "View statistics on your listings and job offers",
       "priority": "Priority moderation: your posts are reviewed first",
-      "quotas": "Extended quotas: 10 listings and 10 job offers per week, 3 communities every 30 days",
+      "quotas": "Extended quotas: {listings} listings and {jobs} job offers per week, {providers} provider pages per month",
       "premiumBadge": "Premium badge next to your name"
     },
     "oneSubscription": "One subscription, whether you are looking or publishing.",

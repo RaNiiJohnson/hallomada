@@ -213,16 +213,26 @@
   },
   "quotas": {
     "title": "Veröffentlichungslimits",
-    "description": "Serverseitig durchgesetzte Limits für jedes verifizierte Mitglied.",
-    "community": "Communities pro 30 Tage",
+    "description": "Serverseitige Veröffentlichungslimits, mit unterschiedlichen Werten für kostenlose und Premium-Mitglieder. Solange Premium für alle angeboten wird, gelten die Premium-Werte.",
     "jobs": "Stellenangebote pro Woche",
-    "listings": "Anzeigen pro Woche",
+    "listings": "Immobilieninserate pro Woche",
     "hint": "Ganze Zahl zwischen 1 und {max}.",
     "save": "Speichern",
     "saving": "Wird gespeichert...",
     "saved": "Limits aktualisiert",
     "error": "Limits konnten nicht gespeichert werden",
-    "loading": "Limits werden geladen"
+    "loading": "Limits werden geladen",
+    "providers": "Anbieterseiten pro Monat",
+    "plans": {
+      "free": {
+        "title": "Kostenloser Plan",
+        "description": "Mitglieder ohne Abonnement."
+      },
+      "premium": {
+        "title": "Premium-Plan",
+        "description": "Abonnierte Mitglieder (derzeit alle)."
+      }
+    }
   },
   "founders": {
     "title": "Gründungsmitglied-Programm",

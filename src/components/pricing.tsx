@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Link } from "@/i18n/navigation";
 import { Award, Check, Gift, Megaphone, Search, Sparkles, X } from "lucide-react";
+import { api } from "@convex/_generated/api";
+import { useQuery } from "convex-helpers/react/cache";
 import { useTranslations } from "next-intl";
 
 /**
@@ -18,7 +20,7 @@ const FREE_INCLUDED = [
   "communities",
   "bookmarks",
 ] as const;
-const FREE_LIMITS = ["listings", "jobs", "communities", "moderation"] as const;
+const FREE_LIMITS = ["listings", "jobs", "providers"] as const;
 const FREE_EXCLUDED = ["highlight", "boost", "stats"] as const;
 
 type PremiumFeature = { key: string; soon: boolean };
@@ -65,6 +67,9 @@ export default function PricingPage({
   variant?: "page" | "section";
 }) {
   const t = useTranslations("pricing");
+  // The numbers come from the admin quotas page, so they never go stale.
+  const quotas = useQuery(api.publicationQuotas.getPublic, {});
+  const shown = (value: number | undefined) => value ?? "…";
   const Heading = variant === "page" ? "h1" : "h2";
 
   return (
@@ -114,7 +119,15 @@ export default function PricingPage({
             <FeatureGroup title={t("free.limitsTitle")}>
               {FREE_LIMITS.map((key) => (
                 <FeatureItem key={key} icon="dot">
-                  {t(`free.limits.${key}`)}
+                  {t(`free.limits.${key}`, {
+                    count: shown(
+                      key === "listings"
+                        ? quotas?.free.listingsPerWeek
+                        : key === "jobs"
+                          ? quotas?.free.jobsPerWeek
+                          : quotas?.free.providersPerMonth,
+                    ),
+                  })}
                 </FeatureItem>
               ))}
             </FeatureGroup>
@@ -168,7 +181,13 @@ export default function PricingPage({
               >
                 {features.map((feature) => (
                   <FeatureItem key={feature.key} icon="check">
-                    <span>{t(`premium.features.${feature.key}`)}</span>
+                    <span>
+                      {t(`premium.features.${feature.key}`, {
+                        listings: shown(quotas?.premium.listingsPerWeek),
+                        jobs: shown(quotas?.premium.jobsPerWeek),
+                        providers: shown(quotas?.premium.providersPerMonth),
+                      })}
+                    </span>
                     {feature.soon && (
                       <Badge variant="secondary" className="ml-2 align-middle">
                         {t("soon")}

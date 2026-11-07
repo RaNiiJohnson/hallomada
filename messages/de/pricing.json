@@ -18,10 +18,9 @@
     },
     "limitsTitle": "Limits",
     "limits": {
-      "listings": "3 Immobilieninserate pro Woche",
-      "jobs": "3 Stellenangebote pro Woche",
-      "communities": "1 neue Community alle 30 Tage",
-      "moderation": "Standard-Moderation Ihrer Beiträge"
+      "listings": "{count} Immobilieninserate pro Woche",
+      "jobs": "{count} Stellenangebote pro Woche",
+      "providers": "{count} Anbieterseiten pro Monat"
     },
     "excludedTitle": "Nicht enthalten",
     "excluded": {
@@ -42,7 +41,7 @@
       "boost": "Ihre Inserate und Stellenangebote einmal pro Woche an die Spitze der Liste schieben",
       "stats": "Aufrufstatistiken für Ihre Inserate und Stellenangebote",
       "priority": "Bevorzugte Moderation: Ihre Veröffentlichungen werden zuerst geprüft",
-      "quotas": "Erweiterte Kontingente: 10 Inserate und 10 Stellenangebote pro Woche, 3 Communities alle 30 Tage",
+      "quotas": "Erweiterte Kontingente: {listings} Inserate und {jobs} Stellenangebote pro Woche, {providers} Anbieterseiten pro Monat",
       "premiumBadge": "Premium-Badge neben Ihrem Namen"
     },
     "oneSubscription": "Ein einziges Abo – ob Sie suchen oder veröffentlichen.",

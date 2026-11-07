@@ -6,36 +6,45 @@ import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { api } from "@convex/_generated/api";
+import {
+  MAX_PUBLICATION_QUOTA,
+  type QuotaPlan,
+} from "@convex/publicationQuotaValues";
 import { useQuery } from "convex-helpers/react/cache";
 import { useMutation } from "convex/react";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { toast } from "sonner";
 
-const MAX_QUOTA = 100;
-
 const FIELDS = [
-  { name: "communityPer30Days", label: "community" },
-  { name: "jobsPerWeek", label: "jobs" },
   { name: "listingsPerWeek", label: "listings" },
+  { name: "jobsPerWeek", label: "jobs" },
+  { name: "providersPerMonth", label: "providers" },
 ] as const;
 
 type QuotaField = (typeof FIELDS)[number]["name"];
 type QuotaDraft = Record<QuotaField, string>;
 
-function QuotaForm({ initial }: { initial: Record<QuotaField, number> }) {
+function QuotaForm({
+  plan,
+  initial,
+}: {
+  plan: QuotaPlan;
+  initial: Record<QuotaField, number>;
+}) {
   const t = useTranslations("admin.quotas");
   const update = useMutation(api.publicationQuotas.update);
   const [draft, setDraft] = useState<QuotaDraft>({
-    communityPer30Days: String(initial.communityPer30Days),
-    jobsPerWeek: String(initial.jobsPerWeek),
     listingsPerWeek: String(initial.listingsPerWeek),
+    jobsPerWeek: String(initial.jobsPerWeek),
+    providersPerMonth: String(initial.providersPerMonth),
   });
   const [saving, setSaving] = useState(false);
 
   const parsed = FIELDS.map(({ name }) => Number(draft[name]));
   const valid = parsed.every(
-    (value) => Number.isInteger(value) && value >= 1 && value <= MAX_QUOTA,
+    (value) =>
+      Number.isInteger(value) && value >= 1 && value <= MAX_PUBLICATION_QUOTA,
   );
 
   const save = async () => {
@@ -43,9 +52,10 @@ function QuotaForm({ initial }: { initial: Record<QuotaField, number> }) {
     setSaving(true);
     try {
       await update({
-        communityPer30Days: parsed[0],
+        plan,
+        listingsPerWeek: parsed[0],
         jobsPerWeek: parsed[1],
-        listingsPerWeek: parsed[2],
+        providersPerMonth: parsed[2],
       });
       toast.success(t("saved"));
     } catch {
@@ -57,31 +67,40 @@ function QuotaForm({ initial }: { initial: Record<QuotaField, number> }) {
 
   return (
     <form
-      className="max-w-md space-y-6 rounded-xl border bg-card p-5"
+      className="space-y-6 rounded-xl border bg-card p-5"
       onSubmit={(event) => {
         event.preventDefault();
         void save();
       }}
     >
+      <div className="space-y-1">
+        <h3 className="font-semibold">{t(`plans.${plan}.title`)}</h3>
+        <p className="text-sm text-muted-foreground">
+          {t(`plans.${plan}.description`)}
+        </p>
+      </div>
       <FieldGroup className="space-y-4">
         {FIELDS.map(({ name, label }) => (
           <Field key={name}>
-            <FieldLabel htmlFor={`quota-${name}`}>{t(label)}</FieldLabel>
+            <FieldLabel htmlFor={`quota-${plan}-${name}`}>{t(label)}</FieldLabel>
             <Input
-              id={`quota-${name}`}
+              id={`quota-${plan}-${name}`}
               type="number"
               inputMode="numeric"
               min={1}
-              max={MAX_QUOTA}
+              max={MAX_PUBLICATION_QUOTA}
               step={1}
               value={draft[name]}
               onChange={(event) =>
                 setDraft((current) => ({ ...current, [name]: event.target.value }))
               }
-              aria-describedby={`quota-${name}-hint`}
+              aria-describedby={`quota-${plan}-${name}-hint`}
             />
-            <p id={`quota-${name}-hint`} className="text-xs text-muted-foreground">
-              {t("hint", { max: MAX_QUOTA })}
+            <p
+              id={`quota-${plan}-${name}-hint`}
+              className="text-xs text-muted-foreground"
+            >
+              {t("hint", { max: MAX_PUBLICATION_QUOTA })}
             </p>
           </Field>
         ))}
@@ -182,11 +201,15 @@ export default function QuotasPage() {
         <p className="text-sm text-muted-foreground">{t("description")}</p>
       </div>
       {quotas === undefined ? (
-        <div aria-label={t("loading")} className="max-w-md space-y-4">
-          <Skeleton className="h-64 w-full rounded-xl" />
+        <div aria-label={t("loading")} className="grid gap-6 md:grid-cols-2">
+          <Skeleton className="h-80 w-full rounded-xl" />
+          <Skeleton className="h-80 w-full rounded-xl" />
         </div>
       ) : (
-        <QuotaForm initial={quotas} />
+        <div className="grid gap-6 md:grid-cols-2">
+          <QuotaForm plan="free" initial={quotas.free} />
+          <QuotaForm plan="premium" initial={quotas.premium} />
+        </div>
       )}
       {founderProgram === undefined ? (
         <Skeleton className="h-48 w-full max-w-md rounded-xl" />

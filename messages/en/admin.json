@@ -213,16 +213,26 @@
   },
   "quotas": {
     "title": "Publication quotas",
-    "description": "Limits enforced on the server for every verified member.",
-    "community": "Communities per 30 days",
+    "description": "Publication limits enforced on the server, with different numbers for Free and Premium members. While Premium is offered to everyone, the Premium numbers apply.",
     "jobs": "Job offers per week",
-    "listings": "Listings per week",
+    "listings": "Real estate listings per week",
     "hint": "Whole number between 1 and {max}.",
     "save": "Save",
     "saving": "Saving...",
     "saved": "Quotas updated",
     "error": "Could not save the quotas",
-    "loading": "Loading quotas"
+    "loading": "Loading quotas",
+    "providers": "Provider pages per month",
+    "plans": {
+      "free": {
+        "title": "Free plan",
+        "description": "Members without a subscription."
+      },
+      "premium": {
+        "title": "Premium plan",
+        "description": "Subscribed members (everyone for now)."
+      }
+    }
   },
   "founders": {
     "title": "Founding member program",

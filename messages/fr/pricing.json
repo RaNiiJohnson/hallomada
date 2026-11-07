@@ -18,10 +18,9 @@
     },
     "limitsTitle": "Limites",
     "limits": {
-      "listings": "3 annonces immobilières par semaine",
-      "jobs": "3 offres d'emploi par semaine",
-      "communities": "1 communauté créée tous les 30 jours",
-      "moderation": "Modération standard des publications"
+      "listings": "{count} annonces immobilières par semaine",
+      "jobs": "{count} offres d'emploi par semaine",
+      "providers": "{count} pages prestataire par mois"
     },
     "excludedTitle": "Non inclus",
     "excluded": {
@@ -42,7 +41,7 @@
       "boost": "Remontée de vos annonces et offres en tête de liste, une fois par semaine",
       "stats": "Statistiques de vues sur vos annonces et offres d'emploi",
       "priority": "Modération prioritaire : vos publications sont examinées en premier",
-      "quotas": "Quotas étendus : 10 annonces et 10 offres d'emploi par semaine, 3 communautés tous les 30 jours",
+      "quotas": "Quotas étendus : {listings} annonces, {jobs} offres d'emploi par semaine, {providers} pages prestataire par mois",
       "premiumBadge": "Badge Premium à côté de votre nom"
     },
     "oneSubscription": "Un seul abonnement, que vous cherchiez ou que vous publiez.",

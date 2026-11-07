@@ -649,14 +649,16 @@ export default defineSchema({
     updatedBy: v.string(),
   }),
 
-  // Singleton row edited from the admin dashboard; absent means defaults.
-  publicationQuotas: defineTable({
-    communityPer30Days: v.number(),
+  // One row per plan ("free" / "premium"), edited from the admin dashboard;
+  // a missing row means the defaults in publicationQuotaValues.ts.
+  planQuotas: defineTable({
+    plan: v.union(v.literal("free"), v.literal("premium")),
     jobsPerWeek: v.number(),
     listingsPerWeek: v.number(),
+    providersPerMonth: v.number(),
     updatedAt: v.number(),
     updatedBy: v.string(),
-  }),
+  }).index("by_plan", ["plan"]),
 
   adminAuditEvents: defineTable({
     administratorId: v.string(),

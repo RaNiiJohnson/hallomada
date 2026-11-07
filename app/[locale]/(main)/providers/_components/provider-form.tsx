@@ -45,6 +45,7 @@ import {
   type FileUploadActions,
   type FileUploadState,
 } from "@/hooks/use-file-upload";
+import { getConvexErrorCode } from "@/lib/convex-error";
 import { useTypedR2Upload } from "@/hooks/use-r2-typed-upload";
 import {
   MAX_PROVIDER_PHOTOS,
@@ -71,6 +72,7 @@ interface ProviderFormProps {
 
 export function ProviderForm({ provider, onSuccess }: ProviderFormProps) {
   const t = useTranslations("providers");
+  const tCommon = useTranslations("common");
   const isEditing = provider !== undefined;
 
   const { upload } = useTypedR2Upload(
@@ -198,8 +200,12 @@ export function ProviderForm({ provider, onSuccess }: ProviderFormProps) {
         t(isEditing ? "form.messages.updated" : "form.messages.created"),
       );
       onSuccess?.(slug);
-    } catch {
-      toast.error(t("form.messages.error"));
+    } catch (error) {
+      toast.error(
+        getConvexErrorCode(error) === "LIMIT_REACHED"
+          ? tCommon("limitReached")
+          : t("form.messages.error"),
+      );
     }
   }
 
