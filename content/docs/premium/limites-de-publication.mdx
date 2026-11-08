@@ -1,22 +1,31 @@
 ---
 title: Limites de publication
-description: Combien d'annonces, d'offres et de pages prestataire un membre peut publier.
+description: Combien un membre peut publier et envoyer de candidatures, par plan.
 new: true
 ---
 
 ## En bref
 
-Pour éviter les abus, chaque membre a un nombre maximum de publications. Ces chiffres sont **différents pour le plan Gratuit et pour le plan Premium**, et vous les réglez vous-même dans [Quotas](/admin/quotas), sans développeur.
+Pour éviter les abus, chaque membre a un nombre maximum de publications **et de candidatures**. Ces chiffres sont **différents pour le plan Gratuit et pour le plan Premium**, et vous les réglez vous-même dans [Quotas](/admin/quotas), sans développeur.
 
 ## Ce qui est limité
 
-| Publication | Période | Gratuit (au départ) | Premium (au départ) |
+| Action | Période | Gratuit (au départ) | Premium (au départ) |
 | --- | --- | --- | --- |
-| Annonces immobilières | par semaine | 3 | 10 |
-| Offres d'emploi | par semaine | 3 | 10 |
-| Pages prestataire | par mois | 3 | 10 |
+| Annonces immobilières publiées | par mois | 5 | illimité |
+| Offres d'emploi publiées | par mois | 5 | illimité |
+| Pages prestataire publiées | par mois | 5 | illimité |
+| **Candidatures envoyées** (offre d'emploi **+** dossier de location) | par mois | 5 | illimité |
 
-Les chiffres de départ s'appliquent tant que vous n'avez rien enregistré.
+Les chiffres de départ s'appliquent tant que vous n'avez rien enregistré. Dans chaque formulaire, la case **Illimité** retire la limite.
+
+## Les candidatures
+
+- **Un seul compteur partagé** : une candidature à une offre d'emploi et l'envoi d'un dossier de location utilisent le même crédit. Un membre Gratuit peut faire 5 emplois, 5 dossiers ou 3 + 2.
+- **Le contact simple n'est pas compté** : les coordonnées d'une annonce de vente, ou d'une location « contact seulement », restent visibles sans limite. Les offres avec un lien de candidature externe ne sont pas comptées non plus, puisque la candidature se fait sur un autre site.
+- **Les pages prestataire ne sont pas concernées** : leurs coordonnées sont publiques.
+- **Période glissante de 30 jours** : un crédit revient 30 jours après l'envoi de la candidature. Une candidature retirée ou un dossier retiré ne rend pas son crédit.
+- Un membre Premium n'a pas de limite et ne voit pas de compteur.
 
 ## Où les régler
 
@@ -27,7 +36,8 @@ La page [Quotas](/admin/quotas) affiche **deux formulaires** : un pour le plan G
 ## Ce que voient les membres
 
 - La **page des tarifs** (et la section de l'accueil) affiche ces chiffres : ils changent tout seuls quand vous modifiez les quotas.
-- Un membre qui atteint sa limite voit le message « Limite de publication atteinte. Réessayez plus tard. »
+- Un membre qui atteint sa limite de publication voit le message « Limite de publication atteinte. Réessayez plus tard. »
+- Un membre Gratuit voit **« Il te reste 3 candidatures »** près des boutons « Postuler » et « Envoyer mon dossier ». À 1 il reste, le texte passe en orange. À 0, les boutons sont **grisés** et un encadré explique : « Tu as utilisé tes 5 candidatures du mois. Passe Premium pour postuler sans limite, ou reviens le [date] » avec un lien vers les tarifs.
 
 ## Ce qui n'est pas annoncé
 
@@ -46,11 +56,15 @@ Sur /pricing, la carte Premium annonce « 1 offre d'emploi ». Remettez ensuite 
 <Step title="Atteindre la limite">
 Avec un compte membre, publiez 2 offres : la deuxième est refusée avec le message de limite.
 </Step>
+<Step title="Tester les candidatures">
+Dans [Quotas](/admin/quotas), mettez 2 candidatures par mois au plan Gratuit (et lancez le test avec un plan Gratuit : tant que Premium est offert à tous, la limite ne s'applique pas). Envoyez une candidature d'emploi et un dossier de location : le compteur affiche « Plus aucune candidature ce mois-ci » et les deux boutons sont grisés.
+</Step>
 </Steps>
 
 <DevNotes>
 
 - Tables : `planQuotas` (une ligne par plan) ; valeurs de départ dans `convex/publicationQuotaValues.ts`.
+- Candidatures : `convex/applicationQuotas.ts`. On compte les lignes de `jobApplications` et `rentalApplications` des 30 derniers jours (index `by_candidateId_and_appliedAt` / `by_candidateId_and_sentAt`), il n'y a pas de compteur à synchroniser. Contrôle dans `submitApplication` (emploi) et `rentalFiles/send.ts` ; compteur affiché par `applicationQuotas.getMine`.
 - Application : `consumePublicationQuota` (`convex/publicationQuotas.ts`) choisit le plan avec `hasPremium` (`convex/premium.ts`), puis applique une fenêtre fixe.
 - Prestataires : limite appliquée dans `createProvider` (`convex/providers/mutations.ts`).
 - Communautés, posts, commentaires : limiteurs fixes dans `convex/rateLimits.ts` (`createCommunityPerUser`, `createPostPerUser`, `commentPerUser`).

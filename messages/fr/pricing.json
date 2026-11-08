@@ -20,7 +20,8 @@
     "limits": {
       "listings": "{count, select, unlimited {Annonces immobilières illimitées} other {{count} annonces immobilières par mois}}",
       "jobs": "{count, select, unlimited {Offres d'emploi illimitées} other {{count} offres d'emploi par mois}}",
-      "providers": "{count, select, unlimited {Pages prestataire illimitées} other {{count} pages prestataire par mois}}"
+      "providers": "{count, select, unlimited {Pages prestataire illimitées} other {{count} pages prestataire par mois}}",
+      "applications": "{count, select, unlimited {Candidatures illimitées (emploi et dossier de location)} other {{count} candidatures par mois (emploi et dossier de location)}}"
     },
     "excludedTitle": "Non inclus",
     "excluded": {
@@ -41,7 +42,7 @@
       "boost": "Remontée de vos annonces et offres en tête de liste, une fois par semaine",
       "stats": "Statistiques de vues sur vos annonces et offres d'emploi",
       "priority": "Modération prioritaire : vos publications sont examinées en premier",
-      "quotas": "Quotas étendus : {listings, select, unlimited {annonces illimitées} other {{listings} annonces par mois}}, {jobs, select, unlimited {offres d'emploi illimitées} other {{jobs} offres d'emploi par mois}}, {providers, select, unlimited {pages prestataire illimitées} other {{providers} pages prestataire par mois}}",
+      "quotas": "Quotas étendus : {listings, select, unlimited {annonces illimitées} other {{listings} annonces par mois}}, {jobs, select, unlimited {offres d'emploi illimitées} other {{jobs} offres d'emploi par mois}}, {providers, select, unlimited {pages prestataire illimitées} other {{providers} pages prestataire par mois}}, {applications, select, unlimited {candidatures illimitées} other {{applications} candidatures par mois}}",
       "premiumBadge": "Badge Premium à côté de votre nom"
     },
     "oneSubscription": "Un seul abonnement, que vous cherchiez ou que vous publiez.",

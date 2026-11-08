@@ -15,6 +15,11 @@ import {
   getSupportedTranslationLanguage,
   useManualTranslate,
 } from "@/hooks/use-manual-translate";
+import { ApplicationQuotaNotice } from "@/components/application-quota-notice";
+import {
+  isQuotaReached,
+  useApplicationQuota,
+} from "@/hooks/use-application-quota";
 import { useTimeTranslations } from "@/hooks/use-time-translations";
 import { Link } from "@/i18n/navigation";
 import { useAuthRequiredAction } from "@/hooks/use-auth-required-action";
@@ -57,6 +62,7 @@ import { JobDetailsSkeleton } from "../_component/skeleton";
 export default function JobDetailsPage() {
   const { id } = useParams();
   const user = useQuery(api.auth.auth.getCurrentUser);
+  const quotaReached = isQuotaReached(useApplicationQuota());
   const { isAuthenticated, isLoading } = useConvexAuth();
   const requireAuthentication = useAuthRequiredAction();
 
@@ -265,7 +271,7 @@ export default function JobDetailsPage() {
           variant="default"
           size="sm"
           className={`gap-2 ${className ?? ""}`}
-          disabled={applicationEmailStatus === undefined}
+          disabled={applicationEmailStatus === undefined || quotaReached}
         >
           <Mail className="w-4 h-4" />
           {t("details.apply")}
@@ -855,12 +861,18 @@ export default function JobDetailsPage() {
                         variant="secondary"
                         className="w-full"
                         size="lg"
-                        disabled={applicationEmailStatus === undefined}
+                        disabled={
+                          applicationEmailStatus === undefined || quotaReached
+                        }
                       >
                         {t("details.applyNow")}
                       </Button>
                     </ApplyJobDialog>
                   )}
+                  {isAcceptingApplications &&
+                    applicationEmailStatus === "none" && (
+                      <ApplicationQuotaNotice className="mt-2" />
+                    )}
                   {isAcceptingApplications && externalApplicationUrl && (
                     <Button
                       asChild

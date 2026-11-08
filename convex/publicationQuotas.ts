@@ -32,6 +32,7 @@ const planQuotasValidator = v.object({
   jobsPerMonth: quotaValueValidator,
   listingsPerMonth: quotaValueValidator,
   providersPerMonth: quotaValueValidator,
+  applicationsPerMonth: quotaValueValidator,
 });
 
 const allQuotasValidator = v.object({
@@ -58,6 +59,10 @@ export async function getAllQuotas(
       jobsPerMonth: pick(row.jobsPerMonth, defaults.jobsPerMonth),
       listingsPerMonth: pick(row.listingsPerMonth, defaults.listingsPerMonth),
       providersPerMonth: pick(row.providersPerMonth, defaults.providersPerMonth),
+      applicationsPerMonth: pick(
+        row.applicationsPerMonth,
+        defaults.applicationsPerMonth,
+      ),
     };
   }
   return result;
@@ -126,6 +131,7 @@ export const update = adminMutation({
     jobsPerMonth: quotaValueValidator,
     listingsPerMonth: quotaValueValidator,
     providersPerMonth: quotaValueValidator,
+    applicationsPerMonth: quotaValueValidator,
   },
   returns: v.null(),
   handler: async (ctx, { plan, ...values }) => {

@@ -1,5 +1,6 @@
 import { v } from "convex/values";
 import { internal } from "../_generated/api";
+import { assertApplicationQuota } from "../applicationQuotas";
 import { httpAction, internalMutation, internalQuery } from "../_generated/server";
 import { authComponent } from "../auth/auth";
 import { r2 } from "../integrations/r2";
@@ -68,6 +69,9 @@ export const submit = internalMutation({
     if (existing && existing.revokedAt === undefined) {
       throwValidationError("You have already sent your dossier for this listing");
     }
+
+    // Free members: shared monthly quota with job applications.
+    await assertApplicationQuota(ctx, candidateId);
 
     const rate = await limiter.limit(ctx, "rentalFilePerUser", { key: candidateId });
     if (!rate.ok) {

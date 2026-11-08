@@ -1,0 +1,6 @@
+{
+  "remaining": "{count, plural, =0 {Plus aucune candidature ce mois-ci} one {Il te reste # candidature} other {Il te reste # candidatures}}",
+  "reachedTitle": "Tu as utilisé tes {limit} candidatures du mois.",
+  "reachedText": "Passe Premium pour postuler sans limite, ou reviens le {date}.",
+  "premiumLink": "Voir les tarifs"
+}

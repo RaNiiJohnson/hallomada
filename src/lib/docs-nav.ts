@@ -22,10 +22,9 @@ export function getDocsNav(): DocsNavNode[] {
       type: "folder",
       name: text(node.name),
       url: node.index?.url ?? null,
-      // A folder is "new" when its index or any page inside is new.
-      isNew:
-        (node.index ? (isNew.get(node.index.url) ?? false) : false) ||
-        children.some((child) => child.type !== "separator" && child.isNew),
+      // Only the folder's own index page. Whether anything inside is still
+      // unread is decided in the browser, per member (see docs-nav.tsx).
+      isNew: node.index ? (isNew.get(node.index.url) ?? false) : false,
       children,
     };
   };

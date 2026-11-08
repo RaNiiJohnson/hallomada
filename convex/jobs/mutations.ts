@@ -29,6 +29,7 @@ import {
 import { authMutation, internalMutation } from "../functions";
 import { assertVerifiedUpload, consumeUploadGrant } from "../integrations/r2";
 import { notifyAdministratorsOfPendingPublication } from "../notifications/admin";
+import { assertApplicationQuota } from "../applicationQuotas";
 import { consumePublicationQuota } from "../publicationQuotas";
 import { limiter } from "../rateLimits";
 import {
@@ -491,6 +492,9 @@ export const submitApplication = internalMutation({
     if (existing) {
       throwValidationError("You have already applied to this job");
     }
+
+    // Free members: shared monthly quota with rental dossiers.
+    await assertApplicationQuota(ctx, candidateId);
 
     const cvKey = applicationCvKey ?? candidate.cv ?? undefined;
     if (!cvKey) throwNotFound("CV not found");

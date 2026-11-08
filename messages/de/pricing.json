@@ -20,7 +20,8 @@
     "limits": {
       "listings": "{count, select, unlimited {Unbegrenzt viele Immobilieninserate} other {{count} Immobilieninserate pro Monat}}",
       "jobs": "{count, select, unlimited {Unbegrenzt viele Stellenangebote} other {{count} Stellenangebote pro Monat}}",
-      "providers": "{count, select, unlimited {Unbegrenzt viele Anbieterseiten} other {{count} Anbieterseiten pro Monat}}"
+      "providers": "{count, select, unlimited {Unbegrenzt viele Anbieterseiten} other {{count} Anbieterseiten pro Monat}}",
+      "applications": "{count, select, unlimited {Unbegrenzt viele Bewerbungen (Jobs und Mietunterlagen)} other {{count} Bewerbungen pro Monat (Jobs und Mietunterlagen)}}"
     },
     "excludedTitle": "Nicht enthalten",
     "excluded": {
@@ -41,7 +42,7 @@
       "boost": "Ihre Inserate und Stellenangebote einmal pro Woche an die Spitze der Liste schieben",
       "stats": "Aufrufstatistiken für Ihre Inserate und Stellenangebote",
       "priority": "Bevorzugte Moderation: Ihre Veröffentlichungen werden zuerst geprüft",
-      "quotas": "Erweiterte Kontingente: {listings, select, unlimited {unbegrenzt viele Inserate} other {{listings} Inserate pro Monat}}, {jobs, select, unlimited {unbegrenzt viele Stellenangebote} other {{jobs} Stellenangebote pro Monat}}, {providers, select, unlimited {unbegrenzt viele Anbieterseiten} other {{providers} Anbieterseiten pro Monat}}",
+      "quotas": "Erweiterte Kontingente: {listings, select, unlimited {unbegrenzt viele Inserate} other {{listings} Inserate pro Monat}}, {jobs, select, unlimited {unbegrenzt viele Stellenangebote} other {{jobs} Stellenangebote pro Monat}}, {providers, select, unlimited {unbegrenzt viele Anbieterseiten} other {{providers} Anbieterseiten pro Monat}}, {applications, select, unlimited {unbegrenzt viele Bewerbungen} other {{applications} Bewerbungen pro Monat}}",
       "premiumBadge": "Premium-Badge neben Ihrem Namen"
     },
     "oneSubscription": "Ein einziges Abo – ob Sie suchen oder veröffentlichen.",

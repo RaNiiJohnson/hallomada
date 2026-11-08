@@ -223,6 +223,7 @@
     "error": "Impossible d'enregistrer les quotas",
     "loading": "Chargement des quotas",
     "providers": "Pages prestataire par mois",
+    "applications": "Candidatures par mois (emploi + dossier de location)",
     "plans": {
       "free": {
         "title": "Plan Gratuit",

@@ -1,0 +1,6 @@
+{
+  "remaining": "{count, plural, =0 {Keine Bewerbungen mehr in diesem Monat} one {Dir bleibt # Bewerbung} other {Dir bleiben # Bewerbungen}}",
+  "reachedTitle": "Du hast deine {limit} Bewerbungen für diesen Monat verbraucht.",
+  "reachedText": "Wechsle zu Premium, um unbegrenzt zu bewerben, oder komm am {date} wieder.",
+  "premiumLink": "Preise ansehen"
+}

@@ -1,11 +1,13 @@
 ---
 title: Modifier cette documentation
 description: Ajouter une page, la marquer à vérifier, ajouter une capture.
+new: true
 ---
 
 - Les pages sont des fichiers `.mdx` dans `content/docs/`. Le titre et la description sont en haut, entre deux lignes `---`.
 - L'ordre du menu est dans les fichiers `meta.json` de chaque dossier.
-- **Page à vérifier (en orange)** : ajoutez `new: true` en haut de la page. Retirez la ligne une fois la fonctionnalité vérifiée.
+- **Page nouvelle (en orange)** : ajoutez `new: true` en haut de la page. Chaque membre de l'équipe la voit en orange tant qu'il ne l'a pas ouverte ; dès qu'il clique dessus, elle devient normale **pour lui seul** (mémorisé dans son navigateur, pas dans la base). Inutile de retirer la ligne après la vérification.
+- **Remettre une page en « nouveau »** après une modification importante : la mémoire est par adresse de page, il faut donc vider la mémoire du navigateur de chacun, ou créer une nouvelle page. Pensez-y avant de modifier : une page déjà lue ne repasse pas en orange toute seule.
 - **Capture** : placez l'image dans `public/doc-images/`, puis `<Screenshot src="/doc-images/nom.png" alt="…" caption="…" />`.
 - **Encadrés** : `<Callout type="info">`, `<Callout type="warning">`, `<Callout type="tip">`.
 - **Étapes numérotées** : `<Steps>` et `<Step title="…">`.

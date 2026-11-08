@@ -88,6 +88,7 @@ describe("publication quotas", () => {
       jobsPerMonth: 5,
       listingsPerMonth: 4,
       providersPerMonth: 2,
+      applicationsPerMonth: 3,
     };
     await expect(
       t.mutation(api.publicationQuotas.update, next),
@@ -108,6 +109,7 @@ describe("publication quotas", () => {
       jobsPerMonth: 5,
       listingsPerMonth: 4,
       providersPerMonth: 2,
+      applicationsPerMonth: 3,
     });
     // The other plan is untouched.
     expect(quotas.premium).toEqual(DEFAULT_PLAN_QUOTAS.premium);
@@ -122,12 +124,14 @@ describe("publication quotas", () => {
       jobsPerMonth: 7,
       listingsPerMonth: null,
       providersPerMonth: 9,
+      applicationsPerMonth: null,
     });
     await t.mutation(api.publicationQuotas.update, {
       plan: "free",
       jobsPerMonth: 1,
       listingsPerMonth: 2,
       providersPerMonth: 3,
+      applicationsPerMonth: 4,
     });
 
     premiumState.on = true;
@@ -176,6 +180,7 @@ describe("publication quotas", () => {
       jobsPerMonth: null,
       listingsPerMonth: null,
       providersPerMonth: null,
+      applicationsPerMonth: null,
     });
     premiumState.on = true;
     rateState.ok = false;
