@@ -3,14 +3,15 @@ export const MAX_PUBLICATION_QUOTA = 100;
 
 export type QuotaPlan = "free" | "premium";
 
+/** `null` means unlimited (no monthly quota for that kind). */
 export type PlanQuotas = {
-  jobsPerWeek: number;
-  listingsPerWeek: number;
-  providersPerMonth: number;
+  jobsPerMonth: number | null;
+  listingsPerMonth: number | null;
+  providersPerMonth: number | null;
 };
 
 /** Used until an administrator saves other numbers. */
 export const DEFAULT_PLAN_QUOTAS: Record<QuotaPlan, PlanQuotas> = {
-  free: { jobsPerWeek: 3, listingsPerWeek: 3, providersPerMonth: 3 },
-  premium: { jobsPerWeek: 10, listingsPerWeek: 10, providersPerMonth: 10 },
+  free: { jobsPerMonth: 5, listingsPerMonth: 5, providersPerMonth: 5 },
+  premium: { jobsPerMonth: null, listingsPerMonth: null, providersPerMonth: null },
 };

@@ -96,7 +96,7 @@ describe("publication stats", () => {
     expect(stats).toMatchObject({ premium: true, totalViews: 2, last7Days: 2 });
     if (!stats || !stats.premium) throw new Error("expected stats");
     expect(stats.daily).toHaveLength(STATS_DAYS);
-    expect(stats.daily.at(-1)).toEqual({ day: today, views: 2 });
+    expect(stats.daily[stats.daily.length - 1]).toEqual({ day: today, views: 2 });
 
     vi.useFakeTimers();
     vi.setSystemTime(Date.now() + VIEW_DEDUP_MS + 1000);

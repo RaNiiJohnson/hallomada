@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import { DatePicker } from "@/components/ui/date-picker";
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
@@ -8,6 +9,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { api } from "@convex/_generated/api";
 import {
   MAX_PUBLICATION_QUOTA,
+  type PlanQuotas,
   type QuotaPlan,
 } from "@convex/publicationQuotaValues";
 import { useQuery } from "convex-helpers/react/cache";
@@ -17,34 +19,36 @@ import { useState } from "react";
 import { toast } from "sonner";
 
 const FIELDS = [
-  { name: "listingsPerWeek", label: "listings" },
-  { name: "jobsPerWeek", label: "jobs" },
+  { name: "listingsPerMonth", label: "listings" },
+  { name: "jobsPerMonth", label: "jobs" },
   { name: "providersPerMonth", label: "providers" },
 ] as const;
 
 type QuotaField = (typeof FIELDS)[number]["name"];
-type QuotaDraft = Record<QuotaField, string>;
+type QuotaDraft = Record<QuotaField, { value: string; unlimited: boolean }>;
 
-function QuotaForm({
-  plan,
-  initial,
-}: {
-  plan: QuotaPlan;
-  initial: Record<QuotaField, number>;
-}) {
+function toDraft(value: number | null) {
+  return { value: value === null ? "" : String(value), unlimited: value === null };
+}
+
+function QuotaForm({ plan, initial }: { plan: QuotaPlan; initial: PlanQuotas }) {
   const t = useTranslations("admin.quotas");
   const update = useMutation(api.publicationQuotas.update);
   const [draft, setDraft] = useState<QuotaDraft>({
-    listingsPerWeek: String(initial.listingsPerWeek),
-    jobsPerWeek: String(initial.jobsPerWeek),
-    providersPerMonth: String(initial.providersPerMonth),
+    listingsPerMonth: toDraft(initial.listingsPerMonth),
+    jobsPerMonth: toDraft(initial.jobsPerMonth),
+    providersPerMonth: toDraft(initial.providersPerMonth),
   });
   const [saving, setSaving] = useState(false);
 
-  const parsed = FIELDS.map(({ name }) => Number(draft[name]));
+  // `null` = illimité, sent as-is to the server.
+  const parsed = FIELDS.map(({ name }) =>
+    draft[name].unlimited ? null : Number(draft[name].value),
+  );
   const valid = parsed.every(
     (value) =>
-      Number.isInteger(value) && value >= 1 && value <= MAX_PUBLICATION_QUOTA,
+      value === null ||
+      (Number.isInteger(value) && value >= 1 && value <= MAX_PUBLICATION_QUOTA),
   );
 
   const save = async () => {
@@ -53,8 +57,8 @@ function QuotaForm({
     try {
       await update({
         plan,
-        listingsPerWeek: parsed[0],
-        jobsPerWeek: parsed[1],
+        listingsPerMonth: parsed[0],
+        jobsPerMonth: parsed[1],
         providersPerMonth: parsed[2],
       });
       toast.success(t("saved"));
@@ -83,19 +87,41 @@ function QuotaForm({
         {FIELDS.map(({ name, label }) => (
           <Field key={name}>
             <FieldLabel htmlFor={`quota-${plan}-${name}`}>{t(label)}</FieldLabel>
-            <Input
-              id={`quota-${plan}-${name}`}
-              type="number"
-              inputMode="numeric"
-              min={1}
-              max={MAX_PUBLICATION_QUOTA}
-              step={1}
-              value={draft[name]}
-              onChange={(event) =>
-                setDraft((current) => ({ ...current, [name]: event.target.value }))
-              }
-              aria-describedby={`quota-${plan}-${name}-hint`}
-            />
+            <div className="flex items-center gap-3">
+              <Input
+                id={`quota-${plan}-${name}`}
+                type="number"
+                inputMode="numeric"
+                min={1}
+                max={MAX_PUBLICATION_QUOTA}
+                step={1}
+                disabled={draft[name].unlimited}
+                value={draft[name].value}
+                onChange={(event) =>
+                  setDraft((current) => ({
+                    ...current,
+                    [name]: { ...current[name], value: event.target.value },
+                  }))
+                }
+                aria-describedby={`quota-${plan}-${name}-hint`}
+              />
+              <Checkbox
+                id={`quota-${plan}-${name}-unlimited`}
+                checked={draft[name].unlimited}
+                onCheckedChange={(checked) =>
+                  setDraft((current) => ({
+                    ...current,
+                    [name]: { ...current[name], unlimited: checked === true },
+                  }))
+                }
+              />
+              <FieldLabel
+                htmlFor={`quota-${plan}-${name}-unlimited`}
+                className="cursor-pointer font-normal"
+              >
+                {t("unlimited")}
+              </FieldLabel>
+            </div>
             <p
               id={`quota-${plan}-${name}-hint`}
               className="text-xs text-muted-foreground"

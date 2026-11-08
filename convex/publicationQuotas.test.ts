@@ -1,5 +1,6 @@
 /// <reference types="vite/client" />
 
+import { DAY } from "@convex-dev/rate-limiter";
 import { convexTest } from "convex-test";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { api } from "./_generated/api";
@@ -84,8 +85,8 @@ describe("publication quotas", () => {
   it("lets only administrators change a plan's quotas, with validated values", async () => {
     const next = {
       plan: "free" as const,
-      jobsPerWeek: 5,
-      listingsPerWeek: 4,
+      jobsPerMonth: 5,
+      listingsPerMonth: 4,
       providersPerMonth: 2,
     };
     await expect(
@@ -94,18 +95,18 @@ describe("publication quotas", () => {
 
     authState.actor.role = "admin";
     await expect(
-      t.mutation(api.publicationQuotas.update, { ...next, jobsPerWeek: 0 }),
+      t.mutation(api.publicationQuotas.update, { ...next, jobsPerMonth: 0 }),
     ).rejects.toThrow();
     await expect(
-      t.mutation(api.publicationQuotas.update, { ...next, jobsPerWeek: 1.5 }),
+      t.mutation(api.publicationQuotas.update, { ...next, jobsPerMonth: 1.5 }),
     ).rejects.toThrow();
 
     await t.mutation(api.publicationQuotas.update, next);
     await t.mutation(api.publicationQuotas.update, next);
     const quotas = await t.query(api.publicationQuotas.get, {});
     expect(quotas.free).toEqual({
-      jobsPerWeek: 5,
-      listingsPerWeek: 4,
+      jobsPerMonth: 5,
+      listingsPerMonth: 4,
       providersPerMonth: 2,
     });
     // The other plan is untouched.
@@ -118,31 +119,42 @@ describe("publication quotas", () => {
     authState.actor.role = "admin";
     await t.mutation(api.publicationQuotas.update, {
       plan: "premium",
-      jobsPerWeek: 7,
-      listingsPerWeek: 8,
+      jobsPerMonth: 7,
+      listingsPerMonth: null,
       providersPerMonth: 9,
     });
     await t.mutation(api.publicationQuotas.update, {
       plan: "free",
-      jobsPerWeek: 1,
-      listingsPerWeek: 2,
+      jobsPerMonth: 1,
+      listingsPerMonth: 2,
       providersPerMonth: 3,
     });
 
     premiumState.on = true;
     await t.run((ctx) => consumePublicationQuota(ctx, "job", "user-1"));
-    expect(limiter.limit).toHaveBeenLastCalledWith(
+    expect(limiter.limit).toHaveBeenCalledWith(
       expect.anything(),
       "createJobPerUser",
       expect.objectContaining({
         key: "user-1",
-        config: expect.objectContaining({ rate: 7 }),
+        config: expect.objectContaining({
+          kind: "fixed window",
+          rate: 7,
+          period: 30 * DAY,
+        }),
       }),
     );
 
+    // Premium listings are unlimited: only the burst bucket is consulted.
+    vi.mocked(limiter.limit).mockClear();
+    await t.run((ctx) => consumePublicationQuota(ctx, "listing", "user-1"));
+    expect(vi.mocked(limiter.limit).mock.calls.map((call) => call[1])).toEqual([
+      "publicationBurstPerUser",
+    ]);
+
     premiumState.on = false;
     await t.run((ctx) => consumePublicationQuota(ctx, "provider", "user-1"));
-    expect(limiter.limit).toHaveBeenLastCalledWith(
+    expect(limiter.limit).toHaveBeenCalledWith(
       expect.anything(),
       "createProviderPerUser",
       expect.objectContaining({
@@ -154,6 +166,22 @@ describe("publication quotas", () => {
     rateState.retryAfter = 1234;
     await expect(
       t.run((ctx) => consumePublicationQuota(ctx, "listing", "user-1")),
+    ).rejects.toThrow(/LIMIT_REACHED/);
+  });
+
+  it("keeps the anti-burst bucket even when the plan is unlimited", async () => {
+    authState.actor.role = "admin";
+    await t.mutation(api.publicationQuotas.update, {
+      plan: "premium",
+      jobsPerMonth: null,
+      listingsPerMonth: null,
+      providersPerMonth: null,
+    });
+    premiumState.on = true;
+    rateState.ok = false;
+    rateState.retryAfter = 600;
+    await expect(
+      t.run((ctx) => consumePublicationQuota(ctx, "job", "user-1")),
     ).rejects.toThrow(/LIMIT_REACHED/);
   });
 

@@ -652,11 +652,16 @@ export default defineSchema({
 
   // One row per plan ("free" / "premium"), edited from the admin dashboard;
   // a missing row means the defaults in publicationQuotaValues.ts.
+  // `null` = illimité. A missing field falls back to the default.
+  // `jobsPerWeek` / `listingsPerWeek` are the former weekly fields, no longer
+  // read; remove them once no row still carries them.
   planQuotas: defineTable({
     plan: v.union(v.literal("free"), v.literal("premium")),
-    jobsPerWeek: v.number(),
-    listingsPerWeek: v.number(),
-    providersPerMonth: v.number(),
+    jobsPerMonth: v.optional(v.union(v.number(), v.null())),
+    listingsPerMonth: v.optional(v.union(v.number(), v.null())),
+    providersPerMonth: v.optional(v.union(v.number(), v.null())),
+    jobsPerWeek: v.optional(v.number()),
+    listingsPerWeek: v.optional(v.number()),
     updatedAt: v.number(),
     updatedBy: v.string(),
   }).index("by_plan", ["plan"]),

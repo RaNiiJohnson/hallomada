@@ -70,4 +70,12 @@ export const limiter = new RateLimiter(components.rateLimiter, {
     period: DAY,
     capacity: 10,
   },
+  // Anti-rafale commun aux offres, annonces et prestataires : 2 publications
+  // d'un coup, puis une toutes les 30 minutes. Vaut aussi pour Premium illimité.
+  publicationBurstPerUser: {
+    kind: "token bucket",
+    rate: 2,
+    period: 60 * MINUTE,
+    capacity: 2,
+  },
 });

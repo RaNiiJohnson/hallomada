@@ -214,9 +214,9 @@
   "quotas": {
     "title": "Quotas de publication",
     "description": "Limites de publication appliquées côté serveur, avec des chiffres différents pour les membres Gratuit et Premium. Tant que Premium est offert à tous, ce sont les chiffres Premium qui s'appliquent.",
-    "jobs": "Offres d'emploi par semaine",
-    "listings": "Annonces immobilières par semaine",
-    "hint": "Nombre entier entre 1 et {max}.",
+    "jobs": "Offres d'emploi par mois",
+    "listings": "Annonces immobilières par mois",
+    "hint": "Nombre entier entre 1 et {max}, ou cochez Illimité.",
     "save": "Enregistrer",
     "saving": "Enregistrement...",
     "saved": "Quotas mis à jour",
@@ -232,7 +232,8 @@
         "title": "Plan Premium",
         "description": "Membres abonnés (tout le monde pour le moment)."
       }
-    }
+    },
+    "unlimited": "Illimité"
   },
   "founders": {
     "title": "Programme Membre fondateur",

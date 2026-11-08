@@ -214,9 +214,9 @@
   "quotas": {
     "title": "Veröffentlichungslimits",
     "description": "Serverseitige Veröffentlichungslimits, mit unterschiedlichen Werten für kostenlose und Premium-Mitglieder. Solange Premium für alle angeboten wird, gelten die Premium-Werte.",
-    "jobs": "Stellenangebote pro Woche",
-    "listings": "Immobilieninserate pro Woche",
-    "hint": "Ganze Zahl zwischen 1 und {max}.",
+    "jobs": "Stellenangebote pro Monat",
+    "listings": "Immobilieninserate pro Monat",
+    "hint": "Ganze Zahl zwischen 1 und {max}, oder Unbegrenzt ankreuzen.",
     "save": "Speichern",
     "saving": "Wird gespeichert...",
     "saved": "Limits aktualisiert",
@@ -232,7 +232,8 @@
         "title": "Premium-Plan",
         "description": "Abonnierte Mitglieder (derzeit alle)."
       }
-    }
+    },
+    "unlimited": "Unbegrenzt"
   },
   "founders": {
     "title": "Gründungsmitglied-Programm",

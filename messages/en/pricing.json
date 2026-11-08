@@ -18,9 +18,9 @@
     },
     "limitsTitle": "Limits",
     "limits": {
-      "listings": "{count} real estate listings per week",
-      "jobs": "{count} job offers per week",
-      "providers": "{count} provider pages per month"
+      "listings": "{count, select, unlimited {Unlimited real estate listings} other {{count} real estate listings per month}}",
+      "jobs": "{count, select, unlimited {Unlimited job offers} other {{count} job offers per month}}",
+      "providers": "{count, select, unlimited {Unlimited provider pages} other {{count} provider pages per month}}"
     },
     "excludedTitle": "Not included",
     "excluded": {
@@ -41,7 +41,7 @@
       "boost": "Bump your listings and job offers to the top of the list, once a week",
       "stats": "View statistics on your listings and job offers",
       "priority": "Priority moderation: your posts are reviewed first",
-      "quotas": "Extended quotas: {listings} listings and {jobs} job offers per week, {providers} provider pages per month",
+      "quotas": "Extended quotas: {listings, select, unlimited {unlimited listings} other {{listings} listings per month}}, {jobs, select, unlimited {unlimited job offers} other {{jobs} job offers per month}}, {providers, select, unlimited {unlimited provider pages} other {{providers} provider pages per month}}",
       "premiumBadge": "Premium badge next to your name"
     },
     "oneSubscription": "One subscription, whether you are looking or publishing.",

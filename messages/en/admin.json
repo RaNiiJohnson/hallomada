@@ -214,9 +214,9 @@
   "quotas": {
     "title": "Publication quotas",
     "description": "Publication limits enforced on the server, with different numbers for Free and Premium members. While Premium is offered to everyone, the Premium numbers apply.",
-    "jobs": "Job offers per week",
-    "listings": "Real estate listings per week",
-    "hint": "Whole number between 1 and {max}.",
+    "jobs": "Job offers per month",
+    "listings": "Real estate listings per month",
+    "hint": "Whole number between 1 and {max}, or tick Unlimited.",
     "save": "Save",
     "saving": "Saving...",
     "saved": "Quotas updated",
@@ -232,7 +232,8 @@
         "title": "Premium plan",
         "description": "Subscribed members (everyone for now)."
       }
-    }
+    },
+    "unlimited": "Unlimited"
   },
   "founders": {
     "title": "Founding member program",

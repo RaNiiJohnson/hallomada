@@ -69,7 +69,9 @@ export default function PricingPage({
   const t = useTranslations("pricing");
   // The numbers come from the admin quotas page, so they never go stale.
   const quotas = useQuery(api.publicationQuotas.getPublic, {});
-  const shown = (value: number | undefined) => value ?? "…";
+  // `unlimited` selects the "illimité" branch of the ICU messages in pricing.json.
+  const shown = (value: number | null | undefined) =>
+    value === undefined ? "…" : (value ?? "unlimited");
   const Heading = variant === "page" ? "h1" : "h2";
 
   return (
@@ -122,9 +124,9 @@ export default function PricingPage({
                   {t(`free.limits.${key}`, {
                     count: shown(
                       key === "listings"
-                        ? quotas?.free.listingsPerWeek
+                        ? quotas?.free.listingsPerMonth
                         : key === "jobs"
-                          ? quotas?.free.jobsPerWeek
+                          ? quotas?.free.jobsPerMonth
                           : quotas?.free.providersPerMonth,
                     ),
                   })}
@@ -183,8 +185,8 @@ export default function PricingPage({
                   <FeatureItem key={feature.key} icon="check">
                     <span>
                       {t(`premium.features.${feature.key}`, {
-                        listings: shown(quotas?.premium.listingsPerWeek),
-                        jobs: shown(quotas?.premium.jobsPerWeek),
+                        listings: shown(quotas?.premium.listingsPerMonth),
+                        jobs: shown(quotas?.premium.jobsPerMonth),
                         providers: shown(quotas?.premium.providersPerMonth),
                       })}
                     </span>
