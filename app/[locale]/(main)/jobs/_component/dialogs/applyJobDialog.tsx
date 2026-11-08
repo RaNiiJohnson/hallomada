@@ -1,5 +1,6 @@
 "use client";
 
+import { ApplicationQuotaNotice } from "@/components/application-quota-notice";
 import { CvPreviewDialog } from "@/components/cv-preview-dialog";
 import { Button } from "@/components/ui/button";
 import {
@@ -12,6 +13,10 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
+import {
+  isQuotaReached,
+  useApplicationQuota,
+} from "@/hooks/use-application-quota";
 import { formatBytes, useFileUpload } from "@/hooks/use-file-upload";
 import { useTypedR2Upload } from "@/hooks/use-r2-typed-upload";
 import { JobOfferDetails } from "@/lib/convexTypes";
@@ -39,6 +44,7 @@ export function ApplyJobDialog({
   children: React.ReactNode;
 }) {
   const user = useQuery(api.auth.auth.getCurrentUser);
+  const quotaReached = isQuotaReached(useApplicationQuota());
   const applyToJob = useAction(api.jobs.actions.applyToJob);
 
   const { upload: uploadCv } = useTypedR2Upload(
@@ -132,6 +138,8 @@ export function ApplyJobDialog({
             </span>
           </DialogDescription>
         </DialogHeader>
+
+        <ApplicationQuotaNotice />
 
         <div className="space-y-6 py-2">
           {/* Section CV */}
@@ -269,7 +277,7 @@ export function ApplyJobDialog({
           </Button>
           <Button
             onClick={handleApply}
-            disabled={isPending || (!file && !hasProfileCv)}
+            disabled={isPending || quotaReached || (!file && !hasProfileCv)}
             className="gap-2"
           >
             {isPending && <Loader2 className="w-4 h-4 animate-spin" />}

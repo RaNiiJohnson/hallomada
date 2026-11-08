@@ -547,6 +547,7 @@ export default defineSchema({
     .index("by_jobId_and_candidateId", ["jobId", "candidateId"])
     .index("by_recruiterEmailId", ["recruiterEmailId"])
     .index("by_candidateId", ["candidateId"])
+    .index("by_candidateId_and_appliedAt", ["candidateId", "appliedAt"])
     .index("by_cvKey", ["cvKey"])
     .index("by_cvToken", ["cvToken"])
     .index("by_cvExpiresAt", ["cvExpiresAt"]),
@@ -616,6 +617,7 @@ export default defineSchema({
   })
     .index("by_listingId_and_candidateId", ["listingId", "candidateId"])
     .index("by_candidateId", ["candidateId"])
+    .index("by_candidateId_and_sentAt", ["candidateId", "sentAt"])
     .index("by_token", ["token"])
     .index("by_expiresAt", ["expiresAt"]),
 
@@ -660,6 +662,7 @@ export default defineSchema({
     jobsPerMonth: v.optional(v.union(v.number(), v.null())),
     listingsPerMonth: v.optional(v.union(v.number(), v.null())),
     providersPerMonth: v.optional(v.union(v.number(), v.null())),
+    applicationsPerMonth: v.optional(v.union(v.number(), v.null())),
     jobsPerWeek: v.optional(v.number()),
     listingsPerWeek: v.optional(v.number()),
     updatedAt: v.number(),

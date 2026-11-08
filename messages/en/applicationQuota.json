@@ -1,0 +1,6 @@
+{
+  "remaining": "{count, plural, =0 {No applications left this month} one {You have # application left} other {You have # applications left}}",
+  "reachedTitle": "You have used your {limit} applications for the month.",
+  "reachedText": "Go Premium to apply without limits, or come back on {date}.",
+  "premiumLink": "See pricing"
+}

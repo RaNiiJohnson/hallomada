@@ -16,11 +16,10 @@ import { useTranslations } from "next-intl";
 const FREE_INCLUDED = [
   "browse",
   "contact",
-  "messages",
   "communities",
   "bookmarks",
 ] as const;
-const FREE_LIMITS = ["listings", "jobs", "providers"] as const;
+const FREE_LIMITS = ["listings", "jobs", "providers", "applications"] as const;
 const FREE_EXCLUDED = ["highlight", "boost", "stats"] as const;
 
 type PremiumFeature = { key: string; soon: boolean };
@@ -127,7 +126,9 @@ export default function PricingPage({
                         ? quotas?.free.listingsPerMonth
                         : key === "jobs"
                           ? quotas?.free.jobsPerMonth
-                          : quotas?.free.providersPerMonth,
+                          : key === "applications"
+                            ? quotas?.free.applicationsPerMonth
+                            : quotas?.free.providersPerMonth,
                     ),
                   })}
                 </FeatureItem>
@@ -188,6 +189,9 @@ export default function PricingPage({
                         listings: shown(quotas?.premium.listingsPerMonth),
                         jobs: shown(quotas?.premium.jobsPerMonth),
                         providers: shown(quotas?.premium.providersPerMonth),
+                        applications: shown(
+                          quotas?.premium.applicationsPerMonth,
+                        ),
                       })}
                     </span>
                     {feature.soon && (

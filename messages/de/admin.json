@@ -223,6 +223,7 @@
     "error": "Limits konnten nicht gespeichert werden",
     "loading": "Limits werden geladen",
     "providers": "Anbieterseiten pro Monat",
+    "applications": "Bewerbungen pro Monat (Jobs + Mietunterlagen)",
     "plans": {
       "free": {
         "title": "Kostenloser Plan",

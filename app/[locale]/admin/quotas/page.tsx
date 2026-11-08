@@ -22,6 +22,7 @@ const FIELDS = [
   { name: "listingsPerMonth", label: "listings" },
   { name: "jobsPerMonth", label: "jobs" },
   { name: "providersPerMonth", label: "providers" },
+  { name: "applicationsPerMonth", label: "applications" },
 ] as const;
 
 type QuotaField = (typeof FIELDS)[number]["name"];
@@ -38,6 +39,7 @@ function QuotaForm({ plan, initial }: { plan: QuotaPlan; initial: PlanQuotas }) 
     listingsPerMonth: toDraft(initial.listingsPerMonth),
     jobsPerMonth: toDraft(initial.jobsPerMonth),
     providersPerMonth: toDraft(initial.providersPerMonth),
+    applicationsPerMonth: toDraft(initial.applicationsPerMonth),
   });
   const [saving, setSaving] = useState(false);
 
@@ -60,6 +62,7 @@ function QuotaForm({ plan, initial }: { plan: QuotaPlan; initial: PlanQuotas }) 
         listingsPerMonth: parsed[0],
         jobsPerMonth: parsed[1],
         providersPerMonth: parsed[2],
+        applicationsPerMonth: parsed[3],
       });
       toast.success(t("saved"));
     } catch {

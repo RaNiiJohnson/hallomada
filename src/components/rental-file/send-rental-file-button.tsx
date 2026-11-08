@@ -1,5 +1,6 @@
 "use client";
 
+import { ApplicationQuotaNotice } from "@/components/application-quota-notice";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -12,6 +13,10 @@ import {
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import {
+  isQuotaReached,
+  useApplicationQuota,
+} from "@/hooks/use-application-quota";
 import { useAuthRequiredAction } from "@/hooks/use-auth-required-action";
 import { Link } from "@/i18n/navigation";
 import { api } from "@convex/_generated/api";
@@ -39,6 +44,8 @@ export function SendRentalFileButton({
     isAuthenticated ? { listingId } : "skip",
   );
   const send = useAction(api.rentalFiles.actions.sendRentalFile);
+  const usage = useApplicationQuota();
+  const quotaReached = isQuotaReached(usage);
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState("");
   const [sending, setSending] = useState(false);
@@ -82,6 +89,25 @@ export function SendRentalFileButton({
       setSending(false);
     }
   };
+
+  // Out of applications: the button stays visible but disabled, with the reason
+  // and the way out (Premium) right under it.
+  if (quotaReached) {
+    return (
+      <div className="space-y-2">
+        <Button
+          variant="outline"
+          size="lg"
+          className="flex w-full items-center gap-2"
+          disabled
+        >
+          <FolderUp className="h-4 w-4" />
+          {t("button")}
+        </Button>
+        <ApplicationQuotaNotice />
+      </div>
+    );
+  }
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -129,6 +155,7 @@ export function SendRentalFileButton({
               />
             </div>
             <p className="text-xs text-muted-foreground">{t("privacy")}</p>
+            <ApplicationQuotaNotice />
             <DialogFooter>
               <Button onClick={() => void submit()} disabled={sending}>
                 {sending ? t("sending") : t("submit")}

@@ -11,6 +11,7 @@
 import type * as adminAudit from "../adminAudit.js";
 import type * as adminAuditValues from "../adminAuditValues.js";
 import type * as aggregates from "../aggregates.js";
+import type * as applicationQuotas from "../applicationQuotas.js";
 import type * as auth_admin from "../auth/admin.js";
 import type * as auth_auth from "../auth/auth.js";
 import type * as auth_users from "../auth/users.js";
@@ -96,6 +97,7 @@ declare const fullApi: ApiFromModules<{
   adminAudit: typeof adminAudit;
   adminAuditValues: typeof adminAuditValues;
   aggregates: typeof aggregates;
+  applicationQuotas: typeof applicationQuotas;
   "auth/admin": typeof auth_admin;
   "auth/auth": typeof auth_auth;
   "auth/users": typeof auth_users;
