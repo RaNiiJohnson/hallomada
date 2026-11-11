@@ -1,0 +1,47 @@
+{
+  "name": "@hallomada/backend",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "convex dev",
+    "deploy": "convex deploy",
+    "test": "vitest",
+    "test:once": "vitest run",
+    "typecheck": "tsc --noEmit -p convex",
+    "lint": "eslint"
+  },
+  "dependencies": {
+    "@hallomada/shared": "workspace:*",
+    "@convex-dev/aggregate": "^0.2.1",
+    "@convex-dev/better-auth": "^0.12.3",
+    "@convex-dev/migrations": "^0.3.5",
+    "@convex-dev/r2": "^0.10.1",
+    "@convex-dev/rate-limiter": "^0.3.2",
+    "@convex-dev/resend": "^0.2.5",
+    "@convex-dev/stripe": "^0.1.4",
+    "@imaxis/cloudinary-convex": "^0.1.6",
+    "@posthog/convex": "^2.1.0",
+    "@sholajegede/convex-cascading-deletes": "^0.1.2",
+    "better-auth": "1.6.34",
+    "convex": "^1.49.0",
+    "convex-helpers": "^0.1.118",
+    "openai": "^7.18.0",
+    "rand-seed": "^3.0.0",
+    "react": "19.2.7",
+    "react-dom": "19.2.7",
+    "react-email": "^6.9.0",
+    "stripe": "^22.2.0",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@edge-runtime/vm": "^5.0.0",
+    "@types/node": "^25.9.1",
+    "@types/react": "19.2.16",
+    "convex-test": "^0.0.53",
+    "eslint": "^9.39.5",
+    "eslint-config-next": "16.4.3",
+    "typescript": "^6.0.3",
+    "vite": "^8.0.16",
+    "vitest": "^4.1.8"
+  }
+}
