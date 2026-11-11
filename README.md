@@ -83,13 +83,12 @@ Ou séparément : `pnpm --filter @hallomada/backend dev` et
 
 ## Commandes utiles
 
-| Commande                 | Description                                     |
-| ------------------------ | ----------------------------------------------- |
 Toutes les commandes se lancent à la racine et passent par Turborepo.
 
 | Commande          | Description                                        |
 | ----------------- | -------------------------------------------------- |
 | `pnpm dev`        | Lance Convex et le serveur Next.js                 |
+| `pnpm mobile`     | Lance le serveur Expo de l'app mobile              |
 | `pnpm build`      | Génère le build de production du web               |
 | `pnpm lint`       | Vérifie le code avec ESLint (web et backend)       |
 | `pnpm typecheck`  | Vérifie les types de tous les packages             |
@@ -100,6 +99,7 @@ Toutes les commandes se lancent à la racine et passent par Turborepo.
 Monorepo pnpm + Turborepo :
 
 ```text
+apps/mobile/           Application mobile Expo (voir apps/mobile/README.md)
 apps/web/              Application Next.js
   app/                 Routes et interfaces
   messages/            Traductions françaises, allemandes et anglaises
