@@ -61,6 +61,14 @@ export default function RootLayout() {
             />
             <Stack.Screen name="report" options={{ title: 'Signaler', presentation: 'modal' }} />
             <Stack.Screen
+              name="jobs/[slug]/edit"
+              options={{ title: 'Modifier l’offre', presentation: 'modal' }}
+            />
+            <Stack.Screen
+              name="listings/[slug]/edit"
+              options={{ title: 'Modifier l’annonce', presentation: 'modal' }}
+            />
+            <Stack.Screen
               name="posts/edit/[slug]"
               options={{ title: 'Modifier la publication', presentation: 'modal' }}
             />

@@ -1,8 +1,7 @@
 import { api } from '@convex/_generated/api';
-import { useConvexAuth, useQuery } from 'convex/react';
+import { useConvexAuth, useMutation, useQuery } from 'convex/react';
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
 import {
-  ActivityIndicator,
   Linking,
   ScrollView,
   Share,
@@ -12,9 +11,14 @@ import {
 
 import { AuthorLink } from '@/components/author-link';
 import { BookmarkButton } from '@/components/bookmark-button';
+import { Badge } from '@/components/badge';
 import { Button } from '@/components/button';
-import { CenteredMessage, FactList, PendingBanner, Section } from '@/components/detail';
+import { Card } from '@/components/card';
+import { ActionRow, Banner, CenteredMessage, FactList, LoadingScreen, PendingBanner, Section, SectionTitle } from '@/components/detail';
 import { Gallery } from '@/components/gallery';
+import { Icon, type IconName } from '@/components/icon';
+import { OwnerPanel, ReceivedList } from '@/components/owner-panel';
+import { ReportButton } from '@/components/report-button';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { MaxContentWidth, Spacing } from '@/constants/theme';
@@ -37,12 +41,13 @@ type Listing = NonNullable<
 export default function ListingDetailScreen() {
   const { slug } = useLocalSearchParams<{ slug: string }>();
   const listing = useQuery(api.listings.queries.getListingWithContact, { slug });
+  const user = useQuery(api.auth.auth.getCurrentUser);
 
-  if (listing === undefined) return <ActivityIndicator style={styles.loader} />;
+  if (listing === undefined) return <LoadingScreen />;
   if (listing === null) {
     return (
       <CenteredMessage
-        title="Annonce introuvable"
+        icon="home-outline"        title="Annonce introuvable"
         description="Elle a peut-être été retirée ou n'est plus visible."
       />
     );
@@ -78,43 +83,53 @@ export default function ListingDetailScreen() {
               title="Annonce en attente de validation"
               description="Visible uniquement par vous et les administrateurs jusqu’à sa validation."
             />
+          ) : listing.status === 'rejected' ? (
+            <Banner tone="danger" icon="close-circle-outline" title="Annonce refusée" description="Modifiez-la puis renvoyez-la en validation." />
           ) : null}
 
-          <View style={styles.header}>
-            <ThemedText type="small" themeColor="textSecondary">
-              {listingModeLabel(listing.listingMode)}
-              {listing.status === 'closed' ? ' · Annonce clôturée' : ''}
-            </ThemedText>
+          <Card style={styles.hero}>
+            <View style={styles.badges}>
+              <Badge label={listingModeLabel(listing.listingMode)} tone={isRent ? 'info' : 'primary'} />
+              <Badge label={propertyTypeLabel(listing.propertyType)} icon="home-outline" />
+              {listing.status === 'closed' ? <Badge label="Clôturée" icon="lock-closed-outline" /> : null}
+            </View>
             <ThemedText type="subtitle">{listing.title}</ThemedText>
-            <ThemedText themeColor="textSecondary">{placeLabel(listing)}</ThemedText>
+            <View style={styles.meta}>
+              <Icon name="location-outline" size={16} themeColor="textSecondary" />
+              <ThemedText themeColor="textSecondary" style={styles.flex}>
+                {placeLabel(listing)}
+              </ThemedText>
+            </View>
+            <View>
+              <ThemedText type="title" themeColor="primaryText" style={styles.price}>
+                {priceLabel(listing.price, listing.listingMode)}
+              </ThemedText>
+              <ThemedText type="caption" themeColor="textSecondary">
+                {isRent ? 'Loyer mensuel total' : 'Prix de vente'}
+              </ThemedText>
+            </View>
+            <View style={styles.keyFacts}>
+              <KeyFact icon="resize-outline" label={areaLabel(listing.area) ?? '—'} />
+              <KeyFact icon="bed-outline" label={`${listing.bedrooms} ch.`} />
+              <KeyFact icon="water-outline" label={`${listing.bathrooms} sdb`} />
+              {listing.pets ? <KeyFact icon="paw-outline" label="Animaux" /> : null}
+            </View>
             <AuthorLink prefix="Publiée par" name={listing.authorName} slug={listing.authorSlug} />
-            <ThemedText type="smallBold">
-              {isRent ? 'Loyer mensuel total : ' : 'Prix de vente : '}
-              {priceLabel(listing.price, listing.listingMode)}
-            </ThemedText>
-          </View>
+          </Card>
 
-          <ContactSection listing={listing} />
+          {user && user._id === listing.authorId ? <OwnerSection listing={listing} /> : <ContactSection listing={listing} />}
 
-          <FactList facts={facts} />
-          <Section title="Description" body={listing.description} />
-          {listing.extras?.length ? (
-            <Section
-              title="Équipements et services"
-              body={listing.extras.map((extra) => `• ${extra}`).join('\n')}
-            />
-          ) : null}
-
-          <View style={styles.actions}>
+          <ActionRow>
             <BookmarkButton
               resourceType="realEstate"
               resourceId={listing._id}
               isBookmarked={listing.isBookmarked}
             />
-            <Button label="Partager" onPress={share} />
+            <Button label="Partager" icon="share-outline" onPress={share} />
             {listing.location ? (
               <Button
-                label="Voir sur la carte"
+                label="Carte"
+                icon="map-outline"
                 onPress={() =>
                   Linking.openURL(
                     `https://www.openstreetmap.org/?mlat=${listing.location!.lat}&mlon=${listing.location!.lng}#map=14/${listing.location!.lat}/${listing.location!.lng}`,
@@ -122,30 +137,89 @@ export default function ListingDetailScreen() {
                 }
               />
             ) : null}
-          </View>
+            {user?._id === listing.authorId ? null : (
+              <ReportButton type="listing" id={listing._id} title={listing.title} />
+            )}
+          </ActionRow>
+
+          <FactList facts={facts} />
+          <Section title="Description" icon="document-text-outline" body={listing.description} />
+          {listing.extras?.length ? (
+            <View style={styles.actions}>
+              <SectionTitle title="Équipements et services" icon="sparkles-outline" />
+              <View style={styles.badges}>
+                {listing.extras.map((extra) => (
+                  <Badge key={extra} label={extra} icon="checkmark" />
+                ))}
+              </View>
+            </View>
+          ) : null}
         </View>
       </ScrollView>
     </ThemedView>
   );
 }
 
+function KeyFact({ icon, label }: { icon: IconName; label: string }) {
+  return (
+    <View style={styles.meta}>
+      <Icon name={icon} size={16} themeColor="textSecondary" />
+      <ThemedText type="small">{label}</ThemedText>
+    </View>
+  );
+}
+
+function OwnerSection({ listing }: { listing: Listing }) {
+  const router = useRouter();
+  const setStatus = useMutation(api.listings.mutations.setListingStatus);
+  const archive = useMutation(api.listings.mutations.archiveListing);
+  const dossiers = useQuery(
+    api.rentalFiles.queries.listReceived,
+    listing.listingMode === 'rent' ? { listingId: listing._id } : 'skip',
+  );
+  return (
+    <>
+      <OwnerPanel
+        noun="annonce"
+        status={listing.status}
+        onEdit={() => router.push({ pathname: '/listings/[slug]/edit', params: { slug: listing.slug } })}
+        onSetStatus={(next) =>
+          next === 'archived'
+            ? archive({ listingId: listing._id })
+            : setStatus({ listingId: listing._id, status: next })
+        }
+      />
+      {listing.listingMode === 'rent' ? (
+        <ReceivedList
+          title="Dossiers reçus"
+          empty="Aucun dossier reçu pour le moment."
+          closedHint="Accès retiré par le candidat ou expiré."
+          rows={dossiers?.map((row) => {
+            const url = row.token ? webUrl(`/dossier/${row.token}`) : undefined;
+            return {
+              _id: row._id,
+              name: row.candidateName,
+              slug: row.candidateSlug,
+              at: row.sentAt,
+              highlighted: row.highlighted,
+              message: row.message,
+              link: url ? { label: 'Ouvrir le dossier', url, icon: 'folder-open-outline' } : null,
+            };
+          })}
+        />
+      ) : null}
+    </>
+  );
+}
+
 function ContactSection({ listing }: { listing: Listing }) {
   const router = useRouter();
   const { isAuthenticated } = useConvexAuth();
-  const user = useQuery(api.auth.auth.getCurrentUser);
   const alreadySent = useQuery(
     api.rentalFiles.queries.hasSentToListing,
     isAuthenticated ? { listingId: listing._id } : 'skip',
   );
   const quota = useApplicationQuota();
-
-  if (user && user._id === listing.authorId) {
-    return (
-      <ThemedText type="small" themeColor="textSecondary">
-        Vous avez publié cette annonce. Les dossiers reçus sont visibles sur le site.
-      </ThemedText>
-    );
-  }
 
   const phone = listing.contact?.phone;
   const email = listing.contact?.email;
@@ -153,17 +227,19 @@ function ContactSection({ listing }: { listing: Listing }) {
   const quotaReached = quota != null && quota.limit !== null && quota.remaining === 0;
 
   return (
-    <View style={styles.actions}>
-      <ThemedText type="smallBold">Contact</ThemedText>
+    <Card style={styles.actions}>
+      <SectionTitle title="Contact" icon="chatbubble-ellipses-outline" />
       {acceptsDossier ? (
         !isAuthenticated ? (
-          <Button label="Envoyer mon dossier" primary onPress={() => router.navigate('/account')} />
+          <Button label="Envoyer mon dossier" icon="folder-open-outline" size="md" primary onPress={() => router.navigate('/account')} />
         ) : alreadySent ? (
-          <Button label="Dossier envoyé" onPress={() => {}} disabled />
+          <Button label="Dossier envoyé" icon="checkmark-circle-outline" onPress={() => {}} disabled />
         ) : (
           <>
             <Button
               label="Envoyer mon dossier"
+              icon="folder-open-outline"
+              size="md"
               primary
               loading={alreadySent === undefined}
               disabled={quotaReached}
@@ -182,22 +258,24 @@ function ContactSection({ listing }: { listing: Listing }) {
       {phone ? (
         <Button
           label="Contacter sur WhatsApp"
+          icon="logo-whatsapp"
+          variant="outline"
           onPress={() => Linking.openURL(`https://wa.me/${phone.replace(/\D/g, '')}`)}
         />
       ) : null}
       {email ? (
-        <Button label="Envoyer un e-mail" onPress={() => Linking.openURL(`mailto:${email}`)} />
+        <Button label="Envoyer un e-mail" icon="mail-outline" variant="outline" onPress={() => Linking.openURL(`mailto:${email}`)} />
       ) : null}
       {listing.contactAccessRequired ? (
         listing.contactVerificationRequired ? (
           <>
-            <Button label="Vérifier mon e-mail pour contacter" onPress={() => openWeb('/verify-email')} />
+            <Button label="Vérifier mon e-mail pour contacter" icon="mail-unread-outline" onPress={() => openWeb('/verify-email')} />
             <ThemedText type="small" themeColor="textSecondary">
               Les coordonnées sont visibles une fois votre adresse e-mail vérifiée.
             </ThemedText>
           </>
         ) : (
-          <Button label="Se connecter pour contacter" onPress={() => router.navigate('/account')} />
+          <Button label="Se connecter pour contacter" icon="log-in-outline" primary onPress={() => router.navigate('/account')} />
         )
       ) : null}
       {!phone && !email && !listing.contactAccessRequired && !acceptsDossier ? (
@@ -205,13 +283,12 @@ function ContactSection({ listing }: { listing: Listing }) {
           Coordonnées indisponibles
         </ThemedText>
       ) : null}
-    </View>
+    </Card>
   );
 }
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  loader: { marginTop: Spacing.five },
   content: {
     padding: Spacing.three,
     gap: Spacing.four,
@@ -219,6 +296,11 @@ const styles = StyleSheet.create({
     maxWidth: MaxContentWidth,
     alignSelf: 'center',
   },
-  header: { gap: Spacing.one },
+  flex: { flex: 1 },
+  hero: { gap: Spacing.two },
+  badges: { flexDirection: 'row', flexWrap: 'wrap', gap: Spacing.one },
+  meta: { flexDirection: 'row', alignItems: 'center', gap: Spacing.one },
+  price: { fontSize: 28, lineHeight: 34 },
+  keyFacts: { flexDirection: 'row', flexWrap: 'wrap', gap: Spacing.three },
   actions: { gap: Spacing.two },
 });

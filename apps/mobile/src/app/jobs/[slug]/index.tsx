@@ -1,15 +1,20 @@
 import { api } from '@convex/_generated/api';
-import { useAction, useConvexAuth, useQuery } from 'convex/react';
+import { useAction, useConvexAuth, useMutation, useQuery } from 'convex/react';
 import { ConvexError } from 'convex/values';
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
 import * as WebBrowser from 'expo-web-browser';
 import { useState } from 'react';
-import { ActivityIndicator, Alert, ScrollView, Share, StyleSheet, View } from 'react-native';
+import { Alert, ScrollView, Share, StyleSheet, View } from 'react-native';
 
 import { AuthorLink } from '@/components/author-link';
 import { BookmarkButton } from '@/components/bookmark-button';
+import { Badge } from '@/components/badge';
 import { Button } from '@/components/button';
-import { CenteredMessage, FactList, PendingBanner, Section } from '@/components/detail';
+import { Card } from '@/components/card';
+import { ActionRow, Banner, CenteredMessage, FactList, LoadingScreen, PendingBanner, Section } from '@/components/detail';
+import { Icon } from '@/components/icon';
+import { OwnerPanel, ReceivedList } from '@/components/owner-panel';
+import { ReportButton } from '@/components/report-button';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { MaxContentWidth, Spacing } from '@/constants/theme';
@@ -27,14 +32,14 @@ import { safeExternalUrl, webUrl } from '@/lib/web';
 export default function JobDetailScreen() {
   const { slug } = useLocalSearchParams<{ slug: string }>();
   const job = useQuery(api.jobs.queries.getJobWithContact, { slug });
+  const user = useQuery(api.auth.auth.getCurrentUser);
 
-  if (job === undefined) {
-    return <ActivityIndicator style={styles.loader} />;
-  }
+  if (job === undefined) return <LoadingScreen />;
 
   if (job === null) {
     return (
       <CenteredMessage
+        icon="briefcase-outline"
         title="Offre introuvable"
         description="Elle a peut-être été retirée ou n'est plus visible."
       />
@@ -61,6 +66,8 @@ export default function JobDetailScreen() {
     void Share.share(url ? { message: `${job.title}\n${url}`, url } : { message: job.title });
   };
 
+  const isOwner = Boolean(user && user._id === job.authorId);
+
   return (
     <ThemedView style={styles.container}>
       <Stack.Screen options={{ title: job.company }} />
@@ -70,32 +77,91 @@ export default function JobDetailScreen() {
             title="Offre en attente de validation"
             description="Visible uniquement par vous et les administrateurs jusqu’à sa validation."
           />
+        ) : job.status === 'rejected' ? (
+          <Banner tone="danger" icon="close-circle-outline" title="Offre refusée" description="Modifiez-la puis renvoyez-la en validation." />
         ) : null}
 
-        <View style={styles.header}>
+        <Card style={styles.hero}>
+          <View style={styles.badges}>
+            <Badge label={jobTypeLabel(job.type)} tone="primary" icon="briefcase-outline" />
+            {job.workMode ? <Badge label={workModeLabel(job.workMode)} tone="info" /> : null}
+            {job.status === 'closed' ? <Badge label="Clôturée" icon="lock-closed-outline" /> : null}
+          </View>
           <ThemedText type="subtitle">{job.title}</ThemedText>
-          <ThemedText themeColor="textSecondary">
-            {job.company} · {locationLabel(job)}
-          </ThemedText>
+          <View style={styles.meta}>
+            <Icon name="business-outline" size={16} themeColor="textSecondary" />
+            <ThemedText themeColor="textSecondary" style={styles.flex}>
+              {job.company}
+            </ThemedText>
+          </View>
+          <View style={styles.meta}>
+            <Icon name="location-outline" size={16} themeColor="textSecondary" />
+            <ThemedText themeColor="textSecondary" style={styles.flex}>
+              {locationLabel(job)}
+            </ThemedText>
+          </View>
+          {job.salary !== undefined ? (
+            <ThemedText type="heading" themeColor="primaryText">
+              {salaryLabel(job.salary, job.salaryPeriod)}
+            </ThemedText>
+          ) : null}
           <AuthorLink prefix="Publiée par" name={job.authorName} slug={job.authorSlug} />
-        </View>
+        </Card>
 
-        <ApplySection job={job} />
+        {isOwner ? <OwnerSection job={job} /> : <ApplySection job={job} />}
+
+        <ActionRow>
+          <BookmarkButton resourceType="job" resourceId={job._id} isBookmarked={job.isBookmarked} />
+          <Button label="Partager" icon="share-outline" onPress={share} />
+          {isOwner ? null : <ReportButton type="job" id={job._id} title={job.title} />}
+        </ActionRow>
 
         <FactList facts={facts} />
 
-        <Section title="Description du poste" body={job.description} />
-        {job.benefits ? <Section title="Avantages" body={job.benefits} /> : null}
+        <Section title="Description du poste" icon="document-text-outline" body={job.description} />
+        {job.benefits ? <Section title="Avantages" icon="gift-outline" body={job.benefits} /> : null}
         {job.certificates?.length ? (
-          <Section title="Certificats requis" body={job.certificates.map((c) => `• ${c}`).join('\n')} />
+          <Section
+            title="Certificats requis"
+            icon="ribbon-outline"
+            body={job.certificates.map((c) => `• ${c}`).join('\n')}
+          />
         ) : null}
-
-        <View style={styles.apply}>
-          <BookmarkButton resourceType="job" resourceId={job._id} isBookmarked={job.isBookmarked} />
-          <Button label="Partager" onPress={share} />
-        </View>
       </ScrollView>
     </ThemedView>
+  );
+}
+
+function OwnerSection({ job }: { job: Job }) {
+  const router = useRouter();
+  const setStatus = useMutation(api.jobs.mutations.setJobStatus);
+  const archive = useMutation(api.jobs.mutations.deleteJob);
+  const applications = useQuery(api.jobs.queries.listReceivedApplications, { jobId: job._id });
+  return (
+    <>
+      <OwnerPanel
+        noun="offre"
+        status={job.status}
+        onEdit={() => router.push({ pathname: '/jobs/[slug]/edit', params: { slug: job.slug } })}
+        onSetStatus={(next) =>
+          next === 'archived' ? archive({ id: job._id }) : setStatus({ id: job._id, status: next })
+        }
+      />
+      <ReceivedList
+        title="Candidatures reçues"
+        empty="Aucune candidature pour le moment."
+        closedHint="CV expiré ou non fourni."
+        rows={applications?.map((row) => ({
+          _id: row._id,
+          name: row.candidateName,
+          slug: row.candidateSlug,
+          at: row.appliedAt,
+          highlighted: row.highlighted,
+          message: row.coverLetter,
+          link: row.cvUrl ? { label: 'Voir le CV', url: row.cvUrl, icon: 'document-attach-outline' } : null,
+        }))}
+      />
+    </>
   );
 }
 
@@ -114,13 +180,6 @@ function ApplySection({ job }: { job: Job }) {
   const [retrying, setRetrying] = useState(false);
 
   if (isLoading || user === undefined) return null;
-  if (user?._id === job.authorId) {
-    return (
-      <ThemedText type="small" themeColor="textSecondary">
-        Vous avez publié cette offre. Les candidatures reçues sont visibles sur le site.
-      </ThemedText>
-    );
-  }
 
   const accepting = job.status === undefined || job.status === 'active';
   const externalUrl = safeExternalUrl(job.externalApplicationUrl);
@@ -146,21 +205,23 @@ function ApplySection({ job }: { job: Job }) {
 
   let primary;
   if (!accepting) {
-    primary = <Button label="Candidatures closes" onPress={() => {}} disabled />;
+    primary = <Button label="Candidatures closes" icon="lock-closed-outline" size="md" onPress={() => {}} disabled />;
   } else if (!isAuthenticated) {
     primary = (
-      <Button label="Se connecter pour postuler" primary onPress={() => router.navigate('/account')} />
+      <Button label="Se connecter pour postuler" icon="log-in-outline" size="md" primary onPress={() => router.navigate('/account')} />
     );
   } else if (status === 'failed') {
-    primary = <Button label="Renvoyer la candidature" loading={retrying} onPress={retryEmail} />;
+    primary = <Button label="Renvoyer la candidature" icon="refresh-outline" size="md" variant="outline" loading={retrying} onPress={retryEmail} />;
   } else if (status === undefined) {
-    primary = <Button label="Postuler" onPress={() => {}} loading />;
+    primary = <Button label="Postuler" size="md" onPress={() => {}} loading />;
   } else if (status !== 'none') {
-    primary = <Button label="Candidature déjà envoyée" onPress={() => {}} disabled />;
+    primary = <Button label="Candidature envoyée" icon="checkmark-circle-outline" size="md" onPress={() => {}} disabled />;
   } else {
     primary = (
       <Button
         label="Postuler"
+        icon="paper-plane-outline"
+        size="md"
         primary
         disabled={quotaReached}
         onPress={() =>
@@ -181,6 +242,8 @@ function ApplySection({ job }: { job: Job }) {
       {accepting && externalUrl ? (
         <Button
           label="Postuler sur le site externe"
+          icon="open-outline"
+          variant="outline"
           onPress={() => WebBrowser.openBrowserAsync(externalUrl)}
         />
       ) : null}
@@ -191,7 +254,6 @@ function ApplySection({ job }: { job: Job }) {
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  loader: { marginTop: Spacing.five },
   content: {
     padding: Spacing.three,
     gap: Spacing.four,
@@ -199,6 +261,9 @@ const styles = StyleSheet.create({
     maxWidth: MaxContentWidth,
     alignSelf: 'center',
   },
-  header: { gap: Spacing.one },
+  flex: { flex: 1 },
+  hero: { gap: Spacing.two },
+  badges: { flexDirection: 'row', flexWrap: 'wrap', gap: Spacing.one },
+  meta: { flexDirection: 'row', alignItems: 'center', gap: Spacing.two },
   apply: { gap: Spacing.two },
 });
