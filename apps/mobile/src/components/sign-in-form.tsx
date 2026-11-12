@@ -1,6 +1,8 @@
 import * as WebBrowser from 'expo-web-browser';
 import { useState } from 'react';
-import { ActivityIndicator, Pressable, StyleSheet, TextInput, View } from 'react-native';
+import { Pressable, StyleSheet, TextInput, View } from 'react-native';
+
+import { Button } from '@/components/button';
 
 import { ThemedText } from '@/components/themed-text';
 import { Spacing } from '@/constants/theme';
@@ -99,43 +101,6 @@ export function SignInForm() {
   );
 }
 
-function Button({
-  label,
-  onPress,
-  loading,
-  disabled,
-  primary,
-}: {
-  label: string;
-  onPress: () => void;
-  loading?: boolean;
-  disabled?: boolean;
-  primary?: boolean;
-}) {
-  const theme = useTheme();
-  const background = primary ? theme.text : theme.backgroundElement;
-  const color = primary ? theme.background : theme.text;
-
-  return (
-    <Pressable
-      accessibilityRole="button"
-      disabled={disabled}
-      onPress={onPress}
-      style={({ pressed }) => [
-        styles.button,
-        { backgroundColor: background, opacity: disabled ? 0.5 : pressed ? 0.8 : 1 },
-      ]}>
-      {loading ? (
-        <ActivityIndicator color={color} />
-      ) : (
-        <ThemedText type="smallBold" style={{ color }}>
-          {label}
-        </ThemedText>
-      )}
-    </Pressable>
-  );
-}
-
 const styles = StyleSheet.create({
   form: { gap: Spacing.three },
   input: {
@@ -143,12 +108,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: Spacing.three,
     paddingVertical: Spacing.three,
     fontSize: 16,
-  },
-  button: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: Spacing.three,
-    minHeight: 48,
   },
   error: { color: '#E5484D' },
   register: { textAlign: 'center' },

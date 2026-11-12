@@ -1,10 +1,9 @@
 import { ConvexBetterAuthProvider } from '@convex-dev/better-auth/react';
-import { DarkTheme, DefaultTheme, ThemeProvider } from 'expo-router';
+import { DarkTheme, DefaultTheme, Stack, ThemeProvider } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { StyleSheet, useColorScheme } from 'react-native';
 
 import { AnimatedSplashOverlay } from '@/components/animated-icon';
-import AppTabs from '@/components/app-tabs';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { Spacing } from '@/constants/theme';
@@ -20,7 +19,14 @@ export default function RootLayout() {
       <AnimatedSplashOverlay />
       {backend ? (
         <ConvexBetterAuthProvider client={backend.convex} authClient={backend.authClient}>
-          <AppTabs />
+          <Stack screenOptions={{ headerBackButtonDisplayMode: 'minimal' }}>
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            <Stack.Screen name="jobs/[slug]/index" options={{ title: 'Offre' }} />
+            <Stack.Screen
+              name="jobs/[slug]/apply"
+              options={{ title: 'Candidature', presentation: 'modal' }}
+            />
+          </Stack>
         </ConvexBetterAuthProvider>
       ) : (
         <MissingConfig />
