@@ -17,7 +17,7 @@ import { errorMessage } from '@/lib/errors';
 import { publicationStatusLabels } from '@/lib/status-labels';
 import { timeAgo } from '@/lib/time';
 
-const statusTone: Record<PublicationStatus, BadgeTone> = {
+export const statusTone: Record<PublicationStatus, BadgeTone> = {
   pending: 'warning',
   active: 'primary',
   rejected: 'danger',
@@ -48,6 +48,12 @@ function transitions(status: PublicationStatus, noun: string): Transition[] {
   }
 }
 
+/** Coloured moderation status pill for lists of one's own publications. */
+export function StatusBadge({ status = 'active' }: { status?: string }) {
+  const known = status in statusTone ? (status as PublicationStatus) : 'active';
+  return <Badge label={publicationStatusLabels[status] ?? status} tone={statusTone[known]} />;
+}
+
 /** Status card shown to the author of a job or listing, with lifecycle actions. */
 export function OwnerPanel({
   status = 'active',
@@ -56,7 +62,7 @@ export function OwnerPanel({
   onEdit,
 }: {
   status?: PublicationStatus;
-  noun: 'offre' | 'annonce';
+  noun: 'offre' | 'annonce' | 'page';
   onSetStatus: (next: OwnerStatus) => Promise<unknown>;
   onEdit?: () => void;
 }) {

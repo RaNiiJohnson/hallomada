@@ -6,12 +6,12 @@ import { StyleSheet, View } from 'react-native';
 
 import { Button } from '@/components/button';
 import { ListRow } from '@/components/list-row';
+import { StatusBadge } from '@/components/owner-panel';
 import { PaginatedList } from '@/components/paginated-list';
 import { Segmented } from '@/components/segmented';
+import { Spacing } from '@/constants/theme';
 import { formatDate } from '@/lib/job-labels';
 import { priceLabel } from '@/lib/listing-labels';
-import { publicationStatusLabels } from '@/lib/status-labels';
-import { Spacing } from '@/constants/theme';
 
 const PAGE_SIZE = 20;
 type Kind = 'jobs' | 'listings';
@@ -19,10 +19,6 @@ const kinds: { value: Kind; label: string }[] = [
   { value: 'jobs', label: 'Mes offres' },
   { value: 'listings', label: 'Mes annonces' },
 ];
-
-function statusLabel(status: string | undefined) {
-  return publicationStatusLabels[status ?? 'active'] ?? status ?? '';
-}
 
 export default function PublicationsScreen() {
   const router = useRouter();
@@ -32,6 +28,7 @@ export default function PublicationsScreen() {
       <Segmented options={kinds} value={kind} onChange={setKind} />
       <Button
         label={kind === 'jobs' ? 'Publier une offre' : 'Publier une annonce'}
+        icon="add"
         primary
         onPress={() => router.push(kind === 'jobs' ? '/jobs/new' : '/listings/new')}
       />
@@ -42,11 +39,7 @@ export default function PublicationsScreen() {
 
 function MyJobs({ header }: { header: React.ReactElement }) {
   const router = useRouter();
-  const { results, status, loadMore } = usePaginatedQuery(
-    api.me.queries.getMyJobOffers,
-    {},
-    { initialNumItems: PAGE_SIZE },
-  );
+  const { results, status, loadMore } = usePaginatedQuery(api.me.queries.getMyJobOffers, {}, { initialNumItems: PAGE_SIZE });
   return (
     <PaginatedList
       header={header}
@@ -54,12 +47,17 @@ function MyJobs({ header }: { header: React.ReactElement }) {
       status={status}
       loadMore={loadMore}
       pageSize={PAGE_SIZE}
-      empty="Vous n'avez publié aucune offre."
+      empty={{
+        icon: 'briefcase-outline',
+        title: 'Aucune offre publiée',
+        description: 'Vos offres d’emploi apparaîtront ici, avec leur statut et les candidatures reçues.',
+      }}
       renderItem={(job) => (
         <ListRow
+          icon="briefcase-outline"
           title={job.title}
-          subtitle={`${job.company} · ${statusLabel(job.status)}`}
-          meta={formatDate(job._creationTime)}
+          subtitle={`${job.company} · ${formatDate(job._creationTime)}`}
+          trailing={<StatusBadge status={job.status} />}
           onPress={() => router.push({ pathname: '/jobs/[slug]', params: { slug: job.slug } })}
         />
       )}
@@ -69,11 +67,7 @@ function MyJobs({ header }: { header: React.ReactElement }) {
 
 function MyListings({ header }: { header: React.ReactElement }) {
   const router = useRouter();
-  const { results, status, loadMore } = usePaginatedQuery(
-    api.me.queries.getMyListings,
-    {},
-    { initialNumItems: PAGE_SIZE },
-  );
+  const { results, status, loadMore } = usePaginatedQuery(api.me.queries.getMyListings, {}, { initialNumItems: PAGE_SIZE });
   return (
     <PaginatedList
       header={header}
@@ -81,15 +75,18 @@ function MyListings({ header }: { header: React.ReactElement }) {
       status={status}
       loadMore={loadMore}
       pageSize={PAGE_SIZE}
-      empty="Vous n'avez publié aucune annonce."
+      empty={{
+        icon: 'home-outline',
+        title: 'Aucune annonce publiée',
+        description: 'Vos annonces immobilières apparaîtront ici, avec les dossiers reçus.',
+      }}
       renderItem={(listing) => (
         <ListRow
+          icon="home-outline"
           title={listing.title}
-          subtitle={`${priceLabel(listing.price, listing.listingMode)} · ${statusLabel(listing.status)}`}
-          meta={formatDate(listing._creationTime)}
-          onPress={() =>
-            router.push({ pathname: '/listings/[slug]', params: { slug: listing.slug } })
-          }
+          subtitle={`${priceLabel(listing.price, listing.listingMode)} · ${formatDate(listing._creationTime)}`}
+          trailing={<StatusBadge status={listing.status} />}
+          onPress={() => router.push({ pathname: '/listings/[slug]', params: { slug: listing.slug } })}
         />
       )}
     />
@@ -97,5 +94,5 @@ function MyListings({ header }: { header: React.ReactElement }) {
 }
 
 const styles = StyleSheet.create({
-  header: { gap: Spacing.three },
+  header: { gap: Spacing.three, marginBottom: Spacing.one },
 });

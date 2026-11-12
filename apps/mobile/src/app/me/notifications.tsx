@@ -76,7 +76,7 @@ export default function NotificationsScreen() {
         status={status}
         loadMore={loadMore}
         pageSize={PAGE_SIZE}
-        empty="Aucune notification"
+        empty={{ icon: 'notifications-outline', title: 'Aucune notification', description: 'Vous serez prévenu ici des candidatures, dossiers et réponses.' }}
         renderItem={(notification) => (
           <ListRow
             title={notificationText(notification)}

@@ -19,7 +19,6 @@ import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
-import { openWeb } from '@/lib/web';
 
 const MAX_MESSAGE = 1000;
 
@@ -71,7 +70,7 @@ export default function SendDossierScreen() {
               <ThemedText>
                 Votre dossier est vide. Ajoutez au moins un justificatif avant de l&apos;envoyer.
               </ThemedText>
-              <Button label="Préparer mon dossier" primary onPress={() => openWeb('/me?tab=dossier')} />
+              <Button label="Préparer mon dossier" primary onPress={() => router.push('/me/dossier')} />
             </View>
           ) : (
             <View style={styles.block}>
@@ -80,7 +79,7 @@ export default function SendDossierScreen() {
                   ? '1 document sera partagé.'
                   : `${documentCount} documents seront partagés.`}
               </ThemedText>
-              <Button label="Modifier mon dossier" onPress={() => openWeb('/me?tab=dossier')} />
+              <Button label="Modifier mon dossier" onPress={() => router.push('/me/dossier')} />
 
               <ThemedText type="smallBold">Message au propriétaire (facultatif)</ThemedText>
               <TextInput

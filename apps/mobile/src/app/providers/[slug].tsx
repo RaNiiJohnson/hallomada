@@ -1,5 +1,5 @@
 import { api } from '@convex/_generated/api';
-import { useQuery } from 'convex/react';
+import { useMutation, useQuery } from 'convex/react';
 import { Image } from 'expo-image';
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
 import { Linking, ScrollView, Share, StyleSheet, View } from 'react-native';
@@ -12,6 +12,7 @@ import { Card } from '@/components/card';
 import { ActionRow, Banner, CenteredMessage, LoadingScreen, PendingBanner, Section, SectionTitle } from '@/components/detail';
 import { Gallery } from '@/components/gallery';
 import { Icon, type IconName } from '@/components/icon';
+import { OwnerPanel } from '@/components/owner-panel';
 import { ReportButton } from '@/components/report-button';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
@@ -25,6 +26,7 @@ export default function ProviderScreen() {
   const router = useRouter();
   const theme = useTheme();
   const provider = useQuery(api.providers.queries.getProviderBySlug, { slug });
+  const setProviderStatus = useMutation(api.providers.mutations.setProviderStatus);
 
   if (provider === undefined) return <LoadingScreen />;
   if (provider === null) {
@@ -45,6 +47,7 @@ export default function ProviderScreen() {
     { label: 'TikTok', icon: 'logo-tiktok', url: safeExternalUrl(provider.tiktok) },
   ];
 
+  const edit = () => router.push({ pathname: '/providers/edit/[slug]', params: { slug: provider.slug } });
   const share = () => {
     const url = webUrl(`/providers/${provider.slug}`);
     void Share.share(url ? { message: `${provider.name}\n${url}`, url } : { message: provider.name });
@@ -97,14 +100,15 @@ export default function ProviderScreen() {
             />
           </Card>
 
-          {provider.canManage ? (
-            <Button
-              label="Modifier ma page"
-              icon="create-outline"
-              size="md"
-              primary
-              onPress={() => router.push({ pathname: '/providers/edit/[slug]', params: { slug: provider.slug } })}
+          {provider.isAuthor ? (
+            <OwnerPanel
+              noun="page"
+              status={provider.status}
+              onEdit={edit}
+              onSetStatus={(status) => setProviderStatus({ providerId: provider._id, status })}
             />
+          ) : provider.canManage ? (
+            <Button label="Modifier la page (admin)" icon="create-outline" onPress={edit} />
           ) : null}
 
           <Card style={styles.block}>

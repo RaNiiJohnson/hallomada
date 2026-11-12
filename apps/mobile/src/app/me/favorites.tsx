@@ -23,7 +23,7 @@ export default function FavoritesScreen() {
       status={status}
       loadMore={loadMore}
       pageSize={PAGE_SIZE}
-      empty="Aucun favori pour le moment."
+      empty={{ icon: 'bookmark-outline', title: 'Aucun favori', description: 'Touchez le signet d’une offre ou d’une annonce pour la retrouver ici.' }}
       renderItem={(bookmark) => {
         const snapshot = bookmark.snapshot;
         return (

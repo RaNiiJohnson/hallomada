@@ -35,6 +35,8 @@ export default function RootLayout() {
             <Stack.Screen name="me/favorites" options={{ title: 'Favoris' }} />
             <Stack.Screen name="me/applications" options={{ title: 'Mes candidatures' }} />
             <Stack.Screen name="me/publications" options={{ title: 'Mes publications' }} />
+            <Stack.Screen name="me/communities" options={{ title: 'Mes communautés' }} />
+            <Stack.Screen name="me/providers" options={{ title: 'Mes pages prestataire' }} />
             <Stack.Screen name="communities/[community]" options={{ title: 'Communauté' }} />
             <Stack.Screen name="posts/[slug]" options={{ title: 'Publication' }} />
             <Stack.Screen name="providers/[slug]" options={{ title: 'Prestataire' }} />
@@ -80,6 +82,16 @@ export default function RootLayout() {
               name="communities/edit/[community]"
               options={{ title: 'Modifier la communauté', presentation: 'modal' }}
             />
+            <Stack.Screen
+              name="providers/new"
+              options={{ title: 'Créer ma page prestataire', presentation: 'modal' }}
+            />
+            <Stack.Screen
+              name="providers/edit/[slug]"
+              options={{ title: 'Modifier ma page', presentation: 'modal' }}
+            />
+            <Stack.Screen name="me/profile" options={{ title: 'Mon profil' }} />
+            <Stack.Screen name="me/dossier" options={{ title: 'Dossier de location' }} />
           </Stack>
         </ConvexBetterAuthProvider>
       ) : (

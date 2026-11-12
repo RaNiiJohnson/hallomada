@@ -10,8 +10,6 @@ import {
 } from '@hallomada/shared/listing-limits';
 import { useAction, useMutation } from 'convex/react';
 import type { FunctionArgs } from 'convex/server';
-import { ImageManipulator, SaveFormat } from 'expo-image-manipulator';
-import * as ImagePicker from 'expo-image-picker';
 import { Image } from 'expo-image';
 import { useState } from 'react';
 import {
@@ -38,9 +36,8 @@ import {
   type PropertyType,
   propertyTypeLabel,
 } from '@/lib/listing-labels';
+import { pickPhotos } from '@/lib/photos';
 import { uploadLocalFile } from '@/lib/upload';
-
-const MAX_PHOTO_WIDTH = 1600;
 
 const modeOptions = (['rent', 'sale'] as ListingMode[]).map((value) => ({
   value,
@@ -57,15 +54,6 @@ const contactModes = [
   { value: 'dossier' as const, label: 'Dossier de location' },
   { value: 'contact' as const, label: 'Contact uniquement' },
 ];
-
-/** Converts a picked photo to a JPEG no wider than MAX_PHOTO_WIDTH. */
-async function preparePhoto(asset: ImagePicker.ImagePickerAsset) {
-  const context = ImageManipulator.manipulate(asset.uri);
-  if (asset.width > MAX_PHOTO_WIDTH) context.resize({ width: MAX_PHOTO_WIDTH });
-  const image = await context.renderAsync();
-  const result = await image.saveAsync({ format: SaveFormat.JPEG, compress: 0.8 });
-  return result.uri;
-}
 
 export type ListingValues = FunctionArgs<typeof api.listings.mutations.createListing>;
 type ListingImage = ListingValues['images'][number];
@@ -124,19 +112,11 @@ export function ListingForm({
 
   const isRent = mode === 'rent';
 
-  async function pickPhotos() {
+  async function addPhotos() {
     const remaining = MAX_LISTING_PHOTOS - photos.length;
-    if (remaining <= 0) return;
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ['images'],
-      allowsMultipleSelection: true,
-      selectionLimit: remaining,
-      quality: 1,
-    });
-    if (result.canceled) return;
     try {
       setStatus('Préparation des photos…');
-      const prepared = await Promise.all(result.assets.slice(0, remaining).map(preparePhoto));
+      const prepared = await pickPhotos({ limit: remaining });
       setPhotos((current) => [...current, ...prepared.map((uri) => ({ uri }))].slice(0, MAX_LISTING_PHOTOS));
     } catch {
       Alert.alert('Erreur', 'Impossible de préparer ces photos.');
@@ -341,7 +321,7 @@ export function ListingForm({
                 label="Ajouter des photos"
                 icon="images-outline"
                 variant="outline"
-                onPress={pickPhotos}
+                onPress={addPhotos}
                 disabled={Boolean(status)}
               />
             ) : null}

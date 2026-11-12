@@ -29,7 +29,7 @@ export default function ApplicationsScreen() {
       status={status}
       loadMore={loadMore}
       pageSize={PAGE_SIZE}
-      empty="Aucune candidature pour le moment."
+      empty={{ icon: 'paper-plane-outline', title: 'Aucune candidature', description: 'Les offres auxquelles vous postulez apparaîtront ici avec leur suivi.' }}
       renderItem={(application) => {
         const job = application.job;
         return (
