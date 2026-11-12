@@ -40,6 +40,14 @@ export default function RootLayout() {
             <Stack.Screen name="providers/[slug]" options={{ title: 'Prestataire' }} />
             <Stack.Screen name="profiles/[slug]" options={{ title: 'Profil' }} />
             <Stack.Screen
+              name="auth/register"
+              options={{ title: 'Créer un compte', presentation: 'modal' }}
+            />
+            <Stack.Screen
+              name="auth/forgot-password"
+              options={{ title: 'Mot de passe oublié', presentation: 'modal' }}
+            />
+            <Stack.Screen
               name="posts/new"
               options={{ title: 'Nouvelle publication', presentation: 'modal' }}
             />

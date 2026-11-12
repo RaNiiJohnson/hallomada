@@ -1,4 +1,4 @@
-import * as WebBrowser from 'expo-web-browser';
+import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { Pressable, StyleSheet, TextInput, View } from 'react-native';
 
@@ -9,29 +9,40 @@ import { Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
 import { requireAuthClient } from '@/lib/backend';
 
-const siteUrl = process.env.EXPO_PUBLIC_SITE_URL;
-
-type Pending = 'email' | 'google' | null;
+type Pending = 'email' | 'google' | 'resend' | null;
 
 export function SignInForm() {
   const theme = useTheme();
+  const router = useRouter();
   const authClient = requireAuthClient();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [pending, setPending] = useState<Pending>(null);
   const [error, setError] = useState<string | null>(null);
+  const [unverified, setUnverified] = useState(false);
 
   async function signInWithEmail() {
     setPending('email');
     setError(null);
+    setUnverified(false);
     const { error } = await authClient.signIn.email({ email: email.trim(), password });
     if (error) {
+      const notVerified = error.code === 'EMAIL_NOT_VERIFIED';
+      setUnverified(notVerified);
       setError(
-        error.code === 'EMAIL_NOT_VERIFIED'
-          ? 'Confirme ton adresse e-mail avant de te connecter.'
+        notVerified
+          ? 'Confirmez votre adresse e-mail avant de vous connecter.'
           : 'E-mail ou mot de passe incorrect.',
       );
     }
+    setPending(null);
+  }
+
+  async function resendVerification() {
+    setPending('resend');
+    const { error } = await authClient.sendVerificationEmail({ email: email.trim(), callbackURL: '/' });
+    setError(error ? "Impossible d'envoyer l'e-mail. Réessayez." : 'E-mail de vérification renvoyé.');
+    setUnverified(false);
     setPending(null);
   }
 
@@ -40,7 +51,7 @@ export function SignInForm() {
     setError(null);
     // The Expo plugin opens the browser and turns "/" into a hallomada:// deep link.
     const { error } = await authClient.signIn.social({ provider: 'google', callbackURL: '/' });
-    if (error) setError('Connexion Google impossible. Réessaie.');
+    if (error) setError('Connexion Google impossible. Réessayez.');
     setPending(null);
   }
 
@@ -75,6 +86,14 @@ export function SignInForm() {
       />
 
       {error ? <ThemedText style={styles.error}>{error}</ThemedText> : null}
+      {unverified ? (
+        <Button
+          label="Renvoyer l'e-mail de vérification"
+          loading={pending === 'resend'}
+          disabled={pending !== null}
+          onPress={resendVerification}
+        />
+      ) : null}
 
       <Button
         label="Se connecter"
@@ -90,13 +109,12 @@ export function SignInForm() {
         onPress={signInWithGoogle}
       />
 
-      {siteUrl ? (
-        <Pressable onPress={() => WebBrowser.openBrowserAsync(`${siteUrl}/fr/register`)}>
-          <ThemedText type="small" themeColor="textSecondary" style={styles.register}>
-            Pas encore de compte ? Inscris-toi sur Hallomada.
-          </ThemedText>
-        </Pressable>
-      ) : null}
+      <Pressable onPress={() => router.push('/auth/forgot-password')}>
+        <ThemedText type="small" themeColor="textSecondary" style={styles.register}>
+          Mot de passe oublié ?
+        </ThemedText>
+      </Pressable>
+      <Button label="Créer un compte" onPress={() => router.push('/auth/register')} />
     </View>
   );
 }
