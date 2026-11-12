@@ -2,13 +2,16 @@ import { api } from '@convex/_generated/api';
 import { usePaginatedQuery } from 'convex/react';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
+import { StyleSheet, View } from 'react-native';
 
+import { Button } from '@/components/button';
 import { ListRow } from '@/components/list-row';
 import { PaginatedList } from '@/components/paginated-list';
 import { Segmented } from '@/components/segmented';
 import { formatDate } from '@/lib/job-labels';
 import { priceLabel } from '@/lib/listing-labels';
 import { publicationStatusLabels } from '@/lib/status-labels';
+import { Spacing } from '@/constants/theme';
 
 const PAGE_SIZE = 20;
 type Kind = 'jobs' | 'listings';
@@ -22,8 +25,18 @@ function statusLabel(status: string | undefined) {
 }
 
 export default function PublicationsScreen() {
+  const router = useRouter();
   const [kind, setKind] = useState<Kind>('jobs');
-  const header = <Segmented options={kinds} value={kind} onChange={setKind} />;
+  const header = (
+    <View style={styles.header}>
+      <Segmented options={kinds} value={kind} onChange={setKind} />
+      <Button
+        label={kind === 'jobs' ? 'Publier une offre' : 'Publier une annonce'}
+        primary
+        onPress={() => router.push(kind === 'jobs' ? '/jobs/new' : '/listings/new')}
+      />
+    </View>
+  );
   return kind === 'jobs' ? <MyJobs header={header} /> : <MyListings header={header} />;
 }
 
@@ -82,3 +95,7 @@ function MyListings({ header }: { header: React.ReactElement }) {
     />
   );
 }
+
+const styles = StyleSheet.create({
+  header: { gap: Spacing.three },
+});

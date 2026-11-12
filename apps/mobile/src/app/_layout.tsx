@@ -51,6 +51,14 @@ export default function RootLayout() {
               name="posts/new"
               options={{ title: 'Nouvelle publication', presentation: 'modal' }}
             />
+            <Stack.Screen
+              name="jobs/new"
+              options={{ title: 'Publier une offre', presentation: 'modal' }}
+            />
+            <Stack.Screen
+              name="listings/new"
+              options={{ title: 'Publier une annonce', presentation: 'modal' }}
+            />
           </Stack>
         </ConvexBetterAuthProvider>
       ) : (

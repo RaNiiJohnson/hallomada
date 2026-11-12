@@ -1,9 +1,11 @@
 import { api } from '@convex/_generated/api';
-import { usePaginatedQuery } from 'convex/react';
+import { useConvexAuth, usePaginatedQuery } from 'convex/react';
+import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { ActivityIndicator, FlatList, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { Button } from '@/components/button';
 import { ListingCard } from '@/components/listing-card';
 import { Segmented } from '@/components/segmented';
 import { ThemedText } from '@/components/themed-text';
@@ -20,6 +22,8 @@ const modeFilters: { value: ListingMode | undefined; label: string }[] = [
 ];
 
 export default function ListingsScreen() {
+  const router = useRouter();
+  const { isAuthenticated } = useConvexAuth();
   const [listingMode, setListingMode] = useState<ListingMode>();
   const { results, status, loadMore } = usePaginatedQuery(
     api.listings.queries.getListing,
@@ -39,6 +43,11 @@ export default function ListingsScreen() {
             <View style={styles.header}>
               <ThemedText type="title">Annonces</ThemedText>
               <Segmented options={modeFilters} value={listingMode} onChange={setListingMode} />
+              <Button
+                label="Publier une annonce"
+                primary
+                onPress={() => router.push(isAuthenticated ? '/listings/new' : '/account')}
+              />
             </View>
           }
           ListEmptyComponent={

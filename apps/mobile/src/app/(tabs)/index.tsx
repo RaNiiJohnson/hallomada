@@ -1,8 +1,10 @@
 import { api } from '@convex/_generated/api';
-import { usePaginatedQuery } from 'convex/react';
-import { ActivityIndicator, FlatList, StyleSheet } from 'react-native';
+import { useConvexAuth, usePaginatedQuery } from 'convex/react';
+import { useRouter } from 'expo-router';
+import { ActivityIndicator, FlatList, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { Button } from '@/components/button';
 import { JobCard } from '@/components/job-card';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
@@ -11,6 +13,8 @@ import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
 const PAGE_SIZE = 20;
 
 export default function JobsScreen() {
+  const router = useRouter();
+  const { isAuthenticated } = useConvexAuth();
   const { results, status, loadMore } = usePaginatedQuery(
     api.jobs.queries.getJobs,
     {},
@@ -26,9 +30,14 @@ export default function JobsScreen() {
           renderItem={({ item }) => <JobCard job={item} />}
           contentContainerStyle={styles.list}
           ListHeaderComponent={
-            <ThemedText type="title" style={styles.title}>
-              Jobs
-            </ThemedText>
+            <View style={styles.header}>
+              <ThemedText type="title">Jobs</ThemedText>
+              <Button
+                label="Publier une offre"
+                primary
+                onPress={() => router.push(isAuthenticated ? '/jobs/new' : '/account')}
+              />
+            </View>
           }
           ListEmptyComponent={
             status === 'LoadingFirstPage' ? (
@@ -65,8 +74,9 @@ const styles = StyleSheet.create({
     paddingBottom: BottomTabInset + Spacing.three,
     gap: Spacing.two,
   },
-  title: {
+  header: {
     marginVertical: Spacing.three,
+    gap: Spacing.three,
   },
   loader: {
     marginVertical: Spacing.four,
