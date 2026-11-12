@@ -20,10 +20,11 @@ export function appHrefFromWebPath(path: string): Href | null {
   }
   if (section === 'communities' && first && first !== 'explore') {
     return second
-      ? { pathname: '/communities/[community]/[post]', params: { community: first, post: second } }
+      ? { pathname: '/posts/[slug]', params: { slug: second } }
       : { pathname: '/communities/[community]', params: { community: first } };
   }
   if (section === 'communities' && !first) return '/communities';
+  if (section === 'posts' && first) return { pathname: '/posts/[slug]', params: { slug: first } };
   if (section === 'hl' && first) {
     return { pathname: '/profiles/[slug]', params: { slug: first } };
   }

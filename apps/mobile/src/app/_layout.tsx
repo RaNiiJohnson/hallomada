@@ -35,6 +35,12 @@ export default function RootLayout() {
             <Stack.Screen name="me/favorites" options={{ title: 'Favoris' }} />
             <Stack.Screen name="me/applications" options={{ title: 'Mes candidatures' }} />
             <Stack.Screen name="me/publications" options={{ title: 'Mes publications' }} />
+            <Stack.Screen name="communities/[community]" options={{ title: 'Communauté' }} />
+            <Stack.Screen name="posts/[slug]" options={{ title: 'Publication' }} />
+            <Stack.Screen
+              name="posts/new"
+              options={{ title: 'Nouvelle publication', presentation: 'modal' }}
+            />
           </Stack>
         </ConvexBetterAuthProvider>
       ) : (

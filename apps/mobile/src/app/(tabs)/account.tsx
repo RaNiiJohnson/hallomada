@@ -48,7 +48,6 @@ function PersonalSpace() {
       subtitle: unread ? `${unread >= 100 ? '99+' : unread} non lue(s)` : undefined,
       href: '/me/notifications',
     },
-    { title: 'Messages', href: '/messages' },
     { title: 'Favoris', href: '/me/favorites' },
     { title: 'Mes candidatures', href: '/me/applications' },
     { title: 'Mes publications', href: '/me/publications' },

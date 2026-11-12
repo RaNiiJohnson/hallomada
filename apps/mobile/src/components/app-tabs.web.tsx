@@ -27,6 +27,9 @@ export default function AppTabs() {
           <TabTrigger name="listings" href="/listings" asChild>
             <TabButton>Annonces</TabButton>
           </TabTrigger>
+          <TabTrigger name="communities" href="/communities" asChild>
+            <TabButton>Communautés</TabButton>
+          </TabTrigger>
           <TabTrigger name="account" href="/account" asChild>
             <TabButton>Compte</TabButton>
           </TabTrigger>
