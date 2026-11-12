@@ -6,7 +6,9 @@ import * as WebBrowser from 'expo-web-browser';
 import { useState } from 'react';
 import { ActivityIndicator, Alert, ScrollView, Share, StyleSheet, View } from 'react-native';
 
+import { BookmarkButton } from '@/components/bookmark-button';
 import { Button } from '@/components/button';
+import { CenteredMessage, FactList, PendingBanner, Section } from '@/components/detail';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { MaxContentWidth, Spacing } from '@/constants/theme';
@@ -19,8 +21,7 @@ import {
   salaryLabel,
   workModeLabel,
 } from '@/lib/job-labels';
-
-const siteUrl = process.env.EXPO_PUBLIC_SITE_URL;
+import { safeExternalUrl, webUrl } from '@/lib/web';
 
 export default function JobDetailScreen() {
   const { slug } = useLocalSearchParams<{ slug: string }>();
@@ -32,12 +33,10 @@ export default function JobDetailScreen() {
 
   if (job === null) {
     return (
-      <ThemedView style={styles.centered}>
-        <ThemedText type="subtitle">Offre introuvable</ThemedText>
-        <ThemedText themeColor="textSecondary">
-          Elle a peut-être été retirée ou n&apos;est plus visible.
-        </ThemedText>
-      </ThemedView>
+      <CenteredMessage
+        title="Offre introuvable"
+        description="Elle a peut-être été retirée ou n'est plus visible."
+      />
     );
   }
 
@@ -57,7 +56,7 @@ export default function JobDetailScreen() {
   ];
 
   const share = () => {
-    const url = siteUrl ? `${siteUrl}/fr/jobs/${job.slug}` : undefined;
+    const url = webUrl(`/jobs/${job.slug}`);
     void Share.share(url ? { message: `${job.title}\n${url}`, url } : { message: job.title });
   };
 
@@ -66,12 +65,10 @@ export default function JobDetailScreen() {
       <Stack.Screen options={{ title: job.company }} />
       <ScrollView contentContainerStyle={styles.content}>
         {job.status === 'pending' ? (
-          <View style={styles.pending}>
-            <ThemedText type="smallBold">Offre en attente de validation</ThemedText>
-            <ThemedText type="small" themeColor="textSecondary">
-              Visible uniquement par vous et les administrateurs jusqu’à sa validation.
-            </ThemedText>
-          </View>
+          <PendingBanner
+            title="Offre en attente de validation"
+            description="Visible uniquement par vous et les administrateurs jusqu’à sa validation."
+          />
         ) : null}
 
         <View style={styles.header}>
@@ -88,20 +85,7 @@ export default function JobDetailScreen() {
 
         <ApplySection job={job} />
 
-        <ThemedView type="backgroundElement" style={styles.card}>
-          {facts
-            .filter((fact): fact is [string, string] => Boolean(fact[1]))
-            .map(([label, value]) => (
-              <View key={label} style={styles.fact}>
-                <ThemedText type="small" themeColor="textSecondary">
-                  {label}
-                </ThemedText>
-                <ThemedText type="smallBold" style={styles.factValue}>
-                  {value}
-                </ThemedText>
-              </View>
-            ))}
-        </ThemedView>
+        <FactList facts={facts} />
 
         <Section title="Description du poste" body={job.description} />
         {job.benefits ? <Section title="Avantages" body={job.benefits} /> : null}
@@ -109,7 +93,10 @@ export default function JobDetailScreen() {
           <Section title="Certificats requis" body={job.certificates.map((c) => `• ${c}`).join('\n')} />
         ) : null}
 
-        <Button label="Partager" onPress={share} />
+        <View style={styles.apply}>
+          <BookmarkButton resourceType="job" resourceId={job._id} isBookmarked={job.isBookmarked} />
+          <Button label="Partager" onPress={share} />
+        </View>
       </ScrollView>
     </ThemedView>
   );
@@ -204,30 +191,10 @@ function ApplySection({ job }: { job: Job }) {
   );
 }
 
-function Section({ title, body }: { title: string; body: string }) {
-  return (
-    <View style={styles.section}>
-      <ThemedText type="smallBold">{title}</ThemedText>
-      <ThemedText>{body}</ThemedText>
-    </View>
-  );
-}
-
-/** Only http(s) links are opened, like getSafeExternalUrl on the web. */
-function safeExternalUrl(value?: string) {
-  if (!value) return null;
-  try {
-    const url = new URL(value);
-    return url.protocol === 'https:' || url.protocol === 'http:' ? url.toString() : null;
-  } catch {
-    return null;
-  }
-}
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
   loader: { marginTop: Spacing.five },
-  centered: { flex: 1, justifyContent: 'center', padding: Spacing.four, gap: Spacing.two },
   content: {
     padding: Spacing.three,
     gap: Spacing.four,
@@ -235,17 +202,6 @@ const styles = StyleSheet.create({
     maxWidth: MaxContentWidth,
     alignSelf: 'center',
   },
-  pending: {
-    padding: Spacing.three,
-    borderRadius: Spacing.three,
-    borderWidth: 1,
-    borderColor: '#F5A524',
-    gap: Spacing.one,
-  },
   header: { gap: Spacing.one },
   apply: { gap: Spacing.two },
-  card: { padding: Spacing.three, borderRadius: Spacing.three, gap: Spacing.two },
-  fact: { flexDirection: 'row', justifyContent: 'space-between', gap: Spacing.three },
-  factValue: { flexShrink: 1, textAlign: 'right' },
-  section: { gap: Spacing.two },
 });

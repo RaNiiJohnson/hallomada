@@ -26,6 +26,11 @@ export default function RootLayout() {
               name="jobs/[slug]/apply"
               options={{ title: 'Candidature', presentation: 'modal' }}
             />
+            <Stack.Screen name="listings/[slug]/index" options={{ title: 'Annonce' }} />
+            <Stack.Screen
+              name="listings/[slug]/dossier"
+              options={{ title: 'Envoyer mon dossier', presentation: 'modal' }}
+            />
           </Stack>
         </ConvexBetterAuthProvider>
       ) : (
