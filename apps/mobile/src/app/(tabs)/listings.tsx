@@ -2,82 +2,87 @@ import { api } from '@convex/_generated/api';
 import { useConvexAuth, usePaginatedQuery } from 'convex/react';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
-import { ActivityIndicator, FlatList, StyleSheet, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { StyleSheet, View } from 'react-native';
 
-import { Button } from '@/components/button';
+import { IconButton } from '@/components/button';
 import { ListingCard } from '@/components/listing-card';
+import { ScreenHeader } from '@/components/screen-header';
+import { SearchBar } from '@/components/search-bar';
 import { Segmented } from '@/components/segmented';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
-import type { ListingMode } from '@/lib/listing-labels';
+import { TabList } from '@/components/tab-list';
+import { Spacing } from '@/constants/theme';
+import { useDebounced } from '@/hooks/use-debounced';
+import { type ListingMode, type PropertyType, propertyTypes } from '@/lib/listing-labels';
 
 const PAGE_SIZE = 12;
 
-const modeFilters: { value: ListingMode | undefined; label: string }[] = [
+const modeOptions: { value: ListingMode | undefined; label: string }[] = [
   { value: undefined, label: 'Tout' },
   { value: 'rent', label: 'À louer' },
   { value: 'sale', label: 'À vendre' },
+];
+const typeOptions: { value: PropertyType | undefined; label: string }[] = [
+  { value: undefined, label: 'Tous types' },
+  ...(Object.entries(propertyTypes) as [PropertyType, string][]).map(([value, label]) => ({
+    value,
+    label,
+  })),
 ];
 
 export default function ListingsScreen() {
   const router = useRouter();
   const { isAuthenticated } = useConvexAuth();
+  const [input, setInput] = useState('');
   const [listingMode, setListingMode] = useState<ListingMode>();
+  const [propertyType, setPropertyType] = useState<PropertyType>();
+  const searchTerm = useDebounced(input.trim());
+  const filtered = Boolean(searchTerm || listingMode || propertyType);
+  const publish = () => router.push(isAuthenticated ? '/listings/new' : '/account');
+
   const { results, status, loadMore } = usePaginatedQuery(
     api.listings.queries.getListing,
-    listingMode ? { listingMode } : {},
+    {
+      ...(searchTerm ? { searchTerm } : {}),
+      ...(listingMode ? { listingMode } : {}),
+      ...(propertyType ? { propertyType } : {}),
+    },
     { initialNumItems: PAGE_SIZE },
   );
 
   return (
-    <ThemedView style={styles.container}>
-      <SafeAreaView style={styles.safeArea} edges={['top']}>
-        <FlatList
-          data={results}
-          keyExtractor={(listing) => listing._id}
-          renderItem={({ item }) => <ListingCard listing={item} />}
-          contentContainerStyle={styles.list}
-          ListHeaderComponent={
-            <View style={styles.header}>
-              <ThemedText type="title">Annonces</ThemedText>
-              <Segmented options={modeFilters} value={listingMode} onChange={setListingMode} />
-              <Button
-                label="Publier une annonce"
-                primary
-                onPress={() => router.push(isAuthenticated ? '/listings/new' : '/account')}
-              />
-            </View>
-          }
-          ListEmptyComponent={
-            status === 'LoadingFirstPage' ? (
-              <ActivityIndicator style={styles.loader} />
-            ) : (
-              <ThemedText themeColor="textSecondary">Aucune annonce pour le moment.</ThemedText>
-            )
-          }
-          ListFooterComponent={
-            status === 'LoadingMore' ? <ActivityIndicator style={styles.loader} /> : undefined
-          }
-          onEndReached={() => {
-            if (status === 'CanLoadMore') loadMore(PAGE_SIZE);
-          }}
-          onEndReachedThreshold={0.5}
-        />
-      </SafeAreaView>
-    </ThemedView>
+    <TabList
+      data={results}
+      renderItem={(listing) => <ListingCard listing={listing} />}
+      loading={status === 'LoadingFirstPage'}
+      loadingMore={status === 'LoadingMore'}
+      onEndReached={() => status === 'CanLoadMore' && loadMore(PAGE_SIZE)}
+      header={
+        <ScreenHeader
+          title="Annonces"
+          subtitle="Logements à louer et à vendre"
+          actions={<IconButton icon="add" tone="primary" label="Publier une annonce" onPress={publish} />}>
+          <View style={styles.filters}>
+            <SearchBar value={input} onChangeText={setInput} placeholder="Ville, quartier, titre…" />
+            <Segmented options={modeOptions} value={listingMode} onChange={setListingMode} />
+            <Segmented scroll options={typeOptions} value={propertyType} onChange={setPropertyType} />
+          </View>
+        </ScreenHeader>
+      }
+      empty={
+        filtered
+          ? { icon: 'search-outline', title: 'Aucun résultat', description: 'Essayez d’autres mots-clés ou filtres.' }
+          : {
+              icon: 'home-outline',
+              title: 'Aucune annonce pour le moment',
+              description: 'Vous cherchez un colocataire ou louez un logement ?',
+              actionLabel: 'Publier une annonce',
+              onAction: publish,
+            }
+      }
+    />
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, flexDirection: 'row', justifyContent: 'center' },
-  safeArea: { flex: 1, maxWidth: MaxContentWidth },
-  list: {
-    paddingHorizontal: Spacing.three,
-    paddingBottom: BottomTabInset + Spacing.three,
-    gap: Spacing.three,
-  },
-  header: { marginTop: Spacing.three, gap: Spacing.three },
-  loader: { marginVertical: Spacing.four },
+  filters: { gap: Spacing.two },
 });

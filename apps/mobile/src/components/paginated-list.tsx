@@ -1,7 +1,8 @@
 import type { ReactElement } from 'react';
 import { ActivityIndicator, FlatList, StyleSheet } from 'react-native';
 
-import { ThemedText } from './themed-text';
+import { EmptyState } from './empty-state';
+import type { IconName } from './icon';
 import { ThemedView } from './themed-view';
 import { MaxContentWidth, Spacing } from '@/constants/theme';
 
@@ -23,7 +24,7 @@ export function PaginatedList<Item extends { _id: string }>({
   loadMore: (count: number) => void;
   pageSize: number;
   renderItem: (item: Item) => ReactElement | null;
-  empty: string;
+  empty: string | { title: string; description?: string; icon?: IconName };
   header?: ReactElement;
   inverted?: boolean;
 }) {
@@ -40,7 +41,7 @@ export function PaginatedList<Item extends { _id: string }>({
           status === 'LoadingFirstPage' ? (
             <ActivityIndicator style={styles.loader} />
           ) : (
-            <ThemedText themeColor="textSecondary">{empty}</ThemedText>
+            <EmptyState {...(typeof empty === 'string' ? { title: empty } : empty)} />
           )
         }
         ListFooterComponent={

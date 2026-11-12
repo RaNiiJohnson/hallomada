@@ -62,7 +62,7 @@ export default function NewPostScreen() {
         <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
           <View style={styles.field}>
             <ThemedText type="smallBold">Publier dans</ThemedText>
-            <Segmented options={options} value={target} onChange={setTarget} />
+            <Segmented scroll options={options} value={target} onChange={setTarget} />
           </View>
           <FormField
             label="Titre"

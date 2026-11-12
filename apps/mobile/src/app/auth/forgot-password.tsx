@@ -64,7 +64,7 @@ export default function ForgotPasswordScreen() {
               placeholder="nom@exemple.com"
               onSubmitEditing={submit}
             />
-            {error ? <ThemedText style={styles.error}>{error}</ThemedText> : null}
+            {error ? <ThemedText type="small" themeColor="destructive">{error}</ThemedText> : null}
             <Button
               label="Envoyer les instructions"
               primary
@@ -82,5 +82,4 @@ export default function ForgotPasswordScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1 },
   content: { padding: Spacing.three, gap: Spacing.three },
-  error: { color: '#E5484D' },
 });

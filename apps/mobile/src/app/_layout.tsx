@@ -59,6 +59,19 @@ export default function RootLayout() {
               name="listings/new"
               options={{ title: 'Publier une annonce', presentation: 'modal' }}
             />
+            <Stack.Screen name="report" options={{ title: 'Signaler', presentation: 'modal' }} />
+            <Stack.Screen
+              name="posts/edit/[slug]"
+              options={{ title: 'Modifier la publication', presentation: 'modal' }}
+            />
+            <Stack.Screen
+              name="communities/new"
+              options={{ title: 'Nouvelle communauté', presentation: 'modal' }}
+            />
+            <Stack.Screen
+              name="communities/edit/[community]"
+              options={{ title: 'Modifier la communauté', presentation: 'modal' }}
+            />
           </Stack>
         </ConvexBetterAuthProvider>
       ) : (

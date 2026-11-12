@@ -35,7 +35,9 @@ export function BookmarkButton({ isBookmarked, ...resource }: Resource & { isBoo
 
   return (
     <Button
-      label={isBookmarked ? 'Retirer des favoris' : 'Sauvegarder'}
+      label={isBookmarked ? 'Sauvegardé' : 'Sauvegarder'}
+      icon={isBookmarked ? 'bookmark' : 'bookmark-outline'}
+      variant={isBookmarked ? 'outline' : 'secondary'}
       loading={pending}
       onPress={onPress}
     />

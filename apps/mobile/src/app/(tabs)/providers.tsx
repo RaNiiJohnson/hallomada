@@ -1,18 +1,18 @@
 import { api } from '@convex/_generated/api';
-import { usePaginatedQuery } from 'convex/react';
-import { useEffect, useState } from 'react';
-import { ActivityIndicator, FlatList, StyleSheet, TextInput, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { useConvexAuth, usePaginatedQuery } from 'convex/react';
+import { useRouter } from 'expo-router';
+import { useState } from 'react';
+import { StyleSheet, View } from 'react-native';
 
-import { Button } from '@/components/button';
+import { IconButton } from '@/components/button';
 import { ProviderCard } from '@/components/provider-card';
+import { ScreenHeader } from '@/components/screen-header';
+import { SearchBar } from '@/components/search-bar';
 import { Segmented } from '@/components/segmented';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
-import { useTheme } from '@/hooks/use-theme';
+import { TabList } from '@/components/tab-list';
+import { Spacing } from '@/constants/theme';
+import { useDebounced } from '@/hooks/use-debounced';
 import { type ProviderCategory, providerCategoryLabels } from '@/lib/provider-labels';
-import { openWeb } from '@/lib/web';
 
 const PAGE_SIZE = 12;
 
@@ -24,16 +24,12 @@ const categoryOptions: { value: ProviderCategory | undefined; label: string }[] 
 ];
 
 export default function ProvidersScreen() {
-  const theme = useTheme();
+  const router = useRouter();
+  const { isAuthenticated } = useConvexAuth();
   const [category, setCategory] = useState<ProviderCategory>();
   const [input, setInput] = useState('');
-  const [searchTerm, setSearchTerm] = useState('');
-
-  // Debounce typing so each keystroke does not start a new query.
-  useEffect(() => {
-    const timer = setTimeout(() => setSearchTerm(input.trim()), 350);
-    return () => clearTimeout(timer);
-  }, [input]);
+  const searchTerm = useDebounced(input.trim());
+  const create = () => router.push(isAuthenticated ? '/providers/new' : '/account');
 
   const { results, status, loadMore } = usePaginatedQuery(
     api.providers.queries.listProviders,
@@ -42,64 +38,38 @@ export default function ProvidersScreen() {
   );
 
   return (
-    <ThemedView style={styles.container}>
-      <SafeAreaView style={styles.safeArea} edges={['top']}>
-        <FlatList
-          data={results}
-          keyExtractor={(provider) => provider._id}
-          renderItem={({ item }) => <ProviderCard provider={item} />}
-          contentContainerStyle={styles.list}
-          keyboardShouldPersistTaps="handled"
-          ListHeaderComponent={
-            <View style={styles.header}>
-              <ThemedText type="title">Prestataires</ThemedText>
-              <TextInput
-                value={input}
-                onChangeText={setInput}
-                placeholder="Rechercher un prestataire, un service, une ville…"
-                placeholderTextColor={theme.textSecondary}
-                returnKeyType="search"
-                style={[styles.search, { backgroundColor: theme.backgroundElement, color: theme.text }]}
-              />
-              <Segmented options={categoryOptions} value={category} onChange={setCategory} />
-            </View>
-          }
-          ListEmptyComponent={
-            status === 'LoadingFirstPage' ? (
-              <ActivityIndicator style={styles.loader} />
-            ) : (
-              <View style={styles.empty}>
-                <ThemedText type="smallBold">Aucun prestataire pour l&apos;instant</ThemedText>
-                <ThemedText type="small" themeColor="textSecondary">
-                  Vous proposez un service ? Créez votre page, c&apos;est gratuit.
-                </ThemedText>
-                <Button label="Créer ma page prestataire" onPress={() => openWeb('/providers/new')} />
-              </View>
-            )
-          }
-          ListFooterComponent={
-            status === 'LoadingMore' ? <ActivityIndicator style={styles.loader} /> : undefined
-          }
-          onEndReached={() => {
-            if (status === 'CanLoadMore') loadMore(PAGE_SIZE);
-          }}
-          onEndReachedThreshold={0.5}
-        />
-      </SafeAreaView>
-    </ThemedView>
+    <TabList
+      data={results}
+      renderItem={(provider) => <ProviderCard provider={provider} />}
+      loading={status === 'LoadingFirstPage'}
+      loadingMore={status === 'LoadingMore'}
+      onEndReached={() => status === 'CanLoadMore' && loadMore(PAGE_SIZE)}
+      header={
+        <ScreenHeader
+          title="Prestataires"
+          subtitle="Les talents de la communauté près de chez vous"
+          actions={<IconButton icon="add" tone="primary" label="Créer ma page" onPress={create} />}>
+          <View style={styles.filters}>
+            <SearchBar value={input} onChangeText={setInput} placeholder="Service, nom, ville…" />
+            <Segmented scroll options={categoryOptions} value={category} onChange={setCategory} />
+          </View>
+        </ScreenHeader>
+      }
+      empty={
+        searchTerm || category
+          ? { icon: 'search-outline', title: 'Aucun résultat', description: 'Essayez d’autres mots-clés ou une autre catégorie.' }
+          : {
+              icon: 'construct-outline',
+              title: 'Aucun prestataire pour l’instant',
+              description: 'Vous proposez un service ? Créez votre page, c’est gratuit.',
+              actionLabel: 'Créer ma page prestataire',
+              onAction: create,
+            }
+      }
+    />
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, flexDirection: 'row', justifyContent: 'center' },
-  safeArea: { flex: 1, maxWidth: MaxContentWidth },
-  list: {
-    paddingHorizontal: Spacing.three,
-    paddingBottom: BottomTabInset + Spacing.three,
-    gap: Spacing.three,
-  },
-  header: { marginTop: Spacing.three, gap: Spacing.three },
-  search: { minHeight: 44, borderRadius: Spacing.three, paddingHorizontal: Spacing.three, fontSize: 16 },
-  loader: { marginVertical: Spacing.four },
-  empty: { gap: Spacing.two },
+  filters: { gap: Spacing.two },
 });

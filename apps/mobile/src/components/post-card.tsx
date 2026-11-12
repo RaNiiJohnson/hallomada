@@ -1,53 +1,76 @@
 import type { Doc } from '@convex/_generated/dataModel';
-import { Link } from 'expo-router';
-import { Pressable, StyleSheet } from 'react-native';
+import { useRouter } from 'expo-router';
+import { StyleSheet, View } from 'react-native';
 
+import { Avatar } from './avatar';
+import { Card } from './card';
+import { Icon } from './icon';
 import { ThemedText } from './themed-text';
-import { ThemedView } from './themed-view';
 import { Spacing } from '@/constants/theme';
+import { useTheme } from '@/hooks/use-theme';
 import { timeAgo } from '@/lib/time';
 
 type PostSummary = Pick<
   Doc<'posts'>,
   '_id' | '_creationTime' | 'slug' | 'title' | 'content' | 'authorName' | 'communityName'
-> & { likesCount: number; commentsCount?: number; userHasLiked?: boolean };
+> & { likesCount: number; commentsCount?: number; userHasLiked?: boolean; authorImage?: string | null };
 
 export function PostCard({ post, showCommunity = true }: { post: PostSummary; showCommunity?: boolean }) {
-  const meta = [
-    post.authorName,
-    showCommunity ? post.communityName : undefined,
-    timeAgo(post._creationTime),
-  ]
+  const router = useRouter();
+  const theme = useTheme();
+  const meta = [showCommunity ? post.communityName : undefined, timeAgo(post._creationTime)]
     .filter(Boolean)
     .join(' · ');
-  const counts = [
-    `${post.userHasLiked ? '♥' : '♡'} ${post.likesCount}`,
-    post.commentsCount !== undefined ? `💬 ${post.commentsCount}` : null,
-  ]
-    .filter(Boolean)
-    .join('   ');
 
   return (
-    <Link href={{ pathname: '/posts/[slug]', params: { slug: post.slug } }} asChild>
-      <Pressable style={({ pressed }) => pressed && styles.pressed}>
-        <ThemedView type="backgroundElement" style={styles.card}>
-          <ThemedText type="small" themeColor="textSecondary" numberOfLines={1}>
+    <Card
+      accessibilityLabel={post.title}
+      onPress={() => router.push({ pathname: '/posts/[slug]', params: { slug: post.slug } })}>
+      <View style={styles.author}>
+        <Avatar name={post.authorName} uri={post.authorImage} size={36} />
+        <View style={styles.flex}>
+          <ThemedText type="smallBold" numberOfLines={1}>
+            {post.authorName}
+          </ThemedText>
+          <ThemedText type="caption" themeColor="textSecondary" numberOfLines={1}>
             {meta}
           </ThemedText>
-          <ThemedText type="smallBold">{post.title}</ThemedText>
-          <ThemedText type="small" numberOfLines={3}>
-            {post.content}
-          </ThemedText>
+        </View>
+      </View>
+      <ThemedText type="heading" numberOfLines={2}>
+        {post.title}
+      </ThemedText>
+      <ThemedText type="small" numberOfLines={3} style={styles.content}>
+        {post.content}
+      </ThemedText>
+      <View style={styles.counts}>
+        <View style={styles.count}>
+          <Icon
+            name={post.userHasLiked ? 'heart' : 'heart-outline'}
+            size={16}
+            color={post.userHasLiked ? theme.destructive : theme.textSecondary}
+          />
           <ThemedText type="small" themeColor="textSecondary">
-            {counts}
+            {post.likesCount}
           </ThemedText>
-        </ThemedView>
-      </Pressable>
-    </Link>
+        </View>
+        {post.commentsCount !== undefined ? (
+          <View style={styles.count}>
+            <Icon name="chatbubble-outline" size={15} themeColor="textSecondary" />
+            <ThemedText type="small" themeColor="textSecondary">
+              {post.commentsCount}
+            </ThemedText>
+          </View>
+        ) : null}
+      </View>
+    </Card>
   );
 }
 
 const styles = StyleSheet.create({
-  card: { padding: Spacing.three, borderRadius: Spacing.three, gap: Spacing.one },
-  pressed: { opacity: 0.7 },
+  author: { flexDirection: 'row', alignItems: 'center', gap: Spacing.two },
+  flex: { flex: 1 },
+  content: { lineHeight: 21 },
+  counts: { flexDirection: 'row', gap: Spacing.four, marginTop: Spacing.one },
+  count: { flexDirection: 'row', alignItems: 'center', gap: Spacing.one },
 });

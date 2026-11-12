@@ -1,6 +1,6 @@
 // French labels mirrored from apps/web/messages/fr/listing.json until the
 // mobile app gets shared i18n.
-const propertyTypes = {
+export const propertyTypes = {
   room: 'Chambre',
   apartment: 'Appartement',
   house: 'Maison',

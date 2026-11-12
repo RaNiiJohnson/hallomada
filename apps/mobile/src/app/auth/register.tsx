@@ -119,7 +119,7 @@ export default function RegisterScreen() {
             textContentType="newPassword"
             onSubmitEditing={submit}
           />
-          {error ? <ThemedText style={styles.error}>{error}</ThemedText> : null}
+          {error ? <ThemedText type="small" themeColor="destructive">{error}</ThemedText> : null}
           <Button label="Créer un compte" primary loading={pending} disabled={pending} onPress={submit} />
           <ThemedText type="small" themeColor="textSecondary" style={styles.center}>
             En créant un compte, vous acceptez les conditions d&apos;utilisation et la politique de
@@ -134,6 +134,5 @@ export default function RegisterScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1 },
   content: { padding: Spacing.three, gap: Spacing.three },
-  error: { color: '#E5484D' },
   center: { textAlign: 'center' },
 });

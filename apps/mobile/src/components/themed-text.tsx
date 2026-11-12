@@ -4,7 +4,17 @@ import { Fonts, ThemeColor } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
 
 export type ThemedTextProps = TextProps & {
-  type?: 'default' | 'title' | 'small' | 'smallBold' | 'subtitle' | 'link' | 'linkPrimary' | 'code';
+  type?:
+    | 'default'
+    | 'title'
+    | 'subtitle'
+    | 'heading'
+    | 'small'
+    | 'smallBold'
+    | 'caption'
+    | 'link'
+    | 'linkPrimary'
+    | 'code';
   themeColor?: ThemeColor;
 };
 
@@ -28,17 +38,29 @@ const styles = StyleSheet.create({
   default: {
     fontSize: 16,
     lineHeight: 24,
-    fontWeight: 500,
+    fontWeight: 400,
   },
   title: {
-    fontSize: 48,
-    fontWeight: 600,
-    lineHeight: 52,
+    fontSize: 30,
+    fontWeight: 800,
+    lineHeight: 36,
+    letterSpacing: -0.5,
   },
   subtitle: {
-    fontSize: 32,
-    lineHeight: 44,
-    fontWeight: 600,
+    fontSize: 22,
+    lineHeight: 28,
+    fontWeight: 700,
+    letterSpacing: -0.2,
+  },
+  heading: {
+    fontSize: 18,
+    lineHeight: 24,
+    fontWeight: 700,
+  },
+  caption: {
+    fontSize: 12,
+    lineHeight: 16,
+    fontWeight: 500,
   },
   link: {
     lineHeight: 30,
@@ -47,7 +69,8 @@ const styles = StyleSheet.create({
   linkPrimary: {
     lineHeight: 30,
     fontSize: 14,
-    color: '#3c87f7',
+    color: '#16a34a',
+    fontWeight: 600,
   },
   code: {
     fontFamily: Fonts.mono,

@@ -1,9 +1,10 @@
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
-import { Pressable, StyleSheet, TextInput, View } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 
 import { Button } from '@/components/button';
-
+import { Card } from '@/components/card';
+import { FormField } from '@/components/form-field';
 import { ThemedText } from '@/components/themed-text';
 import { Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
@@ -55,17 +56,11 @@ export function SignInForm() {
     setPending(null);
   }
 
-  const inputStyle = [
-    styles.input,
-    { backgroundColor: theme.backgroundElement, color: theme.text },
-  ];
-
   return (
-    <View style={styles.form}>
-      <TextInput
-        style={inputStyle}
-        placeholder="E-mail"
-        placeholderTextColor={theme.textSecondary}
+    <Card style={styles.form}>
+      <FormField
+        label="E-mail"
+        placeholder="vous@exemple.com"
         autoCapitalize="none"
         autoComplete="email"
         keyboardType="email-address"
@@ -73,10 +68,9 @@ export function SignInForm() {
         value={email}
         onChangeText={setEmail}
       />
-      <TextInput
-        style={inputStyle}
-        placeholder="Mot de passe"
-        placeholderTextColor={theme.textSecondary}
+      <FormField
+        label="Mot de passe"
+        placeholder="••••••••"
         autoComplete="current-password"
         secureTextEntry
         textContentType="password"
@@ -84,11 +78,20 @@ export function SignInForm() {
         onChangeText={setPassword}
         onSubmitEditing={signInWithEmail}
       />
+      <Pressable onPress={() => router.push('/auth/forgot-password')} style={styles.forgot}>
+        <ThemedText type="linkPrimary">Mot de passe oublié ?</ThemedText>
+      </Pressable>
 
-      {error ? <ThemedText style={styles.error}>{error}</ThemedText> : null}
+      {error ? (
+        <ThemedText type="small" themeColor="destructive">
+          {error}
+        </ThemedText>
+      ) : null}
       {unverified ? (
         <Button
           label="Renvoyer l'e-mail de vérification"
+          variant="outline"
+          icon="mail-outline"
           loading={pending === 'resend'}
           disabled={pending !== null}
           onPress={resendVerification}
@@ -97,36 +100,44 @@ export function SignInForm() {
 
       <Button
         label="Se connecter"
+        size="md"
         loading={pending === 'email'}
         disabled={pending !== null || !email || !password}
         onPress={signInWithEmail}
         primary
       />
+      <View style={styles.divider}>
+        <View style={[styles.line, { backgroundColor: theme.border }]} />
+        <ThemedText type="caption" themeColor="textSecondary">
+          ou
+        </ThemedText>
+        <View style={[styles.line, { backgroundColor: theme.border }]} />
+      </View>
       <Button
         label="Continuer avec Google"
+        variant="outline"
+        icon="logo-google"
+        size="md"
         loading={pending === 'google'}
         disabled={pending !== null}
         onPress={signInWithGoogle}
       />
-
-      <Pressable onPress={() => router.push('/auth/forgot-password')}>
-        <ThemedText type="small" themeColor="textSecondary" style={styles.register}>
-          Mot de passe oublié ?
+      <View style={styles.register}>
+        <ThemedText type="small" themeColor="textSecondary">
+          Pas encore de compte ?
         </ThemedText>
-      </Pressable>
-      <Button label="Créer un compte" onPress={() => router.push('/auth/register')} />
-    </View>
+        <Pressable onPress={() => router.push('/auth/register')}>
+          <ThemedText type="linkPrimary">Créer un compte</ThemedText>
+        </Pressable>
+      </View>
+    </Card>
   );
 }
 
 const styles = StyleSheet.create({
   form: { gap: Spacing.three },
-  input: {
-    borderRadius: Spacing.three,
-    paddingHorizontal: Spacing.three,
-    paddingVertical: Spacing.three,
-    fontSize: 16,
-  },
-  error: { color: '#E5484D' },
-  register: { textAlign: 'center' },
+  forgot: { alignSelf: 'flex-end', marginTop: -Spacing.one },
+  divider: { flexDirection: 'row', alignItems: 'center', gap: Spacing.two },
+  line: { flex: 1, height: StyleSheet.hairlineWidth },
+  register: { flexDirection: 'row', justifyContent: 'center', gap: Spacing.one },
 });

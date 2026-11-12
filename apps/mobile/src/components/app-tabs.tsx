@@ -1,56 +1,54 @@
+import { api } from '@convex/_generated/api';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import { useQuery } from 'convex/react';
 import { NativeTabs } from 'expo-router/native-tabs';
-import { useColorScheme } from 'react-native';
+import type { ComponentProps } from 'react';
+import type { SFSymbol } from 'expo-symbols';
 
-import { Colors } from '@/constants/theme';
+import { useTheme } from '@/hooks/use-theme';
+
+type IoniconName = ComponentProps<typeof Ionicons>['name'];
+
+const tabs: { name: string; label: string; sf: [SFSymbol, SFSymbol]; icon: IoniconName }[] = [
+  { name: 'index', label: 'Jobs', sf: ['briefcase', 'briefcase.fill'], icon: 'briefcase' },
+  { name: 'listings', label: 'Annonces', sf: ['house', 'house.fill'], icon: 'home' },
+  { name: 'communities', label: 'Communautés', sf: ['person.3', 'person.3.fill'], icon: 'people' },
+  {
+    name: 'providers',
+    label: 'Prestataires',
+    sf: ['wrench.and.screwdriver', 'wrench.and.screwdriver.fill'],
+    icon: 'construct',
+  },
+  { name: 'account', label: 'Compte', sf: ['person.crop.circle', 'person.crop.circle.fill'], icon: 'person-circle' },
+];
 
 export default function AppTabs() {
-  const scheme = useColorScheme();
-  const colors = Colors[scheme === 'dark' ? 'dark' : 'light'];
+  const theme = useTheme();
+  const unread = useQuery(api.notifications.queries.getUnreadCount);
 
   return (
     <NativeTabs
-      backgroundColor={colors.background}
-      indicatorColor={colors.backgroundElement}
-      labelStyle={{ selected: { color: colors.text } }}>
-      <NativeTabs.Trigger name="index">
-        <NativeTabs.Trigger.Label>Jobs</NativeTabs.Trigger.Label>
-        <NativeTabs.Trigger.Icon
-          src={require('@/assets/images/tabIcons/home.png')}
-          renderingMode="template"
-        />
-      </NativeTabs.Trigger>
-
-      <NativeTabs.Trigger name="listings">
-        <NativeTabs.Trigger.Label>Annonces</NativeTabs.Trigger.Label>
-        <NativeTabs.Trigger.Icon
-          src={require('@/assets/images/tabIcons/home.png')}
-          renderingMode="template"
-        />
-      </NativeTabs.Trigger>
-
-      <NativeTabs.Trigger name="communities">
-        <NativeTabs.Trigger.Label>Communautés</NativeTabs.Trigger.Label>
-        <NativeTabs.Trigger.Icon
-          src={require('@/assets/images/tabIcons/explore.png')}
-          renderingMode="template"
-        />
-      </NativeTabs.Trigger>
-
-      <NativeTabs.Trigger name="providers">
-        <NativeTabs.Trigger.Label>Prestataires</NativeTabs.Trigger.Label>
-        <NativeTabs.Trigger.Icon
-          src={require('@/assets/images/tabIcons/explore.png')}
-          renderingMode="template"
-        />
-      </NativeTabs.Trigger>
-
-      <NativeTabs.Trigger name="account">
-        <NativeTabs.Trigger.Label>Compte</NativeTabs.Trigger.Label>
-        <NativeTabs.Trigger.Icon
-          src={require('@/assets/images/tabIcons/explore.png')}
-          renderingMode="template"
-        />
-      </NativeTabs.Trigger>
+      backgroundColor={theme.card}
+      tintColor={theme.primaryStrong}
+      indicatorColor={theme.primarySoft}
+      iconColor={{ default: theme.textSecondary, selected: theme.primaryText }}
+      badgeBackgroundColor={theme.destructive}
+      labelStyle={{
+        default: { color: theme.textSecondary },
+        selected: { color: theme.primaryText, fontWeight: '700' },
+      }}>
+      {tabs.map((tab) => (
+        <NativeTabs.Trigger key={tab.name} name={tab.name}>
+          <NativeTabs.Trigger.Label>{tab.label}</NativeTabs.Trigger.Label>
+          <NativeTabs.Trigger.Icon
+            sf={{ default: tab.sf[0], selected: tab.sf[1] }}
+            src={<NativeTabs.Trigger.VectorIcon family={Ionicons} name={tab.icon} />}
+          />
+          {tab.name === 'account' && unread ? (
+            <NativeTabs.Trigger.Badge>{unread >= 100 ? '99+' : String(unread)}</NativeTabs.Trigger.Badge>
+          ) : null}
+        </NativeTabs.Trigger>
+      ))}
     </NativeTabs>
   );
 }

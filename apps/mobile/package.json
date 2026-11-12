@@ -6,6 +6,7 @@
     "@better-auth/expo": "1.6.34",
     "@convex-dev/better-auth": "^0.12.3",
     "@expo/ui": "~58.0.28",
+    "@expo/vector-icons": "^15.1.1",
     "@hallomada/backend": "workspace:*",
     "@hallomada/shared": "workspace:*",
     "better-auth": "1.6.34",
