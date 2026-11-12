@@ -1,21 +1,20 @@
 import { api } from '@convex/_generated/api';
 import { useConvexAuth, useQuery } from 'convex/react';
-import { Image } from 'expo-image';
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
-import { useState } from 'react';
 import {
   ActivityIndicator,
   Linking,
   ScrollView,
   Share,
   StyleSheet,
-  useWindowDimensions,
   View,
 } from 'react-native';
 
+import { AuthorLink } from '@/components/author-link';
 import { BookmarkButton } from '@/components/bookmark-button';
 import { Button } from '@/components/button';
 import { CenteredMessage, FactList, PendingBanner, Section } from '@/components/detail';
+import { Gallery } from '@/components/gallery';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { MaxContentWidth, Spacing } from '@/constants/theme';
@@ -72,7 +71,7 @@ export default function ListingDetailScreen() {
     <ThemedView style={styles.container}>
       <Stack.Screen options={{ title: propertyTypeLabel(listing.propertyType) }} />
       <ScrollView>
-        <Gallery images={listing.images} />
+        <Gallery urls={listing.images.map((image) => image.url)} />
         <View style={styles.content}>
           {listing.status === 'pending' ? (
             <PendingBanner
@@ -88,6 +87,7 @@ export default function ListingDetailScreen() {
             </ThemedText>
             <ThemedText type="subtitle">{listing.title}</ThemedText>
             <ThemedText themeColor="textSecondary">{placeLabel(listing)}</ThemedText>
+            <AuthorLink prefix="Publiée par" name={listing.authorName} slug={listing.authorSlug} />
             <ThemedText type="smallBold">
               {isRent ? 'Loyer mensuel total : ' : 'Prix de vente : '}
               {priceLabel(listing.price, listing.listingMode)}
@@ -126,44 +126,6 @@ export default function ListingDetailScreen() {
         </View>
       </ScrollView>
     </ThemedView>
-  );
-}
-
-function Gallery({ images }: { images: Listing['images'] }) {
-  const { width } = useWindowDimensions();
-  const pageWidth = Math.min(width, MaxContentWidth);
-  const [index, setIndex] = useState(0);
-  const urls = images.map((image) => image.url).filter(Boolean);
-  if (urls.length === 0) return null;
-
-  return (
-    <View style={[styles.gallery, { width: pageWidth }]}>
-      <ScrollView
-        horizontal
-        pagingEnabled
-        showsHorizontalScrollIndicator={false}
-        onMomentumScrollEnd={(event) =>
-          setIndex(Math.round(event.nativeEvent.contentOffset.x / pageWidth))
-        }>
-        {urls.map((url, i) => (
-          <Image
-            key={`${url}-${i}`}
-            source={url}
-            style={{ width: pageWidth, height: pageWidth * 0.7 }}
-            contentFit="cover"
-            transition={150}
-            accessibilityLabel={`Photo ${i + 1} sur ${urls.length}`}
-          />
-        ))}
-      </ScrollView>
-      {urls.length > 1 ? (
-        <ThemedView type="background" style={styles.counter}>
-          <ThemedText type="small">
-            {index + 1} / {urls.length}
-          </ThemedText>
-        </ThemedView>
-      ) : null}
-    </View>
   );
 }
 
@@ -250,15 +212,6 @@ function ContactSection({ listing }: { listing: Listing }) {
 const styles = StyleSheet.create({
   container: { flex: 1 },
   loader: { marginTop: Spacing.five },
-  gallery: { alignSelf: 'center' },
-  counter: {
-    position: 'absolute',
-    right: Spacing.three,
-    bottom: Spacing.three,
-    paddingHorizontal: Spacing.two,
-    paddingVertical: Spacing.half,
-    borderRadius: Spacing.two,
-  },
   content: {
     padding: Spacing.three,
     gap: Spacing.four,

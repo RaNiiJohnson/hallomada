@@ -37,6 +37,8 @@ export default function RootLayout() {
             <Stack.Screen name="me/publications" options={{ title: 'Mes publications' }} />
             <Stack.Screen name="communities/[community]" options={{ title: 'Communauté' }} />
             <Stack.Screen name="posts/[slug]" options={{ title: 'Publication' }} />
+            <Stack.Screen name="providers/[slug]" options={{ title: 'Prestataire' }} />
+            <Stack.Screen name="profiles/[slug]" options={{ title: 'Profil' }} />
             <Stack.Screen
               name="posts/new"
               options={{ title: 'Nouvelle publication', presentation: 'modal' }}

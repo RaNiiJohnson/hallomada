@@ -6,6 +6,7 @@ import * as WebBrowser from 'expo-web-browser';
 import { useState } from 'react';
 import { ActivityIndicator, Alert, ScrollView, Share, StyleSheet, View } from 'react-native';
 
+import { AuthorLink } from '@/components/author-link';
 import { BookmarkButton } from '@/components/bookmark-button';
 import { Button } from '@/components/button';
 import { CenteredMessage, FactList, PendingBanner, Section } from '@/components/detail';
@@ -76,11 +77,7 @@ export default function JobDetailScreen() {
           <ThemedText themeColor="textSecondary">
             {job.company} · {locationLabel(job)}
           </ThemedText>
-          {job.authorName ? (
-            <ThemedText type="small" themeColor="textSecondary">
-              Publiée par {job.authorName}
-            </ThemedText>
-          ) : null}
+          <AuthorLink prefix="Publiée par" name={job.authorName} slug={job.authorSlug} />
         </View>
 
         <ApplySection job={job} />
