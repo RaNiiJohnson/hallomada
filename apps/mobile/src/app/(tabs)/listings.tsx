@@ -1,10 +1,11 @@
 import { api } from '@convex/_generated/api';
 import { usePaginatedQuery } from 'convex/react';
 import { useState } from 'react';
-import { ActivityIndicator, FlatList, Pressable, StyleSheet, View } from 'react-native';
+import { ActivityIndicator, FlatList, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { ListingCard } from '@/components/listing-card';
+import { Segmented } from '@/components/segmented';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
@@ -37,26 +38,7 @@ export default function ListingsScreen() {
           ListHeaderComponent={
             <View style={styles.header}>
               <ThemedText type="title">Annonces</ThemedText>
-              <View style={styles.filters}>
-                {modeFilters.map((filter) => {
-                  const selected = filter.value === listingMode;
-                  return (
-                    <Pressable
-                      key={filter.label}
-                      accessibilityRole="button"
-                      accessibilityState={{ selected }}
-                      onPress={() => setListingMode(filter.value)}>
-                      <ThemedView
-                        type={selected ? 'backgroundSelected' : 'backgroundElement'}
-                        style={styles.chip}>
-                        <ThemedText type="small" themeColor={selected ? 'text' : 'textSecondary'}>
-                          {filter.label}
-                        </ThemedText>
-                      </ThemedView>
-                    </Pressable>
-                  );
-                })}
-              </View>
+              <Segmented options={modeFilters} value={listingMode} onChange={setListingMode} />
             </View>
           }
           ListEmptyComponent={
@@ -88,11 +70,5 @@ const styles = StyleSheet.create({
     gap: Spacing.three,
   },
   header: { marginTop: Spacing.three, gap: Spacing.three },
-  filters: { flexDirection: 'row', gap: Spacing.two },
-  chip: {
-    paddingVertical: Spacing.one,
-    paddingHorizontal: Spacing.three,
-    borderRadius: Spacing.three,
-  },
   loader: { marginVertical: Spacing.four },
 });

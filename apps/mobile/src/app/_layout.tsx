@@ -31,6 +31,10 @@ export default function RootLayout() {
               name="listings/[slug]/dossier"
               options={{ title: 'Envoyer mon dossier', presentation: 'modal' }}
             />
+            <Stack.Screen name="me/notifications" options={{ title: 'Notifications' }} />
+            <Stack.Screen name="me/favorites" options={{ title: 'Favoris' }} />
+            <Stack.Screen name="me/applications" options={{ title: 'Mes candidatures' }} />
+            <Stack.Screen name="me/publications" options={{ title: 'Mes publications' }} />
           </Stack>
         </ConvexBetterAuthProvider>
       ) : (
