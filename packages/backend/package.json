@@ -11,7 +11,7 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "@hallomada/shared": "workspace:*",
+    "@better-auth/expo": "1.6.34",
     "@convex-dev/aggregate": "^0.2.1",
     "@convex-dev/better-auth": "^0.12.3",
     "@convex-dev/migrations": "^0.3.5",
@@ -19,6 +19,7 @@
     "@convex-dev/rate-limiter": "^0.3.2",
     "@convex-dev/resend": "^0.2.5",
     "@convex-dev/stripe": "^0.1.4",
+    "@hallomada/shared": "workspace:*",
     "@imaxis/cloudinary-convex": "^0.1.6",
     "@posthog/convex": "^2.1.0",
     "@sholajegede/convex-cascading-deletes": "^0.1.2",

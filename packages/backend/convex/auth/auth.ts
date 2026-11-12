@@ -1,3 +1,4 @@
+import { expo } from "@better-auth/expo";
 import { R2 } from "@convex-dev/r2";
 import { createClient, type GenericCtx } from "@convex-dev/better-auth";
 import { convex } from "@convex-dev/better-auth/plugins";
@@ -16,6 +17,11 @@ import { throwForbidden, throwUnauthorized } from "../utils/errors";
 
 const siteUrl = process.env.SITE_URL!;
 
+// Deep-link origin of the Expo app (apps/mobile, scheme "hallomada"). Custom
+// schemes match by prefix. For Expo Go in development, add `exp://` to
+// BETTER_AUTH_TRUSTED_ORIGINS on the dev deployment (merged by Better Auth).
+const mobileTrustedOrigins = ["hallomada://"];
+
 // The component client has methods needed for integrating Convex with Better Auth,
 // as well as helper methods for general use.
 export const authComponent = createClient<DataModel, typeof authSchema>(
@@ -30,6 +36,7 @@ export const authComponent = createClient<DataModel, typeof authSchema>(
 export const createAuthOptions = (ctx: GenericCtx<DataModel>) => {
   return {
     baseURL: siteUrl,
+    trustedOrigins: mobileTrustedOrigins,
     database: authComponent.adapter(ctx),
     socialProviders: {
       google: {
@@ -232,6 +239,7 @@ export const createAuthOptions = (ctx: GenericCtx<DataModel>) => {
     plugins: [
       // The Convex plugin is required for Convex compatibility
       convex({ authConfig }),
+      expo(),
       admin({
         adminRoles: ["admin"],
       }),
