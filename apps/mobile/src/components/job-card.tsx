@@ -5,47 +5,67 @@ import { StyleSheet, View } from 'react-native';
 import type { api } from '@convex/_generated/api';
 
 import { Badge } from './badge';
+import { BookmarkIcon } from './bookmark-button';
 import { Card } from './card';
-import { Icon } from './icon';
+import { Icon, type IconName } from './icon';
 import { ThemedText } from './themed-text';
-import { Spacing } from '@/constants/theme';
-import { contractLabel, jobTypeLabel, locationLabel, salaryLabel } from '@/lib/job-labels';
+import { Radius, Spacing } from '@/constants/theme';
+import { useTheme } from '@/hooks/use-theme';
+import { contractLabel, jobTypeLabel, locationLabel, salaryLabel, workModeLabel } from '@/lib/job-labels';
 import { timeAgo } from '@/lib/time';
 
 type Job = FunctionReturnType<typeof api.jobs.queries.getJobs>['page'][number];
 
 export function JobCard({ job }: { job: Job }) {
   const router = useRouter();
+  const theme = useTheme();
   const contract = contractLabel(job);
+  const pending = job.status === 'pending';
 
   return (
     <Card
       accessibilityLabel={job.title}
+      style={pending && { borderColor: theme.warning, backgroundColor: theme.warningSoft }}
       onPress={() => router.push({ pathname: '/jobs/[slug]', params: { slug: job.slug } })}>
       <View style={styles.top}>
-        <Badge label={jobTypeLabel(job.type)} tone="primary" />
-        <ThemedText type="caption" themeColor="textSecondary">
-          {timeAgo(job.listedAt ?? job._creationTime)}
-        </ThemedText>
+        <View style={[styles.logo, { backgroundColor: theme.infoSoft }]}>
+          <ThemedText style={[styles.logoText, { color: theme.info }]}>
+            {(job.company.trim()[0] ?? '?').toUpperCase()}
+          </ThemedText>
+        </View>
+        <View style={styles.flex}>
+          <ThemedText type="heading" numberOfLines={2}>
+            {job.title}
+          </ThemedText>
+          <ThemedText type="small" themeColor="textSecondary" numberOfLines={1}>
+            {job.company} · {timeAgo(job.listedAt ?? job._creationTime)}
+          </ThemedText>
+        </View>
+        <BookmarkIcon resourceType="job" resourceId={job._id} isBookmarked={job.isBookmarked} />
       </View>
-      <ThemedText type="heading" numberOfLines={2}>
-        {job.title}
-      </ThemedText>
+
       <View style={styles.meta}>
-        <Meta icon="business-outline" text={job.company} />
         <Meta icon="location-outline" text={locationLabel(job)} />
-        {contract ? <Meta icon="document-text-outline" text={contract} /> : null}
+        {job.workMode ? <Meta icon="laptop-outline" text={workModeLabel(job.workMode)} /> : null}
       </View>
-      {job.salary !== undefined ? (
-        <ThemedText type="smallBold" themeColor="primaryText">
-          {salaryLabel(job.salary, job.salaryPeriod)}
-        </ThemedText>
-      ) : null}
+
+      <View style={styles.bottom}>
+        <View style={styles.badges}>
+          {pending ? <Badge label="En attente" tone="warning" icon="time-outline" /> : null}
+          <Badge label={jobTypeLabel(job.type)} tone="primary" />
+          {contract ? <Badge label={contract} /> : null}
+        </View>
+        {job.salary !== undefined ? (
+          <ThemedText type="smallBold" themeColor="primaryText" numberOfLines={1}>
+            {salaryLabel(job.salary, job.salaryPeriod)}
+          </ThemedText>
+        ) : null}
+      </View>
     </Card>
   );
 }
 
-function Meta({ icon, text }: { icon: React.ComponentProps<typeof Icon>['name']; text: string }) {
+function Meta({ icon, text }: { icon: IconName; text: string }) {
   return (
     <View style={styles.metaItem}>
       <Icon name={icon} size={14} themeColor="textSecondary" />
@@ -57,8 +77,13 @@ function Meta({ icon, text }: { icon: React.ComponentProps<typeof Icon>['name'];
 }
 
 const styles = StyleSheet.create({
-  top: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
+  top: { flexDirection: 'row', alignItems: 'flex-start', gap: Spacing.three },
+  logo: { width: 44, height: 44, borderRadius: Radius.md, alignItems: 'center', justifyContent: 'center' },
+  logoText: { fontSize: 18, lineHeight: 22, fontWeight: 800 },
+  flex: { flex: 1, gap: 2 },
   meta: { flexDirection: 'row', flexWrap: 'wrap', columnGap: Spacing.three, rowGap: Spacing.one },
   metaItem: { flexDirection: 'row', alignItems: 'center', gap: Spacing.one, maxWidth: '100%' },
   metaText: { flexShrink: 1 },
+  bottom: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: Spacing.two, flexWrap: 'wrap' },
+  badges: { flexDirection: 'row', flexWrap: 'wrap', gap: Spacing.one, flexShrink: 1 },
 });

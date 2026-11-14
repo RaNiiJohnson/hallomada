@@ -29,6 +29,8 @@ export const Colors = {
     warningSoft: '#fef3c7',
     destructive: '#ef4444',
     destructiveSoft: '#fee2e2',
+    violet: '#7c3aed',
+    violetSoft: '#ede9fe',
     shadow: '#64748b',
   },
   dark: {
@@ -51,6 +53,8 @@ export const Colors = {
     warningSoft: '#451a03',
     destructive: '#f87171',
     destructiveSoft: '#450a0a',
+    violet: '#a78bfa',
+    violetSoft: '#2e1065',
     shadow: '#000000',
   },
 } as const;
@@ -95,4 +99,4 @@ export const Spacing = {
 export const BottomTabInset = Platform.select({ ios: 50, android: 80 }) ?? 0;
 export const MaxContentWidth = 800;
 
-export const Radius = { sm: 8, md: 12, lg: 20, full: 999 } as const;
+export const Radius = { sm: 8, md: 12, lg: 16, full: 999 } as const;

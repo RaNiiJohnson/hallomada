@@ -43,7 +43,7 @@ export function PostCard({ post, showCommunity = true }: { post: PostSummary; sh
       <ThemedText type="small" numberOfLines={3} style={styles.content}>
         {post.content}
       </ThemedText>
-      <View style={styles.counts}>
+      <View style={[styles.counts, { borderTopColor: theme.border }]}>
         <View style={styles.count}>
           <Icon
             name={post.userHasLiked ? 'heart' : 'heart-outline'}
@@ -51,14 +51,14 @@ export function PostCard({ post, showCommunity = true }: { post: PostSummary; sh
             color={post.userHasLiked ? theme.destructive : theme.textSecondary}
           />
           <ThemedText type="small" themeColor="textSecondary">
-            {post.likesCount}
+            {post.likesCount} j’aime
           </ThemedText>
         </View>
         {post.commentsCount !== undefined ? (
           <View style={styles.count}>
             <Icon name="chatbubble-outline" size={15} themeColor="textSecondary" />
             <ThemedText type="small" themeColor="textSecondary">
-              {post.commentsCount}
+              {post.commentsCount} commentaire{post.commentsCount > 1 ? 's' : ''}
             </ThemedText>
           </View>
         ) : null}
@@ -71,6 +71,11 @@ const styles = StyleSheet.create({
   author: { flexDirection: 'row', alignItems: 'center', gap: Spacing.two },
   flex: { flex: 1 },
   content: { lineHeight: 21 },
-  counts: { flexDirection: 'row', gap: Spacing.four, marginTop: Spacing.one },
+  counts: {
+    flexDirection: 'row',
+    gap: Spacing.four,
+    paddingTop: Spacing.two + 2,
+    borderTopWidth: StyleSheet.hairlineWidth,
+  },
   count: { flexDirection: 'row', alignItems: 'center', gap: Spacing.one },
 });

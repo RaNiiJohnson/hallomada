@@ -1,12 +1,12 @@
 import { useRouter } from 'expo-router';
 import { StyleSheet, View } from 'react-native';
 
-import { Avatar } from './avatar';
 import { Badge } from './badge';
 import { Card } from './card';
 import { Icon } from './icon';
 import { ThemedText } from './themed-text';
-import { Spacing } from '@/constants/theme';
+import { Radius, Spacing } from '@/constants/theme';
+import { useTheme } from '@/hooks/use-theme';
 
 type CommunitySummary = {
   slug: string;
@@ -21,6 +21,7 @@ type CommunitySummary = {
 
 export function CommunityCard({ community }: { community: CommunitySummary }) {
   const router = useRouter();
+  const theme = useTheme();
   const focus = community.city ?? community.theme;
   return (
     <Card
@@ -29,7 +30,9 @@ export function CommunityCard({ community }: { community: CommunitySummary }) {
         router.push({ pathname: '/communities/[community]', params: { community: community.slug } })
       }>
       <View style={styles.top}>
-        <Avatar name={community.name} size={48} />
+        <View style={[styles.logo, { backgroundColor: theme.primarySoft }]}>
+          <Icon name="people" size={22} themeColor="primaryText" />
+        </View>
         <View style={styles.flex}>
           <ThemedText type="heading" numberOfLines={1}>
             {community.name}
@@ -73,6 +76,7 @@ function Count({ icon, value, label }: { icon: 'people-outline' | 'chatbubbles-o
 
 const styles = StyleSheet.create({
   top: { flexDirection: 'row', alignItems: 'center', gap: Spacing.three },
+  logo: { width: 48, height: 48, borderRadius: Radius.md, alignItems: 'center', justifyContent: 'center' },
   flex: { flex: 1, gap: Spacing.one },
   badges: { flexDirection: 'row', flexWrap: 'wrap', gap: Spacing.one },
   counts: { flexDirection: 'row', gap: Spacing.four },

@@ -5,7 +5,7 @@ import { ThemedText } from './themed-text';
 import { Radius, Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
 
-function Chip({
+export function Chip({
   label,
   selected,
   check,
@@ -25,15 +25,15 @@ function Chip({
       style={({ pressed }) => [
         styles.chip,
         {
-          backgroundColor: selected ? theme.primary : theme.card,
+          backgroundColor: selected ? theme.primarySoft : theme.card,
           borderColor: selected ? theme.primary : theme.border,
           opacity: pressed ? 0.75 : 1,
         },
       ]}>
-      {check && selected ? <Icon name="checkmark" size={14} color={theme.primaryForeground} /> : null}
+      {check && selected ? <Icon name="checkmark" size={14} color={theme.primaryText} /> : null}
       <ThemedText
         type="small"
-        style={{ color: selected ? theme.primaryForeground : theme.text, fontWeight: selected ? 700 : 500 }}>
+        style={{ color: selected ? theme.primaryText : theme.text, fontWeight: selected ? 700 : 500 }}>
         {label}
       </ThemedText>
     </Pressable>
@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 4,
-    paddingVertical: 6,
+    paddingVertical: 7,
     paddingHorizontal: Spacing.three,
     borderRadius: Radius.full,
     borderWidth: 1,

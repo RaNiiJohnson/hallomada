@@ -13,12 +13,17 @@ import { ThemedText } from './themed-text';
 import { MaxContentWidth, Radius, Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
 
-const tabs: { name: string; href: '/' | '/listings' | '/communities' | '/providers' | '/account'; label: string; icon: IconName }[] = [
-  { name: 'home', href: '/', label: 'Jobs', icon: 'briefcase' },
-  { name: 'listings', href: '/listings', label: 'Annonces', icon: 'home' },
+const tabs: {
+  name: string;
+  href: '/' | '/communities' | '/jobs' | '/listings' | '/providers';
+  label: string;
+  icon: IconName;
+}[] = [
+  { name: 'index', href: '/', label: 'Accueil', icon: 'home' },
   { name: 'communities', href: '/communities', label: 'Communautés', icon: 'people' },
-  { name: 'providers', href: '/providers', label: 'Prestataires', icon: 'construct' },
-  { name: 'account', href: '/account', label: 'Compte', icon: 'person-circle' },
+  { name: 'jobs', href: '/jobs', label: 'Emplois', icon: 'briefcase' },
+  { name: 'listings', href: '/listings', label: 'Immobilier', icon: 'business' },
+  { name: 'providers', href: '/providers', label: 'Prestataires', icon: 'storefront' },
 ];
 
 export default function AppTabs() {

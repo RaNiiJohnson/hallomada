@@ -23,6 +23,7 @@ import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { MaxContentWidth, Spacing } from '@/constants/theme';
 import { useApplicationQuota } from '@/hooks/use-application-quota';
+import { useRecordView } from '@/hooks/use-record-view';
 import { formatDate } from '@/lib/job-labels';
 import {
   areaLabel,
@@ -42,6 +43,7 @@ export default function ListingDetailScreen() {
   const { slug } = useLocalSearchParams<{ slug: string }>();
   const listing = useQuery(api.listings.queries.getListingWithContact, { slug });
   const user = useQuery(api.auth.auth.getCurrentUser);
+  useRecordView(listing ? { type: 'listing', id: listing._id } : null);
 
   if (listing === undefined) return <LoadingScreen />;
   if (listing === null) {

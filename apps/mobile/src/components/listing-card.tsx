@@ -6,6 +6,7 @@ import { StyleSheet, View } from 'react-native';
 import type { api } from '@convex/_generated/api';
 
 import { Badge } from './badge';
+import { BookmarkIcon } from './bookmark-button';
 import { Card } from './card';
 import { Icon } from './icon';
 import { ThemedText } from './themed-text';
@@ -42,6 +43,9 @@ export function ListingCard({ listing }: { listing: Listing }) {
         <View style={styles.badges}>
           <Badge label={listingModeLabel(listing.listingMode)} tone="primary" />
           <Badge label={propertyTypeLabel(listing.propertyType)} />
+        </View>
+        <View style={styles.bookmark}>
+          <BookmarkIcon overlay resourceType="realEstate" resourceId={listing._id} isBookmarked={listing.isBookmarked} />
         </View>
         {listing.images.length > 1 ? (
           <View style={styles.count}>
@@ -90,7 +94,8 @@ const styles = StyleSheet.create({
   imageWrapper: { aspectRatio: 16 / 10 },
   image: { flex: 1 },
   placeholder: { flex: 1, alignItems: 'center', justifyContent: 'center' },
-  badges: { position: 'absolute', top: Spacing.two, left: Spacing.two, flexDirection: 'row', gap: Spacing.one },
+  badges: { position: 'absolute', top: Spacing.two, left: Spacing.two, right: 52, flexDirection: 'row', flexWrap: 'wrap', gap: Spacing.one },
+  bookmark: { position: 'absolute', top: Spacing.two, right: Spacing.two },
   count: {
     position: 'absolute',
     bottom: Spacing.two,

@@ -4,7 +4,7 @@ import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import { IconButton } from '@/components/button';
+import { Button } from '@/components/button';
 import { ProviderCard } from '@/components/provider-card';
 import { ScreenHeader } from '@/components/screen-header';
 import { SearchBar } from '@/components/search-bar';
@@ -47,10 +47,14 @@ export default function ProvidersScreen() {
       header={
         <ScreenHeader
           title="Prestataires"
-          subtitle="Les talents de la communauté près de chez vous"
-          actions={<IconButton icon="add" tone="primary" label="Créer ma page" onPress={create} />}>
+          subtitle="Traiteurs, photographes, coiffeurs… de la communauté">
           <View style={styles.filters}>
-            <SearchBar value={input} onChangeText={setInput} placeholder="Service, nom, ville…" />
+            <View style={styles.searchRow}>
+              <View style={styles.flex}>
+                <SearchBar value={input} onChangeText={setInput} placeholder="Service, nom, ville…" />
+              </View>
+              <Button label="Ma page" icon="add" primary onPress={create} />
+            </View>
             <Segmented scroll options={categoryOptions} value={category} onChange={setCategory} />
           </View>
         </ScreenHeader>
@@ -59,7 +63,7 @@ export default function ProvidersScreen() {
         searchTerm || category
           ? { icon: 'search-outline', title: 'Aucun résultat', description: 'Essayez d’autres mots-clés ou une autre catégorie.' }
           : {
-              icon: 'construct-outline',
+              icon: 'storefront-outline',
               title: 'Aucun prestataire pour l’instant',
               description: 'Vous proposez un service ? Créez votre page, c’est gratuit.',
               actionLabel: 'Créer ma page prestataire',
@@ -72,4 +76,6 @@ export default function ProvidersScreen() {
 
 const styles = StyleSheet.create({
   filters: { gap: Spacing.two },
+  searchRow: { flexDirection: 'row', alignItems: 'center', gap: Spacing.two },
+  flex: { flex: 1 },
 });

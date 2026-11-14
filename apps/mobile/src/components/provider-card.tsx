@@ -27,7 +27,11 @@ export function ProviderCard({ provider }: { provider: Provider }) {
       <View style={[styles.cover, { backgroundColor: theme.primarySoft }]}>
         {provider.coverUrl ? (
           <Image source={provider.coverUrl} style={styles.flex} contentFit="cover" transition={150} />
-        ) : null}
+        ) : (
+          <View style={[styles.placeholder, styles.faded]}>
+            <Icon name="storefront-outline" size={32} color={theme.primary} />
+          </View>
+        )}
       </View>
       <View style={styles.body}>
         <View style={[styles.logo, { borderColor: theme.card }]}>
@@ -63,6 +67,8 @@ export function ProviderCard({ provider }: { provider: Provider }) {
 const styles = StyleSheet.create({
   flex: { flex: 1 },
   cover: { height: 96 },
+  placeholder: { flex: 1, alignItems: 'flex-end', justifyContent: 'center', paddingRight: Spacing.four },
+  faded: { opacity: 0.5 },
   body: { padding: Spacing.three, paddingTop: 0, gap: Spacing.two },
   logo: { marginTop: -28, borderWidth: 3, borderRadius: 31, alignSelf: 'flex-start' },
   text: { gap: Spacing.one },

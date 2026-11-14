@@ -21,6 +21,7 @@ export default function RootLayout() {
         <ConvexBetterAuthProvider client={backend.convex} authClient={backend.authClient}>
           <Stack screenOptions={{ headerBackButtonDisplayMode: 'minimal' }}>
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            <Stack.Screen name="account" options={{ title: 'Mon compte' }} />
             <Stack.Screen name="jobs/[slug]/index" options={{ title: 'Offre' }} />
             <Stack.Screen
               name="jobs/[slug]/apply"

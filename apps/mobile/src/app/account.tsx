@@ -3,41 +3,66 @@ import { AuthLoading, Authenticated, Unauthenticated, useQuery } from 'convex/re
 import { type Href, useRouter } from 'expo-router';
 import type { ReactNode } from 'react';
 import { ActivityIndicator, Alert, ScrollView, StyleSheet, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Avatar } from '@/components/avatar';
 import { Badge } from '@/components/badge';
 import { Card } from '@/components/card';
-import type { IconName } from '@/components/icon';
+import { Icon, type IconName } from '@/components/icon';
 import { ListRow } from '@/components/list-row';
-import { ScreenHeader } from '@/components/screen-header';
 import { SignInForm } from '@/components/sign-in-form';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
-import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
+import { MaxContentWidth, Spacing } from '@/constants/theme';
 import { requireAuthClient } from '@/lib/backend';
 import { openWeb } from '@/lib/web';
 
 export default function AccountScreen() {
   return (
     <ThemedView style={styles.container}>
-      <SafeAreaView style={styles.safeArea} edges={['top']}>
-        <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
-          <AuthLoading>
-            <ScreenHeader title="Compte" />
-            <ActivityIndicator style={styles.loader} />
-          </AuthLoading>
-          <Unauthenticated>
-            <ScreenHeader title="Compte" subtitle="Connectez-vous pour publier, postuler et suivre vos favoris." />
-            <SignInForm />
-            <AboutGroup />
-          </Unauthenticated>
-          <Authenticated>
-            <PersonalSpace />
-          </Authenticated>
-        </ScrollView>
-      </SafeAreaView>
+      <ScrollView
+        style={styles.scroll}
+        contentContainerStyle={styles.content}
+        contentInsetAdjustmentBehavior="automatic"
+        keyboardShouldPersistTaps="handled">
+        <AuthLoading>
+          <ActivityIndicator style={styles.loader} />
+        </AuthLoading>
+        <Unauthenticated>
+          <Welcome />
+          <SignInForm />
+          <AboutGroup />
+        </Unauthenticated>
+        <Authenticated>
+          <PersonalSpace />
+        </Authenticated>
+      </ScrollView>
     </ThemedView>
+  );
+}
+
+function Welcome() {
+  const perks: { icon: IconName; text: string }[] = [
+    { icon: 'paper-plane-outline', text: 'Postuler aux offres et envoyer votre dossier de location' },
+    { icon: 'megaphone-outline', text: 'Publier des offres, des annonces et des messages' },
+    { icon: 'bookmark-outline', text: 'Sauvegarder vos favoris et suivre vos notifications' },
+  ];
+  return (
+    <View style={styles.welcome}>
+      <ThemedText type="title">Bienvenue sur Hallomada</ThemedText>
+      <ThemedText themeColor="textSecondary">
+        Connectez-vous ou créez un compte gratuit pour profiter de toute la communauté.
+      </ThemedText>
+      <View style={styles.perks}>
+        {perks.map((perk) => (
+          <View key={perk.text} style={styles.perk}>
+            <Icon name={perk.icon} size={18} themeColor="primaryText" />
+            <ThemedText type="small" style={styles.flex}>
+              {perk.text}
+            </ThemedText>
+          </View>
+        ))}
+      </View>
+    </View>
   );
 }
 
@@ -168,10 +193,13 @@ function PersonalSpace() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, flexDirection: 'row', justifyContent: 'center' },
-  safeArea: { flex: 1, maxWidth: MaxContentWidth },
-  content: { padding: Spacing.three, paddingBottom: BottomTabInset + Spacing.four, gap: Spacing.four },
+  scroll: { flex: 1, maxWidth: MaxContentWidth },
+  content: { padding: Spacing.three, paddingBottom: Spacing.six, gap: Spacing.four },
+  welcome: { gap: Spacing.two, paddingTop: Spacing.two },
+  perks: { gap: Spacing.two, marginTop: Spacing.two },
+  perk: { flexDirection: 'row', alignItems: 'center', gap: Spacing.two },
   loader: { marginTop: Spacing.four },
-  space: { gap: Spacing.four, paddingTop: Spacing.three },
+  space: { gap: Spacing.four },
   profile: { flexDirection: 'row', alignItems: 'center', gap: Spacing.three },
   flex: { flex: 1, gap: 2 },
   badge: { flexDirection: 'row', marginTop: Spacing.one },

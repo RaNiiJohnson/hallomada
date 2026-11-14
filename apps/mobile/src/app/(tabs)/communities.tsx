@@ -4,7 +4,7 @@ import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import { Button, IconButton } from '@/components/button';
+import { Button } from '@/components/button';
 import { CommunityCard } from '@/components/community-card';
 import { PostCard } from '@/components/post-card';
 import { ScreenHeader } from '@/components/screen-header';
@@ -30,17 +30,16 @@ export default function CommunitiesScreen() {
   const header = (
     <ScreenHeader
       title="Communautés"
-      subtitle="Échangez avec les Malagasy d’Allemagne"
-      actions={
-        <IconButton icon="create-outline" tone="primary" label="Nouvelle publication" onPress={() => go('/posts/new')} />
-      }>
+      subtitle="Échangez et entraidez-vous entre Malagasy d’Allemagne">
       <View style={styles.headerRow}>
         <View style={styles.flex}>
           <Segmented options={tabs} value={tab} onChange={setTab} />
         </View>
-        {tab === 'communities' ? (
-          <Button label="Créer" icon="add" variant="outline" onPress={() => go('/communities/new')} />
-        ) : null}
+        {tab === 'recent' ? (
+          <Button label="Publier" icon="create-outline" primary onPress={() => go('/posts/new')} />
+        ) : (
+          <Button label="Créer" icon="add" primary onPress={() => go('/communities/new')} />
+        )}
       </View>
     </ScreenHeader>
   );

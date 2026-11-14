@@ -19,6 +19,7 @@ import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { MaxContentWidth, Spacing } from '@/constants/theme';
 import { useApplicationQuota } from '@/hooks/use-application-quota';
+import { useRecordView } from '@/hooks/use-record-view';
 import {
   contractLabel,
   formatDate,
@@ -33,6 +34,7 @@ export default function JobDetailScreen() {
   const { slug } = useLocalSearchParams<{ slug: string }>();
   const job = useQuery(api.jobs.queries.getJobWithContact, { slug });
   const user = useQuery(api.auth.auth.getCurrentUser);
+  useRecordView(job ? { type: 'job', id: job._id } : null);
 
   if (job === undefined) return <LoadingScreen />;
 
