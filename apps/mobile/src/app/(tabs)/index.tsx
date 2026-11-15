@@ -117,12 +117,20 @@ function Hero() {
         Emploi, logement et entraide entre Malagasy d’Allemagne.
       </ThemedText>
       <View style={styles.heroButtons}>
-        <View style={styles.flex}>
-          <Button label="Rejoindre" variant="brand" onPress={() => router.push('/auth/register')} />
-        </View>
-        <View style={styles.flex}>
-          <Button label="Se connecter" variant="outline" onPress={() => router.push('/account')} />
-        </View>
+        <Button
+          label="Rejoindre Hallomada"
+          variant="brand"
+          style={styles.joinButton}
+          onPress={() => router.push('/auth/register')}
+        />
+        <Pressable
+          accessibilityRole="link"
+          hitSlop={10}
+          onPress={() => router.push('/account')}
+          style={({ pressed }) => [styles.signIn, pressed && styles.pressed]}>
+          <ThemedText type="smallBold">Se connecter</ThemedText>
+          <Icon name="arrow-forward" size={16} themeColor="text" />
+        </Pressable>
       </View>
     </View>
   );
@@ -335,7 +343,10 @@ const styles = StyleSheet.create({
   logoText: { fontSize: 22, lineHeight: 26, fontWeight: 800 },
   hero: { gap: Spacing.three, paddingVertical: Spacing.two },
   heroTitle: { fontSize: 32, lineHeight: 38, fontWeight: 700, letterSpacing: -0.8 },
-  heroButtons: { flexDirection: 'row', gap: Spacing.two, marginTop: Spacing.one },
+  // One natural-width call to action, sign-in as a quiet link next to it.
+  heroButtons: { flexDirection: 'row', alignItems: 'center', gap: Spacing.four, marginTop: Spacing.one },
+  joinButton: { paddingHorizontal: Spacing.four },
+  signIn: { flexDirection: 'row', alignItems: 'center', gap: Spacing.one },
   section: { gap: Spacing.three },
   sectionHeader: { flexDirection: 'row', alignItems: 'center', gap: Spacing.two },
   seeAll: { flexDirection: 'row', alignItems: 'center', gap: Spacing.one },
