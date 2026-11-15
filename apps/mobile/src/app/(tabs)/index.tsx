@@ -107,6 +107,7 @@ function TopBar() {
 
 function Hero() {
   const router = useRouter();
+  const theme = useTheme();
   const { isAuthenticated, isLoading } = useConvexAuth();
   if (isLoading || isAuthenticated) return null;
 
@@ -127,7 +128,7 @@ function Hero() {
           accessibilityRole="link"
           hitSlop={10}
           onPress={() => router.push('/account')}
-          style={({ pressed }) => [styles.signIn, pressed && styles.pressed]}>
+          style={({ pressed }) => [styles.signIn, { borderColor: theme.border }, pressed && styles.pressed]}>
           <ThemedText type="smallBold">Se connecter</ThemedText>
           <Icon name="arrow-forward" size={16} themeColor="text" />
         </Pressable>
@@ -344,9 +345,17 @@ const styles = StyleSheet.create({
   hero: { gap: Spacing.three, paddingVertical: Spacing.two },
   heroTitle: { fontSize: 32, lineHeight: 38, fontWeight: 700, letterSpacing: -0.8 },
   // One natural-width call to action, sign-in as a quiet link next to it.
-  heroButtons: { flexDirection: 'row', alignItems: 'center', gap: Spacing.four, marginTop: Spacing.one },
+  heroButtons: { flexDirection: 'row', alignItems: 'center', gap: Spacing.two, marginTop: Spacing.one },
   joinButton: { paddingHorizontal: Spacing.four },
-  signIn: { flexDirection: 'row', alignItems: 'center', gap: Spacing.one },
+  signIn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: Spacing.one,
+    minHeight: 48,
+    paddingHorizontal: Spacing.three + Spacing.one,
+    borderRadius: Radius.full,
+    borderWidth: 1,
+  },
   section: { gap: Spacing.three },
   sectionHeader: { flexDirection: 'row', alignItems: 'center', gap: Spacing.two },
   seeAll: { flexDirection: 'row', alignItems: 'center', gap: Spacing.one },
