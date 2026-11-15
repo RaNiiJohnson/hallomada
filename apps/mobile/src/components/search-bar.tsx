@@ -45,5 +45,5 @@ const styles = StyleSheet.create({
     borderRadius: Radius.full,
     borderWidth: 1,
   },
-  input: { flex: 1, fontSize: 16, paddingVertical: Spacing.two },
+  input: { flex: 1, minWidth: 0, fontSize: 16, paddingVertical: Spacing.two },
 });

@@ -6,11 +6,12 @@ import {
   type TabTriggerSlotProps,
   type TabListProps,
 } from 'expo-router/ui';
-import { Pressable, type PressableProps, StyleSheet, View } from 'react-native';
+import { Pressable, type PressableProps, StyleSheet, useWindowDimensions, View } from 'react-native';
 
 import { Icon, type IconName } from './icon';
 import { ThemedText } from './themed-text';
 import { MaxContentWidth, Radius, Spacing } from '@/constants/theme';
+import { useHydrated } from '@/hooks/use-hydrated';
 import { useTheme } from '@/hooks/use-theme';
 
 const tabs: {
@@ -26,10 +27,22 @@ const tabs: {
   { name: 'providers', href: '/providers', label: 'Prestataires', icon: 'storefront' },
 ];
 
+// Below this width the bar becomes a classic bottom tab bar (icon over label,
+// equal columns) so the five tabs always fit on a phone screen.
+const COMPACT_MAX_WIDTH = 720;
+
+// The server does not know the window width, so render the compact bar until
+// hydration is done; this keeps server and client HTML identical.
+function useCompact() {
+  const hydrated = useHydrated();
+  const { width } = useWindowDimensions();
+  return !hydrated || width < COMPACT_MAX_WIDTH;
+}
+
 export default function AppTabs() {
   return (
-    <Tabs>
-      <TabSlot style={{ height: '100%' }} />
+    <Tabs style={styles.root}>
+      <TabSlot style={styles.slot} />
       <TabList asChild>
         <CustomTabList>
           {tabs.map((tab) => (
@@ -45,8 +58,24 @@ export default function AppTabs() {
 
 function TabButton({ children, isFocused, icon, ...props }: TabTriggerSlotProps & { icon: IconName }) {
   const theme = useTheme();
+  const compact = useCompact();
+
+  if (compact) {
+    const color = isFocused ? theme.primary : theme.textSecondary;
+    return (
+      // TabTrigger's slot ref type does not match Pressable's; the runtime props do.
+      <Pressable
+        {...(props as PressableProps)}
+        style={({ pressed }) => [styles.compactButton, pressed && styles.pressed]}>
+        <Icon name={isFocused ? icon : (`${icon}-outline` as IconName)} size={22} color={color} />
+        <ThemedText numberOfLines={1} style={[styles.compactLabel, { color, fontWeight: isFocused ? 600 : 500 }]}>
+          {children}
+        </ThemedText>
+      </Pressable>
+    );
+  }
+
   return (
-    // TabTrigger's slot ref type does not match Pressable's; the runtime props do.
     <Pressable {...(props as PressableProps)} style={({ pressed }) => pressed && styles.pressed}>
       <View style={[styles.tabButton, isFocused && { backgroundColor: theme.primary }]}>
         <Icon name={icon} size={18} color={isFocused ? theme.primaryForeground : theme.textSecondary} />
@@ -62,6 +91,18 @@ function TabButton({ children, isFocused, icon, ...props }: TabTriggerSlotProps 
 
 function CustomTabList(props: TabListProps) {
   const theme = useTheme();
+  const compact = useCompact();
+
+  if (compact) {
+    return (
+      <View
+        {...props}
+        style={[styles.compactBar, { backgroundColor: theme.card, borderTopColor: theme.border }]}>
+        {props.children}
+      </View>
+    );
+  }
+
   return (
     <View {...props} style={styles.tabListContainer}>
       <View style={[styles.innerContainer, { backgroundColor: theme.card, borderColor: theme.border }]}>
@@ -75,9 +116,9 @@ function CustomTabList(props: TabListProps) {
 }
 
 const styles = StyleSheet.create({
+  root: { flex: 1 },
+  slot: { flex: 1 },
   tabListContainer: {
-    position: 'absolute',
-    bottom: 0,
     width: '100%',
     padding: Spacing.three,
     justifyContent: 'center',
@@ -105,4 +146,18 @@ const styles = StyleSheet.create({
     paddingHorizontal: Spacing.three,
     borderRadius: Radius.full,
   },
+  compactBar: {
+    flexDirection: 'row',
+    borderTopWidth: StyleSheet.hairlineWidth,
+    paddingTop: Spacing.one + 2,
+    paddingBottom: Spacing.two,
+  },
+  compactButton: {
+    flex: 1,
+    minWidth: 0,
+    alignItems: 'center',
+    gap: 2,
+    paddingVertical: Spacing.one,
+  },
+  compactLabel: { fontSize: 11, lineHeight: 14 },
 });

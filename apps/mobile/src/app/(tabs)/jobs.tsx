@@ -122,6 +122,6 @@ export default function JobsScreen() {
 const styles = StyleSheet.create({
   filters: { gap: Spacing.two },
   searchRow: { flexDirection: 'row', alignItems: 'center', gap: Spacing.two },
-  flex: { flex: 1 },
+  flex: { flex: 1, minWidth: 0 },
   toolbar: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: Spacing.two },
 });

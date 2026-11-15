@@ -1,21 +1,42 @@
 import { ConvexBetterAuthProvider } from '@convex-dev/better-auth/react';
-import { DarkTheme, DefaultTheme, Stack, ThemeProvider } from 'expo-router';
+import { DarkTheme, DefaultTheme, Stack, ThemeProvider, type Theme } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
-import { StyleSheet, useColorScheme } from 'react-native';
+import { StyleSheet } from 'react-native';
 
 import { AnimatedSplashOverlay } from '@/components/animated-icon';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
-import { Spacing } from '@/constants/theme';
+import { Colors, Spacing } from '@/constants/theme';
+import { useColorScheme } from '@/hooks/use-color-scheme';
 import { backend } from '@/lib/backend';
 
 SplashScreen.preventAutoHideAsync();
 
+// Navigation colors (screen background, headers) built from the Hallomada palette.
+function navigationTheme(scheme: 'light' | 'dark'): Theme {
+  const base = scheme === 'dark' ? DarkTheme : DefaultTheme;
+  const c = Colors[scheme];
+  return {
+    ...base,
+    colors: {
+      ...base.colors,
+      primary: c.primary,
+      background: c.background,
+      card: c.card,
+      text: c.text,
+      border: c.border,
+    },
+  };
+}
+
+const navigationThemes = { light: navigationTheme('light'), dark: navigationTheme('dark') };
+
 export default function RootLayout() {
+  // The web hook returns "light" until hydration, so server and client HTML match.
   const colorScheme = useColorScheme();
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+    <ThemeProvider value={navigationThemes[colorScheme === 'dark' ? 'dark' : 'light']}>
       <AnimatedSplashOverlay />
       {backend ? (
         <ConvexBetterAuthProvider client={backend.convex} authClient={backend.authClient}>
