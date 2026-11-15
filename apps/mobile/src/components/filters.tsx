@@ -29,8 +29,8 @@ export function FilterToggle({ open, count, onPress }: { open: boolean; count: n
         Filtres
       </ThemedText>
       {count ? (
-        <View style={[styles.count, { backgroundColor: theme.primary }]}>
-          <ThemedText style={[styles.countText, { color: theme.primaryForeground }]}>{count}</ThemedText>
+        <View style={[styles.count, { backgroundColor: theme.ink }]}>
+          <ThemedText style={[styles.countText, { color: theme.inkForeground }]}>{count}</ThemedText>
         </View>
       ) : (
         <Icon name={open ? 'chevron-up' : 'chevron-down'} size={14} color={theme.textSecondary} />

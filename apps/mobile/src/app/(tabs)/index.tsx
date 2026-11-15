@@ -88,8 +88,8 @@ function TopBar() {
 
   return (
     <View style={styles.topBar}>
-      <View style={[styles.logo, { backgroundColor: theme.text }]}>
-        <ThemedText style={[styles.logoText, { color: theme.background }]}>H</ThemedText>
+      <View style={[styles.logo, { backgroundColor: theme.primary }]}>
+        <ThemedText style={[styles.logoText, { color: theme.primaryForeground }]}>H</ThemedText>
       </View>
       <View style={styles.flex}>
         <ThemedText type="heading" numberOfLines={1}>
