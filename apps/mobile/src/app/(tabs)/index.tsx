@@ -117,8 +117,12 @@ function Hero() {
         Emploi, logement et entraide entre Malagasy d’Allemagne.
       </ThemedText>
       <View style={styles.heroButtons}>
-        <Button label="Rejoindre Hallomada" variant="brand" onPress={() => router.push('/auth/register')} />
-        <Button label="J’ai déjà un compte" variant="ghost" onPress={() => router.push('/account')} />
+        <View style={styles.flex}>
+          <Button label="Rejoindre" variant="brand" onPress={() => router.push('/auth/register')} />
+        </View>
+        <View style={styles.flex}>
+          <Button label="Se connecter" variant="outline" onPress={() => router.push('/account')} />
+        </View>
       </View>
     </View>
   );
@@ -154,26 +158,27 @@ function Services() {
   return (
     <View style={styles.section}>
       <SectionHeader title="Explorer" />
-      <View style={[styles.group, { backgroundColor: theme.card, borderColor: theme.border }]}>
-        {sections.map((section, index) => (
+      <View style={styles.grid}>
+        {sections.map((section) => (
           <Pressable
             key={section.title}
             accessibilityRole="link"
             accessibilityLabel={section.title}
             onPress={() => router.navigate(section.href)}
             style={({ pressed }) => [
-              styles.groupRow,
-              index > 0 && { borderTopColor: theme.border, borderTopWidth: StyleSheet.hairlineWidth },
+              styles.tile,
+              { backgroundColor: theme.cardSubtle, borderColor: theme.border },
               pressed && { backgroundColor: theme.muted },
             ]}>
-            <Icon name={section.icon} size={22} themeColor="text" />
-            <View style={styles.flex}>
-              <ThemedText type="smallBold">{section.title}</ThemedText>
-              <ThemedText type="small" themeColor="textSecondary" numberOfLines={1}>
-                {section.description}
-              </ThemedText>
+            <View style={[styles.tileIcon, { backgroundColor: `${theme.primary}1A` }]}>
+              <Icon name={section.icon} size={20} color={theme.primary} />
             </View>
-            <Icon name="chevron-forward" size={18} themeColor="textSecondary" />
+            <ThemedText type="smallBold" numberOfLines={1}>
+              {section.title}
+            </ThemedText>
+            <ThemedText type="caption" themeColor="textSecondary" numberOfLines={2}>
+              {section.description}
+            </ThemedText>
           </Pressable>
         ))}
       </View>
@@ -330,18 +335,27 @@ const styles = StyleSheet.create({
   logoText: { fontSize: 22, lineHeight: 26, fontWeight: 800 },
   hero: { gap: Spacing.three, paddingVertical: Spacing.two },
   heroTitle: { fontSize: 32, lineHeight: 38, fontWeight: 700, letterSpacing: -0.8 },
-  heroButtons: { gap: Spacing.one, marginTop: Spacing.two },
+  heroButtons: { flexDirection: 'row', gap: Spacing.two, marginTop: Spacing.one },
   section: { gap: Spacing.three },
   sectionHeader: { flexDirection: 'row', alignItems: 'center', gap: Spacing.two },
   seeAll: { flexDirection: 'row', alignItems: 'center', gap: Spacing.one },
-  group: { borderRadius: Radius.lg, borderWidth: 1, overflow: 'hidden' },
-  groupRow: {
-    flexDirection: 'row',
+  // Two tiles per row on phones: icon, title and a two-line description.
+  grid: { flexDirection: 'row', flexWrap: 'wrap', gap: Spacing.two },
+  tile: {
+    flexGrow: 1,
+    flexBasis: '45%',
+    gap: Spacing.one,
+    padding: Spacing.three,
+    borderRadius: Radius.lg,
+    borderWidth: 1,
+  },
+  tileIcon: {
+    width: 36,
+    height: 36,
+    borderRadius: Radius.sm,
     alignItems: 'center',
-    gap: Spacing.three,
-    paddingHorizontal: Spacing.three,
-    paddingVertical: Spacing.three - Spacing.one,
-    minHeight: 64,
+    justifyContent: 'center',
+    marginBottom: Spacing.one,
   },
   chips: { gap: Spacing.two, paddingRight: Spacing.three },
   chip: {
