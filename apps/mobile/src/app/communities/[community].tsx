@@ -254,7 +254,6 @@ const styles = StyleSheet.create({
   list: {
     padding: Spacing.three,
     paddingBottom: Spacing.six,
-    gap: Spacing.three,
     width: '100%',
     maxWidth: MaxContentWidth,
     alignSelf: 'center',

@@ -262,9 +262,9 @@ function LatestPosts() {
     <View style={styles.section}>
       <SectionHeader title="Discussions récentes" action="Tout voir" href="/communities" />
       <Preview loading={feed === undefined} empty={(feed?.posts.length ?? 0) === 0}>
-        <View style={styles.stack}>
-          {feed?.posts.map((post) => (
-            <PostCard key={post._id} post={post} />
+        <View>
+          {feed?.posts.map((post, index) => (
+            <PostCard key={post._id} post={post} divider={index < feed.posts.length - 1} />
           ))}
         </View>
       </Preview>
@@ -273,16 +273,18 @@ function LatestPosts() {
 }
 
 function LatestProviders() {
-  const { results, status } = usePaginatedQuery(api.providers.queries.listProviders, {}, { initialNumItems: 3 });
+  const { results, status } = usePaginatedQuery(api.providers.queries.listProviders, {}, { initialNumItems: 6 });
   return (
     <View style={styles.section}>
       <SectionHeader title="Prestataires" action="Tout voir" href="/providers" />
       <Preview loading={status === 'LoadingFirstPage'} empty={results.length === 0}>
-        <View style={styles.stack}>
-          {results.slice(0, 3).map((provider) => (
-            <ProviderCard key={provider._id} provider={provider} />
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.carousel}>
+          {results.slice(0, 6).map((provider) => (
+            <View key={provider._id} style={styles.providerSlide}>
+              <ProviderCard compact provider={provider} />
+            </View>
           ))}
-        </View>
+        </ScrollView>
       </Preview>
     </View>
   );
@@ -354,6 +356,7 @@ const styles = StyleSheet.create({
   stack: { gap: Spacing.three },
   carousel: { gap: Spacing.three, paddingRight: Spacing.three, paddingBottom: Spacing.one },
   slide: { width: 260 },
+  providerSlide: { width: 230 },
   loader: { marginVertical: Spacing.three },
   footer: { alignItems: 'center', gap: Spacing.two, paddingTop: Spacing.two },
   footerLinks: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', gap: Spacing.four },

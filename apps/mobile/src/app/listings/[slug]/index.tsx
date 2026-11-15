@@ -1,36 +1,32 @@
 import { api } from '@convex/_generated/api';
 import { useConvexAuth, useMutation, useQuery } from 'convex/react';
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
-import {
-  Linking,
-  ScrollView,
-  Share,
-  StyleSheet,
-  View,
-} from 'react-native';
+import { useState } from 'react';
+import { Linking, Pressable, ScrollView, Share, StyleSheet, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { AuthorLink } from '@/components/author-link';
-import { BookmarkButton } from '@/components/bookmark-button';
+import { BookmarkIcon } from '@/components/bookmark-button';
+import { BottomSheet } from '@/components/bottom-sheet';
 import { Badge } from '@/components/badge';
 import { Button } from '@/components/button';
-import { Card } from '@/components/card';
-import { ActionRow, Banner, CenteredMessage, FactList, LoadingScreen, PendingBanner, Section, SectionTitle } from '@/components/detail';
+import { ActionRow, Banner, CenteredMessage, LoadingScreen, PendingBanner } from '@/components/detail';
 import { Gallery } from '@/components/gallery';
 import { Icon, type IconName } from '@/components/icon';
 import { OwnerPanel, ReceivedList } from '@/components/owner-panel';
 import { ReportButton } from '@/components/report-button';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
-import { MaxContentWidth, Spacing } from '@/constants/theme';
+import { MaxContentWidth, Radius, Spacing } from '@/constants/theme';
 import { useApplicationQuota } from '@/hooks/use-application-quota';
 import { useRecordView } from '@/hooks/use-record-view';
+import { useTheme } from '@/hooks/use-theme';
 import { formatDate } from '@/lib/job-labels';
 import {
   areaLabel,
   formatEuro,
   listingModeLabel,
   placeLabel,
-  priceLabel,
   propertyTypeLabel,
 } from '@/lib/listing-labels';
 import { openWeb, webUrl } from '@/lib/web';
@@ -43,6 +39,10 @@ export default function ListingDetailScreen() {
   const { slug } = useLocalSearchParams<{ slug: string }>();
   const listing = useQuery(api.listings.queries.getListingWithContact, { slug });
   const user = useQuery(api.auth.auth.getCurrentUser);
+  const theme = useTheme();
+  const insets = useSafeAreaInsets();
+  const [contactOpen, setContactOpen] = useState(false);
+  const [now] = useState(() => Date.now());
   useRecordView(listing ? { type: 'listing', id: listing._id } : null);
 
   if (listing === undefined) return <LoadingScreen />;
@@ -56,18 +56,13 @@ export default function ListingDetailScreen() {
   }
 
   const isRent = listing.listingMode === 'rent';
-  const facts: [string, string | undefined][] = [
-    ['Type', propertyTypeLabel(listing.propertyType)],
-    ['Surface', areaLabel(listing.area)],
-    ['Chambres', String(listing.bedrooms)],
-    ['Salles de bain', String(listing.bathrooms)],
-    ['Étage', String(listing.floor)],
-    ['Charges', isRent && listing.charges !== undefined ? `${formatEuro(listing.charges)} /mois` : undefined],
-    ['Caution', isRent && listing.deposit !== undefined ? formatEuro(listing.deposit) : undefined],
-    ['Animaux', listing.pets ? 'Acceptés' : 'Non acceptés'],
-    ['Disponible à partir du', listing.availableFrom ? formatDate(listing.availableFrom) : undefined],
-    ['Publié le', formatDate(listing._creationTime)],
-  ];
+  const isOwner = user?._id === listing.authorId;
+  const rentRows: [string, string][] = isRent
+    ? ([
+        ['Charges mensuelles', listing.charges !== undefined ? `${formatEuro(listing.charges)} /mois` : undefined],
+        ['Caution', listing.deposit !== undefined ? formatEuro(listing.deposit) : undefined],
+      ].filter((row): row is [string, string] => Boolean(row[1])))
+    : [];
 
   const share = () => {
     const url = webUrl(`/listing/${listing.slug}`);
@@ -76,8 +71,18 @@ export default function ListingDetailScreen() {
 
   return (
     <ThemedView style={styles.container}>
-      <Stack.Screen options={{ title: propertyTypeLabel(listing.propertyType) }} />
-      <ScrollView>
+      <Stack.Screen
+        options={{
+          title: '',
+          headerRight: () => (
+            <View style={styles.headerActions}>
+              <IconButton icon="share-outline" label="Partager" onPress={share} />
+              <BookmarkIcon resourceType="realEstate" resourceId={listing._id} isBookmarked={listing.isBookmarked} />
+            </View>
+          ),
+        }}
+      />
+      <ScrollView contentContainerStyle={!isOwner && styles.scrollWithBar}>
         <Gallery urls={listing.images.map((image) => image.url)} />
         <View style={styles.content}>
           {listing.status === 'pending' ? (
@@ -89,84 +94,171 @@ export default function ListingDetailScreen() {
             <Banner tone="danger" icon="close-circle-outline" title="Annonce refusée" description="Modifiez-la puis renvoyez-la en validation." />
           ) : null}
 
-          <Card style={styles.hero}>
+          <View style={styles.hero}>
             <View style={styles.badges}>
-              <Badge label={listingModeLabel(listing.listingMode)} tone={isRent ? 'info' : 'primary'} />
-              <Badge label={propertyTypeLabel(listing.propertyType)} icon="home-outline" />
+              <Badge label={propertyTypeLabel(listing.propertyType)} tone="secondary" />
+              <Badge label={listingModeLabel(listing.listingMode)} tone="solid" />
               {listing.status === 'closed' ? <Badge label="Clôturée" icon="lock-closed-outline" /> : null}
             </View>
-            <ThemedText type="subtitle">{listing.title}</ThemedText>
+            <ThemedText style={styles.title}>{listing.title}</ThemedText>
             <View style={styles.meta}>
               <Icon name="location-outline" size={16} themeColor="textSecondary" />
-              <ThemedText themeColor="textSecondary" style={styles.flex}>
+              <ThemedText type="small" themeColor="textSecondary" style={styles.flex}>
                 {placeLabel(listing)}
               </ThemedText>
             </View>
-            <View>
-              <ThemedText type="title" themeColor="primaryText" style={styles.price}>
-                {priceLabel(listing.price, listing.listingMode)}
-              </ThemedText>
-              <ThemedText type="caption" themeColor="textSecondary">
-                {isRent ? 'Loyer mensuel total' : 'Prix de vente'}
-              </ThemedText>
-            </View>
-            <View style={styles.keyFacts}>
-              <KeyFact icon="resize-outline" label={areaLabel(listing.area) ?? '—'} />
-              <KeyFact icon="bed-outline" label={`${listing.bedrooms} ch.`} />
-              <KeyFact icon="water-outline" label={`${listing.bathrooms} sdb`} />
-              {listing.pets ? <KeyFact icon="paw-outline" label="Animaux" /> : null}
-            </View>
-            <AuthorLink prefix="Publiée par" name={listing.authorName} slug={listing.authorSlug} />
-          </Card>
+          </View>
 
-          {user && user._id === listing.authorId ? <OwnerSection listing={listing} /> : <ContactSection listing={listing} />}
+          <View style={[styles.priceBlock, { borderTopColor: theme.border }]}>
+            <ThemedText type="caption" themeColor="textSecondary">
+              {isRent ? 'Loyer mensuel total' : 'Prix de vente'}
+            </ThemedText>
+            <ThemedText style={styles.price}>
+              {formatEuro(listing.price)}
+              {isRent ? (
+                <ThemedText type="small" themeColor="textSecondary" style={styles.per}>
+                  {' '}/mois
+                </ThemedText>
+              ) : null}
+            </ThemedText>
+          </View>
 
-          <ActionRow>
-            <BookmarkButton
-              resourceType="realEstate"
-              resourceId={listing._id}
-              isBookmarked={listing.isBookmarked}
-            />
-            <Button label="Partager" icon="share-outline" onPress={share} />
-            {listing.location ? (
-              <Button
-                label="Carte"
-                icon="map-outline"
-                onPress={() =>
-                  Linking.openURL(
-                    `https://www.openstreetmap.org/?mlat=${listing.location!.lat}&mlon=${listing.location!.lng}#map=14/${listing.location!.lat}/${listing.location!.lng}`,
-                  )
+          {rentRows.length ? (
+            <View style={[styles.rentBox, { backgroundColor: theme.muted }]}>
+              {rentRows.map(([label, value], index) => (
+                <View
+                  key={label}
+                  style={[styles.rentRow, index > 0 && { borderTopColor: theme.border, borderTopWidth: StyleSheet.hairlineWidth }]}>
+                  <ThemedText type="small" themeColor="textSecondary">
+                    {label}
+                  </ThemedText>
+                  <ThemedText type="smallBold">{value}</ThemedText>
+                </View>
+              ))}
+            </View>
+          ) : null}
+
+          {isOwner ? <OwnerSection listing={listing} /> : null}
+
+          <View style={styles.section}>
+            <ThemedText style={styles.sectionTitle}>Caractéristiques</ThemedText>
+            <View style={styles.tiles}>
+              <Tile icon="bed-outline" value={String(listing.bedrooms)} label={listing.bedrooms > 1 ? 'Chambres' : 'Chambre'} />
+              <Tile icon="water-outline" value={String(listing.bathrooms)} label={listing.bathrooms > 1 ? 'Salles de bain' : 'Salle de bain'} />
+              <Tile icon="resize-outline" value={areaLabel(listing.area)} label="Surface" />
+              <Tile icon="layers-outline" value={listing.floor === 0 ? 'RDC' : String(listing.floor)} label="Étage" />
+            </View>
+            <View style={styles.perks}>
+              <Perk
+                icon="calendar-outline"
+                label={
+                  listing.availableFrom && listing.availableFrom > now
+                    ? `Disponible à partir du ${formatDate(listing.availableFrom)}`
+                    : 'Disponible immédiatement'
                 }
               />
-            ) : null}
-            {user?._id === listing.authorId ? null : (
-              <ReportButton type="listing" id={listing._id} title={listing.title} />
-            )}
-          </ActionRow>
+              <Perk icon="paw-outline" label={listing.pets ? 'Animaux acceptés' : 'Animaux non acceptés'} />
+            </View>
+          </View>
 
-          <FactList facts={facts} />
-          <Section title="Description" icon="document-text-outline" body={listing.description} />
+          <View style={styles.section}>
+            <ThemedText style={styles.sectionTitle}>Description</ThemedText>
+            <ThemedText style={styles.body}>{listing.description}</ThemedText>
+          </View>
+
           {listing.extras?.length ? (
-            <View style={styles.actions}>
-              <SectionTitle title="Équipements et services" icon="sparkles-outline" />
+            <View style={styles.section}>
+              <ThemedText style={styles.sectionTitle}>Équipements et services</ThemedText>
               <View style={styles.badges}>
                 {listing.extras.map((extra) => (
-                  <Badge key={extra} label={extra} icon="checkmark" />
+                  <Badge key={extra} label={extra} tone="secondary" icon="checkmark" />
                 ))}
               </View>
             </View>
           ) : null}
+
+          <View style={[styles.footer, { borderTopColor: theme.border }]}>
+            <AuthorLink prefix="Publiée par" name={listing.authorName} slug={listing.authorSlug} />
+            <ThemedText type="caption" themeColor="textSecondary">
+              Publiée le {formatDate(listing._creationTime)}
+            </ThemedText>
+            <ActionRow>
+              {listing.location ? (
+                <Button
+                  label="Voir sur la carte"
+                  icon="map-outline"
+                  variant="ghost"
+                  size="sm"
+                  onPress={() =>
+                    Linking.openURL(
+                      `https://www.openstreetmap.org/?mlat=${listing.location!.lat}&mlon=${listing.location!.lng}#map=14/${listing.location!.lat}/${listing.location!.lng}`,
+                    )
+                  }
+                />
+              ) : null}
+              {isOwner ? null : <ReportButton type="listing" id={listing._id} title={listing.title} />}
+            </ActionRow>
+          </View>
         </View>
       </ScrollView>
+
+      {isOwner ? null : (
+        <View
+          style={[
+            styles.bar,
+            { backgroundColor: theme.background, borderTopColor: theme.border, paddingBottom: Math.max(insets.bottom, Spacing.two) + Spacing.one },
+          ]}>
+          <View style={styles.barInner}>
+            <Button
+              label="Contacter le propriétaire"
+              icon="chatbubble-outline"
+              primary
+              size="md"
+              onPress={() => setContactOpen(true)}
+            />
+          </View>
+        </View>
+      )}
+      <BottomSheet visible={contactOpen} onClose={() => setContactOpen(false)} title="Contacter le propriétaire">
+        <ContactSection listing={listing} />
+      </BottomSheet>
     </ThemedView>
   );
 }
 
-function KeyFact({ icon, label }: { icon: IconName; label: string }) {
+function IconButton({ icon, label, onPress }: { icon: IconName; label: string; onPress: () => void }) {
+  return (
+    <Pressable accessibilityRole="button" accessibilityLabel={label} hitSlop={6} onPress={onPress} style={styles.iconButton}>
+      <Icon name={icon} size={20} themeColor="text" />
+    </Pressable>
+  );
+}
+
+function Tile({ icon, value, label }: { icon: IconName; value: string; label: string }) {
+  const theme = useTheme();
+  return (
+    <View style={[styles.tile, { backgroundColor: theme.muted }]}>
+      <Icon name={icon} size={20} color={theme.primary} />
+      <View style={styles.flex}>
+        <ThemedText type="smallBold" numberOfLines={1}>
+          {value}
+        </ThemedText>
+        <ThemedText type="caption" themeColor="textSecondary" numberOfLines={1}>
+          {label}
+        </ThemedText>
+      </View>
+    </View>
+  );
+}
+
+function Perk({ icon, label }: { icon: IconName; label: string }) {
+  const theme = useTheme();
   return (
     <View style={styles.meta}>
-      <Icon name={icon} size={16} themeColor="textSecondary" />
-      <ThemedText type="small">{label}</ThemedText>
+      <Icon name={icon} size={20} color={theme.primary} />
+      <ThemedText type="smallBold" style={styles.flex}>
+        {label}
+      </ThemedText>
     </View>
   );
 }
@@ -229,8 +321,8 @@ function ContactSection({ listing }: { listing: Listing }) {
   const quotaReached = quota != null && quota.limit !== null && quota.remaining === 0;
 
   return (
-    <Card style={styles.actions}>
-      <SectionTitle title="Contact" icon="chatbubble-ellipses-outline" />
+    <View style={styles.actions}>
+      <AuthorLink prefix="Publiée par" name={listing.authorName} slug={listing.authorSlug} />
       {acceptsDossier ? (
         !isAuthenticated ? (
           <Button label="Envoyer mon dossier" icon="folder-open-outline" size="md" primary onPress={() => router.navigate('/account')} />
@@ -285,12 +377,13 @@ function ContactSection({ listing }: { listing: Listing }) {
           Coordonnées indisponibles
         </ThemedText>
       ) : null}
-    </Card>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
+  scrollWithBar: { paddingBottom: 96 },
   content: {
     padding: Spacing.three,
     gap: Spacing.four,
@@ -299,10 +392,41 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   flex: { flex: 1 },
+  headerActions: { flexDirection: 'row', alignItems: 'center', gap: Spacing.one },
+  iconButton: { width: 36, height: 36, alignItems: 'center', justifyContent: 'center' },
   hero: { gap: Spacing.two },
-  badges: { flexDirection: 'row', flexWrap: 'wrap', gap: Spacing.one },
-  meta: { flexDirection: 'row', alignItems: 'center', gap: Spacing.one },
-  price: { fontSize: 28, lineHeight: 34 },
-  keyFacts: { flexDirection: 'row', flexWrap: 'wrap', gap: Spacing.three },
+  title: { fontSize: 24, lineHeight: 30, fontWeight: 700 },
+  badges: { flexDirection: 'row', flexWrap: 'wrap', gap: Spacing.two },
+  meta: { flexDirection: 'row', alignItems: 'center', gap: Spacing.two },
+  priceBlock: { borderTopWidth: StyleSheet.hairlineWidth, paddingTop: Spacing.three, gap: 2, marginTop: -Spacing.two },
+  price: { fontSize: 30, lineHeight: 36, fontWeight: 700 },
+  per: { fontWeight: 400 },
+  rentBox: { borderRadius: Radius.lg, paddingHorizontal: Spacing.three, marginTop: -Spacing.two },
+  rentRow: { flexDirection: 'row', justifyContent: 'space-between', gap: Spacing.three, paddingVertical: Spacing.three },
+  section: { gap: Spacing.three },
+  sectionTitle: { fontSize: 20, lineHeight: 26, fontWeight: 600 },
+  tiles: { flexDirection: 'row', flexWrap: 'wrap', gap: Spacing.three },
+  tile: {
+    flexBasis: '45%',
+    flexGrow: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: Spacing.two + Spacing.one,
+    padding: Spacing.two + Spacing.one,
+    borderRadius: Radius.md,
+  },
+  perks: { gap: Spacing.three },
+  body: { lineHeight: 24 },
+  footer: { borderTopWidth: StyleSheet.hairlineWidth, paddingTop: Spacing.three, gap: Spacing.two },
+  bar: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 0,
+    borderTopWidth: StyleSheet.hairlineWidth,
+    paddingTop: Spacing.two + Spacing.one,
+    paddingHorizontal: Spacing.three,
+  },
+  barInner: { width: '100%', maxWidth: 560, alignSelf: 'center' },
   actions: { gap: Spacing.two },
 });

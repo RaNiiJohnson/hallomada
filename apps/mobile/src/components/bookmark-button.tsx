@@ -59,7 +59,8 @@ export function BookmarkIcon({
 }: Resource & { isBookmarked: boolean; overlay?: boolean }) {
   const theme = useTheme();
   const { pending, onPress } = useToggleBookmark(resource as Resource);
-  const color = isBookmarked ? theme.text : overlay ? theme.text : theme.textSecondary;
+  // On photos the toggle sits on a light frosted chip, like the web cards.
+  const color = overlay ? '#1f2937' : isBookmarked ? theme.text : theme.textSecondary;
   return (
     <Pressable
       accessibilityRole="button"
@@ -70,7 +71,7 @@ export function BookmarkIcon({
       onPress={onPress}
       style={({ pressed }) => [
         styles.icon,
-        overlay && { backgroundColor: theme.card },
+        overlay && styles.overlay,
         pressed && styles.pressed,
       ]}>
       {pending ? (
@@ -84,5 +85,6 @@ export function BookmarkIcon({
 
 const styles = StyleSheet.create({
   icon: { width: 36, height: 36, borderRadius: 18, alignItems: 'center', justifyContent: 'center' },
+  overlay: { backgroundColor: 'rgba(255,255,255,0.8)', borderRadius: 12, width: 32, height: 32 },
   pressed: { opacity: 0.6 },
 });

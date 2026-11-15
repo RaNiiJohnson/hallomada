@@ -5,7 +5,7 @@ import { ThemedText } from './themed-text';
 import { Radius, Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
 
-export type BadgeTone = 'neutral' | 'primary' | 'info' | 'warning' | 'danger';
+export type BadgeTone = 'neutral' | 'primary' | 'solid' | 'secondary' | 'info' | 'warning' | 'danger';
 
 /** Small pill label. */
 export function Badge({ label, tone = 'neutral', icon }: { label: string; tone?: BadgeTone; icon?: IconName }) {
@@ -13,6 +13,9 @@ export function Badge({ label, tone = 'neutral', icon }: { label: string; tone?:
   const { background, color } = {
     neutral: { background: theme.muted, color: theme.text },
     primary: { background: theme.primarySoft, color: theme.primaryText },
+    // Same as the web default badge: green fill.
+    solid: { background: theme.primary, color: theme.primaryForeground },
+    secondary: { background: theme.secondary, color: theme.text },
     info: { background: theme.infoSoft, color: theme.info },
     warning: { background: theme.warningSoft, color: theme.warning },
     danger: { background: theme.destructiveSoft, color: theme.destructive },

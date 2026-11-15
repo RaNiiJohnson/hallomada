@@ -13,22 +13,25 @@ import { Platform } from 'react-native';
 // slate so screens stay calm. Warning and destructive are for real states only.
 export const Colors = {
   light: {
-    text: '#1f2937',
+    text: '#374151',
     textSecondary: '#6b7280',
     background: '#f0f8ff',
     backgroundElement: '#ffffff',
     backgroundSelected: '#e0f2fe',
+    secondary: '#e0f2fe',
     card: '#ffffff',
+    // List cards: web `bg-card dark:bg-card/35`.
+    cardSubtle: '#ffffff',
     muted: '#f3f4f6',
     border: '#e5e7eb',
     primary: '#22c55e',
     primaryStrong: '#16a34a',
     primaryForeground: '#ffffff',
-    primarySoft: '#dcfce7',
+    primarySoft: '#d1fae5',
     primaryText: '#15803d',
     brand: '#22c55e',
     brandForeground: '#ffffff',
-    ink: '#1f2937',
+    ink: '#374151',
     inkForeground: '#ffffff',
     info: '#4b5563',
     infoSoft: '#f3f4f6',
@@ -41,14 +44,16 @@ export const Colors = {
     shadow: '#64748b',
   },
   dark: {
-    text: '#e5e7eb',
-    textSecondary: '#94a3b8',
+    text: '#d1d5db',
+    textSecondary: '#6b7280',
     background: '#0f172a',
     backgroundElement: '#1e293b',
     backgroundSelected: '#334155',
+    secondary: '#2d3748',
     card: '#1e293b',
+    cardSubtle: '#141d30',
     muted: '#19212e',
-    border: '#334155',
+    border: '#2d4163',
     primary: '#34d399',
     primaryStrong: '#10b981',
     primaryForeground: '#0f172a',
@@ -56,7 +61,7 @@ export const Colors = {
     primaryText: '#6ee7b7',
     brand: '#34d399',
     brandForeground: '#0f172a',
-    ink: '#e5e7eb',
+    ink: '#d1d5db',
     inkForeground: '#0f172a',
     info: '#cbd5e1',
     infoSoft: '#334155',
@@ -110,4 +115,5 @@ export const Spacing = {
 export const BottomTabInset = Platform.select({ ios: 50, android: 80 }) ?? 0;
 export const MaxContentWidth = 800;
 
-export const Radius = { sm: 8, md: 12, lg: 16, full: 999 } as const;
+// lg and xl match the web cards (--radius: 1.25rem → 20px, rounded-xl → 24px).
+export const Radius = { sm: 10, md: 14, lg: 20, xl: 24, full: 999 } as const;

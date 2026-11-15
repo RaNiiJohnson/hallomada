@@ -24,6 +24,7 @@ export function TabList<Item extends { _id: string }>({
   loadingMore,
   onEndReached,
   empty,
+  flat,
 }: {
   data: Item[];
   renderItem: (item: Item) => ReactElement | null;
@@ -32,6 +33,8 @@ export function TabList<Item extends { _id: string }>({
   loadingMore?: boolean;
   onEndReached?: () => void;
   empty: EmptyConfig;
+  /** No gap between rows, for feeds whose items draw their own divider. */
+  flat?: boolean;
 }) {
   return (
     <ThemedView style={styles.container}>
@@ -40,7 +43,7 @@ export function TabList<Item extends { _id: string }>({
           data={data}
           keyExtractor={(item) => item._id}
           renderItem={({ item }) => renderItem(item)}
-          contentContainerStyle={styles.list}
+          contentContainerStyle={[styles.list, flat && styles.flat]}
           showsVerticalScrollIndicator={false}
           keyboardShouldPersistTaps="handled"
           keyboardDismissMode="on-drag"
@@ -65,5 +68,6 @@ const styles = StyleSheet.create({
     paddingBottom: BottomTabInset + Spacing.four,
     gap: Spacing.three,
   },
+  flat: { gap: 0 },
   loader: { marginVertical: Spacing.four },
 });

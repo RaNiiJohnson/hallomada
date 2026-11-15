@@ -3,7 +3,6 @@ import { useState } from 'react';
 import { ScrollView, StyleSheet, useWindowDimensions, View } from 'react-native';
 
 import { ThemedText } from './themed-text';
-import { ThemedView } from './themed-view';
 import { MaxContentWidth, Spacing } from '@/constants/theme';
 
 /** Full-width paging photo gallery with a "n / total" counter. */
@@ -35,11 +34,11 @@ export function Gallery({ urls }: { urls: (string | null | undefined)[] }) {
         ))}
       </ScrollView>
       {sources.length > 1 ? (
-        <ThemedView type="background" style={styles.counter}>
-          <ThemedText type="small">
+        <View style={styles.counter}>
+          <ThemedText type="caption" style={styles.counterText}>
             {index + 1} / {sources.length}
           </ThemedText>
-        </ThemedView>
+        </View>
       ) : null}
     </View>
   );
@@ -50,9 +49,11 @@ const styles = StyleSheet.create({
   counter: {
     position: 'absolute',
     right: Spacing.three,
-    bottom: Spacing.three,
-    paddingHorizontal: Spacing.two,
-    paddingVertical: Spacing.half,
-    borderRadius: Spacing.two,
+    top: Spacing.three,
+    paddingHorizontal: Spacing.two + Spacing.half,
+    paddingVertical: 3,
+    borderRadius: 999,
+    backgroundColor: 'rgba(15,23,42,0.6)',
   },
+  counterText: { color: '#ffffff', fontWeight: 600 },
 });

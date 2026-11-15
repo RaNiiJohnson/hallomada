@@ -65,6 +65,10 @@ export function salaryLabel(salary: number, period?: keyof typeof labels.salaryP
   return period ? `${amount} / ${labels.salaryPeriods[period]}` : amount;
 }
 
+export function salaryPeriodLabel(period: keyof typeof labels.salaryPeriods) {
+  return labels.salaryPeriods[period];
+}
+
 /** Stored dates are plain `YYYY-MM-DD` strings. */
 export function formatDate(value: string | number) {
   const date = typeof value === 'string' ? new Date(`${value}T00:00:00`) : new Date(value);

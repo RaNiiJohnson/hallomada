@@ -52,6 +52,37 @@ export function SectionTitle({ title, icon }: { title: string; icon?: IconName }
   );
 }
 
+/**
+ * Web detail card (`bg-card dark:bg-card/35 border rounded-lg`): a titled
+ * header over a hairline, then the body. `muted` matches the web summary card.
+ */
+export function Panel({
+  title,
+  icon,
+  muted,
+  children,
+}: {
+  title: string;
+  icon?: IconName;
+  muted?: boolean;
+  children: React.ReactNode;
+}) {
+  const theme = useTheme();
+  return (
+    <View
+      style={[
+        styles.panel,
+        { backgroundColor: muted ? theme.muted : theme.cardSubtle, borderColor: theme.border },
+      ]}>
+      <View style={[styles.panelHeader, { borderBottomColor: theme.border }]}>
+        {icon ? <Icon name={icon} size={20} themeColor="text" /> : null}
+        <ThemedText style={styles.panelTitle}>{title}</ThemedText>
+      </View>
+      <View style={styles.panelBody}>{children}</View>
+    </View>
+  );
+}
+
 /** Amber banner for content waiting for moderation. */
 export function PendingBanner({ title, description }: { title: string; description: string }) {
   return <Banner tone="warning" icon="time-outline" title={title} description={description} />;
@@ -127,6 +158,16 @@ const styles = StyleSheet.create({
   },
   factValue: { flexShrink: 1, textAlign: 'right' },
   section: { gap: Spacing.two },
+  panel: { borderRadius: Radius.lg, borderWidth: 1, overflow: 'hidden' },
+  panelHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: Spacing.two,
+    padding: Spacing.three,
+    borderBottomWidth: 1,
+  },
+  panelTitle: { flex: 1, fontSize: 20, lineHeight: 26, fontWeight: 600 },
+  panelBody: { padding: Spacing.three, gap: Spacing.three },
   sectionTitle: { flexDirection: 'row', alignItems: 'center', gap: Spacing.two },
   body: { lineHeight: 24 },
   banner: {

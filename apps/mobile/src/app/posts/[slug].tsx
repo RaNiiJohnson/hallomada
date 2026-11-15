@@ -2,7 +2,7 @@ import { api } from '@convex/_generated/api';
 import type { Id } from '@convex/_generated/dataModel';
 import { useAction, useConvexAuth, useMutation, useQuery } from 'convex/react';
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
-import { useState } from 'react';
+import { type ComponentRef, useRef, useState } from 'react';
 import {
   Alert,
   KeyboardAvoidingView,
@@ -15,12 +15,9 @@ import {
   View,
 } from 'react-native';
 
-import { Avatar } from '@/components/avatar';
-import { Badge } from '@/components/badge';
-import { BookmarkButton } from '@/components/bookmark-button';
+import { BookmarkIcon } from '@/components/bookmark-button';
 import { Button, IconButton } from '@/components/button';
-import { Card } from '@/components/card';
-import { ActionRow, CenteredMessage, LoadingScreen, SectionTitle } from '@/components/detail';
+import { CenteredMessage, LoadingScreen } from '@/components/detail';
 import { Icon, type IconName } from '@/components/icon';
 import { ReportButton } from '@/components/report-button';
 import { ThemedText } from '@/components/themed-text';
@@ -36,8 +33,12 @@ type Comment = NonNullable<Post['comments'][number]>;
 type Reply = NonNullable<Comment['replies'][number]>;
 
 export default function PostScreen() {
-  const { slug } = useLocalSearchParams<{ slug: string }>();
+  const { slug, focus } = useLocalSearchParams<{ slug: string; focus?: string }>();
   const router = useRouter();
+  const theme = useTheme();
+  const scrollRef = useRef<ComponentRef<typeof ScrollView>>(null);
+  const commentsY = useRef(0);
+  const focused = useRef(false);
   const post = useQuery(api.posts.queries.getPostWithMeta, { slug });
   const user = useQuery(api.auth.auth.getCurrentUser);
   const likePost = useMutation(api.posts.likes.mutations.likePost);
@@ -87,6 +88,8 @@ export default function PostScreen() {
       },
     ]);
 
+  const openComments = () => scrollRef.current?.scrollTo({ y: commentsY.current, animated: true });
+
   return (
     <KeyboardAvoidingView
       style={styles.container}
@@ -101,74 +104,95 @@ export default function PostScreen() {
               : undefined,
           }}
         />
-        <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
-          <Card>
-            <View style={styles.author}>
-              <Avatar name={post.authorName} size={44} />
-              <View style={styles.flex}>
-                <ThemedText type="smallBold">{post.authorName}</ThemedText>
-                <ThemedText type="caption" themeColor="textSecondary">
-                  {timeAgo(post._creationTime)}
-                  {post.updatedAt && post.updatedAt - post._creationTime > 60_000 ? ' · modifiée' : ''}
+        <ScrollView ref={scrollRef} contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
+          <View style={styles.post}>
+            {post.communityName && post.communitySlug ? (
+              <Pressable
+                accessibilityRole="link"
+                style={({ pressed }) => [styles.crumb, pressed && styles.pressed]}
+                onPress={() =>
+                  router.push({ pathname: '/communities/[community]', params: { community: post.communitySlug! } })
+                }>
+                <Icon name="people-outline" size={14} themeColor="textSecondary" />
+                <ThemedText type="caption" themeColor="textSecondary" numberOfLines={1}>
+                  {post.communityName}
                 </ThemedText>
-              </View>
-              {post.communityName && post.communitySlug ? (
-                <Pressable
-                  onPress={() =>
-                    router.push({
-                      pathname: '/communities/[community]',
-                      params: { community: post.communitySlug! },
-                    })
-                  }>
-                  <Badge label={post.communityName} tone="primary" icon="people-outline" />
-                </Pressable>
-              ) : null}
-            </View>
-            <ThemedText type="subtitle">{post.title}</ThemedText>
+              </Pressable>
+            ) : null}
+            <Byline
+              name={post.authorName ?? 'Anonyme'}
+              time={post._creationTime}
+              edited={Boolean(post.updatedAt && post.updatedAt - post._creationTime > 60_000)}
+            />
+            <ThemedText style={styles.title}>{post.title}</ThemedText>
             <ThemedText style={styles.body}>{post.content}</ThemedText>
-            <View style={styles.stats}>
+            <View style={styles.actions}>
+              <Action icon="chatbubble-outline" label="Commentaires" count={post.commentsCount} onPress={openComments} />
               <LikeToggle
                 liked={post.userHasLiked}
                 count={post.likesCount}
                 onToggle={() => likePost({ postId: post._id })}
               />
-              <Stat icon="chatbubble-outline" label={`${post.commentsCount}`} />
+              <Action icon="share-social-outline" label="Partager" onPress={share} />
+              <BookmarkIcon resourceType="post" resourceId={post._id} isBookmarked={post.isBookmarked} />
+              {isAuthor ? null : <ReportButton compact type="post" id={post._id} title={post.title} />}
             </View>
-          </Card>
+          </View>
 
-          <ActionRow>
-            <BookmarkButton resourceType="post" resourceId={post._id} isBookmarked={post.isBookmarked} />
-            <Button label="Partager" icon="share-outline" onPress={share} />
-            {isAuthor ? null : <ReportButton type="post" id={post._id} title={post.title} />}
-          </ActionRow>
-
-          <SectionTitle title={`Commentaires (${post.commentsCount})`} icon="chatbubbles-outline" />
-          <Composer placeholder="Écrire un commentaire…" target={{ kind: 'comment', postId: post._id }} />
+          <View
+            style={[styles.commentsHeader, { borderTopColor: theme.border }]}
+            onLayout={(event) => {
+              commentsY.current = event.nativeEvent.layout.y;
+              // Coming from a feed's comment button: jump straight to the thread once.
+              if (focus === 'comments' && !focused.current) {
+                focused.current = true;
+                scrollRef.current?.scrollTo({ y: commentsY.current, animated: false });
+              }
+            }}>
+            <ThemedText style={styles.commentsTitle}>
+              {post.commentsCount} commentaire{post.commentsCount > 1 ? 's' : ''}
+            </ThemedText>
+            <Composer placeholder="Écrire un commentaire…" target={{ kind: 'comment', postId: post._id }} />
+          </View>
           {comments.length === 0 ? (
-            <ThemedText type="small" themeColor="textSecondary" style={styles.center}>
+            <ThemedText type="small" themeColor="textSecondary" style={styles.empty}>
               Soyez le premier à commenter.
             </ThemedText>
-          ) : null}
-          {comments.map((comment) => (
-            <CommentItem key={comment._id} comment={comment} userId={user?._id} />
-          ))}
+          ) : (
+            <View>
+              {comments.map((comment, index) => (
+                <CommentItem
+                  key={comment._id}
+                  comment={comment}
+                  userId={user?._id}
+                  divider={index < comments.length - 1}
+                />
+              ))}
+            </View>
+          )}
         </ScrollView>
       </ThemedView>
     </KeyboardAvoidingView>
   );
 }
 
-function CommentItem({ comment, userId }: { comment: Comment; userId?: string }) {
+function CommentItem({ comment, userId, divider }: { comment: Comment; userId?: string; divider: boolean }) {
+  const theme = useTheme();
   const likeComment = useMutation(api.posts.likes.mutations.likeComment);
   const deleteComment = useMutation(api.posts.comments.mutations.deleteComment);
   const updateComment = useMutation(api.posts.comments.mutations.updateComment);
   const [replying, setReplying] = useState(false);
   const [editing, setEditing] = useState(false);
+  const [showReplies, setShowReplies] = useState(false);
   const replies = comment.replies.filter((r): r is Reply => r !== null);
   const isMine = userId === comment.authorId;
 
   return (
-    <Card style={styles.comment}>
+    <View
+      style={[
+        styles.comment,
+        divider && { borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: theme.border },
+      ]}>
       <Byline name={comment.authorName} time={comment._creationTime} />
       {editing ? (
         <InlineEditor
@@ -188,6 +212,13 @@ function CommentItem({ comment, userId }: { comment: Comment; userId?: string })
           count={comment.likesCount}
           onToggle={() => likeComment({ commentId: comment._id })}
         />
+        {replies.length > 0 ? (
+          <TextAction
+            icon={showReplies ? 'chevron-up' : 'chevron-down'}
+            label={`${replies.length} réponse${replies.length > 1 ? 's' : ''}`}
+            onPress={() => setShowReplies((value) => !value)}
+          />
+        ) : null}
         <TextAction icon="arrow-undo-outline" label="Répondre" onPress={() => setReplying((value) => !value)} />
         {isMine && !editing ? (
           <OwnerActions
@@ -197,19 +228,22 @@ function CommentItem({ comment, userId }: { comment: Comment; userId?: string })
         ) : null}
       </View>
 
-      {replies.map((reply) => (
-        <ReplyItem key={reply._id} reply={reply} userId={userId} />
-      ))}
+      {showReplies
+        ? replies.map((reply) => <ReplyItem key={reply._id} reply={reply} userId={userId} />)
+        : null}
 
       {replying ? (
         <Composer
           placeholder="Écrire une réponse…"
           target={{ kind: 'reply', commentId: comment._id }}
-          onSent={() => setReplying(false)}
+          onSent={() => {
+            setReplying(false);
+            setShowReplies(true);
+          }}
           autoFocus
         />
       ) : null}
-    </Card>
+    </View>
   );
 }
 
@@ -221,8 +255,8 @@ function ReplyItem({ reply, userId }: { reply: Reply; userId?: string }) {
   const [editing, setEditing] = useState(false);
 
   return (
-    <View style={[styles.reply, { borderLeftColor: theme.primarySoft }]}>
-      <Byline name={reply.authorName} time={reply._creationTime} small />
+    <View style={[styles.reply, { borderLeftColor: theme.border }]}>
+      <Byline name={reply.authorName} time={reply._creationTime} />
       {editing ? (
         <InlineEditor
           initial={reply.content}
@@ -251,15 +285,17 @@ function ReplyItem({ reply, userId }: { reply: Reply; userId?: string }) {
   );
 }
 
-function Byline({ name, time, small }: { name: string; time: number; small?: boolean }) {
+/** Web byline: author name in green, then "· time". */
+function Byline({ name, time, edited }: { name: string; time: number; edited?: boolean }) {
+  const theme = useTheme();
   return (
     <View style={styles.byline}>
-      <Avatar name={name} size={small ? 24 : 30} />
-      <ThemedText type="smallBold" numberOfLines={1} style={styles.flexShrink}>
+      <ThemedText type="small" numberOfLines={1} style={[styles.flexShrink, { color: theme.primary, fontWeight: 600 }]}>
         {name}
       </ThemedText>
-      <ThemedText type="caption" themeColor="textSecondary">
+      <ThemedText type="small" themeColor="textSecondary">
         · {timeAgo(time)}
+        {edited ? ' · modifiée' : ''}
       </ThemedText>
     </View>
   );
@@ -326,33 +362,53 @@ function InlineEditor({
   );
 }
 
-function Stat({ icon, label }: { icon: IconName; label: string }) {
+function Action({
+  icon,
+  label,
+  count,
+  onPress,
+}: {
+  icon: IconName;
+  label: string;
+  count?: number;
+  onPress: () => void;
+}) {
   return (
-    <View style={styles.stat}>
+    <Pressable
+      accessibilityRole="button"
+      accessibilityLabel={label}
+      hitSlop={6}
+      onPress={onPress}
+      style={({ pressed }) => [styles.action, pressed && styles.pressed]}>
       <Icon name={icon} size={17} themeColor="textSecondary" />
-      <ThemedText type="small" themeColor="textSecondary">
-        {label}
-      </ThemedText>
-    </View>
+      {count !== undefined ? (
+        <ThemedText type="caption" themeColor="textSecondary" style={styles.count}>
+          {count}
+        </ThemedText>
+      ) : null}
+    </Pressable>
   );
 }
 
+/** Like toggle with the web check mark, green once liked. */
 function LikeToggle({ liked, count, onToggle }: { liked: boolean; count: number; onToggle: () => Promise<unknown> }) {
   const router = useRouter();
   const theme = useTheme();
   const { isAuthenticated } = useConvexAuth();
+  const color = liked ? theme.primary : theme.textSecondary;
   return (
     <Pressable
       accessibilityRole="button"
-      accessibilityLabel={liked ? 'Je n’aime plus' : 'J’aime'}
-      hitSlop={8}
-      style={styles.stat}
+      accessibilityLabel={liked ? 'Retirer le j’aime' : 'J’aime'}
+      accessibilityState={{ selected: liked }}
+      hitSlop={6}
+      style={({ pressed }) => [styles.action, pressed && styles.pressed]}
       onPress={() => {
         if (!isAuthenticated) router.navigate('/account');
         else void onToggle().catch(() => Alert.alert('Erreur', 'Action impossible.'));
       }}>
-      <Icon name={liked ? 'heart' : 'heart-outline'} size={18} color={liked ? theme.destructive : theme.textSecondary} />
-      <ThemedText type="small" style={{ color: liked ? theme.destructive : theme.textSecondary }}>
+      <Icon name={liked ? 'checkmark-circle' : 'checkmark'} size={17} color={color} />
+      <ThemedText type="caption" style={[styles.count, { color }]}>
         {count}
       </ThemedText>
     </Pressable>
@@ -445,24 +501,42 @@ function Composer({
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  flex: { flex: 1 },
   flexShrink: { flexShrink: 1 },
-  center: { textAlign: 'center' },
+  pressed: { opacity: 0.6 },
   content: {
     padding: Spacing.three,
     paddingBottom: Spacing.six,
-    gap: Spacing.three,
     width: '100%',
     maxWidth: MaxContentWidth,
     alignSelf: 'center',
   },
-  author: { flexDirection: 'row', alignItems: 'center', gap: Spacing.two },
+  post: { gap: Spacing.two, paddingBottom: Spacing.two },
+  crumb: { flexDirection: 'row', alignItems: 'center', gap: 4, alignSelf: 'flex-start' },
+  title: { fontSize: 22, lineHeight: 28, fontWeight: 700 },
   body: { lineHeight: 23 },
-  stats: { flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap', gap: Spacing.four },
+  actions: { flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap', gap: Spacing.one, marginLeft: -Spacing.two },
+  action: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    height: 36,
+    paddingHorizontal: Spacing.two,
+    borderRadius: 18,
+  },
+  count: { fontWeight: 600 },
+  commentsHeader: {
+    borderTopWidth: StyleSheet.hairlineWidth,
+    paddingTop: Spacing.three,
+    paddingBottom: Spacing.two,
+    gap: Spacing.three,
+  },
+  commentsTitle: { fontSize: 18, lineHeight: 24, fontWeight: 700 },
+  empty: { textAlign: 'center', paddingVertical: Spacing.three },
+  stats: { flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap', columnGap: Spacing.three, marginLeft: -Spacing.two },
   stat: { flexDirection: 'row', alignItems: 'center', gap: Spacing.one },
-  comment: { gap: Spacing.two },
-  byline: { flexDirection: 'row', alignItems: 'center', gap: Spacing.two },
-  reply: { marginLeft: Spacing.two, paddingLeft: Spacing.three, borderLeftWidth: 2, gap: Spacing.one + 2 },
+  comment: { paddingVertical: Spacing.three, gap: Spacing.one + 2 },
+  byline: { flexDirection: 'row', alignItems: 'center', gap: 6 },
+  reply: { marginLeft: Spacing.one, marginTop: Spacing.one, paddingLeft: Spacing.three, borderLeftWidth: 2, gap: Spacing.one },
   editor: { gap: Spacing.two },
   editorActions: { flexDirection: 'row', justifyContent: 'flex-end', gap: Spacing.two },
   input: { minHeight: 64, borderRadius: Radius.md, borderWidth: 1, padding: Spacing.three, fontSize: 16 },
