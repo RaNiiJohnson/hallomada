@@ -19,13 +19,13 @@ export function FilterToggle({ open, count, onPress }: { open: boolean; count: n
       style={({ pressed }) => [
         styles.toggle,
         {
-          backgroundColor: active ? theme.primarySoft : theme.card,
-          borderColor: active ? theme.primary : theme.border,
+          backgroundColor: theme.card,
+          borderColor: active ? theme.text : theme.border,
           opacity: pressed ? 0.75 : 1,
         },
       ]}>
-      <Icon name="options-outline" size={16} color={active ? theme.primaryText : theme.text} />
-      <ThemedText type="smallBold" style={{ color: active ? theme.primaryText : theme.text }}>
+      <Icon name="options-outline" size={16} color={theme.text} />
+      <ThemedText type="smallBold" style={{ color: theme.text }}>
         Filtres
       </ThemedText>
       {count ? (
@@ -33,7 +33,7 @@ export function FilterToggle({ open, count, onPress }: { open: boolean; count: n
           <ThemedText style={[styles.countText, { color: theme.primaryForeground }]}>{count}</ThemedText>
         </View>
       ) : (
-        <Icon name={open ? 'chevron-up' : 'chevron-down'} size={14} color={active ? theme.primaryText : theme.textSecondary} />
+        <Icon name={open ? 'chevron-up' : 'chevron-down'} size={14} color={theme.textSecondary} />
       )}
     </Pressable>
   );
@@ -47,8 +47,8 @@ export function FilterPanel({ children, onReset }: { children: ReactNode; onRese
       {children}
       {onReset ? (
         <Pressable accessibilityRole="button" onPress={onReset} hitSlop={6} style={styles.reset}>
-          <Icon name="refresh" size={14} themeColor="primaryText" />
-          <ThemedText type="smallBold" themeColor="primaryText">
+          <Icon name="refresh" size={14} themeColor="text" />
+          <ThemedText type="smallBold" themeColor="text">
             Réinitialiser les filtres
           </ThemedText>
         </Pressable>

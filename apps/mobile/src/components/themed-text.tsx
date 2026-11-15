@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
   smallBold: {
     fontSize: 14,
     lineHeight: 20,
-    fontWeight: 700,
+    fontWeight: 600,
   },
   default: {
     fontSize: 16,
@@ -42,20 +42,20 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 28,
-    fontWeight: 800,
+    fontWeight: 700,
     lineHeight: 34,
     letterSpacing: -0.5,
   },
   subtitle: {
     fontSize: 22,
     lineHeight: 28,
-    fontWeight: 700,
+    fontWeight: 600,
     letterSpacing: -0.2,
   },
   heading: {
-    fontSize: 18,
-    lineHeight: 24,
-    fontWeight: 700,
+    fontSize: 17,
+    lineHeight: 22,
+    fontWeight: 600,
   },
   caption: {
     fontSize: 12,
@@ -69,8 +69,8 @@ const styles = StyleSheet.create({
   linkPrimary: {
     lineHeight: 30,
     fontSize: 14,
-    color: '#16a34a',
     fontWeight: 600,
+    textDecorationLine: 'underline',
   },
   code: {
     fontFamily: Fonts.mono,

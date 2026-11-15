@@ -1,7 +1,6 @@
 import { useRouter } from 'expo-router';
 import { StyleSheet, View } from 'react-native';
 
-import { Badge } from './badge';
 import { Card } from './card';
 import { Icon } from './icon';
 import { ThemedText } from './themed-text';
@@ -19,10 +18,21 @@ type CommunitySummary = {
   postsCount?: number;
 };
 
+function plural(count: number, word: string) {
+  return `${count} ${word}${count > 1 ? 's' : ''}`;
+}
+
 export function CommunityCard({ community }: { community: CommunitySummary }) {
   const router = useRouter();
   const theme = useTheme();
-  const focus = community.city ?? community.theme;
+  const meta = [
+    community.city ?? community.theme,
+    community.privacy === 'private' ? 'Privée' : undefined,
+    community.membersCount !== undefined ? plural(community.membersCount, 'membre') : undefined,
+  ]
+    .filter(Boolean)
+    .join(' · ');
+
   return (
     <Card
       accessibilityLabel={community.name}
@@ -30,55 +40,29 @@ export function CommunityCard({ community }: { community: CommunitySummary }) {
         router.push({ pathname: '/communities/[community]', params: { community: community.slug } })
       }>
       <View style={styles.top}>
-        <View style={[styles.logo, { backgroundColor: theme.primarySoft }]}>
-          <Icon name="people" size={22} themeColor="primaryText" />
+        <View style={[styles.logo, { backgroundColor: theme.muted }]}>
+          <Icon name={community.privacy === 'private' ? 'lock-closed' : 'people'} size={20} themeColor="text" />
         </View>
         <View style={styles.flex}>
           <ThemedText type="heading" numberOfLines={1}>
             {community.name}
           </ThemedText>
-          <View style={styles.badges}>
-            {focus ? (
-              <Badge
-                label={focus}
-                icon={community.city ? 'location-outline' : 'pricetag-outline'}
-                tone={community.city ? 'info' : 'primary'}
-              />
-            ) : null}
-            {community.privacy === 'private' ? <Badge label="Privée" icon="lock-closed-outline" /> : null}
-          </View>
+          {meta ? (
+            <ThemedText type="small" themeColor="textSecondary" numberOfLines={1}>
+              {meta}
+            </ThemedText>
+          ) : null}
         </View>
       </View>
-      <ThemedText type="small" themeColor="textSecondary" numberOfLines={2}>
+      <ThemedText type="small" numberOfLines={2}>
         {community.description}
       </ThemedText>
-      {community.membersCount !== undefined ? (
-        <View style={styles.counts}>
-          <Count icon="people-outline" value={community.membersCount} label="membre" />
-          <Count icon="chatbubbles-outline" value={community.postsCount ?? 0} label="publication" />
-        </View>
-      ) : null}
     </Card>
-  );
-}
-
-function Count({ icon, value, label }: { icon: 'people-outline' | 'chatbubbles-outline'; value: number; label: string }) {
-  return (
-    <View style={styles.count}>
-      <Icon name={icon} size={15} themeColor="textSecondary" />
-      <ThemedText type="small" themeColor="textSecondary">
-        {value} {label}
-        {value > 1 ? 's' : ''}
-      </ThemedText>
-    </View>
   );
 }
 
 const styles = StyleSheet.create({
   top: { flexDirection: 'row', alignItems: 'center', gap: Spacing.three },
-  logo: { width: 48, height: 48, borderRadius: Radius.md, alignItems: 'center', justifyContent: 'center' },
-  flex: { flex: 1, gap: Spacing.one },
-  badges: { flexDirection: 'row', flexWrap: 'wrap', gap: Spacing.one },
-  counts: { flexDirection: 'row', gap: Spacing.four },
-  count: { flexDirection: 'row', alignItems: 'center', gap: Spacing.one },
+  logo: { width: 44, height: 44, borderRadius: Radius.md, alignItems: 'center', justifyContent: 'center' },
+  flex: { flex: 1, gap: Spacing.half },
 });

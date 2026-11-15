@@ -11,7 +11,7 @@ export type BadgeTone = 'neutral' | 'primary' | 'info' | 'warning' | 'danger';
 export function Badge({ label, tone = 'neutral', icon }: { label: string; tone?: BadgeTone; icon?: IconName }) {
   const theme = useTheme();
   const { background, color } = {
-    neutral: { background: theme.muted, color: theme.textSecondary },
+    neutral: { background: theme.muted, color: theme.text },
     primary: { background: theme.primarySoft, color: theme.primaryText },
     info: { background: theme.infoSoft, color: theme.info },
     warning: { background: theme.warningSoft, color: theme.warning },
@@ -37,5 +37,5 @@ const styles = StyleSheet.create({
     paddingVertical: 3,
     borderRadius: Radius.full,
   },
-  label: { fontWeight: 700 },
+  label: { fontWeight: 600 },
 });

@@ -5,73 +5,71 @@ import { StyleSheet, View } from 'react-native';
 
 import type { api } from '@convex/_generated/api';
 
-import { Avatar } from './avatar';
 import { Badge } from './badge';
 import { Card } from './card';
 import { Icon } from './icon';
 import { ThemedText } from './themed-text';
-import { Spacing } from '@/constants/theme';
+import { Radius, Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
 import { providerCategoryLabels, providerStatusLabels } from '@/lib/provider-labels';
 
 type Provider = FunctionReturnType<typeof api.providers.queries.listProviders>['page'][number];
 
+const THUMB = 72;
+
+/** One row per provider: a square photo, the name, what they do and where. */
 export function ProviderCard({ provider }: { provider: Provider }) {
   const router = useRouter();
   const theme = useTheme();
+  const photo = provider.logoUrl ?? provider.coverUrl;
+
   return (
     <Card
-      padded={false}
       accessibilityLabel={provider.name}
-      onPress={() => router.push({ pathname: '/providers/[slug]', params: { slug: provider.slug } })}>
-      <View style={[styles.cover, { backgroundColor: theme.primarySoft }]}>
-        {provider.coverUrl ? (
-          <Image source={provider.coverUrl} style={styles.flex} contentFit="cover" transition={150} />
-        ) : (
-          <View style={[styles.placeholder, styles.faded]}>
-            <Icon name="storefront-outline" size={32} color={theme.primary} />
-          </View>
-        )}
-      </View>
-      <View style={styles.body}>
-        <View style={[styles.logo, { borderColor: theme.card }]}>
-          <Avatar uri={provider.logoUrl} name={provider.name} size={56} />
+      onPress={() => router.push({ pathname: '/providers/[slug]', params: { slug: provider.slug } })}
+      style={styles.card}>
+      <View style={styles.row}>
+        <View style={[styles.thumb, { backgroundColor: theme.muted }]}>
+          {photo ? (
+            <Image source={photo} style={styles.fill} contentFit="cover" transition={150} />
+          ) : (
+            <ThemedText style={styles.initial}>{(provider.name.trim()[0] ?? '?').toUpperCase()}</ThemedText>
+          )}
         </View>
         <View style={styles.text}>
+          {provider.status !== 'active' ? (
+            <Badge label={providerStatusLabels[provider.status]} tone="warning" />
+          ) : null}
           <ThemedText type="heading" numberOfLines={1}>
             {provider.name}
           </ThemedText>
           {provider.tagline ? (
-            <ThemedText type="small" themeColor="textSecondary" numberOfLines={2}>
+            <ThemedText type="small" numberOfLines={1}>
               {provider.tagline}
             </ThemedText>
           ) : null}
-          <View style={styles.row}>
-            <Badge label={providerCategoryLabels[provider.category]} tone="primary" />
-            {provider.status !== 'active' ? (
-              <Badge label={providerStatusLabels[provider.status]} tone="warning" />
-            ) : null}
-            <View style={styles.city}>
-              <Icon name="location-outline" size={14} themeColor="textSecondary" />
-              <ThemedText type="small" themeColor="textSecondary" numberOfLines={1}>
-                {provider.city}
-              </ThemedText>
-            </View>
-          </View>
+          <ThemedText type="small" themeColor="textSecondary" numberOfLines={1}>
+            {providerCategoryLabels[provider.category]} · {provider.city}
+          </ThemedText>
         </View>
+        <Icon name="chevron-forward" size={18} themeColor="textSecondary" />
       </View>
     </Card>
   );
 }
 
 const styles = StyleSheet.create({
-  flex: { flex: 1 },
-  cover: { height: 96 },
-  placeholder: { flex: 1, alignItems: 'flex-end', justifyContent: 'center', paddingRight: Spacing.four },
-  faded: { opacity: 0.5 },
-  body: { padding: Spacing.three, paddingTop: 0, gap: Spacing.two },
-  logo: { marginTop: -28, borderWidth: 3, borderRadius: 31, alignSelf: 'flex-start' },
-  text: { gap: Spacing.one },
-  row: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: Spacing.two },
-  city: { flexDirection: 'row', alignItems: 'center', gap: 2 },
+  card: { justifyContent: 'center' },
+  row: { flexDirection: 'row', alignItems: 'center', gap: Spacing.three },
+  thumb: {
+    width: THUMB,
+    height: THUMB,
+    borderRadius: Radius.md,
+    overflow: 'hidden',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  fill: { width: '100%', height: '100%' },
+  initial: { fontSize: 24, lineHeight: 28, fontWeight: 600 },
+  text: { flex: 1, gap: Spacing.half },
 });

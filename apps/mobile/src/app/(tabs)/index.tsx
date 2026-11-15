@@ -7,7 +7,6 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { AccountButton, NotificationsButton } from '@/components/account-button';
 import { Button } from '@/components/button';
-import { Card } from '@/components/card';
 import { Icon, type IconName } from '@/components/icon';
 import { JobCard } from '@/components/job-card';
 import { ListingCard } from '@/components/listing-card';
@@ -24,7 +23,6 @@ type Section = {
   title: string;
   description: string;
   icon: IconName;
-  tint: 'primary' | 'info' | 'warning' | 'violet';
 };
 
 // Same four services and wording as the web home page (apps/web/messages/fr/home.json).
@@ -32,30 +30,26 @@ const sections: Section[] = [
   {
     href: '/communities',
     title: 'Communautés',
-    description: 'Échangez et entraidez-vous entre Malagasy d’Allemagne',
-    icon: 'people',
-    tint: 'primary',
+    description: 'Entraide et discussions',
+    icon: 'people-outline',
   },
   {
     href: '/jobs',
     title: 'Emplois',
-    description: 'Jobs, stages, au pair, formations et bourses',
-    icon: 'briefcase',
-    tint: 'info',
+    description: 'Jobs, stages, au pair, formations',
+    icon: 'briefcase-outline',
   },
   {
     href: '/listings',
     title: 'Immobilier',
-    description: 'Logements et colocations à louer ou à vendre',
-    icon: 'business',
-    tint: 'warning',
+    description: 'Logements et colocations',
+    icon: 'business-outline',
   },
   {
     href: '/providers',
     title: 'Prestataires',
-    description: 'Traiteurs, photographes, coiffeurs… sur WhatsApp',
-    icon: 'storefront',
-    tint: 'violet',
+    description: 'Traiteurs, photographes, coiffeurs…',
+    icon: 'storefront-outline',
   },
 ];
 
@@ -94,8 +88,8 @@ function TopBar() {
 
   return (
     <View style={styles.topBar}>
-      <View style={[styles.logo, { backgroundColor: theme.primary }]}>
-        <ThemedText style={[styles.logoText, { color: theme.primaryForeground }]}>H</ThemedText>
+      <View style={[styles.logo, { backgroundColor: theme.text }]}>
+        <ThemedText style={[styles.logoText, { color: theme.background }]}>H</ThemedText>
       </View>
       <View style={styles.flex}>
         <ThemedText type="heading" numberOfLines={1}>
@@ -113,32 +107,19 @@ function TopBar() {
 
 function Hero() {
   const router = useRouter();
-  const theme = useTheme();
   const { isAuthenticated, isLoading } = useConvexAuth();
+  if (isLoading || isAuthenticated) return null;
 
   return (
-    <View style={[styles.hero, { backgroundColor: theme.primarySoft, borderColor: theme.border }]}>
-      <ThemedText style={styles.heroTitle}>
-        Vos communautés. Vos <ThemedText style={[styles.heroTitle, { color: theme.primaryText }]}>opportunités</ThemedText>.
-      </ThemedText>
+    <View style={styles.hero}>
+      <ThemedText style={styles.heroTitle}>Vos communautés.{'\n'}Vos opportunités.</ThemedText>
       <ThemedText themeColor="textSecondary">
-        Trouvez des opportunités, un logement et de l’entraide auprès de la communauté malgache en
-        Allemagne.
+        Emploi, logement et entraide entre Malagasy d’Allemagne.
       </ThemedText>
-      {isLoading ? null : isAuthenticated ? (
-        <Button
-          label="Découvrir la communauté"
-          icon="people"
-          primary
-          onPress={() => router.navigate('/communities')}
-          style={styles.heroButton}
-        />
-      ) : (
-        <View style={styles.heroButtons}>
-          <Button label="Rejoindre Hallomada" icon="person-add" primary onPress={() => router.push('/auth/register')} />
-          <Button label="J’ai déjà un compte" variant="ghost" onPress={() => router.push('/account')} />
-        </View>
-      )}
+      <View style={styles.heroButtons}>
+        <Button label="Rejoindre Hallomada" variant="brand" onPress={() => router.push('/auth/register')} />
+        <Button label="J’ai déjà un compte" variant="ghost" onPress={() => router.push('/account')} />
+      </View>
     </View>
   );
 }
@@ -156,10 +137,10 @@ function SectionHeader({ title, action, href }: { title: string; action?: string
           hitSlop={8}
           onPress={() => router.navigate(href)}
           style={({ pressed }) => [styles.seeAll, pressed && styles.pressed]}>
-          <ThemedText type="smallBold" themeColor="primaryText">
+          <ThemedText type="small" themeColor="textSecondary">
             {action}
           </ThemedText>
-          <Icon name="arrow-forward" size={16} themeColor="primaryText" />
+          <Icon name="chevron-forward" size={16} themeColor="textSecondary" />
         </Pressable>
       ) : null}
     </View>
@@ -169,33 +150,31 @@ function SectionHeader({ title, action, href }: { title: string; action?: string
 function Services() {
   const router = useRouter();
   const theme = useTheme();
-  const tints = {
-    primary: { background: theme.primarySoft, color: theme.primaryText },
-    info: { background: theme.infoSoft, color: theme.info },
-    warning: { background: theme.warningSoft, color: theme.warning },
-    violet: { background: theme.violetSoft, color: theme.violet },
-  };
 
   return (
     <View style={styles.section}>
-      <SectionHeader title="Que cherchez-vous ?" />
-      <View style={styles.grid}>
-        {sections.map((section) => (
-          <Card
+      <SectionHeader title="Explorer" />
+      <View style={[styles.group, { backgroundColor: theme.card, borderColor: theme.border }]}>
+        {sections.map((section, index) => (
+          <Pressable
             key={section.title}
+            accessibilityRole="link"
             accessibilityLabel={section.title}
             onPress={() => router.navigate(section.href)}
-            style={styles.tile}>
-            <View style={[styles.tileIcon, { backgroundColor: tints[section.tint].background }]}>
-              <Icon name={section.icon} size={22} color={tints[section.tint].color} />
+            style={({ pressed }) => [
+              styles.groupRow,
+              index > 0 && { borderTopColor: theme.border, borderTopWidth: StyleSheet.hairlineWidth },
+              pressed && { backgroundColor: theme.muted },
+            ]}>
+            <Icon name={section.icon} size={22} themeColor="text" />
+            <View style={styles.flex}>
+              <ThemedText type="smallBold">{section.title}</ThemedText>
+              <ThemedText type="small" themeColor="textSecondary" numberOfLines={1}>
+                {section.description}
+              </ThemedText>
             </View>
-            <ThemedText type="smallBold" style={styles.tileTitle}>
-              {section.title}
-            </ThemedText>
-            <ThemedText type="caption" themeColor="textSecondary" numberOfLines={3}>
-              {section.description}
-            </ThemedText>
-          </Card>
+            <Icon name="chevron-forward" size={18} themeColor="textSecondary" />
+          </Pressable>
         ))}
       </View>
     </View>
@@ -221,10 +200,8 @@ function Publish() {
               { backgroundColor: theme.card, borderColor: theme.border },
               pressed && styles.pressed,
             ]}>
-            <View style={[styles.chipIcon, { backgroundColor: theme.primarySoft }]}>
-              <Icon name={action.icon} size={16} themeColor="primaryText" />
-            </View>
-            <ThemedText type="smallBold">{action.label}</ThemedText>
+            <Icon name={action.icon} size={18} themeColor="text" />
+            <ThemedText type="small">{action.label}</ThemedText>
           </Pressable>
         ))}
       </ScrollView>
@@ -296,18 +273,16 @@ function LatestPosts() {
 }
 
 function LatestProviders() {
-  const { results, status } = usePaginatedQuery(api.providers.queries.listProviders, {}, { initialNumItems: 6 });
+  const { results, status } = usePaginatedQuery(api.providers.queries.listProviders, {}, { initialNumItems: 3 });
   return (
     <View style={styles.section}>
       <SectionHeader title="Prestataires" action="Tout voir" href="/providers" />
       <Preview loading={status === 'LoadingFirstPage'} empty={results.length === 0}>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.carousel}>
-          {results.slice(0, 6).map((provider) => (
-            <View key={provider._id} style={styles.slide}>
-              <ProviderCard provider={provider} />
-            </View>
+        <View style={styles.stack}>
+          {results.slice(0, 3).map((provider) => (
+            <ProviderCard key={provider._id} provider={provider} />
           ))}
-        </ScrollView>
+        </View>
       </Preview>
     </View>
   );
@@ -344,39 +319,41 @@ const styles = StyleSheet.create({
   content: {
     paddingHorizontal: Spacing.three,
     paddingBottom: BottomTabInset + Spacing.four,
-    gap: Spacing.four,
+    gap: Spacing.five,
   },
   flex: { flex: 1 },
   pressed: { opacity: 0.7 },
   topBar: { flexDirection: 'row', alignItems: 'center', gap: Spacing.two, paddingTop: Spacing.three },
   logo: { width: 40, height: 40, borderRadius: Radius.md, alignItems: 'center', justifyContent: 'center' },
   logoText: { fontSize: 22, lineHeight: 26, fontWeight: 800 },
-  hero: { borderRadius: Radius.lg, borderWidth: StyleSheet.hairlineWidth, padding: Spacing.four, gap: Spacing.three },
-  heroTitle: { fontSize: 28, lineHeight: 34, fontWeight: 700, letterSpacing: -0.5 },
-  heroButton: { alignSelf: 'flex-start', paddingHorizontal: Spacing.four, borderRadius: Radius.full },
-  heroButtons: { gap: Spacing.two },
+  hero: { gap: Spacing.three, paddingVertical: Spacing.two },
+  heroTitle: { fontSize: 32, lineHeight: 38, fontWeight: 700, letterSpacing: -0.8 },
+  heroButtons: { gap: Spacing.one, marginTop: Spacing.two },
   section: { gap: Spacing.three },
   sectionHeader: { flexDirection: 'row', alignItems: 'center', gap: Spacing.two },
   seeAll: { flexDirection: 'row', alignItems: 'center', gap: Spacing.one },
-  grid: { flexDirection: 'row', flexWrap: 'wrap', gap: Spacing.three },
-  tile: { flexBasis: '46%', flexGrow: 1, minHeight: 150 },
-  tileIcon: { width: 44, height: 44, borderRadius: Radius.md, alignItems: 'center', justifyContent: 'center' },
-  tileTitle: { fontSize: 16, marginTop: Spacing.one },
+  group: { borderRadius: Radius.lg, borderWidth: 1, overflow: 'hidden' },
+  groupRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: Spacing.three,
+    paddingHorizontal: Spacing.three,
+    paddingVertical: Spacing.three - Spacing.one,
+    minHeight: 64,
+  },
   chips: { gap: Spacing.two, paddingRight: Spacing.three },
   chip: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: Spacing.two,
-    paddingVertical: Spacing.two,
-    paddingLeft: Spacing.two,
-    paddingRight: Spacing.three,
+    paddingVertical: Spacing.two + Spacing.one,
+    paddingHorizontal: Spacing.three,
     borderRadius: Radius.full,
     borderWidth: 1,
   },
-  chipIcon: { width: 28, height: 28, borderRadius: 14, alignItems: 'center', justifyContent: 'center' },
   stack: { gap: Spacing.three },
   carousel: { gap: Spacing.three, paddingRight: Spacing.three, paddingBottom: Spacing.one },
-  slide: { width: 270 },
+  slide: { width: 260 },
   loader: { marginVertical: Spacing.three },
   footer: { alignItems: 'center', gap: Spacing.two, paddingTop: Spacing.two },
   footerLinks: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', gap: Spacing.four },

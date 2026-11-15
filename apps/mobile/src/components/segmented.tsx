@@ -25,15 +25,15 @@ export function Chip({
       style={({ pressed }) => [
         styles.chip,
         {
-          backgroundColor: selected ? theme.primarySoft : theme.card,
+          backgroundColor: selected ? theme.primary : theme.card,
           borderColor: selected ? theme.primary : theme.border,
           opacity: pressed ? 0.75 : 1,
         },
       ]}>
-      {check && selected ? <Icon name="checkmark" size={14} color={theme.primaryText} /> : null}
+      {check && selected ? <Icon name="checkmark" size={14} color={theme.primaryForeground} /> : null}
       <ThemedText
         type="small"
-        style={{ color: selected ? theme.primaryText : theme.text, fontWeight: selected ? 700 : 500 }}>
+        style={{ color: selected ? theme.primaryForeground : theme.text, fontWeight: selected ? 600 : 500 }}>
         {label}
       </ThemedText>
     </Pressable>

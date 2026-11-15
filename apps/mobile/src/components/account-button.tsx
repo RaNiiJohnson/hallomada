@@ -27,7 +27,7 @@ export function AccountButton() {
       onPress={() => router.push('/account')}
       style={({ pressed }) => pressed && styles.pressed}>
       {isAuthenticated ? (
-        <View style={[styles.ring, { borderColor: theme.primary }]}>
+        <View style={[styles.ring, { borderColor: theme.border }]}>
           <Avatar uri={user?.image} name={user?.name} size={SIZE - 4} />
         </View>
       ) : (

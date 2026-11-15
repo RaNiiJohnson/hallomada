@@ -59,7 +59,7 @@ export function BookmarkIcon({
 }: Resource & { isBookmarked: boolean; overlay?: boolean }) {
   const theme = useTheme();
   const { pending, onPress } = useToggleBookmark(resource as Resource);
-  const color = isBookmarked ? theme.primaryText : overlay ? theme.text : theme.textSecondary;
+  const color = isBookmarked ? theme.text : overlay ? theme.text : theme.textSecondary;
   return (
     <Pressable
       accessibilityRole="button"
@@ -71,7 +71,6 @@ export function BookmarkIcon({
       style={({ pressed }) => [
         styles.icon,
         overlay && { backgroundColor: theme.card },
-        isBookmarked && !overlay && { backgroundColor: theme.primarySoft },
         pressed && styles.pressed,
       ]}>
       {pending ? (

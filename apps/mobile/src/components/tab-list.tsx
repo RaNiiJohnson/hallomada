@@ -41,6 +41,7 @@ export function TabList<Item extends { _id: string }>({
           keyExtractor={(item) => item._id}
           renderItem={({ item }) => renderItem(item)}
           contentContainerStyle={styles.list}
+          showsVerticalScrollIndicator={false}
           keyboardShouldPersistTaps="handled"
           keyboardDismissMode="on-drag"
           ListHeaderComponent={header}

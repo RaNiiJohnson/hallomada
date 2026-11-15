@@ -34,14 +34,14 @@ export function ListRow({
       style={({ pressed }) => [
         styles.row,
         {
-          backgroundColor: highlighted ? theme.primarySoft : theme.card,
+          backgroundColor: highlighted ? theme.muted : theme.card,
           borderColor: theme.border,
         },
         pressed && styles.pressed,
       ]}>
       {icon ? (
-        <View style={[styles.icon, { backgroundColor: destructive ? theme.destructiveSoft : theme.primarySoft }]}>
-          <Icon name={icon} size={18} color={destructive ? theme.destructive : theme.primaryText} />
+        <View style={[styles.icon, { backgroundColor: destructive ? theme.destructiveSoft : theme.muted }]}>
+          <Icon name={icon} size={18} color={destructive ? theme.destructive : theme.text} />
         </View>
       ) : null}
       <View style={styles.text}>
@@ -62,7 +62,7 @@ export function ListRow({
           </ThemedText>
         ) : null}
       </View>
-      {highlighted ? <View style={[styles.dot, { backgroundColor: theme.primary }]} /> : null}
+      {highlighted ? <View style={[styles.dot, { backgroundColor: theme.brand }]} /> : null}
       {trailing}
       {onPress && !trailing ? <Icon name="chevron-forward" size={18} themeColor="textSecondary" /> : null}
     </Pressable>
@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: Spacing.three,
     borderRadius: Radius.lg,
-    borderWidth: StyleSheet.hairlineWidth,
+    borderWidth: 1,
     gap: Spacing.three,
   },
   icon: { width: 36, height: 36, borderRadius: 18, alignItems: 'center', justifyContent: 'center' },

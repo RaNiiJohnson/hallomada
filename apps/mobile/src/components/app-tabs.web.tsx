@@ -48,11 +48,11 @@ function TabButton({ children, isFocused, icon, ...props }: TabTriggerSlotProps 
   return (
     // TabTrigger's slot ref type does not match Pressable's; the runtime props do.
     <Pressable {...(props as PressableProps)} style={({ pressed }) => pressed && styles.pressed}>
-      <View style={[styles.tabButton, isFocused && { backgroundColor: theme.primarySoft }]}>
-        <Icon name={icon} size={18} color={isFocused ? theme.primaryText : theme.textSecondary} />
+      <View style={[styles.tabButton, isFocused && { backgroundColor: theme.primary }]}>
+        <Icon name={icon} size={18} color={isFocused ? theme.primaryForeground : theme.textSecondary} />
         <ThemedText
           type="small"
-          style={{ color: isFocused ? theme.primaryText : theme.textSecondary, fontWeight: isFocused ? 700 : 500 }}>
+          style={{ color: isFocused ? theme.primaryForeground : theme.textSecondary, fontWeight: isFocused ? 600 : 500 }}>
           {children}
         </ThemedText>
       </View>
@@ -65,7 +65,7 @@ function CustomTabList(props: TabListProps) {
   return (
     <View {...props} style={styles.tabListContainer}>
       <View style={[styles.innerContainer, { backgroundColor: theme.card, borderColor: theme.border }]}>
-        <ThemedText type="heading" style={[styles.brandText, { color: theme.primaryText }]}>
+        <ThemedText type="heading" style={[styles.brandText, { color: theme.text }]}>
           Hallomada
         </ThemedText>
         {props.children}

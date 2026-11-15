@@ -5,7 +5,7 @@ import { ThemedText } from './themed-text';
 import { Radius, Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
 
-export type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost' | 'destructive';
+export type ButtonVariant = 'primary' | 'brand' | 'secondary' | 'outline' | 'ghost' | 'destructive';
 
 export function Button({
   label,
@@ -33,8 +33,9 @@ export function Button({
   const kind: ButtonVariant = variant ?? (primary ? 'primary' : 'secondary');
   const palette = {
     primary: { background: theme.primary, color: theme.primaryForeground, border: theme.primary },
-    secondary: { background: theme.card, color: theme.text, border: theme.border },
-    outline: { background: 'transparent', color: theme.primaryText, border: theme.primary },
+    brand: { background: theme.brand, color: theme.brandForeground, border: theme.brand },
+    secondary: { background: theme.muted, color: theme.text, border: theme.muted },
+    outline: { background: theme.card, color: theme.text, border: theme.border },
     ghost: { background: 'transparent', color: theme.text, border: 'transparent' },
     destructive: { background: theme.destructiveSoft, color: theme.destructive, border: theme.destructiveSoft },
   }[kind];
@@ -50,6 +51,7 @@ export function Button({
       style={({ pressed }) => [
         styles.button,
         size === 'sm' && styles.small,
+        (kind === 'primary' || kind === 'brand') && styles.pill,
         {
           backgroundColor: palette.background,
           borderColor: palette.border,
@@ -114,11 +116,12 @@ const styles = StyleSheet.create({
   button: {
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: Radius.md,
+    borderRadius: 10,
     borderWidth: 1,
     minHeight: 48,
     paddingHorizontal: Spacing.three,
   },
+  pill: { borderRadius: Radius.full, paddingHorizontal: Spacing.four },
   small: { minHeight: 36, paddingHorizontal: Spacing.two + Spacing.one },
   content: { flexDirection: 'row', alignItems: 'center', gap: Spacing.two },
   iconButton: {
