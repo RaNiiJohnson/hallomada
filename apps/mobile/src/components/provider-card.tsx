@@ -30,6 +30,7 @@ export function ProviderCard({ provider, compact }: { provider: Provider; compac
       onPress={() => router.push({ pathname: '/providers/[slug]', params: { slug: provider.slug } })}
       style={({ pressed }) => [
         styles.card,
+        compact && styles.fill,
         { backgroundColor: theme.card, borderColor: theme.border },
         pressed && styles.pressed,
       ]}>
@@ -51,7 +52,7 @@ export function ProviderCard({ provider, compact }: { provider: Provider; compac
           <ThemedText numberOfLines={1} style={styles.name}>
             {provider.name}
           </ThemedText>
-          <View style={styles.meta}>
+          <View style={[styles.meta, compact && styles.compactMeta]}>
             <Badge label={providerCategoryLabels[provider.category]} tone="secondary" />
             <View style={styles.city}>
               <Icon name="location-outline" size={12} color={theme.textSecondary} />
@@ -105,6 +106,10 @@ const styles = StyleSheet.create({
   cover: { aspectRatio: 16 / 9, alignItems: 'center', justifyContent: 'center' },
   status: { position: 'absolute', top: Spacing.two, left: Spacing.two },
   body: { flexDirection: 'row', gap: Spacing.two + Spacing.one, padding: Spacing.three },
+  // In the carousel every card fills the row height and keeps the same layout,
+  // so a long category chip can't push the city to an extra line on one card only.
+  fill: { flex: 1 },
+  compactMeta: { flexDirection: 'column', alignItems: 'flex-start', gap: 4 },
   compactBody: { gap: Spacing.two, padding: Spacing.two + Spacing.one },
   text: { flex: 1, minWidth: 0, gap: Spacing.one },
   name: { fontWeight: 600 },
