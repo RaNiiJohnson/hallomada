@@ -42,6 +42,10 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   // Workspace package shipped as TypeScript source.
   transpilePackages: ["@hallomada/shared"],
+  experimental: {
+    // Policy used by `next upgrade --agent`: security fixes only.
+    agentUpgrade: "security",
+  },
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];
   },
