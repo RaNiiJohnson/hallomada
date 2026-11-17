@@ -40,6 +40,10 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  experimental: {
+    // Policy used by `next upgrade --agent`: security fixes only.
+    agentUpgrade: "security",
+  },
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];
   },
