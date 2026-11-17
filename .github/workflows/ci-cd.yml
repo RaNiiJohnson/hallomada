@@ -54,7 +54,7 @@ jobs:
           CI: true
 
       - name: Type check
-        run: pnpm exec tsc --noEmit
+        run: pnpm typecheck
         env:
           CI: true
 
@@ -72,6 +72,7 @@ jobs:
       # -----------------------------
 
       - name: Verify Convex generated code
+        working-directory: packages/backend
         run: |
           pnpm exec convex init
           pnpm exec convex env set POSTHOG_PROJECT_TOKEN 'ci-placeholder'
@@ -151,9 +152,9 @@ jobs:
           CONVEX_DEPLOY_KEY: ${{ secrets.CONVEX_PREVIEW_DEPLOY_KEY }}
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
         run: |
-          pnpm exec convex deploy \
+          pnpm --filter @hallomada/backend exec convex deploy \
             --cmd-url-env-var-name NEXT_PUBLIC_CONVEX_URL \
-            --cmd "pnpm dlx vercel@latest build --token=$VERCEL_TOKEN"
+            --cmd "cd ../.. && pnpm dlx vercel@latest build --token=$VERCEL_TOKEN"
 
       - name: Deploy Vercel preview
         env:
@@ -224,9 +225,9 @@ jobs:
           POSTHOG_PROJECT_TOKEN: ${{ secrets.POSTHOG_PROJECT_TOKEN }}
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
         run: |
-          pnpm exec convex deploy \
+          pnpm --filter @hallomada/backend exec convex deploy \
             --cmd-url-env-var-name NEXT_PUBLIC_CONVEX_URL \
-            --cmd "pnpm dlx vercel@latest build --prod --token=$VERCEL_TOKEN"
+            --cmd "cd ../.. && pnpm dlx vercel@latest build --prod --token=$VERCEL_TOKEN"
 
       - name: Deploy Vercel
         env:

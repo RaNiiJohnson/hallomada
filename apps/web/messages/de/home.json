@@ -1,0 +1,53 @@
+{
+  "hero": {
+    "headlinePrefix": "Deine Community. Deine",
+    "headlineHighlight": "Chancen",
+    "headlineSuffix": ".",
+    "description": "Finde Jobs, eine Wohnung und Unterstützung in der madagassischen Community in Deutschland.",
+    "authenticatedCta": "Community entdecken",
+    "loginCta": "Hallomada beitreten",
+    "categories": "Jobs · Wohnen · Dienstleister · Unterstützung"
+  },
+  "description": "Vereinfachen Sie Ihr Leben und verbessern Sie Ihre Chancen in Deutschland. Treten Sie dem führenden Netzwerk für gegenseitige Unterstützung, Arbeit und Wohnraum für die madagassische Gemeinschaft bei.",
+  "login": "Anmelden",
+  "communityDescription": "Vernetzen Sie sich mit anderen Malagasy in Deutschland und bauen Sie dauerhafte Bindungen innerhalb unserer Gemeinschaft auf.",
+  "opportunitiesDescription": "Finden Sie Stellenangebote und Ausbildungsplätze, die auf Ihr Profil und Ihre beruflichen Ambitionen zugeschnitten sind.",
+  "housingDescription": "Teilen und finden Sie Wohnungen ganz einfach über unser vertrauensvolles Netzwerk innerhalb der Gemeinschaft.",
+  "aboutTitle": "Über Uns",
+  "reviews": {
+    "mission": {
+      "title": "Mission",
+      "titleAccordion": "Unsere Mission",
+      "description": "Eine Brücke zwischen den in Deutschland lebenden Malagasy und denen, die in der Heimat geblieben sind, zu bauen und die Integration sowie den Erfahrungsaustausch zu erleichtern."
+    },
+    "vision": {
+      "title": "Vision",
+      "titleAccordion": "Unsere Vision",
+      "description": "Die Referenz für die Malagasy-Gemeinschaft in Deutschland zu werden, ein Raum der gegenseitigen Unterstützung und des gemeinsamen Wachstums."
+    },
+    "values": {
+      "title": "Werte",
+      "titleAccordion": "Unsere Werte",
+      "description": "Solidarität, Teilen und gegenseitige Hilfe. Die Stärke der Gemeinschaft, um gemeinsam die Herausforderungen der Expatriierung zu überwinden."
+    },
+    "commitment": {
+      "title": "Engagement",
+      "titleAccordion": "Unser Engagement",
+      "description": "Eine praktische Lösung anzubieten, um die Entfaltung jedes Mitglieds zu erleichtern, den Alltag zu vereinfachen und Chancen zu eröffnen."
+    },
+    "identity": {
+      "title": "Identität",
+      "titleAccordion": "Unsere Identität",
+      "description": "Die Malagasy-Kultur zu bewahren und zu feiern, während wir die deutsche Vielfalt annehmen, um unser Land stolz zu vertreten."
+    }
+  },
+  "providersDescription": "Catering, Fotografie, Friseur… Finde madagassische Dienstleister in Deutschland und kontaktiere sie direkt über WhatsApp.",
+  "latest": {
+    "jobs": "Neueste Angebote",
+    "listings": "Neue Wohnungen",
+    "posts": "Neue Diskussionen",
+    "providers": "Dienstleister",
+    "seeAll": "Alle ansehen",
+    "empty": "Noch nichts vorhanden."
+  }
+}

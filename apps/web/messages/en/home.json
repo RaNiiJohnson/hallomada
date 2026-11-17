@@ -1,0 +1,53 @@
+{
+  "hero": {
+    "headlinePrefix": "Your community. Your",
+    "headlineHighlight": "opportunities",
+    "headlineSuffix": ".",
+    "description": "Find jobs, housing and support within the Malagasy community in Germany.",
+    "authenticatedCta": "Discover the community",
+    "loginCta": "Join Hallomada",
+    "categories": "Jobs · Housing · Providers · Support"
+  },
+  "description": "Simplify your life and boost your opportunities in Germany. Join the leading network for mutual support, employment, and housing for the Malagasy community.",
+  "login": "Log in",
+  "communityDescription": "Connect with other Malagasy in Germany and build lasting bonds within our community.",
+  "opportunitiesDescription": "Find job and training opportunities tailored to your profile and professional ambitions.",
+  "housingDescription": "Share and find housing easily through our trusted network within the community.",
+  "aboutTitle": "About Us",
+  "reviews": {
+    "mission": {
+      "title": "Mission",
+      "titleAccordion": "Our Mission",
+      "description": "Creating a bridge between Malagasy living in Germany and those who stayed home, facilitating integration and the sharing of experiences."
+    },
+    "vision": {
+      "title": "Vision",
+      "titleAccordion": "Our Vision",
+      "description": "Becoming the go-to reference for the Malagasy community in Germany, a space for mutual support and growth."
+    },
+    "values": {
+      "title": "Values",
+      "titleAccordion": "Our Values",
+      "description": "Solidarity, sharing and mutual aid. The strength of the community to overcome the challenges of expatriation together."
+    },
+    "commitment": {
+      "title": "Commitment",
+      "titleAccordion": "Our Commitment",
+      "description": "Offering a practical solution to facilitate the fulfilment of each member, by simplifying daily life and opening up opportunities."
+    },
+    "identity": {
+      "title": "Identity",
+      "titleAccordion": "Our Identity",
+      "description": "Preserving and celebrating Malagasy culture while embracing German diversity, to proudly represent our country."
+    }
+  },
+  "providersDescription": "Caterers, photographers, hairdressers… Find Malagasy providers in Germany and contact them directly on WhatsApp.",
+  "latest": {
+    "jobs": "Latest jobs",
+    "listings": "Recent housing",
+    "posts": "Recent discussions",
+    "providers": "Providers",
+    "seeAll": "See all",
+    "empty": "Nothing yet."
+  }
+}
