@@ -8,15 +8,8 @@
     "loginCta": "Rejoindre Hallomada",
     "categories": "Emploi · Logement · Prestataires · Entraide"
   },
-  "title": "Nos Services",
-  "community": "Communauté",
-  "opportunities": "Opportunités",
-  "housing": "Immobilier",
   "description": "Simplifiez votre vie et boostez vos opportunités en Allemagne. Rejoignez le premier réseau d'entraide, d'emploi et de logement pour la communauté Malagasy.",
   "login": "Se connecter",
-  "discover": "Découvrir",
-  "explore": "Explorer",
-  "seeListings": "Voir les annonces",
   "communityDescription": "Connectez-vous avec d'autres Malagasy en Allemagne et créez des liens durables au sein de notre communauté.",
   "opportunitiesDescription": "Trouvez des opportunités d'emploi et de formation adaptées à votre profil et vos ambitions professionnelles.",
   "housingDescription": "Partagez et trouvez des logements facilement grâce à notre réseau de confiance au sein de la communauté.",
@@ -48,7 +41,13 @@
       "description": "Préserver et célébrer la culture Malagasy tout en embrassant la diversité allemande, pour représenter fièrement notre pays."
     }
   },
-  "providers": "Prestataires",
   "providersDescription": "Traiteurs, photographes, coiffeurs… Trouvez des prestataires malagasy en Allemagne et contactez-les directement sur WhatsApp.",
-  "seeProviders": "Voir les prestataires"
+  "latest": {
+    "jobs": "Dernières offres",
+    "listings": "Logements récents",
+    "posts": "Discussions récentes",
+    "providers": "Prestataires",
+    "seeAll": "Tout voir",
+    "empty": "Rien pour le moment."
+  }
 }

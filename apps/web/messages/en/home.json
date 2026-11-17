@@ -8,15 +8,8 @@
     "loginCta": "Join Hallomada",
     "categories": "Jobs · Housing · Providers · Support"
   },
-  "title": "Our Services",
-  "community": "Community",
-  "opportunities": "Opportunities",
-  "housing": "Housing",
   "description": "Simplify your life and boost your opportunities in Germany. Join the leading network for mutual support, employment, and housing for the Malagasy community.",
   "login": "Log in",
-  "discover": "Discover",
-  "explore": "Explore",
-  "seeListings": "See listings",
   "communityDescription": "Connect with other Malagasy in Germany and build lasting bonds within our community.",
   "opportunitiesDescription": "Find job and training opportunities tailored to your profile and professional ambitions.",
   "housingDescription": "Share and find housing easily through our trusted network within the community.",
@@ -48,7 +41,13 @@
       "description": "Preserving and celebrating Malagasy culture while embracing German diversity, to proudly represent our country."
     }
   },
-  "providers": "Providers",
   "providersDescription": "Caterers, photographers, hairdressers… Find Malagasy providers in Germany and contact them directly on WhatsApp.",
-  "seeProviders": "See providers"
+  "latest": {
+    "jobs": "Latest jobs",
+    "listings": "Recent housing",
+    "posts": "Recent discussions",
+    "providers": "Providers",
+    "seeAll": "See all",
+    "empty": "Nothing yet."
+  }
 }

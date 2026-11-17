@@ -172,7 +172,7 @@ function ProviderGrid({
   );
 }
 
-function ProviderCardItem({ provider }: { provider: ProviderCard }) {
+export function ProviderCardItem({ provider }: { provider: ProviderCard }) {
   const t = useTranslations("providers");
 
   return (

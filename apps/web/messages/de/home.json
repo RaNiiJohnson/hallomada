@@ -8,16 +8,9 @@
     "loginCta": "Hallomada beitreten",
     "categories": "Jobs · Wohnen · Dienstleister · Unterstützung"
   },
-  "title": "Unsere Dienstleistungen",
-  "community": "Gemeinschaft",
-  "housing": "Immobilien",
   "description": "Vereinfachen Sie Ihr Leben und verbessern Sie Ihre Chancen in Deutschland. Treten Sie dem führenden Netzwerk für gegenseitige Unterstützung, Arbeit und Wohnraum für die madagassische Gemeinschaft bei.",
   "login": "Anmelden",
-  "discover": "Entdecken",
-  "explore": "Erkunden",
-  "seeListings": "Anzeigen sehen",
   "communityDescription": "Vernetzen Sie sich mit anderen Malagasy in Deutschland und bauen Sie dauerhafte Bindungen innerhalb unserer Gemeinschaft auf.",
-  "opportunities": "Stellenangebote",
   "opportunitiesDescription": "Finden Sie Stellenangebote und Ausbildungsplätze, die auf Ihr Profil und Ihre beruflichen Ambitionen zugeschnitten sind.",
   "housingDescription": "Teilen und finden Sie Wohnungen ganz einfach über unser vertrauensvolles Netzwerk innerhalb der Gemeinschaft.",
   "aboutTitle": "Über Uns",
@@ -48,7 +41,13 @@
       "description": "Die Malagasy-Kultur zu bewahren und zu feiern, während wir die deutsche Vielfalt annehmen, um unser Land stolz zu vertreten."
     }
   },
-  "providers": "Dienstleister",
   "providersDescription": "Catering, Fotografie, Friseur… Finde madagassische Dienstleister in Deutschland und kontaktiere sie direkt über WhatsApp.",
-  "seeProviders": "Dienstleister ansehen"
+  "latest": {
+    "jobs": "Neueste Angebote",
+    "listings": "Neue Wohnungen",
+    "posts": "Neue Diskussionen",
+    "providers": "Dienstleister",
+    "seeAll": "Alle ansehen",
+    "empty": "Noch nichts vorhanden."
+  }
 }
