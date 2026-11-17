@@ -19,7 +19,8 @@ export default async function HomePage({
     <>
       <Suspense fallback={<HomePageSkeleton />}>
         <HomePageContent />
-        <FAQSection />
+        {/* The first questions only: the full list lives on /faq. */}
+        <FAQSection limit={5} />
       </Suspense>
     </>
   );

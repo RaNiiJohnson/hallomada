@@ -1,9 +1,17 @@
+import { Link } from "@/i18n/navigation";
+import { ArrowRightIcon } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { FAQAccordion } from "./faq-accordion";
 
-export async function FAQSection() {
+/**
+ * The FAQ. Pass `limit` to show only the first questions (the home page),
+ * followed by a link to the full /faq page.
+ */
+export async function FAQSection({ limit }: { limit?: number } = {}) {
   const t = await getTranslations("faq");
-  const items = t.raw("items") as { question: string; answer: string }[];
+  const allItems = t.raw("items") as { question: string; answer: string }[];
+  const items = limit ? allItems.slice(0, limit) : allItems;
+  const hasMore = items.length < allItems.length;
 
   return (
     <section className="py-20">
@@ -20,6 +28,15 @@ export async function FAQSection() {
           </div>
           <div className="md:w-2/3">
             <FAQAccordion items={items} />
+            {hasMore && (
+              <Link
+                href="/faq"
+                className="group mt-6 inline-flex items-center gap-1 text-sm font-medium text-primary hover:underline"
+              >
+                {t("seeAll")}
+                <ArrowRightIcon className="size-4 transition-transform group-hover:translate-x-1" />
+              </Link>
+            )}
           </div>
         </div>
       </div>
